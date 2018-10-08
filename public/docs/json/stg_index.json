@@ -1,0 +1,34 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The documents for myxxjs save UC program api",
+    "version": "1.0.0",
+    "title": "Myxxjs UC api doc",
+    "contact": {
+      "email": "info@myxxjs.com"
+    },
+    "license": {
+      "name": "View source at github",
+      "url": "https://github.com/maguon/uc_api"
+    }
+  },
+  "host": "stg.myxxjs.com:9201",
+  "basePath": "/api",
+  "tags": [
+    {
+      "name": "wechat",
+      "description": "wechat open api",
+      "externalDocs": {
+        "description": " wechat mini program api"
+      }
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+  },
+  "definitions": {
+  }
+
+}
