@@ -88,6 +88,7 @@ function createServer() {
      */
     server.get('/api/police/:policeId/car',car.queryCarInfo);
     server.put({path:'/api/car/:carId/status',contentType: 'application/json'},car.updateStatus);
+    server.post({path:'/api/police/:policeId/addCar',contentType: 'application/json'},car.addCar);
 
 
     server.on('NotFound', function (req, res ,next) {
