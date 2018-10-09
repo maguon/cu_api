@@ -3,7 +3,8 @@ const restify = require('restify');
 
 const serverLogger = require('./util/ServerLogger');
 const logger = serverLogger.createLogger('Server');
-
+const police = require('./bl/Police.js');
+const car = require('./bl/Car.js');
 
 
 
@@ -73,6 +74,20 @@ function createServer() {
         default: 'index.html',
         maxAge: 0
     }));
+    /**
+     police_info
+     */
+    server.post({path:'/api/police',contentType: 'application/json'},police.createPolice);
+    server.post({path:'/api/policeLogin',contentType: 'application/json'},police.policeLogin);
+    server.get('/api/police/:policeId',police.getPoliceInfo);
+    server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
+    server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
+
+    /**
+     car_info
+     */
+    server.get('/api/police/:policeId/car',car.queryCarInfo);
+    server.put({path:'/api/car/:carId/status',contentType: 'application/json'},car.updateStatus);
 
 
     server.on('NotFound', function (req, res ,next) {
