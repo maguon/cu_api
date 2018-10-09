@@ -4,9 +4,9 @@ const logger = serverLogger.createLogger('CarInfoDAO.js');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryCarInfo = (params,callback) => {
-    let query = "select * from car_info where id is not null and status = 1 and to_date(created_on,'yyyyMMdd') = ? ";
-    let paramsArray = [],i=0
-    paramsArray[i++] = params.strDate;
+    let query = "select *,date_format(created_on,'%H:%i:%s') as shortDate from car_info where id is not null and status = 1 and str_to_date(created_on,'%Y-%m-%d') = ? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.createdDateId;
     if(params.carId){
         paramsArray[i++] = params.carId;
         query = query + " and id = ?";

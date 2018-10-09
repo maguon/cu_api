@@ -9,6 +9,7 @@ const oAuthUtil = require('../util/OAuthUtil.js');
 const policeDao = require('../dao/PoliceInfoDAO.js');
 const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('Police.js');
+const moment = require('moment/moment.js');
 
 const createPolice = (req,res,next) => {
     let params = req.params;
@@ -95,6 +96,9 @@ const policeLogin = (req,res,next) =>{
 }
 const getPoliceInfo = (req,res,next) => {
     let params = req.params;
+    let myDate = new Date();
+    let strDate = moment(myDate).format('YYYYMMDD');
+    params.createdDateId = parseInt(strDate);
     policeDao.queryPoliceInfo(params,(error,rows)=>{
         if (error) {
             logger.error(' queryPoliceInfo ' + error.message);
