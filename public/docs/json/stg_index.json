@@ -142,6 +142,43 @@
         }
       }
     },
+    "/phone/{mobile}/passwordSms": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "send rest password sms",
+        "description": "sendPswdSms",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+
+          {
+            "name": "mobile",
+            "in": "path",
+            "description": "user unique mobile",
+            "required": true,
+            "type": "string"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid phone value or invalid user status"
+          }
+        }
+      }
+    },
     "/police/{policeId}/pushMsg": {
       "get": {
         "tags": [

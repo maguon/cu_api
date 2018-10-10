@@ -6,7 +6,7 @@ const logger = serverLogger.createLogger('Server');
 const police = require('./bl/Police.js');
 const car = require('./bl/Car.js');
 const msgPush = require('./bl/MsgPush.js');
-
+const sms = require('./bl/Sms.js');
 
 
 /**
@@ -84,8 +84,11 @@ function createServer() {
     server.get('/api/police/:policeId/todayCar',police.getPoliceInfo);
     server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
     server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
-
+    /**
+     发送消息和短信
+     */
     server.get('/api/police/:policeId/pushMsg',msgPush.pushMsg);
+    server.post({path:'/api/phone/:mobile/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
     /**
      car_info
      */
