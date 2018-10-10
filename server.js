@@ -96,7 +96,7 @@ function createServer() {
     server.post({path:'/api/police/:policeId/addCar',contentType: 'application/json'},car.addCar);
     server.get('/api/police/:policeId/yMonth/:yMonth',car.queryCarNumByDate);
     server.get('/api/police/:policeId/yMonthDay/:yMonthDay',car.queryCarInfoByDate);
-    server.get('/api/police/:policeId/todayCar',car.queryCarInfoByToday);
+    server.get('/api/police/:policeId/todayCar/:yMonthDay',car.queryCarInfoByToday);
     //server.get('/api/police/:policeId/yMonthDao/:yMonthDao/car',car);
 
     server.on('NotFound', function (req, res ,next) {

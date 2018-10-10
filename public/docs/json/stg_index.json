@@ -12,14 +12,13 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "stg.myxxjs.com:9201",
+  "host": "localhost:9201",
   "basePath": "/api",
   "tags": [
     {
       "name": "wechat",
       "description": "wechat open api",
       "externalDocs": {
-        "url": "stg.myxxjs.com:9201",
         "description": " wechat mini program api"
       }
     },
@@ -106,10 +105,10 @@
         }
       }
     },
-    "/police/{policeId}/todayCar": {
+    "/police/{policeId}/todayCar/{yMonthDay}": {
       "get": {
         "tags": [
-          "police"
+          "car"
         ],
         "summary": "get police car ",
         "description": "get police car",
