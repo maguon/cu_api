@@ -79,10 +79,24 @@ const queryCarInfoByDate = (req,res,next) => {
         }
     })
 }
+const queryCarInfoByToday = (req,res,next) => {
+    let params = req.params;
+    carInfoDAO.queryCarInfoByToday(params,(error,result)=>{
+        if (error) {
+            logger.error(' queryCarInfoByToday ' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info(' queryCarInfoByToday ' + "success");
+            resUtil.resetQueryRes(res,result,null) ;
+            return next();
+        }
+    })
+}
 module.exports = {
     queryCarInfo,
     updateStatus,
     addCar,
     queryCarNumByDate,
-    queryCarInfoByDate
+    queryCarInfoByDate,
+    queryCarInfoByToday
 }

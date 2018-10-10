@@ -1,26 +1,27 @@
-var dateUtil = require('../util/DateUtil.js');
-var smsConfig = require('../config/SmsConfig.js');
-var https = require('https');
-var http = require('http');
-var encrypt = require('../util/Encrypt.js')
-var serverLogger = require('../util/ServerLogger.js');
-var logger = serverLogger.createLogger('SmsDAO.js');
+'use strict';
+let dateUtil = require('../util/DateUtil.js');
+let smsConfig = require('../config/SmsConfig.js');
+let https = require('https');
+let http = require('http');
+let encrypt = require('../util/Encrypt.js')
+let serverLogger = require('../util/ServerLogger.js');
+let logger = serverLogger.createLogger('SmsDAO.js');
 
-function httpSend(msg, callback) {
-    var d = new Date();
-    var timeStampStr = dateUtil.getDateFormat(d, 'yyyyMMddhhmmss');
+const httpSend=(msg, callback)=> {
+    let d = new Date();
+    let timeStampStr = dateUtil.getDateFormat(d, 'yyyyMMddhhmmss');
 
-    var originSignStr = smsConfig.smsOptions.accountSID + smsConfig.smsOptions.accountToken + timeStampStr;
-    var signature = encrypt.encryptByMd5NoKey(originSignStr);
+    let originSignStr = smsConfig.smsOptions.accountSID + smsConfig.smsOptions.accountToken + timeStampStr;
+    let signature = encrypt.encryptByMd5NoKey(originSignStr);
 
-    var originAuthStr = smsConfig.smsOptions.accountSID + ":" + timeStampStr;
-    var auth = encrypt.base64Encode(originAuthStr);
-    var url = "/2013-12-26/" + smsConfig.smsOptions.accountType + "/" +
+    let originAuthStr = smsConfig.smsOptions.accountSID + ":" + timeStampStr;
+    let auth = encrypt.base64Encode(originAuthStr);
+    let url = "/2013-12-26/" + smsConfig.smsOptions.accountType + "/" +
         smsConfig.smsOptions.accountSID + "/" + smsConfig.smsOptions.action + "?sig=";
 
     url = url + signature;
-    var postData = JSON.stringify(msg);
-    var options = {
+    let postData = JSON.stringify(msg);
+    let options = {
         host: smsConfig.smsOptions.server,
         port: smsConfig.smsOptions.port,
         path: url,
@@ -33,13 +34,13 @@ function httpSend(msg, callback) {
         }
     };
 
-    var httpsReq = https.request(options, function (result) {
-        var data = "";
+    let httpsReq = https.request(options, function (result) {
+        let data = "";
         result.setEncoding('utf8');
         result.on('data', function (d) {
             data += d;
         }).on('end', function () {
-            var resObj = eval("(" + data + ")");
+            let resObj = eval("(" + data + ")");
             logger.info("httpSend " + resObj);
             callback(null, resObj);
         }).on('error', function (e) {
@@ -56,8 +57,8 @@ function httpSend(msg, callback) {
     });
 }
 
-function sendSms(params, callback) {
-    var msg = {
+const sendSms=(params, callback)=> {
+    let msg = {
         to: params.phone,
         appId: smsConfig.smsOptions.appSID,
         templateId: params.templateId,
@@ -67,5 +68,5 @@ function sendSms(params, callback) {
 }
 
 module.exports = {
-    sendSms: sendSms
+    sendSms
 }

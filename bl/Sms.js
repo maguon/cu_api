@@ -1,21 +1,19 @@
-var sysMsg = require('../util/SystemMsg.js');
-var sysError = require('../util/SystemError.js');
-var oauthUtil = require('../util/OAuthUtil.js');
-var encrypt = require('../util/Encrypt.js');
-var resUtil = require('../util/ResponseUtil.js');
-var listOfValue = require('../util/ListOfValue.js');
-var smsConfig = require('../config/SmsConfig.js');
-var smsDAO = require('../dao/SmsDAO.js');
-var userDAO = require('../dao/UserDAO.js');
-var serverLogger = require('../util/ServerLogger.js');
-var logger = serverLogger.createLogger('Sms.js');
-var Seq = require('seq');
-function sendPswdSms(req,res,next){
-    var params = req.params;
-    var captcha = ""
-    Seq().seq(function(){
-        var that = this;
-        //Get user by phone
+'use strict';
+let sysMsg = require('../util/SystemMsg.js');
+let sysError = require('../util/SystemError.js');
+let oauthUtil = require('../util/OAuthUtil.js');
+let encrypt = require('../util/Encrypt.js');
+let resUtil = require('../util/ResponseUtil.js');
+let listOfValue = require('../util/ListOfValue.js');
+let smsConfig = require('../config/SmsConfig.js');
+let smsDAO = require('../dao/SmsDAO.js');
+//let userDAO = require('../dao/UserDAO.js');
+let serverLogger = require('../util/ServerLogger.js');
+let logger = serverLogger.createLogger('Sms.js');
+const sendPswdSms=(req,res,next)=>{
+    let params = req.params;
+    let captcha = "";
+    new Promise((resolve,reject)=>{
         userDAO.getUser(params,function(error,rows){
             if (error) {
                 logger.error(' sendPswdSms ' + error.message);
@@ -31,12 +29,11 @@ function sendPswdSms(req,res,next){
                     resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR);
                     return next();
                 }else{
-                    that();
+                    resolve();
                 }
             }
         })
-    }).seq(function(){
-        var that = this;
+    }).then((resolve)=>{
         captcha = encrypt.getSmsRandomKey();
         oauthUtil.savePasswordCode({phone:params.mobile,code:captcha},function(error,result){
             if (error) {
@@ -44,10 +41,10 @@ function sendPswdSms(req,res,next){
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             } else {
-                that()
+                resolve();
             }
         })
-    }).seq(function(){
+    }).then(()=>{
         smsDAO.sendSms({phone:params.mobile,captcha:captcha,templateId:smsConfig.smsOptions.signTemplateId},function (error,result) {
             if (error) {
                 logger.error(' sendPswdSms ' + error.message);
@@ -65,5 +62,5 @@ function sendPswdSms(req,res,next){
 
 
 module.exports={
-    sendPswdSms : sendPswdSms
+    sendPswdSms
 }

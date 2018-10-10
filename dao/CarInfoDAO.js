@@ -94,10 +94,27 @@ const queryCarInfoByDate = (params,callback) => {
         return callback(error,rows);
     });
 }
+const queryCarInfoByToday = (params,callback) => {
+    let query = "select count(ci.id) from car_info ci " +
+        "left join date_base db on db.id=ci.date_id " +
+        "where db.id = ? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.yMonthDay;
+    if(params.policeId){
+        paramsArray[i] = params.policeId;
+        query = query + " and ci.police_id = ?";
+    }
+    query = query + " order by ci.created_on desc ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' queryCarInfoByDate ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     queryCarInfo,
     updateStatus,
     addCar,
     queryCarNumByDate,
-    queryCarInfoByDate
+    queryCarInfoByDate,
+    queryCarInfoByToday
 }
