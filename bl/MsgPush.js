@@ -1,16 +1,16 @@
+'use strict';
+let sysMsg = require('../util/SystemMsg.js');
+let sysError = require('../util/SystemError.js');
+let resUtil = require('../util/ResponseUtil.js');
+let msgPushDAO = require('../dao/MsgPushDAO.js');
+let serverLogger = require('../util/ServerLogger.js');
+let logger = serverLogger.createLogger('MsgPush.js');
 
-var sysMsg = require('../util/SystemMsg.js');
-var sysError = require('../util/SystemError.js');
-var resUtil = require('../util/ResponseUtil.js');
-//var msgPushDAO = require('../dao/MsgPushDAO.js');
-var serverLogger = require('../util/ServerLogger.js');
-var logger = serverLogger.createLogger('MsgPush.js');
-
-function pushMsg(req,res,next){
-    var params = req.params ;
+const pushMsg=(req,res,next)=>{
+    let params = req.params ;
     params.title = "消息";
     params.content ="你的车被交警视为违章停车";
-    msgPushDAO.pushMsg(params,function(error,result){
+    msgPushDAO.pushMsg(params,(error,result)=>{
         if (error) {
             logger.error(' pushMsg ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -24,5 +24,5 @@ function pushMsg(req,res,next){
 
 
 module.exports={
-    pushMsg : pushMsg
+    pushMsg
 }
