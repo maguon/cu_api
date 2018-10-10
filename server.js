@@ -5,6 +5,7 @@ const serverLogger = require('./util/ServerLogger');
 const logger = serverLogger.createLogger('Server');
 const police = require('./bl/Police.js');
 const car = require('./bl/Car.js');
+const msgPush = require('./bl/MsgPush.js');
 
 
 

@@ -1,6 +1,3 @@
-/**
- * Created by zwl on 2017/10/10.
- */
 
 var sysMsg = require('../util/SystemMsg.js');
 var sysError = require('../util/SystemError.js');
@@ -17,8 +14,8 @@ function pushMsg(req,res,next){
     var params = req.params ;
     //var obj = {title:"title",content:"content"};
     //var s = JSON.stringify(obj);
-    params.title = "任务消息";
-    params.content ="你有新的路线任务";
+    params.title = "消息";
+    params.content ="你的车被交警视为违章停车";
     msgPushDAO.pushMsg(params,function(error,result){
         if (error) {
             logger.error(' pushMsg ' + error.message);
