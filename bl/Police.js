@@ -94,17 +94,30 @@ const policeLogin = (req,res,next) =>{
         }
     })
 }
+const queryPolice = (req,res,next) => {
+    let params = req.params;
+    policeDao.queryPolice(params,(error,rows)=>{
+        if (error) {
+            logger.error(' queryPolice ' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        } else {
+            logger.info(' queryPolice ' + 'success');
+            resUtil.resetQueryRes(res,rows,null);
+            return next();
+        }
+    })
+}
 const getPoliceInfo = (req,res,next) => {
     let params = req.params;
     let myDate = new Date();
     let strDate = moment(myDate).format('YYYYMMDD');
     params.createdDateId = parseInt(strDate);
-    policeDao.queryPoliceInfo(params,(error,rows)=>{
+    policeDao.getPoliceInfo(params,(error,rows)=>{
         if (error) {
-            logger.error(' queryPoliceInfo ' + error.message);
+            logger.error(' getPoliceInfo ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         } else {
-            logger.info(' queryPoliceInfo ' + 'success');
+            logger.info(' getPoliceInfo ' + 'success');
             resUtil.resetQueryRes(res,rows,null);
             return next();
         }
@@ -161,6 +174,7 @@ const changePolicePassword = (req,res,next) => {
 module.exports = {
     createPolice,
     policeLogin,
+    queryPolice,
     getPoliceInfo,
     updatePoliceInfo,
     changePolicePassword

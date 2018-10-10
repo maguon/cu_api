@@ -12,14 +12,14 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "localhost:9201",
+  "host": "stg.myxxjs.com:9201",
   "basePath": "/api",
   "tags": [
     {
       "name": "wechat",
       "description": "wechat open api",
       "externalDocs": {
-        "url" : "stg.myxxjs.com:9201",
+        "url": "stg.myxxjs.com:9201",
         "description": " wechat mini program api"
       }
     },
@@ -102,6 +102,42 @@
         "responses": {
           "405": {
             "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/police/{policeId}/todayCar": {
+      "get": {
+        "tags": [
+          "police"
+        ],
+        "summary": "get police car ",
+        "description": "get police car",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/password"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
           }
         }
       }

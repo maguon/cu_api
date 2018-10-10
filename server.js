@@ -79,7 +79,8 @@ function createServer() {
      */
     server.post({path:'/api/police',contentType: 'application/json'},police.createPolice);
     server.post({path:'/api/policeLogin',contentType: 'application/json'},police.policeLogin);
-    server.get('/api/police/:policeId',police.getPoliceInfo);
+    server.get('/api/police/:policeId',police.queryPolice);
+    server.get('/api/police/:policeId/todayCar',police.getPoliceInfo);
     server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
     server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
 

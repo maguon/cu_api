@@ -37,12 +37,14 @@ const queryPolice = (params,callback) => {
         return callback(error,rows);
     });
 }
-const queryPoliceInfo = (params,callback) => {
-    let query = " select user_name,phone,gender,date_format(created_on,'%Y年%m月%d日') as date from police_info where id is not null and str_to_date(created_on,'%Y-%m-%d') = ?";
+const getPoliceInfo = (params,callback) => {
+    let query = " select pi.user_name,pi.phone,pi.gender,date_format(pi.created_on,'%Y年%m月%d日') as date from police_info pi" +
+                " left join car_info ci on ci.police_id=pi.id" +
+                " where str_to_date(ci.created_on,'%Y-%m-%d') = ?";
     let paramsArray=[],i=0;
     paramsArray[i++]=params.createdDateId;
     if(params.policeId){
-        query = query + " and id = ? ";
+        query = query + " and pi.id = ? ";
         paramsArray[i]=params.policeId;
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
@@ -74,7 +76,7 @@ const updatePassword = (params,callback) => {
 module.exports = {
     createPolice,
     queryPolice,
-    queryPoliceInfo,
+    getPoliceInfo,
     updateInfo,
     updatePassword
 }
