@@ -12,23 +12,555 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "stg.myxxjs.com:9201",
+  "host": "localhost:9201",
   "basePath": "/api",
   "tags": [
     {
       "name": "wechat",
       "description": "wechat open api",
       "externalDocs": {
+        "url" : "stg.myxxjs.com:9201",
         "description": " wechat mini program api"
       }
+    },
+    {
+      "name": "police",
+      "description": "police of log api"
+    },
+    {
+      "name": "car",
+      "description": "car of log api"
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
+    "/police": {
+      "post": {
+        "tags": [
+          "police"
+        ],
+        "summary": "createPolice",
+        "description": "createPolice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "createPolice",
+            "in": "body",
+            "description": "createPolice",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/createPolice"
+            }
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/createPolice"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      }
+    },
+    "/policeLogin": {
+      "post": {
+        "tags": [
+          "police"
+        ],
+        "summary": "police user do login",
+        "description": "",
+        "operationId": "police login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "police base info ",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/police"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/police/{policeId}": {
+      "get": {
+        "tags": [
+          "police"
+        ],
+        "summary": "query police user info",
+        "description": "Get police user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/police"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "police"
+        ],
+        "summary": "update police user info",
+        "description": "update police user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "police",
+            "in": "body",
+            "description": "police base info:name,phone and remark is needed .",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/police"
+            }
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/police"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      }
+    },
+    "/police/{policeId}/password": {
+      "put": {
+        "tags": [
+          "police"
+        ],
+        "summary": "update police user password",
+        "description": "update police user password",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "police base info:origin and new password is needed .",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/policePassword"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/password"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      }
+    },
+    "/police/{policeId}/car": {
+      "get": {
+        "tags": [
+          "car"
+        ],
+        "summary": "query police by police_id ",
+        "description": "query police ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "carId",
+            "in": "quert",
+            "description": "carId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/car"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid car id"
+          }
+        }
+      }
+    },
+    "/car/{carId}/status": {
+      "put": {
+        "tags": [
+          "car"
+        ],
+        "summary": "update police status ",
+        "description": "query police by status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "car Id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/car"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid car id"
+          }
+        }
+      }
+    },
+    "/police/{policeId}/addCar": {
+      "post": {
+        "tags": [
+          "car"
+        ],
+        "summary": "add car by police_id ",
+        "description": "add car by police_id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "addCar",
+            "in": "body",
+            "description": "add car by police_id",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addCar"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/car"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      }
+    },
+    "/police/{policeId}/yMonth/{yMonth}": {
+      "get": {
+        "tags": [
+          "car"
+        ],
+        "summary": "get car by police_id ",
+        "description": "get car by police_id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "yMonth",
+            "in": "path",
+            "description": "yMonth",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/car"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      }
+    },
+    "/police/{policeId}/yMonthDay/{yMonthDay}": {
+      "get": {
+        "tags": [
+          "car"
+        ],
+        "summary": "get car by police_id ",
+        "description": "get car by police_id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "yMonthDay",
+            "in": "path",
+            "description": "yMonthDay",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "carId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdStart",
+            "in": "path",
+            "description": "createdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdEnd",
+            "in": "path",
+            "description": "createdEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "licensePlate",
+            "in": "path",
+            "description": "licensePlate",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/car"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
+      }
+    }
   },
   "definitions": {
+    "createPolice": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "password": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "createPolice"
+      }
+    },
+    "police": {
+      "type": "object",
+      "required": [
+        "policeId",
+        "userName",
+        "password"
+      ],
+      "properties": {
+        "policeId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "police"
+      }
+    },
+    "policePassword": {
+      "type": "object",
+      "required": [
+        "originPassword",
+        "newPassword"
+      ],
+      "properties": {
+        "originPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "policePassword"
+      }
+    },
+    "addCar": {
+      "type": "object",
+      "properties": {
+        "vin": {
+          "type": "string"
+        },
+        "engineNum": {
+          "type": "string"
+        },
+        "licensePlate": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "addCar"
+      }
+    }
   }
-
 }
