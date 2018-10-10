@@ -142,6 +142,55 @@
         }
       }
     },
+    "/police/{policeId}/pushMsg": {
+      "get": {
+        "tags": [
+          "msgPush"
+        ],
+        "summary": "get pushMsg list",
+        "description": "get pushMsg",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "policeId",
+            "in": "path",
+            "description": "police id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "description": "device token",
+            "required": false,
+            "type": "string"
+
+          },
+          {
+            "name": "messageType",
+            "in": "query",
+            "description": "message type",
+            "required": false,
+            "type": "string"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/police/{policeId}": {
       "get": {
         "tags": [

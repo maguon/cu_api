@@ -38,7 +38,7 @@ const queryPolice = (params,callback) => {
     });
 }
 const getPoliceInfo = (params,callback) => {
-    let query = " select pi.user_name,pi.phone,pi.gender,date_format(pi.created_on,'%Y年%m月%d日') as date from police_info pi" +
+    let query = " select count(ci.id),pi.user_name,pi.phone,pi.gender,date_format(pi.created_on,'%Y年%m月%d日') as date from police_info pi" +
                 " left join car_info ci on ci.police_id=pi.id" +
                 " where str_to_date(ci.created_on,'%Y-%m-%d') = ?";
     let paramsArray=[],i=0;

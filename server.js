@@ -84,7 +84,7 @@ function createServer() {
     server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
     server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
 
-
+    server.get('/api/police/:policeId/pushMsg',msgPush.pushMsg);
     /**
      car_info
      */
