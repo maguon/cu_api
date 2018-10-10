@@ -4,12 +4,11 @@ var oauthUtil = require('../util/OAuthUtil.js');
 var encrypt = require('../util/Encrypt.js');
 var resUtil = require('../util/ResponseUtil.js');
 var listOfValue = require('../util/ListOfValue.js');
-var smsConfig = require('../config/SmsConfig.js');
-var smsDAO = require('../dao/SmsDAO.js');
-var userDAO = require('../dao/UserDAO.js');
+//var smsConfig = require('../config/SmsConfig.js');
+//var smsDAO = require('../dao/SmsDAO.js');
+//var userDAO = require('../dao/UserDAO.js');
 var serverLogger = require('../util/ServerLogger.js');
 var logger = serverLogger.createLogger('Sms.js');
-var Seq = require('seq');
 function sendPswdSms(req,res,next){
     var params = req.params;
     var captcha = ""

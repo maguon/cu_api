@@ -1,11 +1,6 @@
-var dateUtil = require('../util/DateUtil.js');
-var smsConfig = require('../config/SmsConfig.js');
-var https = require('https');
-var http = require('http');
-var encrypt = require('../util/Encrypt.js')
-var httpUtil = require('../util/HttpUtil.js')
-var serverLogger = require('../util/ServerLogger.js');
-var logger = serverLogger.createLogger('MsgPushDAO.js');
+
+//var smsConfig = require('../config/SmsConfig.js');
+var encrypt = require('../util/Encrypt.js');
 var xinge = require('xinge');
 var xingeApp = new xinge.XingeApp(smsConfig.xingeOptions.accessId, smsConfig.xingeOptions.secretKey);
 

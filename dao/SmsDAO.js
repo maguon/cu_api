@@ -1,5 +1,5 @@
-var dateUtil = require('../util/DateUtil.js');
-var smsConfig = require('../config/SmsConfig.js');
+//var dateUtil = require('../util/DateUtil.js');
+//var smsConfig = require('../config/SmsConfig.js');
 var https = require('https');
 var http = require('http');
 var encrypt = require('../util/Encrypt.js')

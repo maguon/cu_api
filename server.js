@@ -81,7 +81,6 @@ function createServer() {
     server.post({path:'/api/police',contentType: 'application/json'},police.createPolice);
     server.post({path:'/api/policeLogin',contentType: 'application/json'},police.policeLogin);
     server.get('/api/police/:policeId',police.queryPolice);
-    server.get('/api/police/:policeId/todayCar',police.getPoliceInfo);
     server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
     server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
     /**
@@ -97,6 +96,7 @@ function createServer() {
     server.post({path:'/api/police/:policeId/addCar',contentType: 'application/json'},car.addCar);
     server.get('/api/police/:policeId/yMonth/:yMonth',car.queryCarNumByDate);
     server.get('/api/police/:policeId/yMonthDay/:yMonthDay',car.queryCarInfoByDate);
+    server.get('/api/police/:policeId/todayCar',car.queryCarInfoByToday);
     //server.get('/api/police/:policeId/yMonthDao/:yMonthDao/car',car);
 
     server.on('NotFound', function (req, res ,next) {

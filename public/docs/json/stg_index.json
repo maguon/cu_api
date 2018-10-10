@@ -123,7 +123,13 @@
             "description": "police Id",
             "required": true,
             "type": "integer"
-
+          },
+          {
+            "name": "yMonthDay",
+            "in": "path",
+            "description": "yMonthDay",
+            "required": true,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -132,7 +138,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/password"
+                "$ref": "#/definitions/todayCar"
               }
             }
           },

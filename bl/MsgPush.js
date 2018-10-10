@@ -2,7 +2,7 @@
 var sysMsg = require('../util/SystemMsg.js');
 var sysError = require('../util/SystemError.js');
 var resUtil = require('../util/ResponseUtil.js');
-var msgPushDAO = require('../dao/MsgPushDAO.js');
+//var msgPushDAO = require('../dao/MsgPushDAO.js');
 var serverLogger = require('../util/ServerLogger.js');
 var logger = serverLogger.createLogger('MsgPush.js');
 
