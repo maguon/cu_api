@@ -12,8 +12,6 @@ var logger = serverLogger.createLogger('MsgPush.js');
 
 function pushMsg(req,res,next){
     var params = req.params ;
-    //var obj = {title:"title",content:"content"};
-    //var s = JSON.stringify(obj);
     params.title = "消息";
     params.content ="你的车被交警视为违章停车";
     msgPushDAO.pushMsg(params,function(error,result){
