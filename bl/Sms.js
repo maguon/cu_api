@@ -7,7 +7,7 @@ let resUtil = require('../util/ResponseUtil.js');
 let listOfValue = require('../util/ListOfValue.js');
 let smsConfig = require('../config/SmsConfig.js');
 let smsDAO = require('../dao/SmsDAO.js');
-let userDAO = require('../dao/UserDAO.js');
+//let userDAO = require('../dao/UserDAO.js');
 let serverLogger = require('../util/ServerLogger.js');
 let logger = serverLogger.createLogger('Sms.js');
 const sendPswdSms=(req,res,next)=>{
