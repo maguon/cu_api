@@ -12,13 +12,14 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "localhost:9201",
+  "host": "stg.myxxjs.com:9201",
   "basePath": "/api",
   "tags": [
     {
       "name": "wechat",
       "description": "wechat open api",
       "externalDocs": {
+        "url": "stg.myxxjs.com:9201",
         "description": " wechat mini program api"
       }
     },
@@ -479,7 +480,7 @@
         }
       }
     },
-    "/police/{policeId}/yMonth/{yMonth}": {
+    "/police/{policeId}/yMonth": {
       "get": {
         "tags": [
           "car"
@@ -499,9 +500,23 @@
           },
           {
             "name": "yMonth",
-            "in": "path",
+            "in": "query",
             "description": "yMonth",
-            "required": true,
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdStart",
+            "in": "query",
+            "description": "createdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdEnd",
+            "in": "query",
+            "description": "createdEnd",
+            "required": false,
             "type": "integer"
           }
         ],
@@ -521,7 +536,7 @@
         }
       }
     },
-    "/police/{policeId}/yMonthDay/{yMonthDay}": {
+    "/police/{policeId}/yMonthDay": {
       "get": {
         "tags": [
           "car"
@@ -541,35 +556,35 @@
           },
           {
             "name": "yMonthDay",
-            "in": "path",
+            "in": "query",
             "description": "yMonthDay",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
             "name": "carId",
-            "in": "path",
+            "in": "query",
             "description": "carId",
             "required": false,
             "type": "integer"
           },
           {
             "name": "createdStart",
-            "in": "path",
+            "in": "query",
             "description": "createdStart",
             "required": false,
             "type": "integer"
           },
           {
             "name": "createdEnd",
-            "in": "path",
+            "in": "query",
             "description": "createdEnd",
             "required": false,
             "type": "integer"
           },
           {
             "name": "licensePlate",
-            "in": "path",
+            "in": "query",
             "description": "licensePlate",
             "required": false,
             "type": "string"

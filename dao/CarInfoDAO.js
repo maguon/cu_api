@@ -49,12 +49,23 @@ const queryCarNumByDate = (params,callback) => {
     let query = "select DATE_FORMAT(ci.created_on,'%Y年%m月%d日') as date, " +
                 "count(ci.id) as num from car_info ci " +
                 "left join date_base db on db.id=ci.date_id " +
-                "where db.y_month = ? ";
+                "where 1=1 ";
     let paramsArray = [],i=0;
-    paramsArray[i++] = params.yMonth;
     if(params.policeId){
-        paramsArray[i] = params.policeId;
+        paramsArray[i++] = params.policeId;
         query = query + " and ci.police_id = ?";
+    }
+    if(params.yMonth){
+        paramsArray[i++] = params.yMonth;
+        query = query + " and db.y_Month = ?";
+    }
+    if(params.createdStart){
+        paramsArray[i++] = params.createdStart +" 00:00:00";
+        query = query + " and ci.created_on >= ? ";
+    }
+    if(params.createdEnd){
+        paramsArray[i] = params.createdEnd +" 23:59:59";
+        query = query + " and ci.created_on <= ? ";
     }
     query = query + "  GROUP BY STR_TO_DATE(ci.created_on,'%Y-%m-%d') order by ci.created_on desc ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
@@ -63,17 +74,20 @@ const queryCarNumByDate = (params,callback) => {
     });
 }
 const queryCarInfoByDate = (params,callback) => {
-    let query = "select ci.* from car_info ci " +
+    let query = "select ci.*,date_format(created_on,'%H:%i:%s') as shortDate from car_info ci " +
                 "left join date_base db on db.id=ci.date_id " +
-                "where db.id = ? ";
+                "where 1=1 ";
     let paramsArray = [],i=0;
-    paramsArray[i++] = params.yMonthDay;
+    if(params.yMonthDay){
+        paramsArray[i++] = params.yMonthDay;
+        query = query + " and db.id = ?";
+    }
     if(params.carId){
         paramsArray[i++] = params.carId;
         query = query + " and ci.id = ?";
     }
     if(params.policeId){
-        paramsArray[i] = params.policeId;
+        paramsArray[i++] = params.policeId;
         query = query + " and ci.police_id = ?";
     }
     if(params.createdStart){
@@ -81,7 +95,7 @@ const queryCarInfoByDate = (params,callback) => {
         query = query + " and ci.created_on >= ? ";
     }
     if(params.createdEnd){
-        paramsArray[i] = params.createdEnd +" 23:59:59";
+        paramsArray[i++] = params.createdEnd +" 23:59:59";
         query = query + " and ci.created_on <= ? ";
     }
     if(params.licensePlate){

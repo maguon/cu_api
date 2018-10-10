@@ -94,8 +94,8 @@ function createServer() {
     server.get('/api/police/:policeId/car',car.queryCarInfo);
     server.put({path:'/api/car/:carId/status',contentType: 'application/json'},car.updateStatus);
     server.post({path:'/api/police/:policeId/addCar',contentType: 'application/json'},car.addCar);
-    server.get('/api/police/:policeId/yMonth/:yMonth',car.queryCarNumByDate);
-    server.get('/api/police/:policeId/yMonthDay/:yMonthDay',car.queryCarInfoByDate);
+    server.get('/api/police/:policeId/yMonth',car.queryCarNumByDate);
+    server.get('/api/police/:policeId/yMonthDay',car.queryCarInfoByDate);
     server.get('/api/police/:policeId/todayCar/:yMonthDay',car.queryCarInfoByToday);
     //server.get('/api/police/:policeId/yMonthDao/:yMonthDao/car',car);
 
