@@ -71,10 +71,21 @@ const updatePassword = (params,callback) => {
         return callback(error,rows);
     });
 }
+const updatePhone = (params,callback) => {
+    let query = " update supervise_info set phone = ? where id = ?";
+    let paramsArray=[],i=0;
+    paramsArray[i++] = params.phone;
+    paramsArray[i] = params.superviseId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' updatePhone ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     createSupervise,
     querySupervise,
     getSuperviseInfo,
     updateInfo,
-    updatePassword
+    updatePassword,
+    updatePhone
 }

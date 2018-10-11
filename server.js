@@ -84,13 +84,16 @@ function createServer() {
     server.get('/api/supervise/:superviseId',supervise.querySupervise);
     server.put({path:'/api/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
+    server.put({path:'/api/supervise/:superviseId/phone/:phone',contentType: 'application/json'},supervise.changeSupervisePhone);
+    //手机发送验证码
     /**
-     check_car_detail
+     check_car_info
      */
     server.get('/api/supervise/:superviseId/userCar',checkCar.queryCarInfo);
     server.get('/api/supervise/:superviseId/userCar/:userCarId',checkCar.queryCarInfo);
     server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/status',contentType: 'application/json'},checkCar.updateStatus);
-    server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);//发送消息
+    server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);
+    //发送消息
     server.get('/api/supervise/:superviseId/byMonth/:yMonth/queryCarByMonth',checkCar.queryCarByMonth);
     server.get('/api/supervise/:superviseId/byDay',checkCar.queryCarByDay);
     server.get('/api/supervise/:superviseId/byDay/:yMonthDay',checkCar.queryCarNumByDay);
@@ -111,10 +114,10 @@ function createServer() {
     server.get('/api/user/:userId/queryUserCar/:userCarId/userCar',userCar.queryUserCar);
     server.put({path:'/api/userCar/:userCarId/updatePaperRemark',contentType: 'application/json'},userCar.updatePaperRemark);
     server.post({path:'/api/user/:userId/addUserCar',contentType: 'application/json'},userCar.addUserCar);
-    server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar)
+    server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar);
 
     /**
-     user_car
+     user_message
      */
     server.post({path:'/api/user/:userId/addMessage',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
