@@ -2,10 +2,10 @@
 
 const db=require('../db/connection/MysqlDb.js');
 const serverLogger = require('../util/ServerLogger.js');
-const logger = serverLogger.createLogger('PoliceDAO.js');
+const logger = serverLogger.createLogger('SuperviseDAO.js');
 
-const createPolice = (params,callback) => {
-    let query = " insert into police_info (user_name,gender,password,status,phone) values ( ?,? , ? , ? , ?  )";
+const createSupervise = (params,callback) => {
+    let query = " insert into supervise_info (user_name,gender,password,status,phone) values ( ?,? , ? , ? , ?  )";
     let paramsArray=[],i=0;
     paramsArray[i++]=params.userName;
     paramsArray[i++]=params.gender;
@@ -13,15 +13,15 @@ const createPolice = (params,callback) => {
     paramsArray[i++]=params.status;
     paramsArray[i]=params.phone;
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug(' createPolice ');
+        logger.debug(' createSupervise ');
         return callback(error,rows);
     });
 }
-const queryPolice = (params,callback) => {
-    let query = " select * from police_info where id is not null ";
+const querySupervise = (params,callback) => {
+    let query = " select * from supervise_info where id is not null ";
     let paramsArray=[],i=0;
-    if(params.policeId){
-        paramsArray[i++] = params.policeId;
+    if(params.superviseId){
+        paramsArray[i++] = params.superviseId;
         query = query + " and id = ? ";
     }
     if(params.userName){
@@ -33,50 +33,48 @@ const queryPolice = (params,callback) => {
         query = query + " and phone = ? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug(' queryPolice ');
+        logger.debug(' querySupervise ');
         return callback(error,rows);
     });
 }
-const getPoliceInfo = (params,callback) => {
+const getSuperviseInfo = (params,callback) => {
     let query = " select pi.user_name,pi.phone,pi.gender,date_format(pi.created_on,'%Y年%m月%d日') as date from police_info pi" +
-                " left join car_info ci on ci.police_id=pi.id" +
+                " left join car_info ci on ci.supervise_id=pi.id" +
                 " where str_to_date(ci.created_on,'%Y-%m-%d') = ?";
     let paramsArray=[],i=0;
     paramsArray[i++]=params.createdDateId;
-    if(params.policeId){
         query = query + " and pi.id = ? ";
-        paramsArray[i]=params.policeId;
-    }
+        paramsArray[i]=params.superId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug(' queryPoliceInfo ');
+        logger.debug(' querySuperviseInfo ');
         return callback(error,rows);
-    });
+    })
 }
 const updateInfo = (params,callback) => {
-    let query = " update police_info set gender = ? ,phone = ? where id = ?";
+    let query = " update supervise_info set gender = ? ,phone = ? where id = ?";
     let paramsArray=[],i=0;
     paramsArray[i++] = params.gender;
     paramsArray[i++] = params.phone;
-    paramsArray[i] = params.policeId;
+    paramsArray[i] = params.superviseId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' updateInfo ');
         return callback(error,rows);
     });
 }
 const updatePassword = (params,callback) => {
-    let query = " update police_info set password = ? where id = ?";
+    let query = " update supervise_info set password = ? where id = ?";
     let paramsArray=[],i=0;
     paramsArray[i++] = params.password;
-    paramsArray[i] = params.policeId;
+    paramsArray[i] = params.superviseId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' updatePassword ');
         return callback(error,rows);
     });
 }
 module.exports = {
-    createPolice,
-    queryPolice,
-    getPoliceInfo,
+    createSupervise,
+    querySupervise,
+    getSuperviseInfo,
     updateInfo,
     updatePassword
 }

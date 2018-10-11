@@ -24,12 +24,12 @@
       }
     },
     {
-      "name": "police",
-      "description": "police of log api"
+      "name": "supervise",
+      "description": "supervise of log api"
     },
     {
-      "name": "car",
-      "description": "car of log api"
+      "name": "checkCar",
+      "description": "checkCar of log api"
     },
     {
       "name": "user",
@@ -48,24 +48,24 @@
     "http"
   ],
   "paths": {
-    "/police": {
+    "/supervise": {
       "post": {
         "tags": [
-          "police"
+          "supervise"
         ],
-        "summary": "createPolice",
-        "description": "createPolice",
+        "summary": "createSupervise",
+        "description": "createSupervise",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "createPolice",
+            "name": "createSupervise",
             "in": "body",
-            "description": "createPolice",
+            "description": "createSupervise",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/createPolice"
+              "$ref": "#/definitions/createSupervise"
             }
 
           }
@@ -76,24 +76,24 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/createPolice"
+                "$ref": "#/definitions/createSupervise"
               }
             }
           },
           "400": {
-            "description": "Invalid token value or invalid police id"
+            "description": "Invalid token value or invalid supervise id"
           }
         }
       }
     },
-    "/policeLogin": {
+    "/superviseLogin": {
       "post": {
         "tags": [
-          "police"
+          "supervise"
         ],
-        "summary": "police user do login",
+        "summary": "supervise user do login",
         "description": "",
-        "operationId": "police login",
+        "operationId": "supervise login",
         "consumes": [
           "application/json"
         ],
@@ -104,10 +104,10 @@
           {
             "in": "body",
             "name": "body",
-            "description": "police base info ",
+            "description": "supervise base info ",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/police"
+              "$ref": "#/definitions/superviseLogin"
             }
           }
         ],
@@ -118,149 +118,21 @@
         }
       }
     },
-    "/police/{policeId}/todayCar/{yMonthDay}": {
+    "/supervise/{superviseId}": {
       "get": {
         "tags": [
-          "car"
+          "supervise"
         ],
-        "summary": "get police car ",
-        "description": "get police car",
+        "summary": "query supervise user info",
+        "description": "Get supervise user info",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "superviseId",
             "in": "path",
-            "description": "police Id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "yMonthDay",
-            "in": "path",
-            "description": "yMonthDay",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/todayCar"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid police id"
-          }
-        }
-      }
-    },
-    "/phone/{mobile}/passwordSms": {
-      "post": {
-        "tags": [
-          "user"
-        ],
-        "summary": "send rest password sms",
-        "description": "sendPswdSms",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-
-          {
-            "name": "mobile",
-            "in": "path",
-            "description": "user unique mobile",
-            "required": true,
-            "type": "string"
-
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/ApiResponse"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid phone value or invalid user status"
-          }
-        }
-      }
-    },
-    "/police/{policeId}/pushMsg": {
-      "get": {
-        "tags": [
-          "msgPush"
-        ],
-        "summary": "get pushMsg list",
-        "description": "get pushMsg",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "policeId",
-            "in": "path",
-            "description": "police id",
-            "required": true,
-            "type": "integer"
-
-          },
-          {
-            "name": "deviceToken",
-            "in": "query",
-            "description": "device token",
-            "required": false,
-            "type": "string"
-
-          },
-          {
-            "name": "messageType",
-            "in": "query",
-            "description": "message type",
-            "required": false,
-            "type": "string"
-
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object"
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid user id"
-          }
-        }
-      }
-    },
-    "/police/{policeId}": {
-      "get": {
-        "tags": [
-          "police"
-        ],
-        "summary": "query police user info",
-        "description": "Get police user info",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "policeId",
-            "in": "path",
-            "description": "police Id",
+            "description": "superviseId",
             "required": true,
             "type": "integer"
 
@@ -272,40 +144,40 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/police"
+                "$ref": "#/definitions/supervise"
               }
             }
           },
           "400": {
-            "description": "Invalid token value or invalid police id"
+            "description": "Invalid token value or invalid supervise id"
           }
         }
       },
       "put": {
         "tags": [
-          "police"
+          "supervise"
         ],
-        "summary": "update police user info",
-        "description": "update police user info",
+        "summary": "update supervise user info",
+        "description": "update supervise user info",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "superviseId",
             "in": "path",
-            "description": "police Id",
+            "description": "supervise Id",
             "required": true,
             "type": "integer"
 
           },
           {
-            "name": "police",
+            "name": "supervise",
             "in": "body",
-            "description": "police base info:name,phone and remark is needed .",
+            "description": "supervise base info:name,phone and remark is needed .",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/police"
+              "$ref": "#/definitions/supervise"
             }
 
           }
@@ -316,42 +188,42 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/police"
+                "$ref": "#/definitions/supervise"
               }
             }
           },
           "400": {
-            "description": "Invalid token value or invalid police id"
+            "description": "Invalid token value or invalid supervise id"
           }
         }
       }
     },
-    "/police/{policeId}/password": {
+    "/supervise/{superviseId}/password": {
       "put": {
         "tags": [
-          "police"
+          "supervise"
         ],
-        "summary": "update police user password",
-        "description": "update police user password",
+        "summary": "update supervise user password",
+        "description": "update supervise user password",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "superviseId",
             "in": "path",
-            "description": "police Id",
+            "description": "superviseId Id",
             "required": true,
             "type": "integer"
 
           },
           {
-            "name": "password",
+            "name": "supervisePassword",
             "in": "body",
-            "description": "police base info:origin and new password is needed .",
+            "description": "supervise base info:origin and new password is needed .",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/policePassword"
+              "$ref": "#/definitions/supervisePassword"
             }
           }
         ],
@@ -366,34 +238,27 @@
             }
           },
           "400": {
-            "description": "Invalid token value or invalid police id"
+            "description": "Invalid token value or invalid supervise id"
           }
         }
       }
     },
-    "/car": {
+    "/supervise/{superviseId}/userCar": {
       "get": {
         "tags": [
-          "car"
+          "checkCar"
         ],
-        "summary": "query police by police_id ",
-        "description": "query police ",
+        "summary": "query userCar by supervise_id ",
+        "description": "query userCar ",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "superviseId",
             "in": "path",
-            "description": "userId",
+            "description": "superviseId",
             "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "carId",
-            "in": "query",
-            "description": "carId",
-            "required": false,
             "type": "integer"
           }
         ],
@@ -403,31 +268,80 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/car"
+                "$ref": "#/definitions/checkCar"
               }
             }
           },
           "400": {
-            "description": "Invalid token value or invalid car id"
+            "description": "Invalid token value or invalid userCar id"
           }
         }
       }
     },
-    "/car/{carId}/status": {
+    "/supervise/{superviseId}/userCar/{userCarId}": {
+      "get": {
+        "tags": [
+          "checkCar"
+        ],
+        "summary": "query userCar by supervise_id ",
+        "description": "query userCar ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "superviseId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/checkCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid userCar id"
+          }
+        }
+      }
+    },
+    "/supervise/{superviseId}/userCar/{userCarId}/status": {
       "put": {
         "tags": [
-          "car"
+          "checkCar"
         ],
-        "summary": "update police status ",
-        "description": "query police by status",
+        "summary": "update supervise status ",
+        "description": "query supervise by status",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "carId",
+            "name": "superviseId",
             "in": "path",
-            "description": "car Id",
+            "description": "superviseId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
             "required": true,
             "type": "integer"
           }
@@ -438,41 +352,41 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/car"
+                "$ref": "#/definitions/checkCar"
               }
             }
           },
           "400": {
-            "description": "Invalid token value or invalid car id"
+            "description": "Invalid token value or invalid checkCar id"
           }
         }
       }
     },
-    "/police/{policeId}/addCar": {
+    "/supervise/{superviseId}/addCheckCar": {
       "post": {
         "tags": [
-          "car"
+          "checkCar"
         ],
-        "summary": "add car by police_id ",
-        "description": "add car by police_id",
+        "summary": "add car by supervise ",
+        "description": "add car by supervise_id",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "superviseId",
             "in": "path",
-            "description": "police Id",
+            "description": "supervise Id",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "addCar",
+            "name": "addCheckCar",
             "in": "body",
-            "description": "add car by police_id",
+            "description": "add addCheckCar by superviseId",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/addCar"
+              "$ref": "#/definitions/addCheckCar"
             }
           }
         ],
@@ -492,21 +406,21 @@
         }
       }
     },
-    "/police/{policeId}/yMonth": {
+    "/supervise/{superviseId}/byMonth/{yMonth}/queryCarByMonth": {
       "get": {
         "tags": [
-          "car"
+          "checkCar"
         ],
-        "summary": "get car by police_id ",
-        "description": "get car by police_id",
+        "summary": "get checkCar by superviseId ",
+        "description": "get checkCar by superviseId",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "superviseId",
             "in": "path",
-            "description": "police Id",
+            "description": "superviseId",
             "required": true,
             "type": "integer"
           },
@@ -518,16 +432,16 @@
             "type": "integer"
           },
           {
-            "name": "createdStart",
+            "name": "start",
             "in": "query",
-            "description": "createdStart",
+            "description": "start",
             "required": false,
             "type": "integer"
           },
           {
-            "name": "createdEnd",
+            "name": "size",
             "in": "query",
-            "description": "createdEnd",
+            "description": "size",
             "required": false,
             "type": "integer"
           }
@@ -548,21 +462,21 @@
         }
       }
     },
-    "/police/{policeId}/yMonthDay": {
+    "/supervise/{superviseId}/byDay": {
       "get": {
         "tags": [
-          "car"
+          "checkCar"
         ],
-        "summary": "get car by police_id ",
-        "description": "get car by police_id",
+        "summary": "get checkCar by superviseId ",
+        "description": "checkCar by superviseId",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "superviseId",
             "in": "path",
-            "description": "police Id",
+            "description": "superviseId",
             "required": true,
             "type": "integer"
           },
@@ -574,9 +488,9 @@
             "type": "integer"
           },
           {
-            "name": "carId",
+            "name": "checkCarId",
             "in": "query",
-            "description": "carId",
+            "description": "checkCarId",
             "required": false,
             "type": "integer"
           },
@@ -600,6 +514,20 @@
             "description": "licensePlate",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -608,12 +536,54 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/car"
+                "$ref": "#/definitions/checkCar"
               }
             }
           },
           "400": {
-            "description": "Invalid token value or invalid police id"
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
+    "/supervise/{superviseId}/byDay/{yMonthDay}": {
+      "get": {
+        "tags": [
+          "checkCar"
+        ],
+        "summary": "get checkCar by superviseId ",
+        "description": "checkCar by superviseId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "superviseId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "yMonthDay",
+            "in": "path",
+            "description": "yMonthDay",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/checkCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
           }
         }
       }
@@ -1076,6 +1046,48 @@
         }
       }
     },
+    "/user/{userId}/userCar/{userCarId}": {
+      "delete": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar delete ",
+        "description": "userCar delete ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/delUserCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/user/{userId}/addMessage": {
       "post": {
         "tags": [
@@ -1227,7 +1239,7 @@
     }
   },
   "definitions": {
-    "createPolice": {
+    "createSupervise": {
       "type": "object",
       "properties": {
         "userName": {
@@ -1247,21 +1259,33 @@
         }
       },
       "xml": {
-        "name": "createPolice"
+        "name": "createSupervise"
       }
     },
-    "police": {
+    "supervise": {
+      "type": "object",
+      "properties": {
+        "gender": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "supervise"
+      }
+    },
+    "superviseLogin": {
       "type": "object",
       "required": [
-        "policeId",
         "userName",
         "password"
       ],
       "properties": {
-        "policeId": {
-          "type": "integer",
-          "format": "int64"
-        },
         "userName": {
           "type": "string"
         },
@@ -1276,10 +1300,10 @@
         }
       },
       "xml": {
-        "name": "police"
+        "name": "superviseLogin"
       }
     },
-    "policePassword": {
+    "supervisePassword": {
       "type": "object",
       "required": [
         "originPassword",
@@ -1294,12 +1318,15 @@
         }
       },
       "xml": {
-        "name": "policePassword"
+        "name": "supervisePassword"
       }
     },
-    "addCar": {
+    "addCheckCar": {
       "type": "object",
       "properties": {
+        "userId": {
+          "type": "integer"
+        },
         "vin": {
           "type": "string"
         },

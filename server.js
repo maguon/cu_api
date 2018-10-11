@@ -3,8 +3,8 @@ const restify = require('restify');
 
 const serverLogger = require('./util/ServerLogger');
 const logger = serverLogger.createLogger('Server');
-const police = require('./bl/Police.js');
-const car = require('./bl/Car.js');
+const supervise = require('./bl/Supervise.js');
+const checkCar = require('./bl/CheckCar.js');
 const user = require('./bl/User.js');
 const userCar = require('./bl/UserCar.js');
 const userMessage = require('./bl/UserMessage.js');
@@ -77,22 +77,23 @@ function createServer() {
         maxAge: 0
     }));
     /**
-     police_info
+     supervise_info
      */
-    server.post({path:'/api/police',contentType: 'application/json'},police.createPolice);
-    server.post({path:'/api/policeLogin',contentType: 'application/json'},police.policeLogin);
-    server.get('/api/police/:policeId',police.queryPolice);
-    server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
-    server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
+    server.post({path:'/api/supervise',contentType: 'application/json'},supervise.createSupervise);
+    server.post({path:'/api/superviseLogin',contentType: 'application/json'},supervise.superviseLogin);
+    server.get('/api/supervise/:superviseId',supervise.querySupervise);
+    server.put({path:'/api/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
+    server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
     /**
      check_car_detail
      */
-    server.get('/api/car',car.queryCarInfo);
-    server.put({path:'/api/car/:carId/status',contentType: 'application/json'},car.updateStatus);
-    server.post({path:'/api/police/:policeId/addCar',contentType: 'application/json'},car.addCar);
-    server.get('/api/police/:policeId/yMonth',car.queryCarNumByDate);
-    server.get('/api/police/:policeId/yMonthDay',car.queryCarInfoByDate);
-    server.get('/api/police/:policeId/todayCar/:yMonthDay',car.queryCarInfoByToday);
+    server.get('/api/supervise/:superviseId/userCar',checkCar.queryCarInfo);
+    server.get('/api/supervise/:superviseId/userCar/:userCarId',checkCar.queryCarInfo);
+    server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/status',contentType: 'application/json'},checkCar.updateStatus);
+    server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);//发送消息
+    server.get('/api/supervise/:superviseId/byMonth/:yMonth/queryCarByMonth',checkCar.queryCarByMonth);
+    server.get('/api/supervise/:superviseId/byDay',checkCar.queryCarByDay);
+    server.get('/api/supervise/:superviseId/byDay/:yMonthDay',checkCar.queryCarNumByDay);
     /**
      user_info
      */

@@ -4,8 +4,8 @@ const serverLogger = require('../util/ServerLogger.js');
 const resUtil = require('../util/ResponseUtil.js');
 const sysMsg = require('../util/SystemMsg.js');
 const sysError = require('../util/SystemError.js');
-const logger = serverLogger.createLogger('Car.js');
-const carInfoDAO = require('../dao/CarInfoDAO.js');
+const logger = serverLogger.createLogger('CheckCar.js');
+const checkCarDAO = require('../dao/CheckCarDAO.js');
 const moment = require('moment/moment.js');
 
 const queryCarInfo = (req,res,next) => {
@@ -13,7 +13,7 @@ const queryCarInfo = (req,res,next) => {
     let myDate = new Date();
     let strDate = moment(myDate).format('YYYYMMDD');
     params.createdDateId = parseInt(strDate);
-    carInfoDAO.queryCarInfo(params,(error,result)=>{
+    checkCarDAO.queryCarInfo(params,(error,result)=>{
         if (error) {
             logger.error(' queryCarInfo ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -26,7 +26,7 @@ const queryCarInfo = (req,res,next) => {
 }
 const updateStatus = (req,res,next) => {
     let params = req.params;
-    carInfoDAO.updateStatus(params,(error,result)=>{
+    checkCarDAO.updateStatus(params,(error,result)=>{
         if (error) {
             logger.error(' updateStatus ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -37,56 +37,56 @@ const updateStatus = (req,res,next) => {
         }
     })
 }
-const addCar = (req,res,next) => {
+const addCheckCar = (req,res,next) => {
     let params = req.params;
     let myDate = new Date();
     let strDate = moment(myDate).format('YYYYMMDD');
     params.createdDateId = parseInt(strDate);
-    carInfoDAO.addCar(params,(error,result)=>{
+    checkCarDAO.addCheckCar(params,(error,result)=>{
         if (error) {
-            logger.error(' addCar ' + error.message);
+            logger.error(' addCheckCar ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info(' addCar ' + "success");
+            logger.info(' addCheckCar ' + "success");
             resUtil.resetCreateRes(res,result,null) ;
             return next();
         }
     })
 }
-const queryCarNumByDate = (req,res,next) => {
+const queryCarByMonth = (req,res,next) => {
     let params = req.params;
-    carInfoDAO.queryCarNumByDate(params,(error,result)=>{
+    checkCarDAO.queryCarByMonth(params,(error,result)=>{
         if (error) {
-            logger.error(' queryCarNumByDate ' + error.message);
+            logger.error(' queryCarByMonth ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info(' queryCarNumByDate ' + "success");
+            logger.info(' queryCarByMonth ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
             return next();
         }
     })
 }
-const queryCarInfoByDate = (req,res,next) => {
+const queryCarByDay = (req,res,next) => {
     let params = req.params;
-    carInfoDAO.queryCarInfoByDate(params,(error,result)=>{
+    checkCarDAO.queryCarByDay(params,(error,result)=>{
         if (error) {
-            logger.error(' queryCarInfoByDate ' + error.message);
+            logger.error(' queryCarByDay ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info(' queryCarInfoByDate ' + "success");
+            logger.info(' queryCarByDay ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
             return next();
         }
     })
 }
-const queryCarInfoByToday = (req,res,next) => {
+const queryCarNumByDay = (req,res,next) => {
     let params = req.params;
-    carInfoDAO.queryCarInfoByToday(params,(error,result)=>{
+    checkCarDAO.queryCarNumByDay(params,(error,result)=>{
         if (error) {
-            logger.error(' queryCarInfoByToday ' + error.message);
+            logger.error(' queryCarNumByDay ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info(' queryCarInfoByToday ' + "success");
+            logger.info(' queryCarNumByDay ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
             return next();
         }
@@ -95,8 +95,8 @@ const queryCarInfoByToday = (req,res,next) => {
 module.exports = {
     queryCarInfo,
     updateStatus,
-    addCar,
-    queryCarNumByDate,
-    queryCarInfoByDate,
-    queryCarInfoByToday
+    addCheckCar,
+    queryCarByMonth,
+    queryCarByDay,
+    queryCarNumByDay
 }

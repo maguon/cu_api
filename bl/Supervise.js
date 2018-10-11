@@ -6,22 +6,22 @@ const encrypt = require('../util/Encrypt.js');
 const resUtil = require('../util/ResponseUtil.js');
 const listOfValue = require('../util/ListOfValue.js');
 const oAuthUtil = require('../util/OAuthUtil.js');
-const policeDao = require('../dao/PoliceInfoDAO.js');
+const superviseDao = require('../dao/SuperviseDAO.js');
 const serverLogger = require('../util/ServerLogger.js');
-const logger = serverLogger.createLogger('Police.js');
+const logger = serverLogger.createLogger('Supervise.js');
 const moment = require('moment/moment.js');
 
-const createPolice = (req,res,next) => {
+const createSupervise = (req,res,next) => {
     let params = req.params;
     new Promise((resolve,reject)=>{
-        policeDao.queryPolice({phone:params.phone},(error,rows)=>{
+        superviseDao.querySupervise({phone:params.phone},(error,rows)=>{
             if (error) {
-                logger.error(' queryPolice ' + error.message);
+                logger.error(' querySupervise ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG) ;
                 return next();
             } else {
                 if(rows && rows.length>0){
-                    logger.warn(' queryPolice ' +params.phone+ sysMsg.CUST_SIGNUP_REGISTERED);
+                    logger.warn(' querySupervise ' +params.phone+ sysMsg.CUST_SIGNUP_REGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.CUST_SIGNUP_REGISTERED) ;
                     return next();
                 }else{
@@ -31,13 +31,13 @@ const createPolice = (req,res,next) => {
         })
     }).then(()=>{
         params.password = encrypt.encryptByMd5(params.password);
-        policeDao.createPolice(params,(error,result)=>{
+        superviseDao.createSupervise(params,(error,result)=>{
             if (error) {
-                logger.error(' createPolice ' + error.message);
+                logger.error(' createSupervise ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(result && result.insertId>0){
-                    logger.info(' createPolice ' + 'success');
+                    logger.info(' createSupervise ' + 'success');
                     let user = {
                         userId : result.insertId,
                         userStatus : listOfValue.USER_STATUS_ACTIVE
@@ -45,7 +45,7 @@ const createPolice = (req,res,next) => {
                     user.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.user,user.userId,user.userStatus);
                     resUtil.resetQueryRes(res,user,null);
                 }else{
-                    logger.warn(' createPolice ' + 'false');
+                    logger.warn(' createSupervise ' + 'false');
                     resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 }
                 return next();
@@ -53,21 +53,21 @@ const createPolice = (req,res,next) => {
         })
     })
 }
-const policeLogin = (req,res,next) =>{
+const superviseLogin = (req,res,next) =>{
     let params = req.params;
-    policeDao.queryPolice({userName:params.userName},(error,rows)=>{
+    superviseDao.querySupervise({userName:params.userName},(error,rows)=>{
         if (error) {
-            logger.error(' queryPolice ' + error.message);
+            logger.error(' querySupervise ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         } else {
             if(rows && rows.length<1){
-                logger.warn(' queryPolice ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                logger.warn(' querySupervise ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                 resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                 return next();
             }else{
                 let passwordMd5 = encrypt.encryptByMd5(params.password);
                 if(passwordMd5 != rows[0].password){
-                    logger.warn(' queryPolice ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
+                    logger.warn(' querySupervise ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
                     resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
                     return next();
                 }else{
@@ -76,7 +76,7 @@ const policeLogin = (req,res,next) =>{
                             userId : rows[0].id,
                             userStatus : rows[0].status
                         }
-                        logger.info('queryPolice' +params.userName+ " not verified");
+                        logger.info('querySupervise' +params.userName+ " not verified");
                         resUtil.resetQueryRes(res,user,null);
                         return next();
                     }else{
@@ -85,7 +85,7 @@ const policeLogin = (req,res,next) =>{
                             userStatus : rows[0].status
                         }
                         user.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.admin,user.userId,user.userStatus);
-                        logger.info('queryPolice' +params.userName+ " success");
+                        logger.info('querySupervise' +params.userName+ " success");
                         resUtil.resetQueryRes(res,user,null);
                         return next();
                     }
@@ -94,38 +94,38 @@ const policeLogin = (req,res,next) =>{
         }
     })
 }
-const queryPolice = (req,res,next) => {
+const querySupervise = (req,res,next) => {
     let params = req.params;
-    policeDao.queryPolice(params,(error,rows)=>{
+    superviseDao.querySupervise(params,(error,rows)=>{
         if (error) {
-            logger.error(' queryPolice ' + error.message);
+            logger.error(' querySupervise ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         } else {
-            logger.info(' queryPolice ' + 'success');
+            logger.info(' querySupervise ' + 'success');
             resUtil.resetQueryRes(res,rows,null);
             return next();
         }
     })
 }
-const getPoliceInfo = (req,res,next) => {
+const getSuperviseInfo = (req,res,next) => {
     let params = req.params;
     let myDate = new Date();
     let strDate = moment(myDate).format('YYYYMMDD');
     params.createdDateId = parseInt(strDate);
-    policeDao.getPoliceInfo(params,(error,rows)=>{
+    superviseDao.getSuperviseInfo(params,(error,rows)=>{
         if (error) {
-            logger.error(' getPoliceInfo ' + error.message);
+            logger.error(' getSuperviseInfo ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         } else {
-            logger.info(' getPoliceInfo ' + 'success');
+            logger.info(' getSuperviseInfo ' + 'success');
             resUtil.resetQueryRes(res,rows,null);
             return next();
         }
     })
 }
-const updatePoliceInfo = (req,res,next) => {
+const updateSuperviseInfo = (req,res,next) => {
     let params = req.params;
-    policeDao.updateInfo(params,(error,result)=>{
+    superviseDao.updateInfo(params,(error,result)=>{
         if (error) {
             logger.error(' updateInfo ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -136,20 +136,20 @@ const updatePoliceInfo = (req,res,next) => {
         }
     })
 }
-const changePolicePassword = (req,res,next) => {
+const changeSupervisePassword = (req,res,next) => {
     let params = req.params;
     new Promise((resolve,reject) => {
-        policeDao.queryPolice(params,(error,rows)=>{
+        superviseDao.querySupervise(params,(error,rows)=>{
             if (error) {
-                logger.error(' queryPolice ' + error.message);
+                logger.error(' querySupervise ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' queryPolice ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn(' querySupervise ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     return next();
                 }else if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
-                    logger.warn(' queryPolice ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                    logger.warn(' querySupervise ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
                     resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
                     return next();
                 }else{
@@ -159,7 +159,7 @@ const changePolicePassword = (req,res,next) => {
         })
     }).then(() => {
         params.password = encrypt.encryptByMd5(params.newPassword);
-        policeDao.updatePassword(params,(error,result)=>{
+        superviseDao.updatePassword(params,(error,result)=>{
             if (error) {
                 logger.error(' updatePassword ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -172,10 +172,10 @@ const changePolicePassword = (req,res,next) => {
     })
 }
 module.exports = {
-    createPolice,
-    policeLogin,
-    queryPolice,
-    getPoliceInfo,
-    updatePoliceInfo,
-    changePolicePassword
+    createSupervise,
+    superviseLogin,
+    querySupervise,
+    getSuperviseInfo,
+    updateSuperviseInfo,
+    changeSupervisePassword
 }
