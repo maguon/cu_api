@@ -30,6 +30,18 @@
     {
       "name": "car",
       "description": "car of log api"
+    },
+    {
+      "name": "user",
+      "description": "user of log api"
+    },
+    {
+      "name": "userCar",
+      "description": "userCar of log api"
+    },
+    {
+      "name": "userMessage",
+      "description": "userMessage of log api"
     }
   ],
   "schemes": [
@@ -359,7 +371,7 @@
         }
       }
     },
-    "/police/{policeId}/car": {
+    "/car": {
       "get": {
         "tags": [
           "car"
@@ -371,15 +383,15 @@
         ],
         "parameters": [
           {
-            "name": "policeId",
+            "name": "userId",
             "in": "path",
-            "description": "police Id",
+            "description": "userId",
             "required": true,
             "type": "integer"
           },
           {
             "name": "carId",
-            "in": "quert",
+            "in": "query",
             "description": "carId",
             "required": false,
             "type": "integer"
@@ -605,6 +617,613 @@
           }
         }
       }
+    },
+    "/user/{userId}/queryUser": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "query user",
+        "description": "query user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "type":"integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type":"integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/queryUser"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/userLogin": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user login",
+        "description": "user login",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "user info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userLogin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/userLogin"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/updateUser": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user update",
+        "description": "user update",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user update",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateUser",
+            "in": "body",
+            "description": "user info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateUser"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/password": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user update password",
+        "description": "user update password",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "user info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/password"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/password"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{admin}/user/{userId}/wechatStatus/{wechatStatus}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user update status",
+        "description": "user update status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "wechatStatus",
+            "in": "path",
+            "description": "wechatStatus",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/status"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/phone/{phone}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user update phone",
+        "description": "user update phone",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/queryUserCar": {
+      "get": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar ",
+        "description": "userCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/queryUserCar/{userCarId}/userCar": {
+      "get": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar ",
+        "description": "userCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/userCar/{userCarId}/updatePaperRemark": {
+      "put": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar update status",
+        "description": "userCar update status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updatePaperRemark",
+            "in": "body",
+            "description": "updatePaperRemark",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updatePaperRemark"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updatePaperRemark"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/addUserCar": {
+      "post": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar add ",
+        "description": "userCar add ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "addUserCar",
+            "in": "body",
+            "description": "addUserCar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addUserCar"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/addUserCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/addMessage": {
+      "post": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": "userMessage add ",
+        "description": "userMessage add ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "addMessage",
+            "in": "body",
+            "description": "addMessage",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addMessage"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/addMessage"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/getMessage": {
+      "get": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": "userMessage ",
+        "description": "userMessage",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/getMessage/{userMessageId}/getMessage": {
+      "get": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": "userMessage ",
+        "description": "userMessage",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userMessageId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -684,6 +1303,18 @@
         "vin": {
           "type": "string"
         },
+        "makeId": {
+          "type": "integer"
+        },
+        "makeName": {
+          "type": "string"
+        },
+        "modelId": {
+          "type": "integer"
+        },
+        "modelName": {
+          "type": "string"
+        },
         "engineNum": {
           "type": "string"
         },
@@ -702,6 +1333,117 @@
       },
       "xml": {
         "name": "addCar"
+      }
+    },
+    "userLogin": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "wechatId": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "userLogin"
+      }
+    },
+    "updateUser": {
+      "type": "object",
+      "properties": {
+        "userName": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "integer"
+        },
+        "birth": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateUser"
+      }
+    },
+    "password": {
+      "type": "object",
+      "properties": {
+        "oldPassword": {
+          "type": "string"
+        },
+        "newPassword": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "password"
+      }
+    },
+    "updatePaperRemark": {
+      "type": "object",
+      "properties": {
+        "paperType": {
+          "type": "integer"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "updatePaperRemark"
+      }
+    },
+    "addMessage": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "addMessage"
+      }
+    },
+    "addUserCar": {
+      "type": "object",
+      "properties": {
+        "vin": {
+          "type": "string"
+        },
+        "makeId": {
+          "type": "integer"
+        },
+        "makeName": {
+          "type": "string"
+        },
+        "modelId": {
+          "type": "integer"
+        },
+        "modelName": {
+          "type": "string"
+        },
+        "engineNum": {
+          "type": "string"
+        },
+        "licensePlate": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "addUserCar"
       }
     }
   }

@@ -7,6 +7,9 @@ const police = require('./bl/Police.js');
 const car = require('./bl/Car.js');
 const msgPush = require('./bl/MsgPush.js');
 const sms = require('./bl/Sms.js');
+const user = require('./bl/User.js');
+const userCar = require('./bl/UserCar.js');
+const userMessage = require('./bl/UserMessage.js');
 
 
 /**
@@ -89,15 +92,39 @@ function createServer() {
     server.get('/api/police/:policeId/pushMsg',msgPush.pushMsg);
     server.post({path:'/api/phone/:mobile/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
     /**
-     car_info
+     check_car_detail
      */
-    server.get('/api/police/:policeId/car',car.queryCarInfo);
+    server.get('/api/car',car.queryCarInfo);
     server.put({path:'/api/car/:carId/status',contentType: 'application/json'},car.updateStatus);
     server.post({path:'/api/police/:policeId/addCar',contentType: 'application/json'},car.addCar);
     server.get('/api/police/:policeId/yMonth',car.queryCarNumByDate);
     server.get('/api/police/:policeId/yMonthDay',car.queryCarInfoByDate);
     server.get('/api/police/:policeId/todayCar/:yMonthDay',car.queryCarInfoByToday);
-    //server.get('/api/police/:policeId/yMonthDao/:yMonthDao/car',car);
+    /**
+     user_info
+     */
+    server.get('/api/user/:userId/queryUser',user.queryUser);
+    //server.post({path:'/api/wechatLogin',contentType: 'application/json'},user.userLogin);
+    server.post({path:'/api/userLogin',contentType: 'application/json'},user.userLogin);
+    server.put({path:'/api/user/:userId/updateUser',contentType: 'application/json'},user.updateUser);
+    server.put({path:'/api/user/:userId/password',contentType: 'application/json'},user.updatePassword);
+    server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
+    server.put({path:'/api/user/:userId/phone/:phone',contentType: 'application/json'},user.updatePhone);
+    /**
+     user_car
+     */
+    server.get('/api/user/:userId/queryUserCar',userCar.queryUserCar);
+    server.get('/api/user/:userId/queryUserCar/:userCarId/userCar',userCar.queryUserCar);
+    server.put({path:'/api/userCar/:userCarId/updatePaperRemark',contentType: 'application/json'},userCar.updatePaperRemark);
+    server.post({path:'/api/user/:userId/addUserCar',contentType: 'application/json'},userCar.addUserCar);
+
+    /**
+     user_car
+     */
+    server.post({path:'/api/user/:userId/addMessage',contentType: 'application/json'},userMessage.addMessage);
+    server.get('/api/user/:userId/getMessage',userMessage.getMessage);
+    server.get('/api/user/:userId/getMessage/:userMessageId/getMessage',userMessage.getMessage);
+
 
     server.on('NotFound', function (req, res ,next) {
         logger.warn(req.url + " not found");

@@ -4,16 +4,12 @@ const logger = serverLogger.createLogger('CarInfoDAO.js');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryCarInfo = (params,callback) => {
-    let query = "select *,date_format(created_on,'%H:%i:%s') as shortDate from car_info where id is not null and status = 1 and str_to_date(created_on,'%Y-%m-%d') = ? ";
+    let query = "select *,date_format(created_on,'%H:%i:%s') as shortDate from user_car where id is not null and status = 1 and str_to_date(created_on,'%Y-%m-%d') = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.createdDateId;
     if(params.carId){
         paramsArray[i++] = params.carId;
         query = query + " and id = ?";
-    }
-    if(params.policeId){
-        paramsArray[i] = params.policeId;
-        query = query + " and police_id = ?";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' queryCarInfo ');
@@ -30,11 +26,15 @@ const updateStatus = (params,callback) => {
     });
 }
 const addCar = (params,callback) => {
-    let query = "insert into car_info(police_id,date_id,vin,engine_num,license_plate,phone,city,address) values(?,?,?,?,?,?,?,?) ";
+    let query = "insert into car_info(police_id,date_id,vin,make_id,make_name,model_id,model_name,engine_num,license_plate,phone,city,address) values(?,?,?,?,?,?,?,?) ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.policeId;
     paramsArray[i++] = params.createdDateId;
     paramsArray[i++] = params.vin;
+    paramsArray[i++] = params.makeId;
+    paramsArray[i++] = params.makeName;
+    paramsArray[i++] = params.modelId;
+    paramsArray[i++] = params.modelName;
     paramsArray[i++] = params.engineNum;
     paramsArray[i++] = params.licensePlate;
     paramsArray[i++] = params.phone;
@@ -109,9 +109,9 @@ const queryCarInfoByDate = (params,callback) => {
     });
 }
 const queryCarInfoByToday = (params,callback) => {
-    let query = "select count(ci.id) from car_info ci " +
-        "left join date_base db on db.id=ci.date_id " +
-        "where db.id = ? ";
+    let query = "select count(ci.id) from user_car ci " +
+                "left join date_base db on db.id=ci.date_id " +
+                "where db.id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.yMonthDay;
     if(params.policeId){

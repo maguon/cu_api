@@ -37,7 +37,25 @@ const updatePaperRemark = (params,callback) => {
         callback(error,rows);
     })
 }
+const addUserCar = (params,callback) => {
+    let query = " insert into user_car(user_id,vin,make_id,make_name,model_id,model_name,engine_num,license_plate) " +
+                " values(?,?,?,?,?,?,?,?) ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.userId;
+    paramsArray[i++] = params.vin;
+    paramsArray[i++] = params.makeId;
+    paramsArray[i++] = params.makeName;
+    paramsArray[i++] = params.modelId;
+    paramsArray[i++] = params.modelName;
+    paramsArray[i++] = params.engineNum;
+    paramsArray[i] = params.licensePlate;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('addUserCar');
+        callback(error,rows);
+    })
+}
 module.exports = {
     queryUserCar,
-    updatePaperRemark
+    updatePaperRemark,
+    addUserCar
 }

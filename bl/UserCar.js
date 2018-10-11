@@ -32,7 +32,21 @@ const updatePaperRemark = (req,res,next)=>{
         }
     });
 };
+const addUserCar = (req,res,next)=>{
+    let params = req.params;
+    userCarDao.addUserCar(params,(error,result)=>{
+        if(error){
+            logger.error('addUserCar' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('addUserCar' + 'success');
+            resUtil.resetCreateRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     queryUserCar,
-    updatePaperRemark
+    updatePaperRemark,
+    addUserCar
 }
