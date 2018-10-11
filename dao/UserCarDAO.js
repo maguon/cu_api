@@ -54,8 +54,19 @@ const addUserCar = (params,callback) => {
         callback(error,rows);
     })
 }
+const delUserCar = (params,callback) => {
+    let query = "delete from user_car where user_id=? and id=?";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.userId;
+    paramsArray[i] = params.userCarId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('delUserCar');
+        callback(error,rows);
+    })
+}
 module.exports = {
     queryUserCar,
     updatePaperRemark,
-    addUserCar
+    addUserCar,
+    delUserCar
 }

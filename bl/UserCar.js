@@ -45,8 +45,22 @@ const addUserCar = (req,res,next)=>{
         }
     });
 };
+const delUserCar = (req,res,next)=>{
+    let params = req.params;
+    userCarDao.delUserCar(params,(error,result)=>{
+        if(error){
+            logger.error('delUserCar' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('delUserCar' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     queryUserCar,
     updatePaperRemark,
-    addUserCar
+    addUserCar,
+    delUserCar
 }

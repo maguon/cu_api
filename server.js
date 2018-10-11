@@ -87,11 +87,6 @@ function createServer() {
     server.put({path:'/api/police/:policeId',contentType: 'application/json'},police.updatePoliceInfo);
     server.put({path:'/api/police/:policeId/password',contentType: 'application/json'},police.changePolicePassword);
     /**
-     发送消息和短信
-     */
-    server.get('/api/police/:policeId/pushMsg',msgPush.pushMsg);
-    server.post({path:'/api/phone/:mobile/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
-    /**
      check_car_detail
      */
     server.get('/api/car',car.queryCarInfo);
@@ -117,6 +112,7 @@ function createServer() {
     server.get('/api/user/:userId/queryUserCar/:userCarId/userCar',userCar.queryUserCar);
     server.put({path:'/api/userCar/:userCarId/updatePaperRemark',contentType: 'application/json'},userCar.updatePaperRemark);
     server.post({path:'/api/user/:userId/addUserCar',contentType: 'application/json'},userCar.addUserCar);
+    server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar)
 
     /**
      user_car
