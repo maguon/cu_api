@@ -6,6 +6,7 @@ const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('User.js');
 const userDao = require('../dao/UserInfoDAO.js');
 const encrypt = require('../util/Encrypt.js');
+let oauthUtil = require('../util/OAuthUtil.js');
 
 const updateUser = (req,res,next)=>{
     let params = req.params;
@@ -69,6 +70,23 @@ const updateStatus=(req,res,next)=>{
 };
 const updatePhone=(req,res,next)=>{
     let params = req.params;
+    let captcha = "";
+    captcha = encrypt.getSmsRandomKey();
+    oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
+        if (error) {
+            logger.error(' sendPswdSms ' + error.message);
+            resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            return next();
+        } else {
+            let message = {
+                phone:result.phone,
+                code:result
+            }
+            logger.info('updatePhone' + 'success');
+            resUtil.resetQueryRes(res,message,null);
+            return next();
+        }
+    })
     userDao.updatePhone(params,(error,result)=>{
         if(error){
             logger.error('updatePhone' + error.message);

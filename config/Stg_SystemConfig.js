@@ -27,6 +27,9 @@ const mongoConfig = {
     connect : 'mongodb://127.0.0.1:27017/log_cu'
 }
 
+const hosts = {
+    auth:"stg.myxxjs.com:9009"
+}
 
 const wechatConfig = {
     mpAppId : "wx8063556bcdab3e2b",
@@ -35,4 +38,4 @@ const wechatConfig = {
 }
 
 
-module.exports = { mysqlConnectOptions ,loggerConfig, logLevel , mongoConfig  ,wechatConfig}
+module.exports = { mysqlConnectOptions ,loggerConfig, logLevel , mongoConfig  ,wechatConfig ,hosts}

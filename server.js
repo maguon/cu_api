@@ -10,6 +10,8 @@ const userCar = require('./bl/UserCar.js');
 const userMessage = require('./bl/UserMessage.js');
 const app = require('./bl/App.js');
 const userDevice = require('./bl/UserDevice.js');
+const sms = require('./bl/Sms.js');
+const adminUser = require('./bl/AdminUser.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -78,6 +80,15 @@ function createServer() {
         maxAge: 0
     }));
     /**
+     * Admin User Module
+     */
+    server.post({path:'/api/createAdmin',contentType: 'application/json'},adminUser.createAdminUser);
+    server.get('/api/admin/:adminId' ,adminUser.getAdminUserInfo);
+    server.post({path:'/api/admin/do/login',contentType: 'application/json'},adminUser.adminUserLogin);
+    server.put({path:'/api/admin/:adminId',contentType: 'application/json'} ,adminUser.updateAdminInfo);
+    server.put({path:'/api/admin/:adminId/password',contentType: 'application/json'} ,adminUser.changeAdminPassword);
+
+    /**
      supervise_info
      */
     server.post({path:'/api/supervise',contentType: 'application/json'},supervise.createSupervise);
@@ -137,8 +148,14 @@ function createServer() {
     server.post({path:'/api/user/:userId/userDevice',contentType: 'application/json'} , userDevice.createUserDevice);
     server.del('/api/user/:userId/deviceToken/:deviceToken' , userDevice.removeUserDevice);
 
+    /**
+     * sendPswdSms
+     */
+    server.post({path:'/api/phone/:phone/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
 
-    server.on('NotFound', function (req, res ,next) {
+
+
+    server.on('NotFound',(req, res ,next)=>{
         logger.warn(req.url + " not found");
         res.send(404,{success:false,msg:" service not found !"});
         next();
