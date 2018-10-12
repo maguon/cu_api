@@ -37,6 +37,19 @@ const updateStatus = (req,res,next) => {
         }
     })
 }
+const updateSuperviseId = (req,res,next) => {
+    let params = req.params;
+    checkCarDAO.updateSuperviseId(params,(error,result)=>{
+        if (error) {
+            logger.error(' updateSuperviseId ' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info(' updateSuperviseId ' + "success");
+            resUtil.resetUpdateRes(res,result,null) ;
+            return next();
+        }
+    })
+}
 const addCheckCar = (req,res,next) => {
     let params = req.params;
     let myDate = new Date();
@@ -95,6 +108,7 @@ const queryCarNumByDay = (req,res,next) => {
 module.exports = {
     queryCarInfo,
     updateStatus,
+    updateSuperviseId,
     addCheckCar,
     queryCarByMonth,
     queryCarByDay,

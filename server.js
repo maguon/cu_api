@@ -92,6 +92,7 @@ function createServer() {
     server.get('/api/supervise/:superviseId/userCar',checkCar.queryCarInfo);
     server.get('/api/supervise/:superviseId/userCar/:userCarId',checkCar.queryCarInfo);
     server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/status',contentType: 'application/json'},checkCar.updateStatus);
+    server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/superviseId',contentType: 'application/json'},checkCar.updateSuperviseId);
     server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);
     //发送消息
     server.get('/api/supervise/:superviseId/byMonth/:yMonth/queryCarByMonth',checkCar.queryCarByMonth);

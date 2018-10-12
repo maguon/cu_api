@@ -30,6 +30,16 @@ const updateStatus = (params,callback) => {
         return callback(error,rows);
     });
 }
+const updateSuperviseId = (params,callback) => {
+    let query = "update user_car set supervise_id = ? where id = ? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.superviseId;
+    paramsArray[i] = params.userCarId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' updateSuperviseId ');
+        return callback(error,rows);
+    });
+}
 const addCheckCar = (params,callback) => {
     let query = "insert into check_car_info(supervise_id,user_id,date_id,vin,make_id,make_name,model_id,model_name,engine_num,license_plate,phone,city,address) values(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
     let paramsArray = [],i=0;
@@ -106,7 +116,7 @@ const queryCarByDay = (params,callback) => {
         query = query + " and ci.created_on <= ? ";
     }
     if(params.licensePlate){
-        paramsArray[i] = params.licensePlate;
+        paramsArray[i++] = params.licensePlate;
         query = query + " and ci.license_plate = ? ";
     }
     query = query + " order by ci.created_on desc ";
@@ -138,6 +148,7 @@ const queryCarNumByDay = (params,callback) => {
 module.exports = {
     queryCarInfo,
     updateStatus,
+    updateSuperviseId,
     addCheckCar,
     queryCarByMonth,
     queryCarByDay,

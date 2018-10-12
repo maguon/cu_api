@@ -173,37 +173,14 @@ const changeSupervisePassword = (req,res,next) => {
 }
 const changeSupervisePhone = (req,res,next) => {
     let params = req.params;
-    new Promise((resolve,reject) => {
-        superviseDao.querySupervise({phone:params.phone,superviseId:params.superviseId},(error,rows)=>{
-            if (error) {
-                logger.error(' querySupervise ' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            } else {
-                if(rows && rows.length<1){
-                    logger.warn(' querySupervise ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
-                    resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
-                    return next();
-                }else if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
-                    logger.warn(' querySupervise ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
-                    resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
-                    return next();
-                }else{
-                    resolve();
-                }
-            }
-        })
-    }).then(() => {
-        params.password = encrypt.encryptByMd5(params.newPassword);
-        superviseDao.updatePassword(params,(error,result)=>{
-            if (error) {
-                logger.error(' updatePassword ' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            } else {
-                logger.info(' updatePassword ' + 'success');
-                resUtil.resetUpdateRes(res,result,null);
-                return next();
-            }
-        })
+    superviseDao.updatePhone({phone:params.phone,superviseId:params.superviseId},(error,result)=>{
+        if (error) {
+            logger.error(' updatePhone ' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info(' updatePhone ' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();}
     })
 }
 module.exports = {

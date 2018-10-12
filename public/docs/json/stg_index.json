@@ -243,6 +243,48 @@
         }
       }
     },
+    "/supervise/{superviseId}/phone/{phone}": {
+      "put": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "update supervise  phone",
+        "description": "update supervise  phone",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "superviseId Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "phone",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
     "/supervise/{superviseId}/userCar": {
       "get": {
         "tags": [
@@ -362,6 +404,48 @@
         }
       }
     },
+    "/supervise/{superviseId}/userCar/{userCarId}/superviseId": {
+      "put": {
+        "tags": [
+          "checkCar"
+        ],
+        "summary": "update supervise superviseId ",
+        "description": "query supervise by superviseId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "superviseId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/checkCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid checkCar id"
+          }
+        }
+      }
+    },
     "/supervise/{superviseId}/addCheckCar": {
       "post": {
         "tags": [
@@ -426,9 +510,9 @@
           },
           {
             "name": "yMonth",
-            "in": "query",
+            "in": "path",
             "description": "yMonth",
-            "required": false,
+            "required": true,
             "type": "integer"
           },
           {
@@ -1395,7 +1479,7 @@
           "type": "integer"
         },
         "birth": {
-          "type": "integer"
+          "type": "string"
         }
       },
       "xml": {
