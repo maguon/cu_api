@@ -8,7 +8,8 @@ const checkCar = require('./bl/CheckCar.js');
 const user = require('./bl/User.js');
 const userCar = require('./bl/UserCar.js');
 const userMessage = require('./bl/UserMessage.js');
-
+const app = require('./bl/App.js');
+const userDevice = require('./bl/UserDevice.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -123,6 +124,18 @@ function createServer() {
     server.post({path:'/api/user/:userId/addMessage',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/getMessage/:userMessageId/getMessage',userMessage.getMessage);
+    /**
+     * App Module
+     */
+    server.get('/api/app',app.queryApp);
+    server.post({path:'/api/user/:userId/app',contentType: 'application/json'},app.createAppVersion);
+    server.put({path:'/api/user/:userId/app/:appId',contentType: 'application/json'} ,app.updateAppVersion);
+    /**
+     * UserDevice Module
+     */
+    server.get('/api/userDevice' ,userDevice.queryUserDevice);
+    server.post({path:'/api/user/:userId/userDevice',contentType: 'application/json'} , userDevice.createUserDevice);
+    server.del('/api/user/:userId/deviceToken/:deviceToken' , userDevice.removeUserDevice);
 
 
     server.on('NotFound', function (req, res ,next) {

@@ -42,6 +42,10 @@
     {
       "name": "userMessage",
       "description": "userMessage of log api"
+    },
+    {
+      "name": "app",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -1320,6 +1324,312 @@
           }
         }
       }
+    },
+    "/app": {
+      "get": {
+        "tags": [
+          "app"
+        ],
+        "summary": "query  app version ",
+        "description": "query app",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "appId",
+            "in": "query",
+            "description": "app id",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "app",
+            "in": "query",
+            "description": "app name",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "app type : 1-android,2-ios",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "forceUpdate",
+            "in": "query",
+            "description": "app type : 0-no,1-yes",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": " list start pos",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "list size for pagination",
+            "required": false,
+            "type": "integer"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/app"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value "
+          }
+        }
+      }
+    },
+    "/user/{userId}/app/{appId}": {
+      "put": {
+        "tags": [
+          "app"
+        ],
+        "summary": "update app version info",
+        "description": "update app version",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "appId",
+            "in": "path",
+            "description": "app verion id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "appVersion",
+            "in": "body",
+            "description": "app version info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/app"
+            }
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid repairStation id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/app": {
+      "post": {
+        "tags": [
+          "app"
+        ],
+        "summary": "user create app version ",
+        "description": "user create app",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "appVersion",
+            "in": "body",
+            "description": "app version  info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/app"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid repairStation id"
+          }
+        }
+      }
+    },
+    "/userDevice": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "query userDevice list",
+        "description": "query userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userDeviceId",
+            "in": "query",
+            "description": "userDevice id",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "user id",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "description": "device token",
+            "required": false,
+            "type": "string"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/userDevice"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid userDevice id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/userDevice": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "create userDevice",
+        "description": "create userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "userDevice",
+            "in": "body",
+            "description": "userDevice info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/userDevice"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid userDevice id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/deviceToken/{deviceToken}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes a userDevice",
+        "description": "",
+        "operationId": "deleteUserDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "deviceToken",
+            "in": "path",
+            "description": "device token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "contacts not found"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -1555,6 +1865,53 @@
       },
       "xml": {
         "name": "addUserCar"
+      }
+    },
+    "app": {
+      "type": "object",
+      "properties": {
+
+        "app": {
+          "type": "integer"
+        },
+        "appType": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "string"
+        },
+        "forceUpdate": {
+          "type": "integer"
+        },
+        "url": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "app"
+      }
+    },
+    "userDevice": {
+      "type": "object",
+      "properties": {
+        "deviceToken": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "appType": {
+          "type": "integer"
+        },
+        "deviceType": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "userDevice"
       }
     }
   }
