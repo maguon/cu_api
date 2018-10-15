@@ -76,7 +76,6 @@ const updatePhone=(req,res,next)=>{
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             return next();
         }else{
-            console.log(result.result.code);
             if(result.result.code==params.signCode){
                 userDao.updatePhone(params,(error,result)=>{
                     if(error){
@@ -89,13 +88,12 @@ const updatePhone=(req,res,next)=>{
                     }
                 })
             }else{
-                logger.warn('updatePhone' + '验证失败');
+                logger.warn('getSignCode' + '验证失败');
                 resUtil.resetFailedRes(res,'验证失败',null);
                 return next();
             }
         }
     })
-
 }
 const queryUser = (req,res,next)=>{
     let params = req.params;

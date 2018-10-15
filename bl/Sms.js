@@ -14,15 +14,18 @@ const sendPswdSms=(req,res,next)=>{
     let params = req.params;
     let captcha = "";
     captcha = encrypt.getSmsRandomKey();
-    console.log(captcha)
     oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
         if(error){
             logger.error(' sendPswdSms ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             return next();
         }else{
+            let message = {
+                code:captcha,
+                phone:params.phone
+            }
             logger.info('saveSignCode' + 'success');
-            resUtil.resetCreateRes(res,result,null);
+            resUtil.resetQueryRes(res,message,null);
             return next();
         }
     })

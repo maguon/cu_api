@@ -55,13 +55,13 @@ const createSupervise = (req,res,next) => {
 }
 const superviseLogin = (req,res,next) =>{
     let params = req.params;
-    superviseDao.querySupervise({userName:params.userName},(error,rows)=>{
+    superviseDao.querySupervise({phone:params.phone},(error,rows)=>{
         if (error) {
             logger.error(' querySupervise ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         } else {
             if(rows && rows.length<1){
-                logger.warn(' querySupervise ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                logger.warn(' querySupervise ' +params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                 resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                 return next();
             }else{
@@ -173,14 +173,29 @@ const changeSupervisePassword = (req,res,next) => {
 }
 const changeSupervisePhone = (req,res,next) => {
     let params = req.params;
-    superviseDao.updatePhone({phone:params.phone,superviseId:params.superviseId},(error,result)=>{
-        if (error) {
-            logger.error(' updatePhone ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+    oAuthUtil.getSignCode({phone:params.phone},(error,result)=>{
+        if(error){
+            logger.error(' sendPswdSms ' + error.message);
+            resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            return next();
         }else{
-            logger.info(' updatePhone ' + 'success');
-            resUtil.resetUpdateRes(res,result,null);
-            return next();}
+            if(result.result.code==params.signCode){
+                superviseDao.updatePhone(params,(error,result)=>{
+                    if(error){
+                        logger.error('updatePhone' + error.message);
+                        throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                    }else{
+                        logger.info('updatePhone' + 'success');
+                        resUtil.resetUpdateRes(res,result,null);
+                        return next();
+                    }
+                })
+            }else{
+                logger.warn('getSignCode' + '验证失败');
+                resUtil.resetFailedRes(res,'验证失败',null);
+                return next();
+            }
+        }
     })
 }
 module.exports = {

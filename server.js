@@ -96,7 +96,7 @@ function createServer() {
     server.get('/api/supervise/:superviseId',supervise.querySupervise);
     server.put({path:'/api/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
-    server.put({path:'/api/supervise/:superviseId/phone/:phone',contentType: 'application/json'},supervise.changeSupervisePhone);
+    server.put({path:'/api/supervise/:superviseId/changeSupervisePhone',contentType: 'application/json'},supervise.changeSupervisePhone);
     //手机发送验证码
     /**
      check_car_info
@@ -119,7 +119,7 @@ function createServer() {
     server.put({path:'/api/user/:userId/updateUser',contentType: 'application/json'},user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'},user.updatePassword);
     server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
-    server.put({path:'/api/user/:userId/phone/:phone/signCode/:signCode',contentType: 'application/json'},user.updatePhone);
+    server.put({path:'/api/user/:userId/updateUserPhone',contentType: 'application/json'},user.updatePhone);
     /**
      user_car
      */
