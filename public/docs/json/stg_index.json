@@ -2084,6 +2084,85 @@
           }
         }
       }
+    },
+    "/addUserShipAddress": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user addUserShipAddress ",
+        "description": "user addUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "addUserShipAddress",
+            "in": "body",
+            "description": "updateUserPhone",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addUserShipAddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/addUserShipAddress"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/queryUserShipAddress": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user getUserShipAddress ",
+        "description": "user getUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userShipAddressId",
+            "in": "query",
+            "description": "userShipAddressId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getUserShipAddress"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -2481,6 +2560,29 @@
       },
       "xml": {
         "name": "userDevice"
+      }
+    },
+    "addUserShipAddress": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "integer"
+        },
+        "address": {
+          "type": "string"
+        },
+        "detailAddress": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "addUserShipAddress"
       }
     }
   }

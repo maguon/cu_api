@@ -12,6 +12,7 @@ const app = require('./bl/App.js');
 const userDevice = require('./bl/UserDevice.js');
 const sms = require('./bl/Sms.js');
 const adminUser = require('./bl/AdminUser.js');
+const userShipAddress = require('./bl/UserShipAddress.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -121,8 +122,11 @@ function createServer() {
     server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
     server.put({path:'/api/admin/:adminId/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
     server.put({path:'/api/user/:userId/updateUserPhone',contentType: 'application/json'},user.updatePhone);
-    server.get('/api/user/:userId/queryUserShipAddress',user.queryUser);
-    //server.post({path:'/api/userLogin',contentType: 'application/json'},user.addUserShipAddress);
+    /**
+     user_ship_address
+     */
+    server.get('/api/user/:userId/queryUserShipAddress',userShipAddress.getUserShipAddress);
+    server.post({path:'/api/addUserShipAddress',contentType: 'application/json'},userShipAddress.addUserShipAddress);
     /**
      user_car
      */
