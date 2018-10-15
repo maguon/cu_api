@@ -114,6 +114,36 @@ const updateStatus=(params,callback)=>{
         callback(error,rows);
     });
 }
+const updateType=(params,callback)=>{
+    let query = "update user_info set auth_status = ? where id = ? ";
+    let paramsArray =[],i=0;
+    paramsArray[i++] = params.authStatus;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateType');
+        callback(error,rows);
+    });
+}
+const updateAuthTime=(params,callback)=>{
+    let query = "update user_info set auth_time = ? where id = ? ";
+    let paramsArray =[],i=0;
+    paramsArray[i++] = params.myDate;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateType');
+        callback(error,rows);
+    });
+}
+const updateCreatedTime=(params,callback)=>{
+    let query = "update user_info set created_on = ? where id = ? ";
+    let paramsArray =[],i=0;
+    paramsArray[i++] = params.myDate;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateType');
+        callback(error,rows);
+    });
+}
 module.exports = {
     queryUser,
     createUser,
@@ -121,5 +151,8 @@ module.exports = {
     updateUser,
     updatePassword,
     updatePhone,
-    updateStatus
+    updateStatus,
+    updateType,
+    updateAuthTime,
+    updateCreatedTime
 }

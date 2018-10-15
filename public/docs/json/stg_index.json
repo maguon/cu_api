@@ -1162,7 +1162,7 @@
         }
       }
     },
-    "/admin/{admin}/user/{userId}/wechatStatus/{wechatStatus}": {
+    "/admin/{adminId}/user/{userId}/wechatStatus/{wechatStatus}": {
       "put": {
         "tags": [
           "user"
@@ -1202,6 +1202,55 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/status"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/user/{userId}/authStatus/{authStatus}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user update status",
+        "description": "user update status",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "authStatus",
+            "in": "path",
+            "description": "authStatus",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/wechatType"
               }
             }
           },
@@ -1274,6 +1323,13 @@
             "type": "integer"
           },
           {
+            "name": "userCarId",
+            "in": "query",
+            "description": "userCarId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "start",
             "in": "query",
             "description": "start",
@@ -1330,62 +1386,6 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/queryUserCarNumById"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid admin id"
-          }
-        }
-      }
-    },
-    "/user/{userId}/queryUserCar/{userCarId}/userCar": {
-      "get": {
-        "tags": [
-          "userCar"
-        ],
-        "summary": "userCar ",
-        "description": "userCar",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user info",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "userCarId",
-            "in": "path",
-            "description": "userCarId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "start",
-            "in": "query",
-            "description": "start",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "size",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/phone"
               }
             }
           },
@@ -1560,7 +1560,7 @@
         }
       }
     },
-    "/user/{userId}/addMessage": {
+    "/superviseName/{superviseName}/addMessage": {
       "post": {
         "tags": [
           "userMessage"
@@ -1572,11 +1572,11 @@
         ],
         "parameters": [
           {
-            "name": "userId",
+            "name": "superviseName",
             "in": "path",
-            "description": "userId",
+            "description": "superviseName",
             "required": true,
-            "type": "integer"
+            "type": "string"
           },
           {
             "name": "addMessage",
@@ -1623,6 +1623,41 @@
             "type": "integer"
           },
           {
+            "name": "userMessageId",
+            "in": "query",
+            "description": "userMessageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "messageName",
+            "in": "query",
+            "description": "messageName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "licensePlate",
+            "in": "query",
+            "description": "licensePlate",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdStartOn",
+            "in": "query",
+            "description": "createdStartOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdEndOn",
+            "in": "query",
+            "description": "createdEndOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "start",
             "in": "query",
             "description": "start",
@@ -1643,7 +1678,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/phone"
+                "$ref": "#/definitions/userMessage"
               }
             }
           },
@@ -2352,7 +2387,16 @@
     "addMessage": {
       "type": "object",
       "properties": {
-        "message": {
+        "userId": {
+          "type": "integer"
+        },
+        "messageName": {
+          "type": "string"
+        },
+        "messageOrder": {
+          "type": "string"
+        },
+        "licensePlate": {
           "type": "string"
         },
         "address": {

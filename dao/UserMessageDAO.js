@@ -6,10 +6,13 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addMessage = (params,callback) => {
-    let query = "insert into user_message(user_id,message,address)values(?,?,?)";
+    let query = "insert into user_message(user_id,supervise_name,message_name,message_order,license_plate,address)values(?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
-    paramsArray[i++] = params.message;
+    paramsArray[i++] = params.superviseName;
+    paramsArray[i++] = params.messageName;
+    paramsArray[i++] = params.messageOrder;
+    paramsArray[i++] = params.licensePlate;
     paramsArray[i] = params.address;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addMessage');
@@ -17,7 +20,7 @@ const addMessage = (params,callback) => {
     })
 }
 const getMessage = (params,callback) => {
-    let query = "select * from user_message where id is not null ";
+    let query = " select * from user_message where id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
@@ -26,6 +29,22 @@ const getMessage = (params,callback) => {
     if(params.userMessageId){
         paramsArray[i++] = params.userMessageId;
         query = query + " and id = ? ";
+    }
+    if(params.messageName){
+        paramsArray[i++] = params.messageName;
+        query = query + " and message_name = ? ";
+    }
+    if(params.licensePlate){
+        paramsArray[i++] = params.licensePlate;
+        query = query + " and license_plate = ? ";
+    }
+    if(params.createdStartOn){
+        paramsArray[i++] = params.createdStartOn;
+        query = query + " and created_on >= ? ";
+    }
+    if(params.createdEndOn){
+        paramsArray[i++] = params.createdEndOn;
+        query = query + " and created_on <= ? ";
     }
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);

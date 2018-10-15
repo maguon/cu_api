@@ -56,13 +56,35 @@ const updatePassword=(req,res,next)=>{
 }
 const updateStatus=(req,res,next)=>{
     let params = req.params;
-    new Promise.all(params)
     userDao.updateStatus(params,(error,result)=>{
         if(error){
             logger.error('updateStatus' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
+            if(params.wechatStatus==1){
+                let myDate = new Date();
+                params.myDate = myDate;
+                userDao.updateCreatedTime(params,(error,result));
+            }
             logger.info('updateStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
+const updateType=(req,res,next)=>{
+    let params = req.params;
+    userDao.updateType(params,(error,result)=>{
+        if(error){
+            logger.error('updateType' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            if(params.authStatus==1){
+                let myDate = new Date();
+                params.myDate = myDate;
+                userDao.updateAuthTime(params,(error,result));
+            }
+            logger.info('updateType' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -154,5 +176,6 @@ module.exports ={
     updateUser,
     updatePassword,
     updateStatus,
-    updatePhone
+    updatePhone,
+    updateType
 };

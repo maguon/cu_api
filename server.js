@@ -119,12 +119,14 @@ function createServer() {
     server.put({path:'/api/user/:userId/updateUser',contentType: 'application/json'},user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'},user.updatePassword);
     server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
+    server.put({path:'/api/admin/:adminId/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
     server.put({path:'/api/user/:userId/updateUserPhone',contentType: 'application/json'},user.updatePhone);
+    server.get('/api/user/:userId/queryUserShipAddress',user.queryUser);
+    //server.post({path:'/api/userLogin',contentType: 'application/json'},user.addUserShipAddress);
     /**
      user_car
      */
     server.get('/api/user/:userId/queryUserCar',userCar.queryUserCar);
-    server.get('/api/user/:userId/queryUserCar/:userCarId/userCar',userCar.queryUserCar);
     server.put({path:'/api/userCar/:userCarId/updatePaperRemark',contentType: 'application/json'},userCar.updatePaperRemark);
     server.post({path:'/api/user/:userId/addUserCar',contentType: 'application/json'},userCar.addUserCar);
     server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar);
@@ -132,7 +134,7 @@ function createServer() {
     /**
      user_message
      */
-    server.post({path:'/api/user/:userId/addMessage',contentType: 'application/json'},userMessage.addMessage);
+    server.post({path:'/api/superviseName/:superviseName/addMessage',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/getMessage/:userMessageId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/queryUserMessageNumById',userMessage.queryUserMessageNumById);
