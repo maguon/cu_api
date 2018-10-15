@@ -64,10 +64,12 @@ const getSuperviseInfo = (params,callback) => {
     })
 }
 const updateInfo = (params,callback) => {
-    let query = " update supervise_info set gender = ? ,phone = ? where id = ?";
+    let query = " update supervise_info set gender = ? ,status=?,user_name=?,type=? where id = ?";
     let paramsArray=[],i=0;
     paramsArray[i++] = params.gender;
-    paramsArray[i++] = params.phone;
+    paramsArray[i++] = params.status;
+    paramsArray[i++] = params.userName;
+    paramsArray[i++] = params.type;
     paramsArray[i] = params.superviseId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' updateInfo ');

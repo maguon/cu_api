@@ -94,7 +94,7 @@ function createServer() {
     server.post({path:'/api/admin/:adminId/supervise',contentType: 'application/json'},supervise.createSupervise);
     server.post({path:'/api/superviseLogin',contentType: 'application/json'},supervise.superviseLogin);
     server.get('/api/querySupervise',supervise.querySupervise);
-    server.put({path:'/api/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
+    server.put({path:'/api/supervise/:superviseId/updateSupervise',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
     server.put({path:'/api/supervise/:superviseId/changeSupervisePhone',contentType: 'application/json'},supervise.changeSupervisePhone);
     //手机发送验证码

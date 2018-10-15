@@ -39,8 +39,8 @@ const createSupervise = (req,res,next) => {
                 if(result && result.insertId>0){
                     logger.info(' createSupervise ' + 'success');
                     let user = {
-                        userId : result.insertId,
-                        userStatus : listOfValue.USER_STATUS_ACTIVE
+                        superviseId : result.insertId,
+                        status : listOfValue.USER_STATUS_ACTIVE
                     }
                     resUtil.resetQueryRes(res,user,null);
                 }else{
