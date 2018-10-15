@@ -5,12 +5,13 @@ const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('SuperviseDAO.js');
 
 const createSupervise = (params,callback) => {
-    let query = " insert into supervise_info (user_name,gender,password,status,phone) values ( ?,? , ? , ? , ?  )";
+    let query = " insert into supervise_info (user_name,gender,password,status,type,phone) values ( ?,? , ? , ? ,?, ?  )";
     let paramsArray=[],i=0;
     paramsArray[i++]=params.userName;
     paramsArray[i++]=params.gender;
     paramsArray[i++]=params.password;
     paramsArray[i++]=params.status;
+    paramsArray[i++]=params.type;
     paramsArray[i]=params.phone;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' createSupervise ');
@@ -28,8 +29,20 @@ const querySupervise = (params,callback) => {
         paramsArray[i++] = params.userName;
         query = query + " and user_name = ? ";
     }
+    if(params.gender){
+        paramsArray[i++] = params.gender;
+        query = query + " and gender = ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and status = ? ";
+    }
+    if(params.type){
+        paramsArray[i++] = params.type;
+        query = query + " and type = ? ";
+    }
     if(params.phone){
-        paramsArray[i++] = params.phone;
+        paramsArray[i] = params.phone;
         query = query + " and phone = ? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{

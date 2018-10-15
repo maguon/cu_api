@@ -252,7 +252,7 @@
         }
       }
     },
-    "/supervise": {
+    "/admin/{adminId}supervise": {
       "post": {
         "tags": [
           "supervise"
@@ -335,11 +335,45 @@
         "parameters": [
           {
             "name": "superviseId",
-            "in": "path",
+            "in": "query",
             "description": "superviseId",
-            "required": true,
+            "required": false,
             "type": "integer"
-
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "gender",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -447,7 +481,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/phone/{phone}": {
+    "/supervise/{superviseId}/changeSupervisePhone": {
       "put": {
         "tags": [
           "supervise"
@@ -466,11 +500,13 @@
             "type": "integer"
           },
           {
-            "name": "phone",
-            "in": "path",
-            "description": "phone",
+            "name": "changeSupervisePhone",
+            "in": "body",
+            "description": "changeSupervisePhone",
             "required": true,
-            "type": "string"
+            "schema": {
+              "$ref": "#/definitions/changeSupervisePhone"
+            }
           }
         ],
         "responses": {
@@ -1099,7 +1135,7 @@
         }
       }
     },
-    "/user/{userId}/phone/{phone}/signCode/{signCode}": {
+    "/user/{userId}/updateUserPhone": {
       "put": {
         "tags": [
           "user"
@@ -1118,18 +1154,13 @@
             "type": "integer"
           },
           {
-            "name": "phone",
-            "in": "path",
-            "description": "user info",
+            "name": "updateUserPhone",
+            "in": "body",
+            "description": "updateUserPhone",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "signCode",
-            "in": "path",
-            "description": "user signCode",
-            "required": true,
-            "type": "integer"
+            "schema": {
+              "$ref": "#/definitions/updateUserPhone"
+            }
           }
         ],
         "responses": {
@@ -1964,6 +1995,9 @@
         },
         "status": {
           "type": "integer"
+        },
+        "type": {
+          "type": "integer"
         }
       },
       "xml": {
@@ -2027,6 +2061,20 @@
       },
       "xml": {
         "name": "supervisePassword"
+      }
+    },
+    "changeSupervisePhone": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "signCode": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "changeSupervisePhone"
       }
     },
     "addCheckCar": {
@@ -2108,6 +2156,20 @@
       },
       "xml": {
         "name": "updateUser"
+      }
+    },
+    "updateUserPhone": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "signCode": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateUserPhone"
       }
     },
     "password": {

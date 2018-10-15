@@ -42,7 +42,6 @@ const createSupervise = (req,res,next) => {
                         userId : result.insertId,
                         userStatus : listOfValue.USER_STATUS_ACTIVE
                     }
-                    user.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.user,user.userId,user.userStatus);
                     resUtil.resetQueryRes(res,user,null);
                 }else{
                     logger.warn(' createSupervise ' + 'false');
