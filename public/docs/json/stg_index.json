@@ -251,7 +251,7 @@
         }
       }
     },
-    "/admin/{adminId}supervise": {
+    "/admin/{adminId}/supervise": {
       "post": {
         "tags": [
           "supervise"
@@ -328,7 +328,7 @@
         }
       }
     },
-    "/supervise/{superviseId}": {
+    "/querySupervise": {
       "get": {
         "tags": [
           "supervise"
@@ -356,21 +356,21 @@
           {
             "name": "gender",
             "in": "query",
-            "description": "gender",
+            "description": "gender,0男,1女",
             "required": false,
             "type": "integer"
           },
           {
             "name": "status",
             "in": "query",
-            "description": "status",
+            "description": "0停用1启用",
             "required": false,
             "type": "integer"
           },
           {
             "name": "type",
             "in": "query",
-            "description": "type",
+            "description": "0-n警员职务",
             "required": false,
             "type": "integer"
           },
@@ -396,13 +396,15 @@
             "description": "Invalid token value or invalid supervise id"
           }
         }
-      },
+      }
+    },
+    "/supervise/{superviseId}/updateSupervise": {
       "put": {
         "tags": [
           "supervise"
         ],
-        "summary": "update supervise user info",
-        "description": "update supervise user info",
+        "summary": "update supervise info",
+        "description": "update supervise info",
         "produces": [
           "application/json"
         ],
@@ -413,7 +415,6 @@
             "description": "supervise Id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "supervise",
@@ -423,7 +424,6 @@
             "schema": {
               "$ref": "#/definitions/supervise"
             }
-
           }
         ],
         "responses": {
@@ -2016,11 +2016,14 @@
         "gender": {
           "type": "integer"
         },
-        "phone": {
-          "type": "string"
-        },
         "status": {
           "type": "integer"
+        },
+        "type": {
+          "type": "integer"
+        },
+        "userName": {
+          "type": "string"
         }
       },
       "xml": {
