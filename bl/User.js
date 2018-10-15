@@ -70,34 +70,33 @@ const updateStatus=(req,res,next)=>{
 };
 const updatePhone=(req,res,next)=>{
     let params = req.params;
-    let captcha = "";
-    captcha = encrypt.getSmsRandomKey();
-    oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
-        if (error) {
+    oauthUtil.getSignCode({phone:params.phone},(error,result)=>{
+        if(error){
             logger.error(' sendPswdSms ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             return next();
-        } else {
-            let message = {
-                phone:result.phone,
-                code:result
+        }else{
+            console.log(result.result.code);
+            if(result.result.code==params.signCode){
+                userDao.updatePhone(params,(error,result)=>{
+                    if(error){
+                        logger.error('updatePhone' + error.message);
+                        throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                    }else{
+                        logger.info('updatePhone' + 'success');
+                        resUtil.resetUpdateRes(res,result,null);
+                        return next();
+                    }
+                })
+            }else{
+                logger.warn('updatePhone' + '验证失败');
+                resUtil.resetFailedRes(res,'验证失败',null);
+                return next();
             }
-            logger.info('updatePhone' + 'success');
-            resUtil.resetQueryRes(res,message,null);
-            return next();
         }
     })
-    userDao.updatePhone(params,(error,result)=>{
-        if(error){
-            logger.error('updatePhone' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-        }else{
-            logger.info('updatePhone' + 'success');
-            resUtil.resetUpdateRes(res,result,null);
-            return next();
-        }
-    });
-};
+
+}
 const queryUser = (req,res,next)=>{
     let params = req.params;
     userDao.queryUser(params,(error,result)=>{

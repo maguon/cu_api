@@ -28,7 +28,10 @@ const mongoConfig = {
 }
 
 const hosts = {
-    auth:"stg.myxxjs.com:9009"
+    auth:{
+        host :"stg.myxxjs.com",
+        port : 9009
+    }
 }
 
 const wechatConfig = {

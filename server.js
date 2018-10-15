@@ -119,7 +119,7 @@ function createServer() {
     server.put({path:'/api/user/:userId/updateUser',contentType: 'application/json'},user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'},user.updatePassword);
     server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
-    server.put({path:'/api/user/:userId/phone/:phone',contentType: 'application/json'},user.updatePhone);
+    server.put({path:'/api/user/:userId/phone/:phone/signCode/:signCode',contentType: 'application/json'},user.updatePhone);
     /**
      user_car
      */

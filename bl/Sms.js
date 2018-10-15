@@ -13,29 +13,18 @@ let logger = serverLogger.createLogger('Sms.js');
 const sendPswdSms=(req,res,next)=>{
     let params = req.params;
     let captcha = "";
-    new Promise((resolve,reject)=>{
-        captcha = encrypt.getSmsRandomKey();
-        oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
-            if(error){
-                logger.error(' sendPswdSms ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
-                return next();
-            }else{
-                resolve();
-            }
-        })
-    }).then(()=>{
-        smsDAO.sendSms({phone:params.phone,captcha:captcha,templateId:smsConfig.smsOptions.signTemplateId},(error,result)=>{
-            if(error){
-                logger.error(' sendPswdSms ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
-                return next();
-            }else{
-                logger.info(' sendPswdSms ' + 'success');
-                resUtil.resetCreateRes(res,{insertId:1},null);
-                return next();
-            }
-        })
+    captcha = encrypt.getSmsRandomKey();
+    console.log(captcha)
+    oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
+        if(error){
+            logger.error(' sendPswdSms ' + error.message);
+            resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            return next();
+        }else{
+            logger.info('saveSignCode' + 'success');
+            resUtil.resetCreateRes(res,result,null);
+            return next();
+        }
     })
 }
 module.exports={

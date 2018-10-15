@@ -1,9 +1,6 @@
-
-/**
- * Created by ibm on 14-3-25.
- */
 'use strict';
 let serializer = require('serializer');
+let httpUtil = require('./HttpUtil.js');
 let serverLogger = require('./ServerLogger.js');
 let systemConfig = require('../config/SystemConfig.js');
 let logger = serverLogger.createLogger('OAuthUtil.js');

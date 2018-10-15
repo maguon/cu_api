@@ -1099,7 +1099,7 @@
         }
       }
     },
-    "/user/{userId}/phone/{phone}": {
+    "/user/{userId}/phone/{phone}/signCode/{signCode}": {
       "put": {
         "tags": [
           "user"
@@ -1123,6 +1123,13 @@
             "description": "user info",
             "required": true,
             "type": "string"
+          },
+          {
+            "name": "signCode",
+            "in": "path",
+            "description": "user signCode",
+            "required": true,
+            "type": "integer"
           }
         ],
         "responses": {
