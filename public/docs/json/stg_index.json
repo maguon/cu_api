@@ -932,7 +932,7 @@
         }
       }
     },
-    "/user/{userId}/queryUser": {
+    "/queryUser": {
       "get": {
         "tags": [
           "user"
@@ -945,9 +945,65 @@
         "parameters": [
           {
             "name": "userId",
-            "in": "path",
-            "description": "user id",
-            "required": true,
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "wechatName",
+            "in": "query",
+            "description": "wechatName",
+            "required": false,
+            "type":"string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type":"string"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type":"string"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "gender",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "authStartTime",
+            "in": "query",
+            "description": "authStartTime",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "authEndTime",
+            "in": "query",
+            "description": "authEndTime",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "wechatStatus",
+            "in": "query",
+            "description": "0取消1关注",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "authStatus",
+            "in": "query",
+            "description": "0未认证1已认证",
+            "required": false,
             "type":"integer"
           },
           {
@@ -1248,6 +1304,41 @@
         }
       }
     },
+    "/user/{userId}/queryUserCarNumById": {
+      "get": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar ",
+        "description": "userCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/queryUserCarNumById"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/user/{userId}/queryUserCar/{userCarId}/userCar": {
       "get": {
         "tags": [
@@ -1425,6 +1516,41 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/delUserCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/queryUserMessageNumById": {
+      "get": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": "userCar ",
+        "description": "userCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/queryUserMessageNumById"
               }
             }
           },

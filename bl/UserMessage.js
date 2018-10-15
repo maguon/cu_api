@@ -32,7 +32,21 @@ const getMessage = (req,res,next)=>{
         }
     });
 };
+const queryUserMessageNumById = (req,res,next)=>{
+    let params = req.params;
+    userMessageDAO.queryUserMessageNumById(params,(error,result)=>{
+        if(error){
+            logger.error('queryUserMessageNumById' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('queryUserMessageNumById' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     addMessage,
-    getMessage
+    getMessage,
+    queryUserMessageNumById
 }

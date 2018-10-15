@@ -64,9 +64,31 @@ const delUserCar = (params,callback) => {
         callback(error,rows);
     })
 }
+const queryUserCarNumById = (params,callback) => {
+    let query = "select count(id) from user_car where id is not null ";
+    let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and user_id = ? ";
+    }
+    if(params.userCarId){
+        paramsArray[i++] = params.userCarId;
+        query = query + " and id = ? ";
+    }
+    if(params.start&&params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?, ? ";
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('queryUserCarNumById');
+        callback(error,rows);
+    })
+}
 module.exports = {
     queryUserCar,
     updatePaperRemark,
     addUserCar,
-    delUserCar
+    delUserCar,
+    queryUserCarNumById
 }

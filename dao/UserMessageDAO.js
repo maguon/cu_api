@@ -37,7 +37,20 @@ const getMessage = (params,callback) => {
         callback(error,rows);
     })
 }
+const queryUserMessageNumById = (params,callback) => {
+    let query = "select count(id) from user_message where id is not null ";
+    let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and user_id = ? ";
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('queryUserMessageNumById');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addMessage,
-    getMessage
+    getMessage,
+    queryUserMessageNumById
 }

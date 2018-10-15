@@ -58,9 +58,23 @@ const delUserCar = (req,res,next)=>{
         }
     });
 };
+const queryUserCarNumById = (req,res,next)=>{
+    let params = req.params;
+    userCarDao.queryUserCarNumById(params,(error,result)=>{
+        if(error){
+            logger.error('queryUserCarNumById' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('queryUserCarNumById' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     queryUserCar,
     updatePaperRemark,
     addUserCar,
-    delUserCar
+    delUserCar,
+    queryUserCarNumById
 }

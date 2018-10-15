@@ -113,7 +113,7 @@ function createServer() {
     /**
      user_info
      */
-    server.get('/api/user/:userId/queryUser',user.queryUser);
+    server.get('/api/queryUser',user.queryUser);
     //server.post({path:'/api/wechatLogin',contentType: 'application/json'},user.userLogin);
     server.post({path:'/api/userLogin',contentType: 'application/json'},user.userLogin);
     server.put({path:'/api/user/:userId/updateUser',contentType: 'application/json'},user.updateUser);
@@ -128,13 +128,14 @@ function createServer() {
     server.put({path:'/api/userCar/:userCarId/updatePaperRemark',contentType: 'application/json'},userCar.updatePaperRemark);
     server.post({path:'/api/user/:userId/addUserCar',contentType: 'application/json'},userCar.addUserCar);
     server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar);
-
+    server.get('/api/user/:userId/queryUserCarNumById',userCar.queryUserCarNumById);
     /**
      user_message
      */
     server.post({path:'/api/user/:userId/addMessage',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/getMessage/:userMessageId/getMessage',userMessage.getMessage);
+    server.get('/api/user/:userId/queryUserMessageNumById',userMessage.queryUserMessageNumById);
     /**
      * App Module
      */

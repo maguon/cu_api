@@ -10,16 +10,41 @@ const queryUser = (params,callback) => {
         paramsArray[i++] = params.userId;
         query = query + " and id = ? ";
     }
-    if(params.userName){
-        query = query + " and user_name like '%"+params.userName+"%'";
+    if(params.wechatName){
+        query = query + " and wechat_name like '%"+params.wechatName+"%'";
     }
     if(params.phone){
-        paramsArray[i] = params.phone;
+        paramsArray[i++] = params.phone;
         query = query + " and password = ? "
     }
-    if(params.wechatId){
-        paramsArray[i] = params.wechatId;
-        query = query + " and wechat_id = ? "
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and user_name = ? "
+    }
+    if(params.gender){
+        paramsArray[i++] = params.gender;
+        query = query + " and gender = ? "
+    }
+    if(params.authStartTime){
+        paramsArray[i++] = params.authStartTime;
+        query = query + " and auth_time >= ? "
+    }
+    if(params.authEndTime){
+        paramsArray[i++] = params.authEndTime;
+        query = query + " and auth_time <= ? "
+    }
+    if(params.wechatStatus){
+        paramsArray[i++] = params.wechatStatus;
+        query = query + " and wechat_status = ? "
+    }
+    if(params.authStatus){
+        paramsArray[i++] = params.authStatus;
+        query = query + " and auth_status = ? "
+    }
+    if(params.start&&params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?, ? "
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('queryUser');
