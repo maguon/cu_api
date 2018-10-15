@@ -42,8 +42,13 @@ const querySupervise = (params,callback) => {
         query = query + " and type = ? ";
     }
     if(params.phone){
-        paramsArray[i] = params.phone;
+        paramsArray[i++] = params.phone;
         query = query + " and phone = ? ";
+    }
+    if(params.start&&params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?, ? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' querySupervise ');
