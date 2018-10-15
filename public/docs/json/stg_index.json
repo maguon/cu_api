@@ -223,7 +223,6 @@
             "description": "admin Id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "password",
@@ -263,6 +262,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "createSupervise",
             "in": "body",
