@@ -145,8 +145,7 @@ const userLogin = (req,res,next)=>{
                     let resObj ={
                         userId: rows[0].id,
                         userName:rows[0].user_name,
-                        wechatId: rows[0].wechat_id,
-                        phone : rows[0].phone
+                        wechatId: rows[0].wechat_id
                     };
                     resUtil.resetQueryRes(res,resObj,null);
                     var myDate = new Date();
@@ -157,7 +156,7 @@ const userLogin = (req,res,next)=>{
             }
         })
     }).then(()=>{
-        userDao.createUser({wechatId:params.wechatId},(error,result)=>{
+        userDao.createUser(params,(error,result)=>{
             if(error) {
                 logger.error('createUser' + error.message);
                 throw sysError.InternalError(error.message, sysMsg.SYS_INTERNAL_ERROR_MSG);

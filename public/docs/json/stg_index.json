@@ -2651,7 +2651,7 @@
         "gender": {
           "type": "integer"
         },
-        "phone": {
+        "avatarImage": {
           "type": "string"
         }
       },
