@@ -6,7 +6,7 @@ const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('User.js');
 const userDao = require('../dao/UserInfoDAO.js');
 const encrypt = require('../util/Encrypt.js');
-let oauthUtil = require('../util/OAuthUtil.js');
+const oauthUtil = require('../util/OAuthUtil.js');
 
 const updateUser = (req,res,next)=>{
     let params = req.params;
