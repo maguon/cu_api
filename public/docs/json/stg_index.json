@@ -2513,6 +2513,9 @@
         },
         "phone": {
           "type": "string"
+        },
+        "avatarImage": {
+          "type": "string"
         }
       },
       "xml": {

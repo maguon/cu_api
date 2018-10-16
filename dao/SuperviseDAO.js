@@ -69,8 +69,9 @@ const getSuperviseInfo = (params,callback) => {
     })
 }
 const updateInfo = (params,callback) => {
-    let query = " update supervise_info set gender = ? ,user_name=?,type=?,phone=? where id = ?";
+    let query = " update supervise_info set avatar_image=?,gender = ? ,user_name=?,type=?,phone=? where id = ?";
     let paramsArray=[],i=0;
+    paramsArray[i++] = params.avatarImage;
     paramsArray[i++] = params.gender;
     paramsArray[i++] = params.userName;
     paramsArray[i++] = params.type;
