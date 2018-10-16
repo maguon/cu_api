@@ -20,7 +20,7 @@ const addMessage = (params,callback) => {
     })
 }
 const getMessage = (params,callback) => {
-    let query = " select * from user_message where id is not null  ";
+    let query = " select *,count(*) as noReadNum from user_message where id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
@@ -33,6 +33,10 @@ const getMessage = (params,callback) => {
     if(params.messageName){
         paramsArray[i++] = params.messageName;
         query = query + " and message_name = ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and status = ? ";
     }
     if(params.licensePlate){
         paramsArray[i++] = params.licensePlate;
@@ -68,8 +72,20 @@ const queryUserMessageNumById = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateUserMessageStatus = (params,callback) => {
+    let query = "update user_message set status = ? where user_id=? and id=? ";
+    let paramsArray = [],i=0;
+        paramsArray[i++] = params.status;
+        paramsArray[i++] = params.userId;
+        paramsArray[i] = params.userMessageId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateUserMessageStatus');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addMessage,
     getMessage,
-    queryUserMessageNumById
+    queryUserMessageNumById,
+    updateUserMessageStatus
 }

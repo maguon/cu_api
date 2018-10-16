@@ -135,6 +135,19 @@ const updateSuperviseInfo = (req,res,next) => {
         }
     })
 }
+const updateSuperviseStatus = (req,res,next) => {
+    let params = req.params;
+    superviseDao.updateSuperviseStatus(params,(error,result)=>{
+        if (error) {
+            logger.error(' updateSuperviseStatus ' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        } else {
+            logger.info(' updateSuperviseStatus ' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    })
+}
 const changeSupervisePassword = (req,res,next) => {
     let params = req.params;
     new Promise((resolve,reject) => {
@@ -204,5 +217,6 @@ module.exports = {
     getSuperviseInfo,
     updateSuperviseInfo,
     changeSupervisePassword,
-    changeSupervisePhone
+    changeSupervisePhone,
+    updateSuperviseStatus
 }

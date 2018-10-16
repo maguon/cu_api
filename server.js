@@ -95,7 +95,8 @@ function createServer() {
     server.post({path:'/api/admin/:adminId/supervise',contentType: 'application/json'},supervise.createSupervise);
     server.post({path:'/api/superviseLogin',contentType: 'application/json'},supervise.superviseLogin);
     server.get('/api/querySupervise',supervise.querySupervise);
-    server.put({path:'/api/supervise/:superviseId/updateSupervise',contentType: 'application/json'},supervise.updateSuperviseInfo);
+    server.put({path:'/api/admin/:adminId/supervise/:superviseId/updateSuperviseStatus/:status',contentType: 'application/json'},supervise.updateSuperviseStatus);
+    server.put({path:'/api/admin/:adminId/supervise/:superviseId/updateSupervise',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
     server.put({path:'/api/supervise/:superviseId/changeSupervisePhone',contentType: 'application/json'},supervise.changeSupervisePhone);
     //手机发送验证码
@@ -140,8 +141,8 @@ function createServer() {
      */
     server.post({path:'/api/superviseName/:superviseName/addMessage',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
-    server.get('/api/user/:userId/getMessage/:userMessageId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/queryUserMessageNumById',userMessage.queryUserMessageNumById);
+    server.put({path:'/api/user/:userId/userMessage/:userMessageId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
     /**
      * App Module
      */

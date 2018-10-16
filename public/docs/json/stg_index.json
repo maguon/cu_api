@@ -412,7 +412,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/updateSupervise": {
+    "/admin/{adminId}/supervise/{superviseId}/updateSuperviseStatus/{status}": {
       "put": {
         "tags": [
           "supervise"
@@ -423,6 +423,62 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "supervise Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "updateSuperviseStatus",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/supervise"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/supervise/{superviseId}/updateSupervise": {
+      "put": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "update supervise info",
+        "description": "update supervise info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "superviseId",
             "in": "path",
@@ -1604,6 +1660,55 @@
         }
       }
     },
+    "/user/{userId}/userMessage/{userMessageId}/status/{status}": {
+      "put": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": "userMessage add ",
+        "description": "userMessage add ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userMessageId",
+            "in": "path",
+            "description": "userMessageId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "status",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateUserMessageStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/user/{userId}/getMessage": {
       "get": {
         "tags": [
@@ -1626,6 +1731,13 @@
             "name": "userMessageId",
             "in": "query",
             "description": "userMessageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "0未读1已读",
             "required": false,
             "type": "integer"
           },
@@ -1679,62 +1791,6 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/userMessage"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid admin id"
-          }
-        }
-      }
-    },
-    "/user/{userId}/getMessage/{userMessageId}/getMessage": {
-      "get": {
-        "tags": [
-          "userMessage"
-        ],
-        "summary": "userMessage ",
-        "description": "userMessage",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user info",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "userMessageId",
-            "in": "path",
-            "description": "userCarId",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "start",
-            "in": "query",
-            "description": "start",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "size",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/phone"
               }
             }
           },
@@ -2270,13 +2326,13 @@
         "gender": {
           "type": "integer"
         },
-        "status": {
-          "type": "integer"
-        },
         "type": {
           "type": "integer"
         },
         "userName": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         }
       },

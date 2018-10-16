@@ -69,15 +69,25 @@ const getSuperviseInfo = (params,callback) => {
     })
 }
 const updateInfo = (params,callback) => {
-    let query = " update supervise_info set gender = ? ,status=?,user_name=?,type=? where id = ?";
+    let query = " update supervise_info set gender = ? ,user_name=?,type=?,phone=? where id = ?";
     let paramsArray=[],i=0;
     paramsArray[i++] = params.gender;
-    paramsArray[i++] = params.status;
     paramsArray[i++] = params.userName;
     paramsArray[i++] = params.type;
+    paramsArray[i++] = params.phone;
     paramsArray[i] = params.superviseId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' updateInfo ');
+        return callback(error,rows);
+    });
+}
+const updateSuperviseStatus = (params,callback) => {
+    let query = " update supervise_info set status=? where id = ?";
+    let paramsArray=[],i=0;
+    paramsArray[i++] = params.status;
+    paramsArray[i] = params.superviseId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' updateSuperviseStatus ');
         return callback(error,rows);
     });
 }
@@ -107,5 +117,6 @@ module.exports = {
     getSuperviseInfo,
     updateInfo,
     updatePassword,
-    updatePhone
+    updatePhone,
+    updateSuperviseStatus
 }

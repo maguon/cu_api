@@ -45,8 +45,22 @@ const queryUserMessageNumById = (req,res,next)=>{
         }
     });
 };
+const updateUserMessageStatus = (req,res,next)=>{
+    let params = req.params;
+    userMessageDAO.updateUserMessageStatus(params,(error,result)=>{
+        if(error){
+            logger.error('updateUserMessageStatus' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateUserMessageStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     addMessage,
     getMessage,
-    queryUserMessageNumById
+    queryUserMessageNumById,
+    updateUserMessageStatus
 }
