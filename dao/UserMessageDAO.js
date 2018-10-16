@@ -20,7 +20,7 @@ const addMessage = (params,callback) => {
     })
 }
 const getMessage = (params,callback) => {
-    let query = " select *,count(*) as noReadNum from user_message where id is not null  ";
+    let query = " select * from user_message where id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
