@@ -67,6 +67,10 @@ const queryUserMessageNumById = (params,callback) => {
         paramsArray[i++] = params.userId;
         query = query + " and user_id = ? ";
     }
+    if(params.status){
+        paramsArray[i] = params.status;
+        query = query + " and status = ? ";
+    }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('queryUserMessageNumById');
         callback(error,rows);
