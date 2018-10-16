@@ -1918,7 +1918,56 @@
             }
           },
           "400": {
-            "description": "Invalid token value or invalid admin id"
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/userOrder/{userOrderId}/status/{status}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "update userOrder status ",
+        "description": "update userOrder status ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userOrderId",
+            "in": "path",
+            "description": "userOrderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "status",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateUserOrderStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
           }
         }
       }

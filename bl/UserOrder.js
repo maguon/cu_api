@@ -32,7 +32,21 @@ const getOrder = (req,res,next)=>{
         }
     });
 }
+const updateOrderStatus = (req,res,next)=>{
+    let params = req.params;
+    userOrderDAO.updateOrderStatus(params,(error,result)=>{
+        if(error){
+            logger.error('updateOrderStatus' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateOrderStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
 module.exports = {
     addOrder,
-    getOrder
+    getOrder,
+    updateOrderStatus
 }

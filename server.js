@@ -151,6 +151,7 @@ function createServer() {
      */
     server.post({path:'/api/user/:userId/addOrder',contentType: 'application/json'},userOrder.addOrder);
     server.get('/api/user/:userId/getOrder',userOrder.getOrder);
+    server.put({path:'/api/user/:userId/userOrder/:userOrderId/status/:status',contentType: 'application/json'},userOrder.updateOrderStatus);
     /**
      * App Module
      */

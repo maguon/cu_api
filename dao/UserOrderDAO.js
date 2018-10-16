@@ -33,7 +33,19 @@ const getOrder = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateOrderStatus = (params,callback) => {
+    let query = "update user_order set status = ? where user_id=? and id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.status;
+    paramsArray[i++] = params.userId;
+    paramsArray[i] = params.userOrderId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateOrderStatus');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addOrder,
-    getOrder
+    getOrder,
+    updateOrderStatus
 }
