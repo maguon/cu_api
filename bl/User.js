@@ -144,7 +144,7 @@ const userLogin = (req,res,next)=>{
                 }else{
                     let resObj ={
                         userId: rows[0].id,
-                        userName:rows[0].user_name,
+                        wechatName:rows[0].wechat_name,
                         wechatId: rows[0].wechat_id
                     };
                     resUtil.resetQueryRes(res,resObj,null);

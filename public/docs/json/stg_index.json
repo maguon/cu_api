@@ -2639,7 +2639,7 @@
     "userLogin": {
       "type": "object",
       "properties": {
-        "userName": {
+        "wechatName": {
           "type": "string"
         },
         "wechatId": {
