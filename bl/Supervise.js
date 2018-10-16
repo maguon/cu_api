@@ -210,6 +210,34 @@ const changeSupervisePhone = (req,res,next) => {
         }
     })
 }
+const changeSupervisePasswordByPhone = (req,res,next) => {
+    let params = req.params;
+    oAuthUtil.getSignCode({phone:params.phone},(error,result)=>{
+        if(error){
+            logger.error(' sendPswdSms ' + error.message);
+            resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            return next();
+        }else{
+            if(result.result.code==params.signCode){
+                params.password = encrypt.encryptByMd5(params.password);
+                superviseDao.updatePassword(params,(error,result)=>{
+                    if(error){
+                        logger.error('updatePassword' + error.message);
+                        throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                    }else{
+                        logger.info('updatePassword' + 'success');
+                        resUtil.resetUpdateRes(res,result,null);
+                        return next();
+                    }
+                })
+            }else{
+                logger.warn('getSignCode' + '验证失败');
+                resUtil.resetFailedRes(res,'验证失败',null);
+                return next();
+            }
+        }
+    })
+}
 module.exports = {
     createSupervise,
     superviseLogin,
@@ -218,5 +246,6 @@ module.exports = {
     updateSuperviseInfo,
     changeSupervisePassword,
     changeSupervisePhone,
-    updateSuperviseStatus
+    updateSuperviseStatus,
+    changeSupervisePasswordByPhone
 }

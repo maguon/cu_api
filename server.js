@@ -100,6 +100,8 @@ function createServer() {
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
     server.put({path:'/api/supervise/:superviseId/changeSupervisePhone',contentType: 'application/json'},supervise.changeSupervisePhone);
     //手机发送验证码
+    server.put({path:'/api/changeSupervisePasswordByPhone',contentType: 'application/json'},supervise.changeSupervisePasswordByPhone);
+
     /**
      check_car_info
      */

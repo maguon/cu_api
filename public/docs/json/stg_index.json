@@ -601,6 +601,43 @@
         }
       }
     },
+    "/changeSupervisePasswordByPhone": {
+      "put": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "update supervise  pswd",
+        "description": "update supervise  pswd",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "changeSupervisePasswordByPhone",
+            "in": "body",
+            "description": "changeSupervisePasswordByPhone",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/changeSupervisePasswordByPhone"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/supervise"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
     "/supervise/{superviseId}/userCar": {
       "get": {
         "tags": [
@@ -2394,6 +2431,23 @@
       },
       "xml": {
         "name": "changeSupervisePhone"
+      }
+    },
+    "changeSupervisePasswordByPhone": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "signCode": {
+          "type": "integer"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "changeSupervisePasswordByPhone"
       }
     },
     "addCheckCar": {
