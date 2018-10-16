@@ -13,6 +13,7 @@ const userDevice = require('./bl/UserDevice.js');
 const sms = require('./bl/Sms.js');
 const adminUser = require('./bl/AdminUser.js');
 const userShipAddress = require('./bl/UserShipAddress.js');
+const userOrder = require('./bl/UserOrder.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -145,6 +146,11 @@ function createServer() {
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/queryUserMessageNumById',userMessage.queryUserMessageNumById);
     server.put({path:'/api/user/:userId/userMessage/:userMessageId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
+    /**
+     user_order
+     */
+    server.post({path:'/api/user/:userId/addOrder',contentType: 'application/json'},userOrder.addOrder);
+    server.get('/api/user/:userId/getOrder',userOrder.getOrder);
     /**
      * App Module
      */

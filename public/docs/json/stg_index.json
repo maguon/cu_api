@@ -1837,6 +1837,92 @@
         }
       }
     },
+    "/user/{userId}/addOrder": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "userOrder add ",
+        "description": "userOrder add ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "addOrder",
+            "in": "body",
+            "description": "addOrder",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/addOrder"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/getOrder": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "userOrder get ",
+        "description": "userOrder get ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userOrderId",
+            "in": "query",
+            "description": "userOrderId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getOrder"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/app": {
       "get": {
         "tags": [
@@ -2693,6 +2779,20 @@
       },
       "xml": {
         "name": "addUserShipAddress"
+      }
+    },
+    "addOrder": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "addOrder"
       }
     }
   }
