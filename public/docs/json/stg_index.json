@@ -2984,7 +2984,7 @@
           "type": "integer"
         },
         "gender": {
-          "type": "string"
+          "type": "integer"
         }
       },
       "xml": {
