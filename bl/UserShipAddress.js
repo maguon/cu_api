@@ -32,7 +32,28 @@ const getUserShipAddress = (req,res,next)=>{
         }
     });
 };
+const updateUserShipAddress = (req,res,next)=>{
+    let params = req.params;
+    userShipAddressDAO.updateUserShipAddress(params,(error,result)=>{
+        if(error){
+            logger.error('updateUserShipAddress' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            userShipAddressDAO.updateUserShipAddressById(params,(error,result)=>{
+                if(error){
+                    logger.error('updateUserShipAddressById' + error.message);
+                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                }else{
+                    logger.info('updateUserShipAddressById' + 'success');
+                    resUtil.resetUpdateRes(res,result,null);
+                    return next();
+                }
+            })
+        }
+    });
+};
 module.exports = {
     addUserShipAddress,
-    getUserShipAddress
+    getUserShipAddress,
+    updateUserShipAddress
 }

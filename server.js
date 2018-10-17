@@ -132,6 +132,7 @@ function createServer() {
      */
     server.get('/api/user/:userId/queryUserShipAddress',userShipAddress.getUserShipAddress);
     server.post({path:'/api/addUserShipAddress',contentType: 'application/json'},userShipAddress.addUserShipAddress);
+    server.put({path:'/api/user/:userId/updateUserShipAddress',contentType: 'application/json'},userShipAddress.updateUserShipAddress);
     /**
      user_car
      */

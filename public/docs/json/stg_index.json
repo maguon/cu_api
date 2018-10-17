@@ -2477,6 +2477,50 @@
         }
       }
     },
+    "/user/{userId}/updateUserShipAddress": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user updateUserShipAddress ",
+        "description": "user updateUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateUserShipAddress",
+            "in": "body",
+            "description": "updateUserShipAddress",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateUserShipAddress"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateUserShipAddress"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/user/{userId}/queryUserShipAddress": {
       "get": {
         "tags": [
@@ -2499,6 +2543,13 @@
             "name": "userShipAddressId",
             "in": "query",
             "description": "userShipAddressId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
             "required": false,
             "type": "integer"
           }
@@ -2989,6 +3040,20 @@
       },
       "xml": {
         "name": "ApiResponse"
+      }
+    },
+    "updateUserShipAddress": {
+      "type": "object",
+      "properties": {
+        "userShipAddressId": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateUserShipAddress"
       }
     }
   }
