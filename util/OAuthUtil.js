@@ -157,8 +157,8 @@ const getToken=(params,callback)=>{
         callback(error,result)
     })
 }
-function savePasswordCode(params,callback) {
-    httpUtil.httpPost(systemConfig.hosts.auth,'/api/'+params.phone+"/passwordCode",{},params,function(error,result){
+const savePasswordCode=(params,callback)=>{
+    httpUtil.httpPost(systemConfig.hosts.auth,'/api/'+params.phone+"/passwordCode",{},params,(error,result)=>{
         callback(error,result)
     })
 }
@@ -185,5 +185,7 @@ module.exports = {
     parseUserToken,
     saveSignCode,
     getSignCode,
-    saveToken
+    saveToken,
+    savePasswordCode,
+    getPasswordCode
 };

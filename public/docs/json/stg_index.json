@@ -942,7 +942,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/yMonth/{yMonth}/queryCarNumByMonth": {
+    "/supervise/{superviseId}/monthStat/{yMonth}/queryCarNumByMonth": {
       "get": {
         "tags": [
           "checkCar"
@@ -1082,7 +1082,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/date/{dateId}/status/{status}": {
+    "/supervise/{superviseId}/dayStat/{dateId}/status/{status}": {
       "get": {
         "tags": [
           "checkCar"
@@ -2395,6 +2395,41 @@
       "post": {
         "tags": [
           "user"
+        ],
+        "summary": "send rest password sms",
+        "description": "sendPswdSms",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "user unique phone",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid phone value or invalid user status"
+          }
+        }
+      }
+    },
+    "/phone/{phone}/phoneSms": {
+      "post": {
+        "tags": [
+          "supervise"
         ],
         "summary": "send rest password sms",
         "description": "sendPswdSms",

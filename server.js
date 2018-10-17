@@ -112,9 +112,9 @@ function createServer() {
     server.put({path:'/api/supervise/:superviseId/checkCar/:checkCarId/status/:status',contentType: 'application/json'},checkCar.updateStatus);
     server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);
     //发送消息
-    server.get('/api/supervise/:superviseId/yMonth/:yMonth/queryCarNumByMonth',checkCar.queryCarByMonth);
+    server.get('/api/supervise/:superviseId/monthStat/:yMonth/queryCarNumByMonth',checkCar.queryCarByMonth);
     server.get('/api/supervise/:superviseId/getCarByDay',checkCar.queryCarByDay);
-    server.get('/api/supervise/:superviseId/date/:dateId/status/:status',checkCar.queryCarNumByDay);
+    server.get('/api/supervise/:superviseId/dayStat/:dateId/status/:status',checkCar.queryCarNumByDay);
     /**
      user_info
      */
@@ -170,6 +170,7 @@ function createServer() {
      * sendPswdSms
      */
     server.post({path:'/api/phone/:phone/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
+    server.post({path:'/api/phone/:phone/phoneSms',contentType: 'application/json'},sms.sendPhoneSms);
 
 
 
