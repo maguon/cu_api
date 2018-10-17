@@ -328,6 +328,77 @@
         }
       }
     },
+    "/phoneSuperviseLogin": {
+      "post": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "phoneSuperviseLogin",
+        "description": "phoneSuperviseLogin in",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "description": "device token",
+            "required": true,
+            "type": "string"
+
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "device version",
+            "required": true,
+            "type": "string"
+
+          },
+          {
+            "name": "appType",
+            "in": "query",
+            "description": "app Type",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "deviceType",
+            "in": "query",
+            "description": "device type",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "ApiResponse",
+            "in": "body",
+            "description": "supervise info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/querySupervise": {
       "get": {
         "tags": [
@@ -2895,6 +2966,29 @@
       },
       "xml": {
         "name": "addOrder"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "phone": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "type": {
+          "type": "integer"
+        },
+        "gender": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "ApiResponse"
       }
     }
   }

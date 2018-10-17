@@ -246,13 +246,13 @@ const phoneSuperviseLogin=(req,res,next)=>{
     new Promise((resolve,reject)=>{
         params.sa = 0;
         //查询登陆手机是否存在
-        superviseDao.querySupervise(params,(error,rows)=>{
+        superviseDao.querySupervise({phone:params.phone,password:params.password},(error,rows)=>{
             if (error) {
                 logger.error(' querySupervise ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' querySupervise ' + params.email||params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn(' querySupervise ' + params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                     return next();
                 }else{
