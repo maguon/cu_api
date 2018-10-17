@@ -655,47 +655,12 @@
             "description": "superviseId",
             "required": true,
             "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/checkCar"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid userCar id"
-          }
-        }
-      }
-    },
-    "/supervise/{superviseId}/userCar/{userCarId}": {
-      "get": {
-        "tags": [
-          "checkCar"
-        ],
-        "summary": "query userCar by supervise_id ",
-        "description": "query userCar ",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "superviseId",
-            "in": "path",
-            "description": "superviseId",
-            "required": true,
-            "type": "integer"
           },
           {
             "name": "userCarId",
-            "in": "path",
+            "in": "query",
             "description": "userCarId",
-            "required": true,
+            "required": false,
             "type": "integer"
           }
         ],
@@ -795,6 +760,90 @@
           },
           "400": {
             "description": "Invalid token value or invalid checkCar id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/checkCar": {
+      "get": {
+        "tags": [
+          "checkCar"
+        ],
+        "summary": "query checkCar  ",
+        "description": "query checkCar ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "checkCarId",
+            "in": "query",
+            "description": "checkCarId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "licensePlate",
+            "in": "query",
+            "description": "licensePlate",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "superviseName",
+            "in": "query",
+            "description": "superviseName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdStartOn",
+            "in": "query",
+            "description": "createdStartOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdEndOn",
+            "in": "query",
+            "description": "createdEndOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/checkCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid userCar id"
           }
         }
       }
@@ -2525,18 +2574,12 @@
     "superviseLogin": {
       "type": "object",
       "required": [
-        "userName",
+        "phone",
         "password"
       ],
       "properties": {
-        "userName": {
-          "type": "string"
-        },
         "password": {
           "type": "string"
-        },
-        "gender": {
-          "type": "integer"
         },
         "phone": {
           "type": "string"

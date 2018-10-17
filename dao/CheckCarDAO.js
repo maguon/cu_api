@@ -4,13 +4,18 @@ const logger = serverLogger.createLogger('CheckCarDAO.js');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryCarInfo = (params,callback) => {
-    let query = " select *,date_format(created_on,'%H:%i:%s') as shortDate from user_car " +
-                " where supervise_id <>0 and status = 1 and str_to_date(created_on,'%Y-%m-%d') = ? ";
+    let query = " select ui.phone,uc.*,date_format(uc.created_on,'%H:%i:%s') as shortDate from user_car uc " +
+                " left join user_info ui on ui.id=uc.user_id" +
+                " where uc.supervise_id <>0 and uc.status = 1 and str_to_date(uc.created_on,'%Y-%m-%d') = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.createdDateId;
     if(params.superviseId){
         paramsArray[i++] = params.superviseId;
-        query = query + " and supervise_id = ?";
+        query = query + " and uc.supervise_id = ?";
+    }
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and uc.user_id = ?";
     }
     if(params.userCarId){
         paramsArray[i] = params.userCarId;
@@ -145,6 +150,47 @@ const queryCarNumByDay = (params,callback) => {
         return callback(error,rows);
     });
 }
+const queryCheckCar = (params,callback) => {
+    let query = " select si.user_name as superviseName,ui.user_name,cci.* from check_car_info cci " +
+                " left join user_info ui on ui.id=cci.user_id " +
+                " left join supervise_info si on si.id=cci.supervise_id " +
+                " left join user_car uc on uc.user_id=ui.id " +
+                " where 1=1 ";
+    let paramsArray = [],i=0;
+    if(params.checkCarId){
+        paramsArray[i++] = params.checkCarId;
+        query = query + " and cci.id = ?";
+    }
+    if(params.licensePlate){
+        paramsArray[i++] = params.licensePlate;
+        query = query + " and cci.license_plate = ?";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and cci.phone = ?";
+    }
+    if(params.superviseName){
+        paramsArray[i++] = params.superviseName;
+        query = query + " and si.user_name = ?";
+    }
+    if(params.createdStartOn){
+        paramsArray[i++] = params.createdStartOn;
+        query = query + " and cci.created_on >= ?";
+    }
+    if(params.createdEndOn){
+        paramsArray[i++] = params.createdEndOn;
+        query = query + " and cci.created_on <= ?";
+    }
+    if(params.start&&params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?, ?";
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' queryCheckCar ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     queryCarInfo,
     updateStatus,
@@ -152,5 +198,6 @@ module.exports = {
     addCheckCar,
     queryCarByMonth,
     queryCarByDay,
-    queryCarNumByDay
+    queryCarNumByDay,
+    queryCheckCar
 }

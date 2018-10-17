@@ -107,7 +107,7 @@ function createServer() {
      check_car_info
      */
     server.get('/api/supervise/:superviseId/userCar',checkCar.queryCarInfo);
-    server.get('/api/supervise/:superviseId/userCar/:userCarId',checkCar.queryCarInfo);
+    server.get('/api/admin/:adminId/checkCar',checkCar.queryCheckCar);
     server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/status',contentType: 'application/json'},checkCar.updateStatus);
     server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/superviseId',contentType: 'application/json'},checkCar.updateSuperviseId);
     server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);
@@ -159,7 +159,7 @@ function createServer() {
     server.post({path:'/api/user/:userId/app',contentType: 'application/json'},app.createAppVersion);
     server.put({path:'/api/user/:userId/app/:appId',contentType: 'application/json'} ,app.updateAppVersion);
     /**
-     * UserDevice Module
+     * SuperviseDevice Module
      */
     server.get('/api/userDevice' ,userDevice.queryUserDevice);
     server.post({path:'/api/user/:userId/userDevice',contentType: 'application/json'} , userDevice.createUserDevice);

@@ -105,6 +105,19 @@ const queryCarNumByDay = (req,res,next) => {
         }
     })
 }
+const queryCheckCar = (req,res,next) => {
+    let params = req.params;
+    checkCarDAO.queryCheckCar(params,(error,result)=>{
+        if (error) {
+            logger.error(' queryCheckCar ' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info(' queryCheckCar ' + "success");
+            resUtil.resetQueryRes(res,result,null) ;
+            return next();
+        }
+    })
+}
 module.exports = {
     queryCarInfo,
     updateStatus,
@@ -112,5 +125,6 @@ module.exports = {
     addCheckCar,
     queryCarByMonth,
     queryCarByDay,
-    queryCarNumByDay
+    queryCarNumByDay,
+    queryCheckCar
 }

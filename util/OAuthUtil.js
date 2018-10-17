@@ -15,6 +15,7 @@ let options ={
 let clientType = {
     temp : 'temp',
     user : 'user' ,
+    supervise: 'supervise',
     admin : 'admin'
 };
 
@@ -183,5 +184,6 @@ module.exports = {
     parseAdminToken,
     parseUserToken,
     saveSignCode,
-    getSignCode
+    getSignCode,
+    saveToken
 };

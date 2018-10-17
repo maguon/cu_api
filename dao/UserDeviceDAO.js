@@ -11,7 +11,7 @@ const addUserDevice=(params,callback)=>{
     paramsArray[i++]=params.version;
     paramsArray[i++]=params.appType;
     paramsArray[i]=params.deviceType;
-    db.dbQuery(query,paramsArray,function(error,rows){
+    db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' addUserDevice ');
         return callback(error,rows);
     });
@@ -33,7 +33,7 @@ const getUserDevice=(params,callback)=>{
         paramsArray[i++] = params.deviceToken;
         query = query + " and ud.device_token = ? ";
     }
-    db.dbQuery(query,paramsArray,function(error,rows){
+    db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getUserDevice ');
         return callback(error,rows);
     });
@@ -44,7 +44,7 @@ const updateUserDevice=(params,callback)=>{
     let paramsArray=[],i=0;
     paramsArray[i++] = params.updatedOn;
     paramsArray[i] = params.userId;
-    db.dbQuery(query,paramsArray,function(error,rows){
+    db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' updateUserDevice ');
         return callback(error,rows);
     });
@@ -61,7 +61,7 @@ const deleteUserDevice=(params,callback)=>{
         paramsArray[i++] = params.deviceToken;
         query = query + " and device_token = ? ";
     }
-    db.dbQuery(query,paramsArray,function(error,rows){
+    db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' deleteUserDevice ');
         return callback(error,rows);
     });

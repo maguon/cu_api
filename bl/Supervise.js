@@ -238,6 +238,119 @@ const changeSupervisePasswordByPhone = (req,res,next) => {
         }
     })
 }
+
+const phoneSuperviseLogin=(req,res,next)=>{
+    let params = req.params;
+    let supervise ={};
+    let newSuperviseDeviceFlag = true;
+    new Promise((resolve,reject)=>{
+        params.sa = 0;
+        //查询登陆手机是否存在
+        superviseDao.querySupervise(params,(error,rows)=>{
+            if (error) {
+                logger.error(' querySupervise ' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            } else {
+                if(rows && rows.length<1){
+                    logger.warn(' querySupervise ' + params.email||params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
+                    return next();
+                }else{
+                    let passwordMd5 = encrypt.encryptByMd5(params.password);
+                    if(passwordMd5 != rows[0].password){
+                        logger.warn(' phoneSuperviseLogin ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
+                        resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
+                        return next();
+                    }else{
+                        supervise = {
+                            superviseId : rows[0].id,
+                            superviseStatus : rows[0].status,
+                            type : rows[0].type,
+                            name : rows[0].user_name,
+                            phone: params.phone
+                        }
+                        //手机是否被停用
+                        if(rows[0].status == listOfValue.USER_STATUS_NOT_ACTIVE){
+                            logger.info('phoneSuperviseLogin' +params.phone+ " not actived");
+                            resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR);
+                            return next();
+                        }else{
+                            supervise.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.supervise,supervise.superviseId,supervise.superviseStatus);
+                            oAuthUtil.saveToken(supervise,(error,result)=>{
+                                if(error){
+                                    logger.error(' phoneSuperviseLogin ' + error.stack);
+                                    return next(sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG))
+                                }else{
+                                    logger.info(' phoneSuperviseLogin' + " success");
+                                    resolve();
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+        })
+    }).then(()=>{
+        let that = this;
+        params.superviseId= supervise.superviseId;
+        superviseDao.getSuperviseDevice(params,(error, rows)=>{
+            if (error) {
+                logger.error(' getSuperviseDevice ' + error.message);
+                resUtil.resetFailedRes(res, sysMsg.SYS_INTERNAL_ERROR_MSG);
+                return next();
+            } else {
+                if (rows && rows.length > 0) {
+                    //查询device_token是否存在，存在走update，不存在innsert
+                    newSuperviseDeviceFlag = false;
+                    that()
+                } else {
+                    that();
+                }
+            }
+        })
+    }).then(()=>{
+        let that = this;
+        if(newSuperviseDeviceFlag) {
+            params.superviseId= supervise.superviseId;
+            superviseDao.addSuperviseDevice(params,(error,result)=>{
+                if (error) {
+                    logger.error(' addSuperviseDevice ' + error.message);
+                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                } else {
+                    if(result&&result.insertId>0){
+                        logger.info(' addSuperviseDevice ' + 'success');
+                    }else{
+                        logger.warn(' addSuperviseDevice ' + 'failed');
+                    }
+                    that();
+                }
+            })
+        }else{
+            let myDate = new Date();
+            params.updatedOn = myDate;
+            params.superviseId= supervise.superviseId;
+            superviseDao.updateSuperviseDevice(params,(error,result)=>{
+                if (error) {
+                    logger.error(' updateSuperviseDevice ' + error.message);
+                    throw sysError.InternalError(error.message, sysMsg.SYS_INTERNAL_ERROR_MSG);
+                } else {
+                    if (result && result.affectedRows > 0) {
+                        logger.info(' updateSuperviseDevice ' + 'success');
+                    } else {
+                        logger.warn(' updateSuperviseDevice ' + 'failed');
+                    }
+                    that();
+                }
+            })
+        }
+    }).then(()=>{
+        logger.info(' phoneSuperviseLogin' +params.phone+ " success");
+        resUtil.resetQueryRes(res,supervise,null);
+        return next();
+    })
+}
+
+
 module.exports = {
     createSupervise,
     superviseLogin,
@@ -247,5 +360,6 @@ module.exports = {
     changeSupervisePassword,
     changeSupervisePhone,
     updateSuperviseStatus,
-    changeSupervisePasswordByPhone
+    changeSupervisePasswordByPhone,
+    phoneSuperviseLogin
 }
