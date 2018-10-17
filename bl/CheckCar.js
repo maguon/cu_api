@@ -10,9 +10,6 @@ const moment = require('moment/moment.js');
 
 const queryCarInfo = (req,res,next) => {
     let params = req.params;
-    let myDate = new Date();
-    let strDate = moment(myDate).format('YYYYMMDD');
-    params.createdDateId = parseInt(strDate);
     checkCarDAO.queryCarInfo(params,(error,result)=>{
         if (error) {
             logger.error(' queryCarInfo ' + error.message);
@@ -32,19 +29,6 @@ const updateStatus = (req,res,next) => {
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
             logger.info(' updateStatus ' + "success");
-            resUtil.resetUpdateRes(res,result,null) ;
-            return next();
-        }
-    })
-}
-const updateSuperviseId = (req,res,next) => {
-    let params = req.params;
-    checkCarDAO.updateSuperviseId(params,(error,result)=>{
-        if (error) {
-            logger.error(' updateSuperviseId ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-        }else{
-            logger.info(' updateSuperviseId ' + "success");
             resUtil.resetUpdateRes(res,result,null) ;
             return next();
         }
@@ -121,7 +105,6 @@ const queryCheckCar = (req,res,next) => {
 module.exports = {
     queryCarInfo,
     updateStatus,
-    updateSuperviseId,
     addCheckCar,
     queryCarByMonth,
     queryCarByDay,

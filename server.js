@@ -107,15 +107,14 @@ function createServer() {
     /**
      check_car_info
      */
-    server.get('/api/supervise/:superviseId/userCar',checkCar.queryCarInfo);
+    server.get('/api/getCheckCar',checkCar.queryCarInfo);
     server.get('/api/admin/:adminId/checkCar',checkCar.queryCheckCar);
-    server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/status',contentType: 'application/json'},checkCar.updateStatus);
-    server.put({path:'/api/supervise/:superviseId/userCar/:userCarId/superviseId',contentType: 'application/json'},checkCar.updateSuperviseId);
+    server.put({path:'/api/supervise/:superviseId/checkCar/:checkCarId/status/:status',contentType: 'application/json'},checkCar.updateStatus);
     server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);
     //发送消息
-    server.get('/api/supervise/:superviseId/byMonth/:yMonth/queryCarByMonth',checkCar.queryCarByMonth);
-    server.get('/api/supervise/:superviseId/byDay',checkCar.queryCarByDay);
-    server.get('/api/supervise/:superviseId/byDay/:yMonthDay',checkCar.queryCarNumByDay);
+    server.get('/api/supervise/:superviseId/yMonth/:yMonth/queryCarNumByMonth',checkCar.queryCarByMonth);
+    server.get('/api/supervise/:superviseId/getCarByDay',checkCar.queryCarByDay);
+    server.get('/api/supervise/:superviseId/date/:dateId/status/:status',checkCar.queryCarNumByDay);
     /**
      user_info
      */

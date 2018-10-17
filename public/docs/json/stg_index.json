@@ -709,22 +709,36 @@
         }
       }
     },
-    "/supervise/{superviseId}/userCar": {
+    "/getCheckCar": {
       "get": {
         "tags": [
           "checkCar"
         ],
-        "summary": "query userCar by supervise_id ",
+        "summary": "query userCar ",
         "description": "query userCar ",
         "produces": [
           "application/json"
         ],
         "parameters": [
           {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateId",
+            "in": "query",
+            "description": "dateId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "superviseId",
-            "in": "path",
+            "in": "query",
             "description": "superviseId",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
@@ -751,7 +765,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/userCar/{userCarId}/status": {
+    "/supervise/{superviseId}/checkCar/{checkCarId}/status/{status}": {
       "put": {
         "tags": [
           "checkCar"
@@ -770,51 +784,16 @@
             "type": "integer"
           },
           {
-            "name": "userCarId",
+            "name": "checkCarId",
             "in": "path",
-            "description": "userCarId",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/checkCar"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid checkCar id"
-          }
-        }
-      }
-    },
-    "/supervise/{superviseId}/userCar/{userCarId}/superviseId": {
-      "put": {
-        "tags": [
-          "checkCar"
-        ],
-        "summary": "update supervise superviseId ",
-        "description": "query supervise by superviseId",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "superviseId",
-            "in": "path",
-            "description": "superviseId",
+            "description": "checkCarId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "userCarId",
+            "name": "status",
             "in": "path",
-            "description": "userCarId",
+            "description": "status",
             "required": true,
             "type": "integer"
           }
@@ -963,7 +942,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/byMonth/{yMonth}/queryCarByMonth": {
+    "/supervise/{superviseId}/yMonth/{yMonth}/queryCarNumByMonth": {
       "get": {
         "tags": [
           "checkCar"
@@ -1019,7 +998,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/byDay": {
+    "/supervise/{superviseId}/getCarByDay": {
       "get": {
         "tags": [
           "checkCar"
@@ -1038,9 +1017,9 @@
             "type": "integer"
           },
           {
-            "name": "yMonthDay",
+            "name": "dateId",
             "in": "query",
-            "description": "yMonthDay",
+            "description": "dateId",
             "required": false,
             "type": "integer"
           },
@@ -1103,7 +1082,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/byDay/{yMonthDay}": {
+    "/supervise/{superviseId}/date/{dateId}/status/{status}": {
       "get": {
         "tags": [
           "checkCar"
@@ -1122,9 +1101,16 @@
             "type": "integer"
           },
           {
-            "name": "yMonthDay",
+            "name": "dateId",
             "in": "path",
-            "description": "yMonthDay",
+            "description": "dateId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "status",
             "required": true,
             "type": "integer"
           }
@@ -2766,32 +2752,11 @@
         "userId": {
           "type": "integer"
         },
-        "vin": {
-          "type": "string"
-        },
-        "makeId": {
+        "userCarId": {
           "type": "integer"
         },
-        "makeName": {
-          "type": "string"
-        },
-        "modelId": {
+        "dateId": {
           "type": "integer"
-        },
-        "modelName": {
-          "type": "string"
-        },
-        "engineNum": {
-          "type": "string"
-        },
-        "licensePlate": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
         },
         "address": {
           "type": "string"
