@@ -93,12 +93,22 @@ const updateSuperviseStatus = (params,callback) => {
     });
 }
 const updatePassword = (params,callback) => {
+    let query = " update supervise_info set password = ? where id = ?";
+    let paramsArray=[],i=0;
+    paramsArray[i++] = params.password;
+    paramsArray[i] = params.superviseId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' updatePassword ');
+        return callback(error,rows);
+    });
+}
+const updatePasswordByPhone = (params,callback) => {
     let query = " update supervise_info set password = ? where phone = ?";
     let paramsArray=[],i=0;
     paramsArray[i++] = params.password;
     paramsArray[i] = params.phone;
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug(' updatePassword ');
+        logger.debug(' updatePasswordByPhone ');
         return callback(error,rows);
     });
 }
@@ -183,5 +193,6 @@ module.exports = {
     getSuperviseDevice,
     updateSuperviseDevice,
     deleteSuperviseDevice,
-    addSuperviseDevice
+    addSuperviseDevice,
+    updatePasswordByPhone
 }

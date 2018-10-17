@@ -84,9 +84,8 @@ function createServer() {
     /**
      * Admin User Module
      */
-    server.post({path:'/api/createAdmin',contentType: 'application/json'},adminUser.createAdminUser);
     server.get('/api/admin/:adminId' ,adminUser.getAdminUserInfo);
-    server.post({path:'/api/admin/do/login',contentType: 'application/json'},adminUser.adminUserLogin);
+    server.post({path:'/api/adminLogin',contentType: 'application/json'},adminUser.adminUserLogin);
     server.put({path:'/api/admin/:adminId',contentType: 'application/json'} ,adminUser.updateAdminInfo);
     server.put({path:'/api/admin/:adminId/password',contentType: 'application/json'} ,adminUser.changeAdminPassword);
 
@@ -95,14 +94,14 @@ function createServer() {
      */
     server.post({path:'/api/admin/:adminId/supervise',contentType: 'application/json'},supervise.createSupervise);
     server.post({path:'/api/superviseLogin',contentType: 'application/json'},supervise.superviseLogin);
-    server.get('/api/querySupervise',supervise.querySupervise);
-    server.put({path:'/api/admin/:adminId/supervise/:superviseId/updateSuperviseStatus/:status',contentType: 'application/json'},supervise.updateSuperviseStatus);
-    server.put({path:'/api/admin/:adminId/supervise/:superviseId/updateSupervise',contentType: 'application/json'},supervise.updateSuperviseInfo);
+    server.get('/api/supervise',supervise.querySupervise);
+    server.put({path:'/api/admin/:adminId/supervise/:superviseId/status/:status',contentType: 'application/json'},supervise.updateSuperviseStatus);
+    server.put({path:'/api/admin/:adminId/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
-    server.put({path:'/api/supervise/:superviseId/changeSupervisePhone',contentType: 'application/json'},supervise.changeSupervisePhone);
+    server.put({path:'/api/supervise/:superviseId/phone',contentType: 'application/json'},supervise.changeSupervisePhone);
     //手机发送验证码
-    server.post({path:'/api/phoneSuperviseLogin' ,contentType: 'application/json'}, supervise.phoneSuperviseLogin);
-    server.put({path:'/api/changeSupervisePasswordByPhone',contentType: 'application/json'},supervise.changeSupervisePasswordByPhone);
+    //server.post({path:'/api/superviseLogin' ,contentType: 'application/json'}, supervise.superviseLogin);
+    server.put({path:'/api/phone/:phone/supervisePassword',contentType: 'application/json'},supervise.changeSupervisePasswordByPhone);
 
     /**
      check_car_info
@@ -110,48 +109,50 @@ function createServer() {
     server.get('/api/getCheckCar',checkCar.queryCarInfo);
     server.get('/api/admin/:adminId/checkCar',checkCar.queryCheckCar);
     server.put({path:'/api/supervise/:superviseId/checkCar/:checkCarId/status/:status',contentType: 'application/json'},checkCar.updateStatus);
-    server.post({path:'/api/supervise/:superviseId/addCheckCar',contentType: 'application/json'},checkCar.addCheckCar);
+    server.post({path:'/api/supervise/:superviseId/checkCar',contentType: 'application/json'},checkCar.addCheckCar);
     //发送消息
-    server.get('/api/supervise/:superviseId/monthStat/:yMonth/queryCarNumByMonth',checkCar.queryCarByMonth);
-    server.get('/api/supervise/:superviseId/getCarByDay',checkCar.queryCarByDay);
-    server.get('/api/supervise/:superviseId/dayStat/:dateId/status/:status',checkCar.queryCarNumByDay);
+    server.get('/api/supervise/:superviseId/monthStat',checkCar.queryCarByMonth);
+    server.get('/api/supervise/:superviseId/checkCar',checkCar.queryCheckCar);
+    server.get('/api/supervise/:superviseId/dayStat',checkCar.queryCarNumByDay);
     /**
      user_info
      */
-    server.get('/api/queryUser',user.queryUser);
+    server.get('/api/user',user.queryUser);
     //server.post({path:'/api/wechatLogin',contentType: 'application/json'},user.userLogin);
     server.post({path:'/api/userLogin',contentType: 'application/json'},user.userLogin);
-    server.put({path:'/api/user/:userId/updateUser',contentType: 'application/json'},user.updateUser);
+    server.put({path:'/api/user/:userId',contentType: 'application/json'},user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'},user.updatePassword);
     server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
     server.put({path:'/api/admin/:adminId/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
-    server.put({path:'/api/user/:userId/updateUserPhone',contentType: 'application/json'},user.updatePhone);
+    server.put({path:'/api/user/:userId/userPhone',contentType: 'application/json'},user.updatePhone);
     /**
      user_ship_address
      */
-    server.get('/api/user/:userId/queryUserShipAddress',userShipAddress.getUserShipAddress);
-    server.post({path:'/api/addUserShipAddress',contentType: 'application/json'},userShipAddress.addUserShipAddress);
-    server.put({path:'/api/user/:userId/updateUserShipAddress',contentType: 'application/json'},userShipAddress.updateUserShipAddress);
+    server.get('/api/user/:userId/userShipAddress',userShipAddress.getUserShipAddress);
+    server.post({path:'/api/userShipAddress',contentType: 'application/json'},userShipAddress.addUserShipAddress);
+    server.put({path:'/api/user/:userId/shipAddress/:shipAddressId/default',contentType: 'application/json'},userShipAddress.updateUserShipAddress);
+    server.put({path:'/api/user/:userId/shipAddress/:shipAddressId',contentType: 'application/json'},userShipAddress.updateUserShipAddress);
     /**
      user_car
      */
-    server.get('/api/user/:userId/queryUserCar',userCar.queryUserCar);
+    server.get('/api/user/:userId/userCar',userCar.queryUserCar);
     server.put({path:'/api/userCar/:userCarId/updatePaperRemark',contentType: 'application/json'},userCar.updatePaperRemark);
-    server.post({path:'/api/user/:userId/addUserCar',contentType: 'application/json'},userCar.addUserCar);
+    server.post({path:'/api/user/:userId/userCar',contentType: 'application/json'},userCar.addUserCar);
     server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar);
+    server.put({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar);
     server.get('/api/user/:userId/queryUserCarNumById',userCar.queryUserCarNumById);
     /**
      user_message
      */
     server.post({path:'/api/superviseName/:superviseName/addMessage',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
-    server.get('/api/user/:userId/queryUserMessageNumById',userMessage.queryUserMessageNumById);
-    server.put({path:'/api/user/:userId/userMessage/:userMessageId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
+    server.get('/api/user/:userId/msgStat',userMessage.queryUserMessageNumById);
+    server.put({path:'/api/user/:userId/msg/:msgId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
     /**
      user_order
      */
-    server.post({path:'/api/user/:userId/addOrder',contentType: 'application/json'},userOrder.addOrder);
-    server.get('/api/user/:userId/getOrder',userOrder.getOrder);
+    server.post({path:'/api/user/:userId/order',contentType: 'application/json'},userOrder.addOrder);
+    server.get('/api/user/:userId/order',userOrder.getOrder);
     server.put({path:'/api/user/:userId/userOrder/:userOrderId/status/:status',contentType: 'application/json'},userOrder.updateOrderStatus);
     /**
      * App Module

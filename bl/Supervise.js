@@ -52,47 +52,47 @@ const createSupervise = (req,res,next) => {
         })
     })
 }
-const superviseLogin = (req,res,next) =>{
-    let params = req.params;
-    superviseDao.querySupervise({phone:params.phone},(error,rows)=>{
-        if (error) {
-            logger.error(' querySupervise ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-        } else {
-            if(rows && rows.length<1){
-                logger.warn(' querySupervise ' +params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
-                resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
-                return next();
-            }else{
-                let passwordMd5 = encrypt.encryptByMd5(params.password);
-                if(passwordMd5 != rows[0].password){
-                    logger.warn(' querySupervise ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
-                    resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
-                    return next();
-                }else{
-                    if(rows[0].status == listOfValue.ADMIN_USER_STATUS_NOT_ACTIVE){
-                        let user = {
-                            userId : rows[0].id,
-                            userStatus : rows[0].status
-                        }
-                        logger.info('querySupervise' +params.userName+ " not verified");
-                        resUtil.resetQueryRes(res,user,null);
-                        return next();
-                    }else{
-                        let user = {
-                            userId : rows[0].id,
-                            userStatus : rows[0].status
-                        }
-                        user.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.admin,user.userId,user.userStatus);
-                        logger.info('querySupervise' +params.userName+ " success");
-                        resUtil.resetQueryRes(res,user,null);
-                        return next();
-                    }
-                }
-            }
-        }
-    })
-}
+// const superviseLogin = (req,res,next) =>{
+//     let params = req.params;
+//     superviseDao.querySupervise({phone:params.phone},(error,rows)=>{
+//         if (error) {
+//             logger.error(' querySupervise ' + error.message);
+//             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+//         } else {
+//             if(rows && rows.length<1){
+//                 logger.warn(' querySupervise ' +params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+//                 resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
+//                 return next();
+//             }else{
+//                 let passwordMd5 = encrypt.encryptByMd5(params.password);
+//                 if(passwordMd5 != rows[0].password){
+//                     logger.warn(' querySupervise ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
+//                     resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
+//                     return next();
+//                 }else{
+//                     if(rows[0].status == listOfValue.ADMIN_USER_STATUS_NOT_ACTIVE){
+//                         let user = {
+//                             userId : rows[0].id,
+//                             userStatus : rows[0].status
+//                         }
+//                         logger.info('querySupervise' +params.userName+ " not verified");
+//                         resUtil.resetQueryRes(res,user,null);
+//                         return next();
+//                     }else{
+//                         let user = {
+//                             userId : rows[0].id,
+//                             userStatus : rows[0].status
+//                         }
+//                         user.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.admin,user.userId,user.userStatus);
+//                         logger.info('querySupervise' +params.userName+ " success");
+//                         resUtil.resetQueryRes(res,user,null);
+//                         return next();
+//                     }
+//                 }
+//             }
+//         }
+//     })
+// }
 const querySupervise = (req,res,next) => {
     let params = req.params;
     superviseDao.querySupervise(params,(error,rows)=>{
@@ -220,7 +220,7 @@ const changeSupervisePasswordByPhone = (req,res,next) => {
         }else{
             if(result.result.code==params.signCode){
                 params.password = encrypt.encryptByMd5(params.password);
-                superviseDao.updatePassword(params,(error,result)=>{
+                superviseDao.updatePasswordByPhone(params,(error,result)=>{
                     if(error){
                         logger.error('updatePassword' + error.message);
                         throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -239,7 +239,7 @@ const changeSupervisePasswordByPhone = (req,res,next) => {
     })
 }
 
-const phoneSuperviseLogin=(req,res,next)=>{
+const superviseLogin=(req,res,next)=>{
     let params = req.params;
     let supervise ={};
     let newSuperviseDeviceFlag = true;
@@ -360,6 +360,5 @@ module.exports = {
     changeSupervisePassword,
     changeSupervisePhone,
     updateSuperviseStatus,
-    changeSupervisePasswordByPhone,
-    phoneSuperviseLogin
+    changeSupervisePasswordByPhone
 }

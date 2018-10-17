@@ -56,45 +56,7 @@
     "http"
   ],
   "paths": {
-    "/createAdmin": {
-      "post": {
-        "tags": [
-          "admin"
-        ],
-        "summary": "createAdmin",
-        "description": "createAdmin",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "createAdmin",
-            "in": "body",
-            "description": "createAdmin",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/createAdmin"
-            }
-
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/createAdmin"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid admin id"
-          }
-        }
-      }
-    },
-    "/admin/do/login": {
+    "/adminLogin": {
       "post": {
         "tags": [
           "admin"
@@ -301,38 +263,6 @@
         "tags": [
           "supervise"
         ],
-        "summary": "supervise user do login",
-        "description": "",
-        "operationId": "supervise login",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "supervise base info ",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/superviseLogin"
-            }
-          }
-        ],
-        "responses": {
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
-    "/phoneSuperviseLogin": {
-      "post": {
-        "tags": [
-          "supervise"
-        ],
         "summary": "phoneSuperviseLogin",
         "description": "phoneSuperviseLogin in",
         "produces": [
@@ -399,7 +329,7 @@
         }
       }
     },
-    "/querySupervise": {
+    "/supervise": {
       "get": {
         "tags": [
           "supervise"
@@ -483,7 +413,7 @@
         }
       }
     },
-    "/admin/{adminId}/supervise/{superviseId}/updateSuperviseStatus/{status}": {
+    "/admin/{adminId}/supervise/{superviseId}/status/{status}": {
       "put": {
         "tags": [
           "supervise"
@@ -532,7 +462,7 @@
         }
       }
     },
-    "/admin/{adminId}/supervise/{superviseId}/updateSupervise": {
+    "/admin/{adminId}/supervise/{superviseId}": {
       "put": {
         "tags": [
           "supervise"
@@ -628,7 +558,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/changeSupervisePhone": {
+    "/supervise/{superviseId}/phone": {
       "put": {
         "tags": [
           "supervise"
@@ -672,7 +602,7 @@
         }
       }
     },
-    "/changeSupervisePasswordByPhone": {
+    "/phone/{phone}/supervisePassword": {
       "put": {
         "tags": [
           "supervise"
@@ -683,6 +613,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "phone",
+            "in": "path",
+            "description": "phone",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "changeSupervisePasswordByPhone",
             "in": "body",
@@ -826,6 +763,13 @@
         ],
         "parameters": [
           {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
             "name": "checkCarId",
             "in": "query",
             "description": "checkCarId",
@@ -898,51 +842,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/addCheckCar": {
-      "post": {
-        "tags": [
-          "checkCar"
-        ],
-        "summary": "add car by supervise ",
-        "description": "add car by supervise_id",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "superviseId",
-            "in": "path",
-            "description": "supervise Id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "addCheckCar",
-            "in": "body",
-            "description": "add addCheckCar by superviseId",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/addCheckCar"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/car"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid police id"
-          }
-        }
-      }
-    },
-    "/supervise/{superviseId}/monthStat/{yMonth}/queryCarNumByMonth": {
+    "/supervise/{superviseId}/monthStat": {
       "get": {
         "tags": [
           "checkCar"
@@ -998,7 +898,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/getCarByDay": {
+    "/supervise/{superviseId}/checkCar": {
       "get": {
         "tags": [
           "checkCar"
@@ -1027,6 +927,13 @@
             "name": "checkCarId",
             "in": "query",
             "description": "checkCarId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
             "required": false,
             "type": "integer"
           },
@@ -1080,9 +987,51 @@
             "description": "Invalid token value or invalid supervise id"
           }
         }
+      },
+      "post": {
+        "tags": [
+          "checkCar"
+        ],
+        "summary": "add car by supervise ",
+        "description": "add car by supervise_id",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "supervise Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "addCheckCar",
+            "in": "body",
+            "description": "add addCheckCar by superviseId",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addCheckCar"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/car"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid police id"
+          }
+        }
       }
     },
-    "/supervise/{superviseId}/dayStat/{dateId}/status/{status}": {
+    "/supervise/{superviseId}/dayStat": {
       "get": {
         "tags": [
           "checkCar"
@@ -1102,16 +1051,16 @@
           },
           {
             "name": "dateId",
-            "in": "path",
+            "in": "query",
             "description": "dateId",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
             "name": "status",
-            "in": "path",
+            "in": "query",
             "description": "status",
-            "required": true,
+            "required": false,
             "type": "integer"
           }
         ],
@@ -2714,24 +2663,6 @@
         "name": "supervise"
       }
     },
-    "superviseLogin": {
-      "type": "object",
-      "required": [
-        "phone",
-        "password"
-      ],
-      "properties": {
-        "password": {
-          "type": "string"
-        },
-        "phone": {
-          "type": "string"
-        }
-      },
-      "xml": {
-        "name": "superviseLogin"
-      }
-    },
     "supervisePassword": {
       "type": "object",
       "required": [
@@ -2767,9 +2698,6 @@
     "changeSupervisePasswordByPhone": {
       "type": "object",
       "properties": {
-        "phone": {
-          "type": "string"
-        },
         "signCode": {
           "type": "integer"
         },
