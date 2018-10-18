@@ -117,6 +117,7 @@ function createServer() {
      user_info
      */
     server.get('/api/user',user.queryUser);
+    server.get('/api/admin/:adminId/user',user.queryUser);
     //server.post({path:'/api/wechatLogin',contentType: 'application/json'},user.userLogin);
     server.post({path:'/api/userLogin',contentType: 'application/json'},user.userLogin);
     server.put({path:'/api/user/:userId',contentType: 'application/json'},user.updateUser);

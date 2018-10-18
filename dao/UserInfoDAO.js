@@ -15,7 +15,7 @@ const queryUser = (params,callback) => {
     }
     if(params.phone){
         paramsArray[i++] = params.phone;
-        query = query + " and password = ? "
+        query = query + " and phone = ? "
     }
     if(params.wechatId){
         paramsArray[i++] = params.wechatId;
@@ -30,11 +30,11 @@ const queryUser = (params,callback) => {
         query = query + " and gender = ? "
     }
     if(params.authStartTime){
-        paramsArray[i++] = params.authStartTime;
+        paramsArray[i++] = params.authStartTime+"00:00:00";
         query = query + " and auth_time >= ? "
     }
     if(params.authEndTime){
-        paramsArray[i++] = params.authEndTime;
+        paramsArray[i++] = params.authEndTime+"23:59:59";
         query = query + " and auth_time <= ? "
     }
     if(params.wechatStatus){
@@ -141,9 +141,10 @@ const updateAuthTime=(params,callback)=>{
     });
 }
 const updateCreatedTime=(params,callback)=>{
-    let query = "update user_info set created_on = ? where id = ? ";
+    let query = "update user_info set auth_time = ?,auth_status=? where id = ? ";
     let paramsArray =[],i=0;
     paramsArray[i++] = params.myDate;
+    paramsArray[i++] = params.authStatus;
     paramsArray[i] = params.userId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateType');

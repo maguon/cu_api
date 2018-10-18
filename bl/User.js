@@ -104,6 +104,9 @@ const updatePhone=(req,res,next)=>{
                         logger.error('updatePhone' + error.message);
                         throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
                     }else{
+                        let myDate = new Date();
+                        params.myDate = myDate;
+                        userDao.updateCreatedTime(params,(error,result));
                         logger.info('updatePhone' + 'success');
                         resUtil.resetUpdateRes(res,result,null);
                         return next();
