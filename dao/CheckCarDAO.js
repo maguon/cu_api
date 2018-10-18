@@ -54,20 +54,19 @@ const addCheckCar = (params,callback) => {
     });
 }
 const queryCarByMonth = (params,callback) => {
-    let query = " select DATE_FORMAT(ci.created_on,'%Y年%m月%d日') as date, " +
-                " count(ci.id) as num from check_car_info ci " +
-                " left join date_base db on db.id=ci.date_id " +
-                " where ci.id is not null ";
+    let query = " select db.id,count(cc.id) as car_count from date_base db " +
+                " left join check_car_info cc on db.id = cc.date_id " +
+                " where cc.id is not null ";
     let paramsArray = [],i=0;
     if(params.superviseId){
         paramsArray[i++] = params.superviseId;
-        query = query + " and ci.supervise_id = ?";
+        query = query + " and cc.supervise_id = ?";
     }
     if(params.yMonth){
         paramsArray[i++] = params.yMonth;
         query = query + " and db.y_Month = ?";
     }
-    query = query + "  GROUP BY ci.date_id order by ci.created_on desc ";
+    query = query + " GROUP BY db.id ORDER BY db.id DESC ";
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);
         paramsArray[i] = parseInt(params.size);

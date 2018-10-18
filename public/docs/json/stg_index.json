@@ -806,9 +806,9 @@
           },
           {
             "name": "yMonth",
-            "in": "path",
+            "in": "query",
             "description": "yMonth",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
