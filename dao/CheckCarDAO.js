@@ -166,11 +166,11 @@ const queryCheckCar = (params,callback) => {
     }
     if(params.phone){
         paramsArray[i++] = params.phone;
-        query = query + " and cci.phone = ?";
+        query = query + " and ui.phone = ?";
     }
-    if(params.superviseName){
-        paramsArray[i++] = params.superviseName;
-        query = query + " and si.user_name = ?";
+    if(params.superviseId){
+        paramsArray[i++] = params.superviseId;
+        query = query + " and si.id = ?";
     }
     if(params.createdStart){
         paramsArray[i++] = params.createdStart +"00:00:00";

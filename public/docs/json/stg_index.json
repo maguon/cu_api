@@ -735,9 +735,9 @@
             "type": "string"
           },
           {
-            "name": "superviseName",
+            "name": "superviseId",
             "in": "query",
-            "description": "superviseName",
+            "description": "superviseId",
             "required": false,
             "type": "string"
           },
