@@ -156,6 +156,10 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.checkCarId;
         query = query + " and cci.id = ?";
     }
+    if(params.dateId){
+        paramsArray[i++] = params.dateId;
+        query = query + " and cci.date_id = ?";
+    }
     if(params.licensePlate){
         paramsArray[i++] = params.licensePlate;
         query = query + " and cci.license_plate = ?";
@@ -169,12 +173,12 @@ const queryCheckCar = (params,callback) => {
         query = query + " and si.user_name = ?";
     }
     if(params.createdStart){
-        paramsArray[i++] = params.createdStartOn;
-        query = query + " and cci.created_on >= ?";
+        paramsArray[i++] = params.createdStart +"00:00:00";
+        query = query + " and cci.created_on >= ?  ";
     }
     if(params.createdEnd){
-        paramsArray[i++] = params.createdEndOn;
-        query = query + " and cci.created_on <= ?";
+        paramsArray[i++] = params.createdEnd + "23:59:59";
+        query = query + " and cci.created_on <= ?  ";
     }
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);
