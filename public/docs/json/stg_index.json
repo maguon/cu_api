@@ -1879,7 +1879,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/message": {
+    "/supervise/{superviseId}/user/{userId}/car/{carId}/message": {
       "post": {
         "tags": [
           "userMessage"
@@ -1894,6 +1894,20 @@
             "name": "superviseId",
             "in": "path",
             "description": "superviseId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "carId",
+            "in": "path",
+            "description": "carId",
             "required": true,
             "type": "integer"
           },
@@ -1968,6 +1982,125 @@
           },
           "400": {
             "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/getMessage": {
+      "get": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": "userMessage ",
+        "description": "userMessage",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "user info",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userMessageId",
+            "in": "query",
+            "description": "userMessageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "0未读1已读",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "superviseName",
+            "in": "query",
+            "description": "superviseName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "licensePlate",
+            "in": "query",
+            "description": "licensePlate",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdStartOn",
+            "in": "query",
+            "description": "createdStartOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdEndOn",
+            "in": "query",
+            "description": "createdEndOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/userMessage"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
           }
         }
       }
@@ -3039,16 +3172,10 @@
     "addMessage": {
       "type": "object",
       "properties": {
-        "userId": {
-          "type": "integer"
-        },
         "messageName": {
           "type": "string"
         },
         "messageOrder": {
-          "type": "string"
-        },
-        "licensePlate": {
           "type": "string"
         },
         "address": {

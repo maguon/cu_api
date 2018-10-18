@@ -6,13 +6,13 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addMessage = (params,callback) => {
-    let query = "insert into user_message(user_id,supervise_id,message_name,message_order,license_plate,address)values(?,?,?,?,?,?)";
+    let query = "insert into user_message(user_id,supervise_id,car_id,message_name,message_order,address)values(?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.superviseId;
+    paramsArray[i++] = params.carId;
     paramsArray[i++] = params.messageName;
     paramsArray[i++] = params.messageOrder;
-    paramsArray[i++] = params.licensePlate;
     paramsArray[i] = params.address;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addMessage');
@@ -20,35 +20,51 @@ const addMessage = (params,callback) => {
     })
 }
 const getMessage = (params,callback) => {
-    let query = " select * from user_message where id is not null  ";
+    let query = " select um.*,uc.license_plate,ui.phone,ui.user_name,si.user_name as superviseName from user_message um " +
+                " left join user_car uc on uc.id=um.car_id " +
+                " left join user_info ui on ui.id=um.user_id " +
+                " left join supervise_info si on si.id=um.supervise_id " +
+                " where um.id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
-        query = query + " and user_id = ? ";
+        query = query + " and um.user_id = ? ";
     }
     if(params.userMessageId){
         paramsArray[i++] = params.userMessageId;
-        query = query + " and id = ? ";
+        query = query + " and um.id = ? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone = ? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name = ? ";
+    }
+    if(params.superviseName){
+        paramsArray[i++] = params.superviseName;
+        query = query + " and si.user_name = ? ";
     }
     if(params.messageName){
         paramsArray[i++] = params.messageName;
-        query = query + " and message_name = ? ";
+        query = query + " and um.message_name = ? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
-        query = query + " and status = ? ";
+        query = query + " and um.status = ? ";
     }
     if(params.licensePlate){
         paramsArray[i++] = params.licensePlate;
-        query = query + " and license_plate = ? ";
+        query = query + " and uc.license_plate = ? ";
     }
     if(params.createdStartOn){
-        paramsArray[i++] = params.createdStartOn;
-        query = query + " and created_on >= ? ";
+        paramsArray[i++] = params.createdStartOn+" 00:00:00";
+        query = query + " and um.created_on >= ? ";
     }
     if(params.createdEndOn){
-        paramsArray[i++] = params.createdEndOn;
-        query = query + " and created_on <= ? ";
+        paramsArray[i++] = params.createdEndOn+" 23:59:59";
+        query = query + " and um.created_on <= ? ";
     }
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);
@@ -61,7 +77,7 @@ const getMessage = (params,callback) => {
     })
 }
 const queryUserMessageNumById = (params,callback) => {
-    let query = "select count(id) from user_message where id is not null ";
+    let query = "select count(id) as count from user_message where id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;

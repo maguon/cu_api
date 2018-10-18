@@ -30,11 +30,11 @@ const queryUser = (params,callback) => {
         query = query + " and gender = ? "
     }
     if(params.authStartTime){
-        paramsArray[i++] = params.authStartTime+"00:00:00";
+        paramsArray[i++] = params.authStartTime+" 00:00:00";
         query = query + " and auth_time >= ? "
     }
     if(params.authEndTime){
-        paramsArray[i++] = params.authEndTime+"23:59:59";
+        paramsArray[i++] = params.authEndTime+" 23:59:59";
         query = query + " and auth_time <= ? "
     }
     if(params.wechatStatus){

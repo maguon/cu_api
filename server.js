@@ -145,8 +145,9 @@ function createServer() {
     /**
      user_message
      */
-    server.post({path:'/api/supervise/:superviseId/message',contentType: 'application/json'},userMessage.addMessage);
+    server.post({path:'/api/supervise/:superviseId/user/:userId/car/:carId/message',contentType: 'application/json'},userMessage.addMessage);
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
+    server.get('/api/admin/:adminId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/msgStat',userMessage.queryUserMessageNumById);
     server.put({path:'/api/user/:userId/msg/:msgId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
     /**
