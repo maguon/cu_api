@@ -95,6 +95,7 @@ function createServer() {
     server.post({path:'/api/admin/:adminId/supervise',contentType: 'application/json'},supervise.createSupervise);
     server.post({path:'/api/superviseLogin',contentType: 'application/json'},supervise.superviseLogin);
     server.get('/api/supervise',supervise.querySupervise);
+    server.get('/api/admin/:adminId/supervise',supervise.querySupervise);
     server.put({path:'/api/admin/:adminId/supervise/:superviseId/status/:status',contentType: 'application/json'},supervise.updateSuperviseStatus);
     server.put({path:'/api/admin/:adminId/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);

@@ -256,6 +256,88 @@
             "description": "Invalid token value or invalid supervise id"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "query supervise user info",
+        "description": "Get supervise user info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "query",
+            "description": "superviseId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gender",
+            "in": "query",
+            "description": "gender,0男,1女",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "0停用1启用",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "0-n警员职务",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/supervise"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
       }
     },
     "/superviseLogin": {
