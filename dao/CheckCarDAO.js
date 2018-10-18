@@ -168,11 +168,11 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.superviseName;
         query = query + " and si.user_name = ?";
     }
-    if(params.createdStartOn){
+    if(params.createdStart){
         paramsArray[i++] = params.createdStartOn;
         query = query + " and cci.created_on >= ?";
     }
-    if(params.createdEndOn){
+    if(params.createdEnd){
         paramsArray[i++] = params.createdEndOn;
         query = query + " and cci.created_on <= ?";
     }
