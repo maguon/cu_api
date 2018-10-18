@@ -17,19 +17,37 @@ const addUserShipAddress = (params,callback) => {
     })
 }
 const getUserShipAddress = (params,callback) => {
-    let query = "select * from user_ship_address where id is not null ";
+    let query = " select ui.wechat_name,usa.created_on,usa.updated_on,usa.id,usa.address,usa.user_name as shipName,usa.phone as shipPhone,usa.status,usa.type,ui.phone,ui.user_name from user_ship_address usa " +
+                " left join user_info ui on ui.id=usa.user_id " +
+                " where usa.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
-        query = query + " and user_id = ? ";
+        query = query + " and usa.user_id = ? ";
     }
     if(params.userShipAddressId){
         paramsArray[i++] = params.userShipAddressId;
-        query = query + " and id = ? ";
+        query = query + " and usa.id = ? ";
+    }
+    if(params.shipName){
+        paramsArray[i++] = params.shipName;
+        query = query + " and usa.user_name = ? ";
+    }
+    if(params.shipPhone){
+        paramsArray[i++] = params.shipPhone;
+        query = query + " and usa.phone = ? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name = ? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone = ? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
-        query = query + " and status = ? ";
+        query = query + " and usa.status = ? ";
     }
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);

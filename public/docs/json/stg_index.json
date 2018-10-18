@@ -2838,6 +2838,90 @@
         }
       }
     },
+    "/admin/{adminId}/userShipAddress": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user getUserShipAddress ",
+        "description": "user getUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "shipName",
+            "in": "query",
+            "description": "shipName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "shipPhone",
+            "in": "query",
+            "description": "shipPhone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getUserShipAddress"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/user/{userId}/userShipAddress": {
       "get": {
         "tags": [
@@ -2867,6 +2951,20 @@
             "name": "status",
             "in": "query",
             "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
             "required": false,
             "type": "integer"
           }
