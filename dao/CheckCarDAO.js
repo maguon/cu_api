@@ -142,7 +142,7 @@ const queryCarNumByDay = (params,callback) => {
     });
 }
 const queryCheckCar = (params,callback) => {
-    let query = " select uc.license_plate,si.user_name as superviseName,ui.user_name,cci.* from check_car_info cci " +
+    let query = " select uc.vin,uc.engine_num,uc.license_plate,si.user_name as superviseName,ui.user_name,cci.* from check_car_info cci " +
                 " left join user_info ui on ui.id=cci.user_id " +
                 " left join supervise_info si on si.id=cci.supervise_id " +
                 " left join user_car uc on uc.user_id=ui.id " +
