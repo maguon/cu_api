@@ -45,11 +45,11 @@ const queryUserCar = (params,callback) => {
         query = query + " and ui.phone = ? ";
     }
     if(params.createdStartOn){
-        paramsArray[i++] = params.createdStartOn +"00:00:00";
+        paramsArray[i++] = params.createdStartOn +" 00:00:00";
         query = query + " and uc.created_on >= ? ";
     }
     if(params.createdEndOn){
-        paramsArray[i++] = params.createdEndOn+"23:59:59";
+        paramsArray[i++] = params.createdEndOn+" 23:59:59";
         query = query + " and uc.created_on <= ? ";
     }
     if(params.start&&params.size){
