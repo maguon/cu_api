@@ -6,10 +6,10 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addMessage = (params,callback) => {
-    let query = "insert into user_message(user_id,supervise_name,message_name,message_order,license_plate,address)values(?,?,?,?,?,?)";
+    let query = "insert into user_message(user_id,supervise_id,message_name,message_order,license_plate,address)values(?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
-    paramsArray[i++] = params.superviseName;
+    paramsArray[i++] = params.superviseId;
     paramsArray[i++] = params.messageName;
     paramsArray[i++] = params.messageOrder;
     paramsArray[i++] = params.licensePlate;
@@ -81,7 +81,7 @@ const updateUserMessageStatus = (params,callback) => {
     let paramsArray = [],i=0;
         paramsArray[i++] = params.status;
         paramsArray[i++] = params.userId;
-        paramsArray[i] = params.userMessageId;
+        paramsArray[i] = params.msgId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateUserMessageStatus');
         callback(error,rows);

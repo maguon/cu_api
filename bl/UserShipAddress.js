@@ -52,8 +52,22 @@ const updateUserShipAddress = (req,res,next)=>{
         }
     });
 };
+const updateUserShip = (req,res,next)=>{
+    let params = req.params;
+    userShipAddressDAO.updateUserShip(params,(error,result)=>{
+        if(error){
+            logger.error('updateUserShip' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateUserShip' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     addUserShipAddress,
     getUserShipAddress,
-    updateUserShipAddress
+    updateUserShipAddress,
+    updateUserShip
 }

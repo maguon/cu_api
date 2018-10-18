@@ -1080,7 +1080,7 @@
         }
       }
     },
-    "/queryUser": {
+    "/user": {
       "get": {
         "tags": [
           "user"
@@ -1222,7 +1222,7 @@
         }
       }
     },
-    "/user/{userId}/updateUser": {
+    "/user/{userId}": {
       "put": {
         "tags": [
           "user"
@@ -1408,7 +1408,7 @@
         }
       }
     },
-    "/user/{userId}/updateUserPhone": {
+    "/user/{userId}/userPhone": {
       "put": {
         "tags": [
           "user"
@@ -1452,7 +1452,7 @@
         }
       }
     },
-    "/user/{userId}/queryUserCar": {
+    "/user/{userId}/userCar": {
       "get": {
         "tags": [
           "userCar"
@@ -1506,88 +1506,7 @@
             "description": "Invalid token value or invalid admin id"
           }
         }
-      }
-    },
-    "/user/{userId}/queryUserCarNumById": {
-      "get": {
-        "tags": [
-          "userCar"
-        ],
-        "summary": "userCar ",
-        "description": "userCar",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "description": "user info",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/queryUserCarNumById"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid admin id"
-          }
-        }
-      }
-    },
-    "/userCar/{userCarId}/updatePaperRemark": {
-      "put": {
-        "tags": [
-          "userCar"
-        ],
-        "summary": "userCar update status",
-        "description": "userCar update status",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "userCarId",
-            "in": "path",
-            "description": "userCarId",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "updatePaperRemark",
-            "in": "body",
-            "description": "updatePaperRemark",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/updatePaperRemark"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/updatePaperRemark"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid admin id"
-          }
-        }
-      }
-    },
-    "/user/{userId}/addUserCar": {
+      },
       "post": {
         "tags": [
           "userCar"
@@ -1622,6 +1541,41 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/addUserCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/queryUserCarNumById": {
+      "get": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar ",
+        "description": "userCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user info",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/queryUserCarNumById"
               }
             }
           },
@@ -1671,9 +1625,51 @@
             "description": "Invalid token value or invalid admin id"
           }
         }
+      },
+      "put": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar update ",
+        "description": "userCar update ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateUserCar",
+            "in": "body",
+            "description": "updateUserCar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updatePaperRemark"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updatePaperRemark"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
       }
     },
-    "/user/{userId}/queryUserMessageNumById": {
+    "/user/{userId}/msgStat": {
       "get": {
         "tags": [
           "userMessage"
@@ -1715,7 +1711,7 @@
         }
       }
     },
-    "/superviseName/{superviseName}/addMessage": {
+    "/supervise/{superviseId}/message": {
       "post": {
         "tags": [
           "userMessage"
@@ -1727,11 +1723,11 @@
         ],
         "parameters": [
           {
-            "name": "superviseName",
+            "name": "superviseId",
             "in": "path",
-            "description": "superviseName",
+            "description": "superviseId",
             "required": true,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "addMessage",
@@ -1759,7 +1755,7 @@
         }
       }
     },
-    "/user/{userId}/userMessage/{userMessageId}/status/{status}": {
+    "/user/{userId}/msg/{msgId}/status/{status}": {
       "put": {
         "tags": [
           "userMessage"
@@ -1778,9 +1774,9 @@
             "type": "integer"
           },
           {
-            "name": "userMessageId",
+            "name": "msgId",
             "in": "path",
-            "description": "userMessageId",
+            "description": "msgId",
             "required": true,
             "type": "integer"
           },
@@ -1899,7 +1895,7 @@
         }
       }
     },
-    "/user/{userId}/addOrder": {
+    "/user/{userId}/order": {
       "post": {
         "tags": [
           "user"
@@ -1941,9 +1937,7 @@
             "description": "Invalid token value or invalid admin id"
           }
         }
-      }
-    },
-    "/user/{userId}/getOrder": {
+      },
       "get": {
         "tags": [
           "user"
@@ -2410,7 +2404,7 @@
         }
       }
     },
-    "/addUserShipAddress": {
+    "/userShipAddress": {
       "post": {
         "tags": [
           "user"
@@ -2447,7 +2441,7 @@
         }
       }
     },
-    "/user/{userId}/updateUserShipAddress": {
+    "/user/{userId}/shipAddress/{shipAddressId}/default": {
       "put": {
         "tags": [
           "user"
@@ -2462,6 +2456,13 @@
             "name": "userId",
             "in": "path",
             "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "shipAddressId",
+            "in": "path",
+            "description": "shipAddressId",
             "required": true,
             "type": "integer"
           },
@@ -2491,13 +2492,62 @@
         }
       }
     },
-    "/user/{userId}/queryUserShipAddress": {
+    "/user/{userId}/userShipAddress": {
       "get": {
         "tags": [
           "user"
         ],
         "summary": "user getUserShipAddress ",
         "description": "user getUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userShipAddressId",
+            "in": "query",
+            "description": "userShipAddressId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getUserShipAddress"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/shipAddress/{shipAddressId}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user putUserShipAddress ",
+        "description": "user putUserShipAddress",
         "produces": [
           "application/json"
         ],
@@ -2718,9 +2768,6 @@
         "userCarId": {
           "type": "integer"
         },
-        "dateId": {
-          "type": "integer"
-        },
         "address": {
           "type": "string"
         }
@@ -2762,7 +2809,7 @@
           "type": "integer"
         },
         "birth": {
-          "type": "string"
+          "type": "integer"
         }
       },
       "xml": {
@@ -2800,10 +2847,10 @@
     "updatePaperRemark": {
       "type": "object",
       "properties": {
-        "paperType": {
-          "type": "integer"
+        "vin": {
+          "type": "string"
         },
-        "remark": {
+        "engineNum": {
           "type": "string"
         }
       },
@@ -2941,6 +2988,9 @@
         },
         "remark": {
           "type": "string"
+        },
+        "num": {
+          "type": "integer"
         }
       },
       "xml": {
@@ -2973,9 +3023,6 @@
     "updateUserShipAddress": {
       "type": "object",
       "properties": {
-        "userShipAddressId": {
-          "type": "integer"
-        },
         "status": {
           "type": "integer"
         }

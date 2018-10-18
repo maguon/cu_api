@@ -26,14 +26,14 @@ const queryUserCar = (params,callback) => {
         callback(error,rows);
     })
 }
-const updatePaperRemark = (params,callback) => {
-    let query = "update user_car set paper_type=?,remark=? where id = ?";
+const updateUserCar = (params,callback) => {
+    let query = "update user_car set vin=?,engine_num=? where id = ?";
     let paramsArray = [],i=0;
-        paramsArray[i++] = params.paperType;
-        paramsArray[i++] = params.remark;
+        paramsArray[i++] = params.vin;
+        paramsArray[i++] = params.engineNum;
         paramsArray[i] = params.userCarId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug('updatePaperRemark');
+        logger.debug('updateUserCar');
         callback(error,rows);
     })
 }
@@ -87,7 +87,7 @@ const queryUserCarNumById = (params,callback) => {
 }
 module.exports = {
     queryUserCar,
-    updatePaperRemark,
+    updateUserCar,
     addUserCar,
     delUserCar,
     queryUserCarNumById

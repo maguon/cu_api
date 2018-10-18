@@ -59,9 +59,22 @@ const updateUserShipAddress = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateUserShip = (params,callback) => {
+    let query = " update user_ship_address set address = ?,detail_address=? where id=? and user_id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.address;
+    paramsArray[i++] = params.detailAddress;
+    paramsArray[i++] = params.userShipAddressId;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateUserShip');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addUserShipAddress,
     getUserShipAddress,
     updateUserShipAddress,
-    updateUserShipAddressById
+    updateUserShipAddressById,
+    updateUserShip
 }

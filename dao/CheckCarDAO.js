@@ -147,7 +147,7 @@ const queryCheckCar = (params,callback) => {
                 " left join user_info ui on ui.id=cci.user_id " +
                 " left join supervise_info si on si.id=cci.supervise_id " +
                 " left join user_car uc on uc.user_id=ui.id " +
-                " where 1=1 ";
+                " where cci.id is not null ";
     let paramsArray = [],i=0;
     if(params.checkCarId){
         paramsArray[i++] = params.checkCarId;

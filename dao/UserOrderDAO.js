@@ -6,10 +6,11 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addOrder = (params,callback) => {
-    let query = "insert into user_order(user_id,price,address,remark)values(?,?,?,?)";
+    let query = "insert into user_order(user_id,price,num,address,remark)values(?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = 5;
+    paramsArray[i++] = params.num;
     paramsArray[i++] = params.address;
     paramsArray[i] = params.remark;
     db.dbQuery(query,paramsArray,(error,rows)=>{

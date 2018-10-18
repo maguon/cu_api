@@ -19,14 +19,14 @@ const queryUserCar = (req,res,next)=>{
         }
     });
 };
-const updatePaperRemark = (req,res,next)=>{
+const updateUserCar = (req,res,next)=>{
     let params = req.params;
-    userCarDao.updatePaperRemark(params,(error,result)=>{
+    userCarDao.updateUserCar(params,(error,result)=>{
         if(error){
-            logger.error('updatePaperRemark' + error.message);
+            logger.error('updateUserCar' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info('updatePaperRemark' + 'success');
+            logger.info('updateUserCar' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -73,7 +73,7 @@ const queryUserCarNumById = (req,res,next)=>{
 };
 module.exports = {
     queryUserCar,
-    updatePaperRemark,
+    updateUserCar,
     addUserCar,
     delUserCar,
     queryUserCarNumById
