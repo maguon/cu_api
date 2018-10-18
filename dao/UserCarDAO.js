@@ -6,15 +6,51 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryUserCar = (params,callback) => {
-    let query = "select * from user_car where id is not null ";
+    let query = " select ui.user_name,si.user_name as superviseName,ui.phone,um.id,um.message_name,um.message_order,um.created_on as messageCreatedOn,um.status,um.address,uc.* from user_car uc " +
+                " left join user_info ui on ui.id=uc.user_id " +
+                " left join user_message um on um.car_id=uc.id " +
+                " left join supervise_info si on si.id=um.supervise_id " +
+                " where uc.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
-        query = query + " and user_id = ? ";
+        query = query + " and uc.user_id = ? ";
     }
     if(params.userCarId){
         paramsArray[i++] = params.userCarId;
-        query = query + " and id = ? ";
+        query = query + " and uc.id = ? ";
+    }
+    if(params.messageId){
+        paramsArray[i++] = params.messageId;
+        query = query + " and um.id = ? ";
+    }
+    if(params.licensePlate){
+        paramsArray[i++] = params.licensePlate;
+        query = query + " and uc.license_plate = ? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name = ? ";
+    }
+    if(params.vin){
+        paramsArray[i++] = params.vin;
+        query = query + " and uc.vin = ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and uc.status = ? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone = ? ";
+    }
+    if(params.createdStartOn){
+        paramsArray[i++] = params.createdStartOn +"00:00:00";
+        query = query + " and uc.created_on >= ? ";
+    }
+    if(params.createdEndOn){
+        paramsArray[i++] = params.createdEndOn+"23:59:59";
+        query = query + " and uc.created_on <= ? ";
     }
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);

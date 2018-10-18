@@ -1494,6 +1494,118 @@
         }
       }
     },
+    "/admin/{adminId}/userCar": {
+      "get": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar ",
+        "description": "userCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "user info",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "user info",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userCarId",
+            "in": "query",
+            "description": "userCarId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "messageId",
+            "in": "query",
+            "description": "messageId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "licensePlate",
+            "in": "query",
+            "description": "licensePlate",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "vin",
+            "in": "query",
+            "description": "vin",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdStartOn",
+            "in": "query",
+            "description": "createdStartOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdEndOn",
+            "in": "query",
+            "description": "createdEndOn",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/phone"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/user/{userId}/queryUserCarNumById": {
       "get": {
         "tags": [
