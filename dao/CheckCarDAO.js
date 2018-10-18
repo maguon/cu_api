@@ -149,6 +149,10 @@ const queryCheckCar = (params,callback) => {
                 " left join user_car uc on uc.user_id=ui.id " +
                 " where cci.id is not null ";
     let paramsArray = [],i=0;
+    if(params.superviseId){
+        paramsArray[i++] = params.superviseId;
+        query = query + " and cci.supervise_id = ?";
+    }
     if(params.checkCarId){
         paramsArray[i++] = params.checkCarId;
         query = query + " and cci.id = ?";
