@@ -646,62 +646,6 @@
         }
       }
     },
-    "/getCheckCar": {
-      "get": {
-        "tags": [
-          "checkCar"
-        ],
-        "summary": "query userCar ",
-        "description": "query userCar ",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "status",
-            "in": "query",
-            "description": "status",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "dateId",
-            "in": "query",
-            "description": "dateId",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "superviseId",
-            "in": "query",
-            "description": "superviseId",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "userCarId",
-            "in": "query",
-            "description": "userCarId",
-            "required": false,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/checkCar"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid userCar id"
-          }
-        }
-      }
-    },
     "/supervise/{superviseId}/checkCar/{checkCarId}/status/{status}": {
       "put": {
         "tags": [

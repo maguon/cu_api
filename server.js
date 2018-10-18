@@ -106,7 +106,6 @@ function createServer() {
     /**
      check_car_info
      */
-    server.get('/api/getCheckCar',checkCar.queryCarInfo);
     server.get('/api/admin/:adminId/checkCar',checkCar.queryCheckCar);
     server.put({path:'/api/supervise/:superviseId/checkCar/:checkCarId/status/:status',contentType: 'application/json'},checkCar.updateStatus);
     server.post({path:'/api/supervise/:superviseId/checkCar',contentType: 'application/json'},checkCar.addCheckCar);
