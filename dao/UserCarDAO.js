@@ -6,7 +6,7 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryUserCar = (params,callback) => {
-    let query = " select ui.user_name,si.user_name as superviseName,ui.phone,um.id,um.message_name,um.message_order,um.created_on as messageCreatedOn,um.status,um.address,uc.* from user_car uc " +
+    let query = " select ui.user_name,si.user_name as superviseName,ui.phone,um.id as messageId,um.message_name,um.message_order,um.created_on as messageCreatedOn,um.status,um.address,uc.* from user_car uc " +
                 " left join user_info ui on ui.id=uc.user_id " +
                 " left join user_message um on um.car_id=uc.id " +
                 " left join supervise_info si on si.id=um.supervise_id " +
