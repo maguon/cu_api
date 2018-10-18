@@ -60,7 +60,7 @@ const updateUserShip = (req,res,next)=>{
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
             logger.info('updateUserShip' + 'success');
-            resUtil.resetQueryRes(res,result,null);
+            resUtil.resetUpdateRes(res,result,null);
             return next();
         }
     });

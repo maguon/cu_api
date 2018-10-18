@@ -4,12 +4,11 @@ const logger = serverLogger.createLogger('UserShipAddressDAO.js');
 const db = require('../db/connection/MysqlDb.js');
 
 const addUserShipAddress = (params,callback) => {
-    let query = " insert into user_ship_address(user_id,address,detail_address,user_name,phone) " +
-                " values(?,?,?,?,?) ";
+    let query = " insert into user_ship_address(user_id,address,user_name,phone) " +
+                " values(?,?,?,?) ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.address;
-    paramsArray[i++] = params.detailAddress;
     paramsArray[i++] = params.userName;
     paramsArray[i] = params.phone;
     db.dbQuery(query,paramsArray,(error,rows)=>{
@@ -43,10 +42,11 @@ const getUserShipAddress = (params,callback) => {
     })
 }
 const updateUserShipAddressById = (params,callback) => {
-    let query = " update user_ship_address set status = ? where id=? ";
+    let query = " update user_ship_address set status = ? where id=? and user_id =?";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.status;
-    paramsArray[i] = params.userShipAddressId;
+    paramsArray[i++] = params.shipAddressId;
+    paramsArray[i] = params.userId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateUserShipAddressById');
         callback(error,rows);
@@ -60,11 +60,10 @@ const updateUserShipAddress = (params,callback) => {
     })
 }
 const updateUserShip = (params,callback) => {
-    let query = " update user_ship_address set address = ?,detail_address=? where id=? and user_id=? ";
+    let query = " update user_ship_address set address = ? where id=? and user_id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.address;
-    paramsArray[i++] = params.detailAddress;
-    paramsArray[i++] = params.userShipAddressId;
+    paramsArray[i++] = params.shipAddressId;
     paramsArray[i] = params.userId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateUserShip');
