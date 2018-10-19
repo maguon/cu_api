@@ -19,7 +19,7 @@ const createSupervise = (params,callback) => {
     });
 }
 const querySupervise = (params,callback) => {
-    let query = " select * from supervise_info where id is not null ";
+    let query = " select id,user_name,gender,phone,avatar_image,status,type,last_login_on,created_on,updated_on from supervise_info where id is not null ";
     let paramsArray=[],i=0;
     if(params.superviseId){
         paramsArray[i++] = params.superviseId;

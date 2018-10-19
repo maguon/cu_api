@@ -17,7 +17,7 @@ const createAdminUser = (params,callback) => {
     });
 }
 const queryAdminUser = (params,callback) => {
-    let query = " select * from admin_user where id is not null ";
+    let query = " select id,user_name,real_name,phone,status,type,created_on,updated_on from admin_user where id is not null ";
     let paramsArray=[],i=0;
     if(params.adminId){
         paramsArray[i++] = params.adminId;
@@ -37,7 +37,7 @@ const queryAdminUser = (params,callback) => {
     });
 }
 const queryAdminInfo = (params,callback) => {
-    let query = " select * from admin_user where id is not null";
+    let query = " select id,user_name,real_name,phone,status,type,created_on,updated_on from admin_user where id is not null";
     let paramsArray=[],i=0;
     if(params.adminId){
         query = query + " and id = ? ";
