@@ -34,6 +34,10 @@ const getMessage = (params,callback) => {
         paramsArray[i++] = params.userMessageId;
         query = query + " and um.id = ? ";
     }
+    if(params.carId){
+        paramsArray[i++] = params.carId;
+        query = query + " and um.car_id = ? ";
+    }
     if(params.phone){
         paramsArray[i++] = params.phone;
         query = query + " and ui.phone = ? ";
