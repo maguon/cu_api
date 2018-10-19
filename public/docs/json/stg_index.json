@@ -2180,13 +2180,6 @@
             "type": "string"
           },
           {
-            "name": "status",
-            "in": "query",
-            "description": "status",
-            "required": false,
-            "type": "integer"
-          },
-          {
             "name": "createdStartOn",
             "in": "query",
             "description": "createdStartOn",
