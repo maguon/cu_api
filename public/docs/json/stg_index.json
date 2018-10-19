@@ -1737,6 +1737,13 @@
         ],
         "parameters": [
           {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
             "name": "userId",
             "in": "query",
             "description": "user info",
@@ -1754,13 +1761,6 @@
             "name": "userCarId",
             "in": "query",
             "description": "userCarId",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "messageId",
-            "in": "query",
-            "description": "messageId",
             "required": false,
             "type": "integer"
           },

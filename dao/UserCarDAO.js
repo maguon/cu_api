@@ -6,10 +6,8 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryUserCar = (params,callback) => {
-    let query = " select ui.user_name,si.user_name as superviseName,ui.phone,um.id as messageId,um.message_name,um.message_order,um.created_on as messageCreatedOn,um.status,um.address,uc.* from user_car uc " +
+    let query = " select ui.user_name,ui.phone,uc.* from user_car uc " +
                 " left join user_info ui on ui.id=uc.user_id " +
-                " left join user_message um on um.car_id=uc.id " +
-                " left join supervise_info si on si.id=um.supervise_id " +
                 " where uc.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
@@ -19,10 +17,6 @@ const queryUserCar = (params,callback) => {
     if(params.userCarId){
         paramsArray[i++] = params.userCarId;
         query = query + " and uc.id = ? ";
-    }
-    if(params.messageId){
-        paramsArray[i++] = params.messageId;
-        query = query + " and um.id = ? ";
     }
     if(params.licensePlate){
         paramsArray[i++] = params.licensePlate;
