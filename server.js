@@ -14,6 +14,7 @@ const sms = require('./bl/Sms.js');
 const adminUser = require('./bl/AdminUser.js');
 const userShipAddress = require('./bl/UserShipAddress.js');
 const userOrder = require('./bl/UserOrder.js');
+const wechatBl = require('./bl/WechatBl.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -81,6 +82,9 @@ function createServer() {
         default: 'index.html',
         maxAge: 0
     }));
+
+
+    server.get('/api/wechat/:code/openid',wechatBl.getUserIdByCode);
     /**
      * Admin User Module
      */

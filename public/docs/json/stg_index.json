@@ -56,6 +56,36 @@
     "http"
   ],
   "paths": {
+    "/wechat/{code}/openid": {
+      "get": {
+        "tags": [
+          "wechat"
+        ],
+        "summary": "wechat user do login",
+        "description": "",
+        "operationId": "wechat login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "wechat",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/adminLogin": {
       "post": {
         "tags": [
@@ -267,6 +297,13 @@
           "application/json"
         ],
         "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
           {
             "name": "superviseId",
             "in": "query",
