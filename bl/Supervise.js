@@ -151,13 +151,13 @@ const updateSuperviseStatus = (req,res,next) => {
 const changeSupervisePassword = (req,res,next) => {
     let params = req.params;
     new Promise((resolve,reject) => {
-        superviseDao.querySupervise(params,(error,rows)=>{
+        superviseDao.querySupervisePass(params,(error,rows)=>{
             if (error) {
-                logger.error(' querySupervise ' + error.message);
+                logger.error(' querySupervisePass ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' querySupervise ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn(' querySupervisePass ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     return next();
                 }else if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){

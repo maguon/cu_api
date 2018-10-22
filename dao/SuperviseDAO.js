@@ -55,6 +55,18 @@ const querySupervise = (params,callback) => {
         return callback(error,rows);
     });
 }
+const querySupervisePass = (params,callback) => {
+    let query = " select * from supervise_info where id is not null ";
+    let paramsArray=[],i=0;
+    if(params.superviseId){
+        paramsArray[i] = params.superviseId;
+        query = query + " and id = ? ";
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' querySupervise ');
+        return callback(error,rows);
+    });
+}
 const getSuperviseInfo = (params,callback) => {
     let query = " select pi.user_name,pi.phone,pi.gender,date_format(pi.created_on,'%Y年%m月%d日') as date from police_info pi" +
                 " left join car_info ci on ci.supervise_id=pi.id" +
@@ -194,5 +206,6 @@ module.exports = {
     updateSuperviseDevice,
     deleteSuperviseDevice,
     addSuperviseDevice,
-    updatePasswordByPhone
+    updatePasswordByPhone,
+    querySupervisePass
 }
