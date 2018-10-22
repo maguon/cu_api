@@ -85,6 +85,7 @@ function createServer() {
 
 
     server.get('/api/wechat/:code/openid',wechatBl.getUserIdByCode);
+    server.get('/api/wechat/:accessToken/openid/:openid',wechatBl.getUserInfoById);
     /**
      * Admin User Module
      */

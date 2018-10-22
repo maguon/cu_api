@@ -12,8 +12,21 @@ const getUserIdByCode = (req,res,next) =>{
             logger.error(' getUserIdByCode ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-
+            console.log(result);
             logger.info(' getUserIdByCode ' + 'success');
+            resUtil.resetQueryRes(res, result);
+
+        }
+    })
+}
+const getUserInfoById = (req,res,next) =>{
+    wechatDAO.getUserInfoById(req.params,(error,result)=>{
+        if (error) {
+            logger.error(' getUserInfoById ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+
+            logger.info(' getUserInfoById ' + 'success');
             resUtil.resetQueryRes(res, result);
 
         }
@@ -120,6 +133,7 @@ const getUserById = (req,res,next) => {
 }
 module.exports ={
     getUserIdByCode,
+    getUserInfoById,
     unifiedOrder,
     orderQuery,
     closeOrder,

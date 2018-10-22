@@ -5,15 +5,27 @@ const sysConfig = require("../config/SystemConfig");
 const httpUtil = require('../util/HttpUtil');
 
 const getUserIdByCode = (params,callback) => {
-    const url = '/sns/jscode2session';
+    const url = '/sns/oauth2/access_token';
     const paramObj = {
         appid : sysConfig.wechatConfig.mpAppId,
         secret : sysConfig.wechatConfig.mpSecret,
-        js_code : params.code,
-        grant_type : 'authorization_code',
+        code : params.code,
+        grant_type : 'authorization_code'
     }
     httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
         logger.debug('getUserIdByCode');
+        callback(err,res);
+    })
+}
+const getUserInfoById = (params,callback) =>{
+    const url = '/cgi-bin/user/info';
+    const paramObj = {
+        access_token: 'QUgFVSBiXZZjq4DC/B4Ymw==',
+        openid: 'olZvM4hh0Ei4H-_LUV3CHL7qffNk',
+        lang: 'zh_CN',
+    }
+    httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
+        logger.debug('getUserInfoById');
         callback(err,res);
     })
 }
@@ -143,6 +155,7 @@ const refundQuery = (params,callback) => {
 }
 module.exports = {
     getUserIdByCode,
+    getUserInfoById,
     unifiedOrder,
     createUnifiedOrder,
     orderQuery,

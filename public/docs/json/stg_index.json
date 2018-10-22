@@ -12,7 +12,7 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "stg.myxxjs.com:9201",
+  "host": "localhost:9201",
   "basePath": "/api",
   "tags": [
     {
@@ -75,6 +75,43 @@
             "name": "code",
             "in": "path",
             "description": "wechat",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/wechat/{accessToken}/openid/{openid}": {
+      "get": {
+        "tags": [
+          "wechat"
+        ],
+        "summary": "wechat user do login",
+        "description": "",
+        "operationId": "wechat login",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accessToken",
+            "in": "path",
+            "description": "accessToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "openid",
+            "in": "path",
+            "description": "openid",
             "required": true,
             "type": "string"
           }
