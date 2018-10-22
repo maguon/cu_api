@@ -59,11 +59,15 @@ const querySupervisePass = (params,callback) => {
     let query = " select * from supervise_info where id is not null ";
     let paramsArray=[],i=0;
     if(params.superviseId){
-        paramsArray[i] = params.superviseId;
+        paramsArray[i++] = params.superviseId;
         query = query + " and id = ? ";
     }
+    if(params.phone){
+        paramsArray[i] = params.phone;
+        query = query + " and phone = ? ";
+    }
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug(' querySupervise ');
+        logger.debug(' querySupervisePass ');
         return callback(error,rows);
     });
 }
