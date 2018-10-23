@@ -130,8 +130,8 @@ function createServer() {
     server.post({path:'/api/userLogin',contentType: 'application/json'},user.userLogin);
     server.put({path:'/api/user/:userId',contentType: 'application/json'},user.updateUser);
     server.put({path:'/api/user/:userId/password',contentType: 'application/json'},user.updatePassword);
-    //server.put({path:'/api/admin/:adminId/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
-    //server.put({path:'/api/admin/:adminId/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
+    server.put({path:'/api/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
+    server.put({path:'/api/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
     server.put({path:'/api/user/:userId/userPhone',contentType: 'application/json'},user.updatePhone);
     /**
      user_ship_address

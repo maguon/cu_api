@@ -1561,7 +1561,7 @@
         }
       }
     },
-    "/admin/{adminId}/user/{userId}/wechatStatus/{wechatStatus}": {
+    "/user/{userId}/wechatStatus/{wechatStatus}": {
       "put": {
         "tags": [
           "user"
@@ -1572,13 +1572,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "adminId",
-            "in": "path",
-            "description": "adminId",
-            "required": true,
-            "type": "integer"
-          },
           {
             "name": "userId",
             "in": "path",
@@ -1610,7 +1603,7 @@
         }
       }
     },
-    "/admin/{adminId}/user/{userId}/authStatus/{authStatus}": {
+    "/user/{userId}/authStatus/{authStatus}": {
       "put": {
         "tags": [
           "user"
@@ -1621,13 +1614,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "adminId",
-            "in": "path",
-            "description": "adminId",
-            "required": true,
-            "type": "integer"
-          },
           {
             "name": "userId",
             "in": "path",
