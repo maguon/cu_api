@@ -200,8 +200,10 @@ module.exports = {
     saveSignCode,
     getSignCode,
     saveToken,
+    getToken,
     removeToken,
     savePasswordCode,
     getPasswordCode,
-    parseAccessTokenSupervise
+    parseAccessTokenSupervise,
+    headerTokenMeta
 };

@@ -15,6 +15,7 @@ const adminUser = require('./bl/AdminUser.js');
 const userShipAddress = require('./bl/UserShipAddress.js');
 const userOrder = require('./bl/UserOrder.js');
 const wechatBl = require('./bl/WechatBl.js');
+const oauth = require('./bl/OAuth.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -51,6 +52,7 @@ function createServer() {
     server.use(restify.plugins.authorizationParser());
     server.use(restify.plugins.queryParser());
     server.use(restify.plugins.gzipResponse());
+    server.use(oauth.transferToken());
 
 
     restify.CORS.ALLOW_HEADERS.push('auth-token');
