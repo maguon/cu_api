@@ -2963,6 +2963,13 @@
             "type": "integer"
           },
           {
+            "name": "userShipAddressId",
+            "in": "query",
+            "description": "userShipAddressId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "shipName",
             "in": "query",
             "description": "shipName",
