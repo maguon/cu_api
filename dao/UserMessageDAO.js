@@ -46,9 +46,9 @@ const getMessage = (params,callback) => {
         paramsArray[i++] = params.userName;
         query = query + " and ui.user_name = ? ";
     }
-    if(params.superviseName){
-        paramsArray[i++] = params.superviseName;
-        query = query + " and si.user_name = ? ";
+    if(params.superviseId){
+        paramsArray[i++] = params.superviseId;
+        query = query + " and si.id = ? ";
     }
     if(params.messageName){
         paramsArray[i++] = params.messageName;

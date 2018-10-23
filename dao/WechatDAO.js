@@ -18,7 +18,7 @@ const getUserIdByCode = (params,callback) => {
     })
 }
 const getUserInfoById = (params,callback) =>{
-    const url = '/cgi-bin/user/info';
+    const url = '/sns/userinfo';
     const paramObj = {
         access_token: 'QUgFVSBiXZZjq4DC/B4Ymw==',
         openid: 'olZvM4hh0Ei4H-_LUV3CHL7qffNk',
@@ -30,9 +30,9 @@ const getUserInfoById = (params,callback) =>{
     })
 }
 const unifiedOrder = (params,callback) => {
-    const url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
+    const url = '/pay/unifiedorder';
     const unifiedOrder = {
-        appid: sysConfig.wechatConfig.mpAppId, //小程序ID	appid	是
+        appid: sysConfig.wechatPayConfig.mpAppId, //小程序ID	appid	是
         mch_id:600,//商户号	mch_id	是
         device_info:600,//设备号	device_info	否
         nonce_str:600,//随机字符串	nonce_str	是

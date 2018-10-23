@@ -12,7 +12,7 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "localhost:9201",
+  "host": "stg.myxxjs.com:9201",
   "basePath": "/api",
   "tags": [
     {
@@ -2203,11 +2203,11 @@
             "type": "string"
           },
           {
-            "name": "superviseName",
+            "name": "superviseId",
             "in": "query",
-            "description": "superviseName",
+            "description": "superviseId",
             "required": false,
-            "type": "string"
+            "type": "integer"
           },
           {
             "name": "licensePlate",
