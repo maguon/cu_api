@@ -3396,7 +3396,7 @@
           "type": "integer"
         },
         "birth": {
-          "type": "integer"
+          "type": "string"
         }
       },
       "xml": {
