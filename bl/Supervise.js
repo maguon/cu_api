@@ -351,7 +351,7 @@ const superviseLogin=(req,res,next)=>{
 }
 const changeSuperviseToken=(req,res,next)=>{
     let params = req.params;
-    let tokenObj = oAuthUtil.parseAccessToken(params.token);
+    let tokenObj = oAuthUtil.parseAccessTokenSupervise(params.token);
     if(tokenObj){
         if(params.superviseId==tokenObj.superviseId){
             superviseDao.querySupervise({superviseId:params.superviseId},(error,rows)=>{

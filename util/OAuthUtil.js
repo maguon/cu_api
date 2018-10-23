@@ -88,6 +88,20 @@ const parseAccessToken=(accessToken)=>{
         return null;
     }
 }
+const parseAccessTokenSupervise=(accessToken)=>{
+    try{
+        let data = serializer.parse(accessToken);
+        let tokenInfo ={};
+        tokenInfo.clientType = data[0];
+        tokenInfo.superviseId = data[1];
+        tokenInfo.grantDate = data[2];
+        tokenInfo.status = data[3];
+        return tokenInfo;
+    }catch(e){
+        logger.error(' parseNewAccessToken :'+ e.message);
+        return null;
+    }
+}
 
 
 const parseUserToken=(req)=>{
@@ -188,5 +202,6 @@ module.exports = {
     saveToken,
     removeToken,
     savePasswordCode,
-    getPasswordCode
+    getPasswordCode,
+    parseAccessTokenSupervise
 };
