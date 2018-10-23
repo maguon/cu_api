@@ -108,7 +108,7 @@ function createServer() {
     //手机发送验证码
     //server.post({path:'/api/superviseLogin' ,contentType: 'application/json'}, supervise.superviseLogin);
     server.put({path:'/api/phone/:phone/supervisePassword',contentType: 'application/json'},supervise.changeSupervisePasswordByPhone);
-
+    server.get('/api/supervise/:superviseId/token/:token' , supervise.changeSuperviseToken);
     /**
      check_car_info
      */

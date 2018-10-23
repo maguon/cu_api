@@ -414,6 +414,45 @@
         }
       }
     },
+    "/supervise/{superviseId}/token/{token}": {
+      "get": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "get supervise new token",
+        "description": "change  supervise token",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "supervise id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "description": "token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
     "/superviseLogin": {
       "post": {
         "tags": [

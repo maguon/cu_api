@@ -38,11 +38,11 @@ const createSupervise = (req,res,next) => {
             } else {
                 if(result && result.insertId>0){
                     logger.info(' createSupervise ' + 'success');
-                    let user = {
+                    let supervise = {
                         superviseId : result.insertId,
                         status : listOfValue.USER_STATUS_ACTIVE
                     }
-                    resUtil.resetQueryRes(res,user,null);
+                    resUtil.resetQueryRes(res,supervise,null);
                 }else{
                     logger.warn(' createSupervise ' + 'false');
                     resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -349,8 +349,58 @@ const superviseLogin=(req,res,next)=>{
         return next();
     })
 }
-
-
+const changeSuperviseToken=(req,res,next)=>{
+    let params = req.params;
+    let tokenObj = oAuthUtil.parseAccessToken(params.token);
+    if(tokenObj){
+        if(params.superviseId==tokenObj.superviseId){
+            superviseDao.querySupervise({superviseId:params.superviseId},(error,rows)=>{
+                if (error) {
+                    logger.error(' querySupervise ' + error.message);
+                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                } else {
+                    if(rows && rows.length<1){
+                        logger.warn(' querySupervise ' + params.superviseId+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                        resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_USER_UNREGISTERED) ;
+                        return next();
+                    }else{
+                        let supervise = {
+                            superviseId : rows[0].id,
+                            superviseStatus : rows[0].status,
+                            type : rows[0].type,
+                            name : rows[0].user_name,
+                            phone: rows[0].phone
+                        }
+                        supervise.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.supervise,supervise.superviseId,supervise.superviseStatus);
+                        oAuthUtil.removeToken({accessToken:params.token},(error,result)=>{
+                            if(error) {
+                                logger.error(' removeToken ' + error.stack);
+                            }
+                        })
+                        oAuthUtil.saveToken(supervise,(error,result)=>{
+                            if(error){
+                                logger.error(' saveToken ' + error.stack);
+                                return next(sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG))
+                            }else{
+                                logger.info(' saveToken' +params.superviseId+ " success");
+                                resUtil.resetQueryRes(res,supervise,null);
+                                return next();
+                            }
+                        })
+                    }
+                }
+            })
+        }else{
+            logger.warn(' changeSuperviseToken' +params.superviseId+ " failed");
+            resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR) ;
+            return next();
+        }
+    }else{
+        logger.warn(' changeSuperviseToken' +params.superviseId+ " failed");
+        resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR) ;
+        return next();
+    }
+}
 module.exports = {
     createSupervise,
     superviseLogin,
@@ -360,5 +410,6 @@ module.exports = {
     changeSupervisePassword,
     changeSupervisePhone,
     updateSuperviseStatus,
-    changeSupervisePasswordByPhone
+    changeSupervisePasswordByPhone,
+    changeSuperviseToken
 }

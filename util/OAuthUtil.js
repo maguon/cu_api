@@ -186,6 +186,7 @@ module.exports = {
     saveSignCode,
     getSignCode,
     saveToken,
+    removeToken,
     savePasswordCode,
     getPasswordCode
 };
