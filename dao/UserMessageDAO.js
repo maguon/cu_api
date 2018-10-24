@@ -20,7 +20,7 @@ const addMessage = (params,callback) => {
     })
 }
 const getMessage = (params,callback) => {
-    let query = " select um.*,uc.license_plate,ui.phone,ui.user_name,si.user_name as superviseName from user_message um " +
+    let query = " select um.*,uc.license_plate,ui.phone,ui.user_name,si.user_name as supervise_name from user_message um " +
                 " left join user_car uc on uc.id=um.car_id " +
                 " left join user_info ui on ui.id=um.user_id " +
                 " left join supervise_info si on si.id=um.supervise_id " +
