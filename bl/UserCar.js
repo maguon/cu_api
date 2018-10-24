@@ -39,9 +39,19 @@ const addUserCar = (req,res,next)=>{
             logger.error('addUserCar' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info('addUserCar' + 'success');
-            resUtil.resetCreateRes(res,result,null);
-            return next();
+            userCarDao.getUserCarNum(params,(error,rows)=>{
+                if(error){
+                    logger.error('getUserCarNum' + error.message);
+                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                }else{
+                    let num = rows[0].num + 1 ;
+                    params.num = num;
+                    userCarDao.updateUserCarNum(params,(error,result));
+                    logger.info('addUserCar' + 'success');
+                    resUtil.resetCreateRes(res,result,null);
+                    return next();
+                }
+            })
         }
     });
 };
@@ -52,21 +62,18 @@ const delUserCar = (req,res,next)=>{
             logger.error('delUserCar' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info('delUserCar' + 'success');
+            userCarDao.getUserCarNum(params,(error,rows)=>{
+                if(error){
+                    logger.error('getUserCarNum' + error.message);
+                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                }else{
+                    let num = rows[0].num - 1 ;
+                    params.num = num;
+                    userCarDao.updateUserCarNum(params,(error,result));
+                }
+            })
+            logger.info('addUserCar' + 'success');
             resUtil.resetUpdateRes(res,result,null);
-            return next();
-        }
-    });
-};
-const queryUserCarNumById = (req,res,next)=>{
-    let params = req.params;
-    userCarDao.queryUserCarNumById(params,(error,result)=>{
-        if(error){
-            logger.error('queryUserCarNumById' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-        }else{
-            logger.info('queryUserCarNumById' + 'success');
-            resUtil.resetQueryRes(res,result,null);
             return next();
         }
     });
@@ -75,6 +82,5 @@ module.exports = {
     queryUserCar,
     updateUserCar,
     addUserCar,
-    delUserCar,
-    queryUserCarNumById
+    delUserCar
 }

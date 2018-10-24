@@ -94,24 +94,25 @@ const delUserCar = (params,callback) => {
         callback(error,rows);
     })
 }
-const queryUserCarNumById = (params,callback) => {
-    let query = "select count(id) from user_car where id is not null ";
+const getUserCarNum = (params,callback) => {
+    let query = "select num from user_info where id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
-        paramsArray[i++] = params.userId;
-        query = query + " and user_id = ? ";
-    }
-    if(params.userCarId){
-        paramsArray[i++] = params.userCarId;
+        paramsArray[i] = params.userId;
         query = query + " and id = ? ";
     }
-    if(params.start&&params.size){
-        paramsArray[i++] = parseInt(params.start);
-        paramsArray[i] = parseInt(params.size);
-        query = query + " limit ?, ? ";
-    }
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug('queryUserCarNumById');
+        logger.debug('getUserCarNum');
+        callback(error,rows);
+    })
+}
+const updateUserCarNum = (params,callback) => {
+    let query = "update user_info set num = ? where id = ? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.num;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateUserCarNum');
         callback(error,rows);
     })
 }
@@ -120,5 +121,6 @@ module.exports = {
     updateUserCar,
     addUserCar,
     delUserCar,
-    queryUserCarNumById
+    getUserCarNum,
+    updateUserCarNum
 }

@@ -152,7 +152,7 @@ function createServer() {
     server.post({path:'/api/user/:userId/userCar',contentType: 'application/json'},userCar.addUserCar);
     server.del({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.delUserCar);
     server.put({path:'/api/user/:userId/userCar/:userCarId',contentType: 'application/json'},userCar.updateUserCar);
-    server.get('/api/user/:userId/queryUserCarNumById',userCar.queryUserCarNumById);
+
     /**
      user_message
      */
