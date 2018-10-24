@@ -4,7 +4,7 @@ const logger = serverLogger.createLogger('UserDAO.js');
 const db = require('../db/connection/MysqlDb.js');
 
 const queryUser = (params,callback) => {
-    let query = "select id,wechat_id,user_name,wechat_name,avatar_image,gender,phone,birth,wechat_status,auth_status,auth_time,last_login_on,created_on,updated_on from user_info where id is not null ";
+    let query = "select id,num,wechat_id,user_name,wechat_name,avatar_image,gender,phone,birth,wechat_status,auth_status,auth_time,last_login_on,created_on,updated_on from user_info where id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
