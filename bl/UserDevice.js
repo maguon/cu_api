@@ -11,7 +11,7 @@ let logger = serverLogger.createLogger('UserDevice.js');
 
 const createUserDevice=(req,res,next)=>{
     let params = req.params ;
-    userDeviceDAO.addUserDevice(params,function(error,result){
+    userDeviceDAO.addUserDevice(params,(error,result)=>{
         if (error) {
             logger.error(' createUserDevice ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -24,7 +24,7 @@ const createUserDevice=(req,res,next)=>{
 }
 const queryUserDevice=(req,res,next)=>{
     let params = req.params ;
-    userDeviceDAO.getUserDevice(params,function(error,result){
+    userDeviceDAO.getUserDevice(params,(error,result)=>{
         if (error) {
             logger.error(' queryUserDevice ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -37,7 +37,7 @@ const queryUserDevice=(req,res,next)=>{
 }
 const removeUserDevice=(req,res,next)=>{
     let params = req.params;
-    userDeviceDAO.deleteUserDevice(params,function(error,result){
+    userDeviceDAO.deleteUserDevice(params,(error,result)=>{
         if (error) {
             logger.error(' removeUserDevice ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);

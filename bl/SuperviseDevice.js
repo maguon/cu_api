@@ -11,7 +11,7 @@ let logger = serverLogger.createLogger('SuperviseDevice.js');
 
 const createSuperviseDevice=(req,res,next)=>{
     let params = req.params ;
-    superviseDeviceDAO.addSuperviseDevice(params,function(error,result){
+    superviseDeviceDAO.addSuperviseDevice(params,(error,result)=>{
         if (error) {
             logger.error(' createSuperviseDevice ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -24,7 +24,7 @@ const createSuperviseDevice=(req,res,next)=>{
 }
 const querySuperviseDevice=(req,res,next)=>{
     let params = req.params ;
-    superviseDeviceDAO.getSuperviseDevice(params,function(error,result){
+    superviseDeviceDAO.getSuperviseDevice(params,(error,result)=>{
         if (error) {
             logger.error(' querySuperviseDevice ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -37,7 +37,7 @@ const querySuperviseDevice=(req,res,next)=>{
 }
 const removeSuperviseDevice=(req,res,next)=>{
     let params = req.params;
-    superviseDeviceDAO.deleteSuperviseDevice(params,function(error,result){
+    superviseDeviceDAO.deleteSuperviseDevice(params,(error,result)=>{
         if (error) {
             logger.error(' removeSuperviseDevice ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
