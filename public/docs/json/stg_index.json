@@ -2208,13 +2208,6 @@
             "type": "integer"
           },
           {
-            "name": "carId",
-            "in": "query",
-            "description": "carId",
-            "required": false,
-            "type": "integer"
-          },
-          {
             "name": "userMessageId",
             "in": "query",
             "description": "userMessageId",
@@ -2224,7 +2217,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "0未读1已读",
+            "description": "是否成功",
             "required": false,
             "type": "integer"
           },
