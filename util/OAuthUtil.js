@@ -191,6 +191,11 @@ const getSignCode=(params,callback)=>{
         callback(error,result)
     })
 }
+const getQrCode=(params,callback)=>{
+    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.qrCodeId+"/qrCode",{},{},(error,result)=>{
+        callback(error,result)
+    })
+}
 module.exports = {
     createAccessToken,
     parseAccessToken ,
@@ -205,5 +210,6 @@ module.exports = {
     savePasswordCode,
     getPasswordCode,
     parseAccessTokenSupervise,
-    headerTokenMeta
+    headerTokenMeta,
+    getQrCode
 };
