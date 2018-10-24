@@ -10,6 +10,7 @@ const userCar = require('./bl/UserCar.js');
 const userMessage = require('./bl/UserMessage.js');
 const app = require('./bl/App.js');
 const userDevice = require('./bl/UserDevice.js');
+const superviseDevice = require('./bl/SuperviseDevice.js');
 const sms = require('./bl/Sms.js');
 const adminUser = require('./bl/AdminUser.js');
 const userShipAddress = require('./bl/UserShipAddress.js');
@@ -174,10 +175,15 @@ function createServer() {
     /**
      * SuperviseDevice Module
      */
+    server.get('/api/superviseDevice' ,superviseDevice.querySuperviseDevice);
+    server.post({path:'/api/supervise/:superviseId/superviseDevice',contentType: 'application/json'} , superviseDevice.createSuperviseDevice);
+    server.del('/api/supervise/:superviseId/deviceToken/:deviceToken' , superviseDevice.removeSuperviseDevice);
+    /**
+     * UserDevice Module
+     */
     server.get('/api/userDevice' ,userDevice.queryUserDevice);
     server.post({path:'/api/user/:userId/userDevice',contentType: 'application/json'} , userDevice.createUserDevice);
     server.del('/api/user/:userId/deviceToken/:deviceToken' , userDevice.removeUserDevice);
-
     /**
      * sendPswdSms
      */

@@ -2734,6 +2734,58 @@
         }
       }
     },
+    "/superviseDevice": {
+      "get": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "query superviseDevice list",
+        "description": "query superviseDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseDeviceId",
+            "in": "query",
+            "description": "superviseDevice id",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "superviseId",
+            "in": "query",
+            "description": "supervise id",
+            "required": false,
+            "type": "integer"
+
+          },
+          {
+            "name": "deviceToken",
+            "in": "query",
+            "description": "device token",
+            "required": false,
+            "type": "string"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/superviseDevice"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid superviseDevice id"
+          }
+        }
+      }
+    },
     "/user/{userId}/userDevice": {
       "post": {
         "tags": [
@@ -2779,6 +2831,51 @@
         }
       }
     },
+    "/supervise/{superviseId}/superviseDevice": {
+      "post": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "create superviseDevice",
+        "description": "create superviseDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "supervise Id",
+            "required": true,
+            "type": "integer"
+
+          },
+          {
+            "name": "superviseDevice",
+            "in": "body",
+            "description": "superviseDevice info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/superviseDevice"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/ApiResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid superviseDevice id"
+          }
+        }
+      }
+    },
     "/user/{userId}/deviceToken/{deviceToken}": {
       "delete": {
         "tags": [
@@ -2795,6 +2892,43 @@
             "name": "userId",
             "in": "path",
             "description": "user id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "deviceToken",
+            "in": "path",
+            "description": "device token",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "contacts not found"
+          }
+        }
+      }
+    },
+    "/supervise/{superviseId}/deviceToken/{deviceToken}": {
+      "delete": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "Deletes a superviseDevice",
+        "description": "",
+        "operationId": "deleteSuperviseDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "supervise id",
             "required": true,
             "type": "integer"
           },
@@ -3546,6 +3680,26 @@
       },
       "xml": {
         "name": "userDevice"
+      }
+    },
+    "superviseDevice": {
+      "type": "object",
+      "properties": {
+        "deviceToken": {
+          "type": "integer"
+        },
+        "version": {
+          "type": "integer"
+        },
+        "appType": {
+          "type": "integer"
+        },
+        "deviceType": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "superviseDevice"
       }
     },
     "addUserShipAddress": {
