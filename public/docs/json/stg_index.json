@@ -469,9 +469,9 @@
         ],
         "parameters": [
           {
-            "name": "qrCodeId",
+            "name": "qrCode",
             "in": "path",
-            "description": "qrCode id",
+            "description": "qrCode",
             "required": true,
             "type": "integer"
           }
