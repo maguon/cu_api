@@ -19,7 +19,7 @@ const addUserDevice=(params,callback)=>{
 
 const getUserDevice=(params,callback)=>{
     let query = " select ud.* from user_device ud " +
-        " left join user_info u on ud.user_id = u.uid where ud.id is not null ";
+        " left join user_info u on ud.user_id = u.id where ud.id is not null ";
     let paramsArray=[],i=0;
     if(params.userDeviceId){
         paramsArray[i++] = params.userDeviceId;
