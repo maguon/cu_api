@@ -2963,7 +2963,7 @@
             "type": "integer"
           },
           {
-            "name": "userShipAddressId",
+            "name": "shipAddressId",
             "in": "query",
             "description": "userShipAddressId",
             "required": false,

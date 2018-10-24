@@ -25,8 +25,8 @@ const getUserShipAddress = (params,callback) => {
         paramsArray[i++] = params.userId;
         query = query + " and usa.user_id = ? ";
     }
-    if(params.userShipAddressId){
-        paramsArray[i++] = params.userShipAddressId;
+    if(params.shipAddressId){
+        paramsArray[i++] = params.shipAddressId;
         query = query + " and usa.id = ? ";
     }
     if(params.shipName){
