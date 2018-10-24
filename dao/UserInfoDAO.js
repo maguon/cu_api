@@ -37,6 +37,14 @@ const queryUser = (params,callback) => {
         paramsArray[i++] = params.authEndTime+" 23:59:59";
         query = query + " and auth_time <= ? "
     }
+    if(params.createdOnStart){
+        paramsArray[i++] = params.createdOnStart+" 00:00:00";
+        query = query + " and created_on >= ? "
+    }
+    if(params.createdOnEnd){
+        paramsArray[i++] = params.createdOnEnd+" 23:59:59";
+        query = query + " and created_on <= ? "
+    }
     if(params.wechatStatus){
         paramsArray[i++] = params.wechatStatus;
         query = query + " and wechat_status = ? "

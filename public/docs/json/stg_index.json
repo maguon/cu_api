@@ -50,6 +50,10 @@
     {
       "name": "app",
       "description": "app of log api"
+    },
+    {
+      "name": "qrCode",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -449,6 +453,38 @@
           },
           "400": {
             "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
+    "/qrCode/{qrCode}": {
+      "get": {
+        "tags": [
+          "qrCode"
+        ],
+        "summary": "get qrCode ",
+        "description": "get qrCode",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "qrCodeId",
+            "in": "path",
+            "description": "qrCode id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "get qrCode "
           }
         }
       }
@@ -1283,6 +1319,20 @@
             "name": "authEndTime",
             "in": "query",
             "description": "authEndTime",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type":"integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
             "required": false,
             "type":"integer"
           },

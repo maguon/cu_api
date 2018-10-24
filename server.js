@@ -17,6 +17,7 @@ const userShipAddress = require('./bl/UserShipAddress.js');
 const userOrder = require('./bl/UserOrder.js');
 const wechatBl = require('./bl/WechatBl.js');
 const oauth = require('./bl/OAuth.js');
+const qrCode = require('./bl/QrCode.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -189,6 +190,11 @@ function createServer() {
      */
     server.post({path:'/api/phone/:phone/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
     server.post({path:'/api/phone/:phone/phoneSms',contentType: 'application/json'},sms.sendPhoneSms);
+    /**
+     * QRcode
+     */
+    server.get('/api/qrCode/:qrCode' ,qrCode.getQrCode);
+    server.post({path:'/api/user/:userId/userCar/:userCarId/qrCode',contentType: 'application/json'},qrCode.createQrCode);
 
 
 
