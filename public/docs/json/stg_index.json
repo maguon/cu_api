@@ -2243,18 +2243,11 @@
             "type": "string"
           },
           {
-            "name": "superviseId",
+            "name": "type",
             "in": "query",
-            "description": "superviseId",
+            "description": "type",
             "required": false,
             "type": "integer"
-          },
-          {
-            "name": "licensePlate",
-            "in": "query",
-            "description": "licensePlate",
-            "required": false,
-            "type": "string"
           },
           {
             "name": "createdStartOn",
@@ -2334,16 +2327,9 @@
             "type": "integer"
           },
           {
-            "name": "messageName",
+            "name": "title",
             "in": "query",
-            "description": "messageName",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "licensePlate",
-            "in": "query",
-            "description": "licensePlate",
+            "description": "title",
             "required": false,
             "type": "string"
           },

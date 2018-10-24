@@ -20,10 +20,8 @@ const addMessage = (params,callback) => {
     })
 }
 const getMessage = (params,callback) => {
-    let query = " select um.*,uc.license_plate,ui.phone,ui.user_name,si.user_name as supervise_name from user_message um " +
-                " left join user_car uc on uc.id=um.car_id " +
+    let query = " select um.*,ui.user_name from user_message um " +
                 " left join user_info ui on ui.id=um.user_id " +
-                " left join supervise_info si on si.id=um.supervise_id " +
                 " where um.id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
@@ -34,33 +32,25 @@ const getMessage = (params,callback) => {
         paramsArray[i++] = params.userMessageId;
         query = query + " and um.id = ? ";
     }
-    if(params.carId){
-        paramsArray[i++] = params.carId;
-        query = query + " and um.car_id = ? ";
-    }
     if(params.phone){
         paramsArray[i++] = params.phone;
-        query = query + " and ui.phone = ? ";
+        query = query + " and um.phone = ? ";
     }
     if(params.userName){
         paramsArray[i++] = params.userName;
         query = query + " and ui.user_name = ? ";
     }
-    if(params.superviseId){
-        paramsArray[i++] = params.superviseId;
-        query = query + " and si.id = ? ";
+    if(params.type){
+        paramsArray[i++] = params.type;
+        query = query + " and um.type = ? ";
     }
-    if(params.messageName){
-        paramsArray[i++] = params.messageName;
-        query = query + " and um.message_name = ? ";
+    if(params.title){
+        paramsArray[i++] = params.title;
+        query = query + " and um.title = ? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
         query = query + " and um.status = ? ";
-    }
-    if(params.licensePlate){
-        paramsArray[i++] = params.licensePlate;
-        query = query + " and uc.license_plate = ? ";
     }
     if(params.createdStartOn){
         paramsArray[i++] = params.createdStartOn+" 00:00:00";
