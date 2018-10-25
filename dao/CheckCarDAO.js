@@ -142,10 +142,10 @@ const queryCarNumByDay = (params,callback) => {
     });
 }
 const queryCheckCar = (params,callback) => {
-    let query = " select ui.phone,uc.vin,uc.engine_num,uc.license_plate,si.user_name as supervise_name,ui.user_name,cci.* from check_car_info cci " +
+    let query = " select cci.*,ui.phone,uc.vin,uc.engine_num,uc.license_plate,si.user_name as supervise_name,ui.user_name from check_car_info cci " +
                 " left join user_info ui on ui.id=cci.user_id " +
                 " left join supervise_info si on si.id=cci.supervise_id " +
-                " left join user_car uc on uc.user_id=ui.id " +
+                " left join user_car uc on uc.id=cci.car_id " +
                 " where cci.id is not null ";
     let paramsArray = [],i=0;
     if(params.superviseId){
