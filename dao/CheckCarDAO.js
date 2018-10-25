@@ -166,7 +166,7 @@ const queryCheckCar = (params,callback) => {
     }
     if(params.licensePlate){
         paramsArray[i++] = params.licensePlate;
-        query = query + " and cci.license_plate = ?";
+        query = query + " and uc.license_plate = ?";
     }
     if(params.userCarId){
         paramsArray[i++] = params.userCarId;
