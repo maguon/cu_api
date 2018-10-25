@@ -180,12 +180,12 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.superviseId;
         query = query + " and si.id = ?";
     }
-    if(params.createdStart){
-        paramsArray[i++] = params.createdStart +" 00:00:00";
+    if(params.createdStartOn){
+        paramsArray[i++] = params.createdStartOn +" 00:00:00";
         query = query + " and cci.created_on >= ?  ";
     }
-    if(params.createdEnd){
-        paramsArray[i++] = params.createdEnd + " 23:59:59";
+    if(params.createdEndOn){
+        paramsArray[i++] = params.createdEndOn + " 23:59:59";
         query = query + " and cci.created_on <= ?  ";
     }
     query = query + " order by cci.id asc ";
