@@ -181,13 +181,14 @@ const queryCheckCar = (params,callback) => {
         query = query + " and si.id = ?";
     }
     if(params.createdStart){
-        paramsArray[i++] = params.createdStart +"00:00:00";
+        paramsArray[i++] = params.createdStart +" 00:00:00";
         query = query + " and cci.created_on >= ?  ";
     }
     if(params.createdEnd){
-        paramsArray[i++] = params.createdEnd + "23:59:59";
+        paramsArray[i++] = params.createdEnd + " 23:59:59";
         query = query + " and cci.created_on <= ?  ";
     }
+    query = query + " order by cci.id asc ";
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);
         paramsArray[i] = parseInt(params.size);
