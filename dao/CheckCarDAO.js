@@ -156,6 +156,10 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.checkCarId;
         query = query + " and cci.id = ?";
     }
+    if(params.userCarId){
+        paramsArray[i++] = params.userCarId;
+        query = query + " and uc.id = ?";
+    }
     if(params.dateId){
         paramsArray[i++] = params.dateId;
         query = query + " and cci.date_id = ?";
@@ -163,6 +167,10 @@ const queryCheckCar = (params,callback) => {
     if(params.licensePlate){
         paramsArray[i++] = params.licensePlate;
         query = query + " and cci.license_plate = ?";
+    }
+    if(params.userCarId){
+        paramsArray[i++] = params.userCarId;
+        query = query + " and cci.car_id = ?";
     }
     if(params.phone){
         paramsArray[i++] = params.phone;

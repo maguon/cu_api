@@ -6,16 +6,15 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const getQrCode = (params,callback) => {
-    const url = '/stg.myxxjs.com/';
-    const paramObj = {
-        appid : sysConfig.wechatConfig.mpAppId,
-        secret : sysConfig.wechatConfig.mpSecret,
-        code : params.code,
-        grant_type : 'authorization_code'
+    let query = "select * from user_check_info where id is not null ";
+    let paramsArray = [],i=0;
+    if(params.userCarId){
+        paramsArray[i] = params.userCarId;
+        query = query + " and car_id = ? ";
     }
-    httpUtil.httpsGet(sysConfig.hosts,443,url,paramObj,(err,res)=>{
-        logger.debug('getUserIdByCode');
-        callback(err,res);
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getQrCode');
+        callback(error,rows);
     })
 }
 module.exports = {

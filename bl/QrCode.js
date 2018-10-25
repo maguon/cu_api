@@ -6,11 +6,33 @@ const sysMsg = require('../util/SystemMsg.js');
 const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('QrCode.js');
 const qrCodeDAO = require('../dao/QrCodeDAO.js');
+const checkCarDAO = require('../dao/CheckCarDAO.js');
 
 const getQrCode = (req,res,next)=>{
     let params = req.params;
+    let userType = req.headers['user-type'] ;
     let result = serializer.parse(params.qrCode);
-    //交警
+    if(userType ==0){
+        checkCarDAO.queryCheckCar({userCarId:result.userCarId},()=>{
+            if(error){
+                logger.error('queryCheckCar' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            }else{
+                logger.info('queryCheckCar' + 'success');
+                resUtil.resetQueryRes(res,result,null);
+                return next();
+            }
+        })
+    }else{
+        let ua = window.navigator.userAgent.toLowerCase();
+        if (ua.match(/MicroMessenger/i) == 'micromessenger'){
+            let url = "";
+            resUtil.resetQueryRes(res,url,null);
+            return "WeiXIN";
+        }else{
+            resUtil.resetQueryRes(res,'错误',null);
+        }
+    }
 
     resUtil.resetQueryRes(res,result,null);
     return next();

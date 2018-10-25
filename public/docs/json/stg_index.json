@@ -952,6 +952,13 @@
             "type": "integer"
           },
           {
+            "name": "userCarId",
+            "in": "query",
+            "description": "userCarId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "licensePlate",
             "in": "query",
             "description": "licensePlate",
@@ -2238,7 +2245,7 @@
           {
             "name": "type",
             "in": "query",
-            "description": "type",
+            "description": "消息类型",
             "required": false,
             "type": "integer"
           },
