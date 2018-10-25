@@ -489,6 +489,45 @@
         }
       }
     },
+    "/user/{userId}/userCar/{userCarId}/qrCode": {
+      "post": {
+        "tags": [
+          "qrCode"
+        ],
+        "summary": "get qrCode ",
+        "description": "get qrCode",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "get qrCode "
+          }
+        }
+      }
+    },
     "/superviseLogin": {
       "post": {
         "tags": [
@@ -962,6 +1001,13 @@
             "name": "licensePlate",
             "in": "query",
             "description": "licensePlate",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "superviseName",
+            "in": "query",
+            "description": "superviseName",
             "required": false,
             "type": "string"
           },
