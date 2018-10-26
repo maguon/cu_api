@@ -201,6 +201,11 @@ const getSignCode=(params,callback)=>{
         callback(error,result)
     })
 }
+const saveSuperviseCode=(params,callback)=>{
+    httpUtil.httpPost(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},params,(error,result)=>{
+        callback(error,result)
+    })
+}
 module.exports = {
     createAccessToken,
     parseAccessToken ,
@@ -217,5 +222,6 @@ module.exports = {
     parseAccessTokenSupervise,
     headerTokenMeta,
     sendSignCode,
-    sendMessage
+    sendMessage,
+    saveSuperviseCode
 };

@@ -53,6 +53,37 @@ const sendPhoneSms=(req,res,next)=>{
         })
     })
 }
+const sendSuperviseSms=(req,res,next)=>{
+    let params = req.params;
+    let captcha = "";
+    captcha = encrypt.getSmsRandomKey();
+    new Promise((resolve,reject)=>{
+        oauthUtil.saveSuperviseCode({phone:params.phone,code:captcha},(error,result)=>{
+            if(error){
+                logger.error(' saveSuperviseCode ' + error.message);
+                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                return next();
+            }else{
+                logger.info('saveSuperviseCode' + 'success');
+                resolve();
+            }
+        })
+    }).then(()=>{
+        params.userId = params.superviseId;
+        params.captcha = captcha;
+        params.userType = 2;
+        oauthUtil.sendSignCode(params,(error,result)=>{
+            if(error){
+                logger.error(' sendSignCode ' + error.message);
+                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                return next();
+            }else{
+                logger.info('sendSignCode' + 'success');
+                resUtil.resetQueryRes(res,{success:true},null);
+            }
+        })
+    })
+}
 const sendUserSms=(req,res,next)=>{
     let params = req.params;
     let captcha = "";
@@ -114,5 +145,6 @@ const sendMessage=(req,res,next)=>{
 module.exports={
     sendUserSms,
     sendPhoneSms,
-    sendMessage
+    sendMessage,
+    sendSuperviseSms
 }
