@@ -22,28 +22,21 @@ const sendPhoneSms=(req,res,next)=>{
                 logger.error(' querySupervise ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else if(rows.length<1){
-                logger.warn(' querySupervise ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                logger.warn(' querySupervise ' + '查无此人');
+                resUtil.resetFailedRes(res,'查无此人',null);
             }else{
                 params.userId = rows[0].id;
                 resolve();
             }
         })
     }).then(()=>{
-        let that = this;
         oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
                 logger.error(' saveSignCode ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             }else{
-                let message = {
-                    code:captcha,
-                    phone:params.phone
-                }
                 logger.info('saveSignCode' + 'success');
-                resUtil.resetQueryRes(res,message,null);
-                that();
             }
         })
     }).then(()=>{
@@ -55,7 +48,7 @@ const sendPhoneSms=(req,res,next)=>{
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             }else{
-                return '成功';
+                resUtil.resetQueryRes(res,{success:true},null);
             }
         })
     })
@@ -83,7 +76,7 @@ const sendUserSms=(req,res,next)=>{
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else{
                 logger.info('sendSignCode' + 'success');
-                resUtil.resetQueryRes(res,result,null);
+                resUtil.resetQueryRes(res,{success:true},null);
                 return next();
             }
         })
@@ -112,7 +105,7 @@ const sendMessage=(req,res,next)=>{
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else{
                 logger.info('sendMessage' + 'success');
-                resUtil.resetQueryRes(res,result,null);
+                resUtil.resetQueryRes(res,{success:true},null);
                 return next();
             }
         })

@@ -22,7 +22,7 @@ const addMessage = (params,callback) => {
 const getMessage = (params,callback) => {
     let query = " select um.*,ui.user_name from user_message um " +
                 " left join user_info ui on ui.id=um.user_id " +
-                " where um.id is not null  ";
+                " where um.id is not null and user_type = 1 ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
