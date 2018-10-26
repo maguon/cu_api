@@ -143,6 +143,7 @@ function createServer() {
     server.post({path:'/api/user/:userId/userShipAddress',contentType: 'application/json'},userShipAddress.addUserShipAddress);
     server.put({path:'/api/user/:userId/shipAddress/:shipAddressId/default',contentType: 'application/json'},userShipAddress.updateUserShipAddress);
     server.put({path:'/api/user/:userId/shipAddress/:shipAddressId/info',contentType: 'application/json'},userShipAddress.updateUserShip);
+    server.del({path:'/api/user/:userId/shipAddress/:shipAddressId',contentType: 'application/json'},userShipAddress.deleteUserShipAddress);
     /**
      user_car
      */

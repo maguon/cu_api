@@ -79,13 +79,25 @@ const updateUserShipAddress = (params,callback) => {
     })
 }
 const updateUserShip = (params,callback) => {
-    let query = " update user_ship_address set address = ? where id=? and user_id=? ";
+    let query = " update user_ship_address set address = ?,phone=?,user_name=? where id=? and user_id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.address;
+    paramsArray[i++] = params.phone;
+    paramsArray[i++] = params.userName;
     paramsArray[i++] = params.shipAddressId;
     paramsArray[i] = params.userId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateUserShip');
+        callback(error,rows);
+    })
+}
+const deleteUserShipAddress = (params,callback) => {
+    let query = " delete from user_ship_address where id=? and user_id=?";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.shipAddressId;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('deleteUserShipAddress');
         callback(error,rows);
     })
 }
@@ -94,5 +106,6 @@ module.exports = {
     getUserShipAddress,
     updateUserShipAddress,
     updateUserShipAddressById,
-    updateUserShip
+    updateUserShip,
+    deleteUserShipAddress
 }

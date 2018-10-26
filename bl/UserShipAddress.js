@@ -65,9 +65,23 @@ const updateUserShip = (req,res,next)=>{
         }
     });
 };
+const deleteUserShipAddress = (req,res,next)=>{
+    let params = req.params;
+    userShipAddressDAO.deleteUserShipAddress(params,(error,result)=>{
+        if(error){
+            logger.error('deleteUserShipAddress' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('deleteUserShipAddress' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     addUserShipAddress,
     getUserShipAddress,
     updateUserShipAddress,
-    updateUserShip
+    updateUserShip,
+    deleteUserShipAddress
 }

@@ -3456,6 +3456,48 @@
           }
         }
       }
+    },
+    "/user/{userId}/shipAddress/{shipAddressId}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "user delUserShipAddress ",
+        "description": "user delUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "shipAddressId",
+            "in": "path",
+            "description": "shipAddressId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/delUserShipAddress"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -3916,6 +3958,12 @@
       "type": "object",
       "properties": {
         "address": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "userName": {
           "type": "string"
         }
       },
