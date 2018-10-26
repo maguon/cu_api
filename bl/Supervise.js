@@ -185,7 +185,7 @@ const changeSupervisePassword = (req,res,next) => {
 }
 const changeSupervisePhone = (req,res,next) => {
     let params = req.params;
-    oAuthUtil.getPasswordCode({phone:params.phone},(error,result)=>{
+    oAuthUtil.getSupervisePhoneCode({phone:params.phone},(error,result)=>{
         if(error){
             logger.error(' sendPswdSms ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -212,7 +212,7 @@ const changeSupervisePhone = (req,res,next) => {
 }
 const changeSupervisePasswordByPhone = (req,res,next) => {
     let params = req.params;
-    oAuthUtil.getPasswordCode({phone:params.phone},(error,result)=>{
+    oAuthUtil.getSupervisePswdCode({phone:params.phone},(error,result)=>{
         if(error){
             logger.error(' sendPswdSms ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);

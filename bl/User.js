@@ -92,7 +92,7 @@ const updateType=(req,res,next)=>{
 };
 const updatePhone=(req,res,next)=>{
     let params = req.params;
-    oauthUtil.getSignCode({phone:params.phone},(error,result)=>{
+    oauthUtil.getUserPhoneCode({phone:params.phone},(error,result)=>{
         if(error){
             logger.error(' sendPswdSms ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);

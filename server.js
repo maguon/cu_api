@@ -188,9 +188,9 @@ function createServer() {
     /**
      * sendPswdSms
      */
-    server.post({path:'/api/user/:userId/phone/:phone/passwordSms',contentType: 'application/json'},sms.sendUserSms);
-    server.post({path:'/api/phone/:phone/phoneSms',contentType: 'application/json'},sms.sendPhoneSms);
-    server.post({path:'/api/supervise/:superviseId/phone/:phone/phoneSms',contentType: 'application/json'},sms.sendSuperviseSms);
+    server.post({path:'/api/user/:userId/phone/:phone/userPhoneSms',contentType: 'application/json'},sms.sendUserSms);
+    server.post({path:'/api/phone/:phone/supervisePswdSms',contentType: 'application/json'},sms.sendSupervisePswdSms);
+    server.post({path:'/api/supervise/:superviseId/phone/:phone/supervisePhoneSms',contentType: 'application/json'},sms.sendSupervisePhoneSms);
     server.post({path:'/api/user/:userId/message',contentType: 'application/json'},sms.sendMessage);
     /**
      * QRcode

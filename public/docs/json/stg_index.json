@@ -2996,7 +2996,7 @@
         }
       }
     },
-    "/user/{userId}/phone/{phone}/passwordSms": {
+    "/user/{userId}/phone/{phone}/userPhoneSms": {
       "post": {
         "tags": [
           "user"
@@ -3038,7 +3038,7 @@
         }
       }
     },
-    "/phone/{phone}/phoneSms": {
+    "/phone/{phone}/supervisePswdSms": {
       "post": {
         "tags": [
           "supervise"
@@ -3073,7 +3073,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/phone/{phone}/phoneSms": {
+    "/supervise/{superviseId}/phone/{phone}/supervisePhoneSms": {
       "post": {
         "tags": [
           "supervise"

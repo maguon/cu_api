@@ -186,7 +186,7 @@ const saveSignCode=(params,callback)=>{
         callback(error,result)
     })
 }
-const sendSignCode=(params,callback)=>{
+const sendCaptcha=(params,callback)=>{
     httpUtil.httpPost(systemConfig.hosts.mq,'/api/captcha',{},params,(error,result)=>{
         callback(error,result)
     })
@@ -201,8 +201,33 @@ const getSignCode=(params,callback)=>{
         callback(error,result)
     })
 }
-const saveSuperviseCode=(params,callback)=>{
+const saveSupervisePhoneCode=(params,callback)=>{
     httpUtil.httpPost(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},params,(error,result)=>{
+        callback(error,result)
+    })
+}
+const getSupervisePhoneCode=(params,callback)=>{
+    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},{},(error,result)=>{
+        callback(error,result)
+    })
+}
+const saveUserPhoneCode=(params,callback)=>{
+    httpUtil.httpPost(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},params,(error,result)=>{
+        callback(error,result)
+    })
+}
+const getUserPhoneCode=(params,callback)=>{
+    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},{},(error,result)=>{
+        callback(error,result)
+    })
+}
+const saveSupervisePswdCode=(params,callback)=>{
+    httpUtil.httpPost(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},params,(error,result)=>{
+        callback(error,result)
+    })
+}
+const getSupervisePswdCode=(params,callback)=>{
+    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},{},(error,result)=>{
         callback(error,result)
     })
 }
@@ -221,7 +246,12 @@ module.exports = {
     getPasswordCode,
     parseAccessTokenSupervise,
     headerTokenMeta,
-    sendSignCode,
     sendMessage,
-    saveSuperviseCode
+    saveSupervisePhoneCode,
+    saveUserPhoneCode,
+    sendCaptcha,
+    saveSupervisePswdCode,
+    getSupervisePhoneCode,
+    getUserPhoneCode,
+    getSupervisePswdCode
 };

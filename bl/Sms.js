@@ -12,7 +12,7 @@ let logger = serverLogger.createLogger('Sms.js');
 let superviseDAO = require('../dao/SuperviseDAO.js');
 let userDAO = require('../dao/UserInfoDAO.js');
 
-const sendPhoneSms=(req,res,next)=>{
+const sendSupervisePswdSms=(req,res,next)=>{
     let params = req.params;
     let captcha = "";
     captcha = encrypt.getSmsRandomKey();
@@ -30,21 +30,21 @@ const sendPhoneSms=(req,res,next)=>{
             }
         })
     }).then(()=>{
-        oauthUtil.saveSignCode({phone:params.phone,code:captcha},(error,result)=>{
+        oauthUtil.saveSupervisePswdCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
-                logger.error(' saveSignCode ' + error.message);
+                logger.error(' saveSupervisePswdCode ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             }else{
-                logger.info('saveSignCode' + 'success');
+                logger.info('saveSupervisePswdCode' + 'success');
             }
         })
     }).then(()=>{
         params.captcha = captcha;
         params.userType = 2;
-        oauthUtil.sendSignCode(params,(error,result)=>{
+        oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
-                logger.error(' sendSignCode ' + error.message);
+                logger.error(' sendCaptcha ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             }else{
@@ -53,18 +53,18 @@ const sendPhoneSms=(req,res,next)=>{
         })
     })
 }
-const sendSuperviseSms=(req,res,next)=>{
+const sendSupervisePhoneSms=(req,res,next)=>{
     let params = req.params;
     let captcha = "";
     captcha = encrypt.getSmsRandomKey();
     new Promise((resolve,reject)=>{
-        oauthUtil.saveSuperviseCode({phone:params.phone,code:captcha},(error,result)=>{
+        oauthUtil.saveSupervisePhoneCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
-                logger.error(' saveSuperviseCode ' + error.message);
+                logger.error(' saveSupervisePhoneCode ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             }else{
-                logger.info('saveSuperviseCode' + 'success');
+                logger.info('saveSupervisePhoneCode' + 'success');
                 resolve();
             }
         })
@@ -72,13 +72,13 @@ const sendSuperviseSms=(req,res,next)=>{
         params.userId = params.superviseId;
         params.captcha = captcha;
         params.userType = 2;
-        oauthUtil.sendSignCode(params,(error,result)=>{
+        oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
-                logger.error(' sendSignCode ' + error.message);
+                logger.error(' sendCaptcha ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             }else{
-                logger.info('sendSignCode' + 'success');
+                logger.info('sendCaptcha' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
             }
         })
@@ -89,24 +89,24 @@ const sendUserSms=(req,res,next)=>{
     let captcha = "";
     captcha = encrypt.getSmsRandomKey();
     new Promise((resolve,reject)=>{
-        oauthUtil.savePasswordCode({phone:params.phone,code:captcha},(error,result)=>{
+        oauthUtil.saveUserPhoneCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
-                logger.error(' savePasswordCode ' + error.message);
+                logger.error(' saveUserPhoneCode ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else{
-                logger.info('savePasswordCode' + 'success');
+                logger.info('saveUserPhoneCode' + 'success');
                 resolve();
             }
         })
     }).then(()=>{
         params.captcha = captcha;
         params.userType = 1;
-        oauthUtil.sendSignCode(params,(error,result)=>{
+        oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
-                logger.error(' sendSignCode ' + error.message);
+                logger.error(' sendCaptcha ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else{
-                logger.info('sendSignCode' + 'success');
+                logger.info('sendCaptcha' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
                 return next();
             }
@@ -144,7 +144,7 @@ const sendMessage=(req,res,next)=>{
 }
 module.exports={
     sendUserSms,
-    sendPhoneSms,
+    sendSupervisePswdSms,
     sendMessage,
-    sendSuperviseSms
+    sendSupervisePhoneSms
 }
