@@ -188,8 +188,9 @@ function createServer() {
     /**
      * sendPswdSms
      */
-    server.post({path:'/api/phone/:phone/passwordSms',contentType: 'application/json'},sms.sendPswdSms);
+    server.post({path:'/api/user/:userId/phone/:phone/passwordSms',contentType: 'application/json'},sms.sendUserSms);
     server.post({path:'/api/phone/:phone/phoneSms',contentType: 'application/json'},sms.sendPhoneSms);
+    server.post({path:'/api/user/:userId/message',contentType: 'application/json'},sms.sendMessage);
     /**
      * QRcode
      */

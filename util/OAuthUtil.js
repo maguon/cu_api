@@ -186,13 +186,18 @@ const saveSignCode=(params,callback)=>{
         callback(error,result)
     })
 }
-const getSignCode=(params,callback)=>{
-    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},{},(error,result)=>{
+const sendSignCode=(params,callback)=>{
+    httpUtil.httpPost(systemConfig.hosts.mq,'/api/captcha',{},params,(error,result)=>{
         callback(error,result)
     })
 }
-const getQrCode=(params,callback)=>{
-    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.qrCodeId+"/qrCode",{},{},(error,result)=>{
+const sendMessage=(params,callback)=>{
+    httpUtil.httpPost(systemConfig.hosts.mq,'/api/parking',{},params,(error,result)=>{
+        callback(error,result)
+    })
+}
+const getSignCode=(params,callback)=>{
+    httpUtil.httpGet(systemConfig.hosts.auth,'/api/'+params.phone+"/signCode",{},{},(error,result)=>{
         callback(error,result)
     })
 }
@@ -211,5 +216,6 @@ module.exports = {
     getPasswordCode,
     parseAccessTokenSupervise,
     headerTokenMeta,
-    getQrCode
+    sendSignCode,
+    sendMessage
 };
