@@ -31,6 +31,10 @@ const hosts = {
     auth:{
         host :"stg.myxxjs.com",
         port : 9009
+    },
+    mq : {
+        host: "stg.myxxjs.com",
+        port: 9202
     }
 }
 
