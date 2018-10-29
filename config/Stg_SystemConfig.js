@@ -41,7 +41,8 @@ const hosts = {
 const wechatConfig = {
     mpAppId : "wx694764f7676e75c3",
     mpSecret : "08baba525260e016ce793c7267133035",
-    mphost : "api.weixin.qq.com"
+    mphost : "api.weixin.qq.com",
+    mchId : '1517493001'
 }
 
 
