@@ -20,8 +20,8 @@ const getUserIdByCode = (params,callback) => {
 const getUserInfoById = (params,callback) =>{
     const url = '/sns/userinfo';
     const paramObj = {
-        access_token: 'QUgFVSBiXZZjq4DC/B4Ymw==',
-        openid: 'olZvM4hh0Ei4H-_LUV3CHL7qffNk',
+        access_token: params.accessToken,
+        openid: params.openid,
         lang: 'zh_CN',
     }
     httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
