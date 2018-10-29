@@ -5,11 +5,11 @@ const sysConfig = require("../config/SystemConfig");
 const httpUtil = require('../util/HttpUtil');
 
 const getUserIdByCode = (params,callback) => {
-    const url = '/sns/oauth2/access_token';
+    const url = '/sns/jscode2session';
     const paramObj = {
         appid : sysConfig.wechatConfig.mpAppId,
         secret : sysConfig.wechatConfig.mpSecret,
-        code : params.code,
+        js_code : params.code,
         grant_type : 'authorization_code'
     }
     httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
@@ -18,11 +18,11 @@ const getUserIdByCode = (params,callback) => {
     })
 }
 const getUserInfoById = (params,callback) =>{
-    const url = '/sns/userinfo';
+    const url = '/cgi-bin/token';
     const paramObj = {
-        access_token: params.accessToken,
-        openid: params.openid,
-        lang: 'zh_CN',
+        grant_type: 'client_credential',
+        appid : sysConfig.wechatConfig.mpAppId,
+        secret : sysConfig.wechatConfig.mpSecret,
     }
     httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
         logger.debug('getUserInfoById');

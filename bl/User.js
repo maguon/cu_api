@@ -143,17 +143,20 @@ const userLogin = (req,res,next)=>{
             }else {
                 if(rows && rows.length < 1){
                     params.password = encrypt.encryptByMd5(params.password);
-                    resolve(params.password);
+                    resolve();
                 }else{
-                    let resObj ={
+                    let user ={
                         userId: rows[0].id,
                         wechatName:rows[0].wechat_name,
-                        wechatId: rows[0].wechat_id
+                        wechatId: rows[0].wechat_id,
+                        userStatus: rows[0].status
                     };
-                    resUtil.resetQueryRes(res,resObj,null);
-                    var myDate = new Date();
+                    let myDate = new Date();
                     params.lastLoginOn = myDate;
+                    user.lastLoginOn = params.lastLoginOn;
                     userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
+                    user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
+                    resUtil.resetQueryRes(res,user,null);
                     return next();
                 }
             }
