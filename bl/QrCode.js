@@ -13,7 +13,7 @@ const getQrCode = (req,res,next)=>{
     let userType = req.headers['user-type'] ;
     let result = serializer.parse(params.qrCode);
     if(userType==0){
-        userCarDAO.queryUserCar({userCarId:result.userCarId},(error,result)=>{
+        userCarDAO.queryUserCar({userCarId:result[1]},(error,result)=>{
             if(error){
                 logger.error('queryCheckCar' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
