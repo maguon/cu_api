@@ -12,7 +12,7 @@ const getQrCode = (req,res,next)=>{
     let params = req.params;
     let userType = req.headers['user-type'] ;
     let result = serializer.parse(params.qrCode);
-    if(0==0){
+    if(userType==0){
         userCarDAO.queryUserCar({userCarId:result.userCarId},(error,result)=>{
             if(error){
                 logger.error('queryCheckCar' + error.message);
