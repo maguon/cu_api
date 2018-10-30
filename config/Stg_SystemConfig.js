@@ -37,13 +37,17 @@ const hosts = {
         port: 9202
     }
 }
-
 const wechatConfig = {
     mpAppId : "wx694764f7676e75c3",
     mpSecret : "08baba525260e016ce793c7267133035",
-    mphost : "api.weixin.qq.com",
+    mphost : "api.weixin.qq.com"
+}
+const wechatPayConfig = {
+    mpAppId : "wx694764f7676e75c3",
+    mpSecret : "08baba525260e016ce793c7267133035",
+    mphost : "api.mch.weixin.qq.com",
     mchId : '1517493001'
 }
 
 
-module.exports = { mysqlConnectOptions ,loggerConfig, logLevel , mongoConfig  ,wechatConfig ,hosts}
+module.exports = { mysqlConnectOptions ,loggerConfig, logLevel , mongoConfig  ,wechatPayConfig ,hosts,wechatConfig}
