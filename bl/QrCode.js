@@ -6,14 +6,14 @@ const sysMsg = require('../util/SystemMsg.js');
 const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('QrCode.js');
 const qrCodeDAO = require('../dao/QrCodeDAO.js');
-const checkCarDAO = require('../dao/CheckCarDAO.js');
+const userCarDAO = require('../dao/UserCarDAO.js');
 
 const getQrCode = (req,res,next)=>{
     let params = req.params;
     let userType = req.headers['user-type'] ;
-    let result = serializer.parse(params.qrCode);
-    if(userType ==0){
-        checkCarDAO.queryCheckCar({userCarId:result.userCarId},()=>{
+    let message = serializer.parse(params.qrCode);
+    if(userType==0){
+        userCarDAO.queryUserCar({userCarId:message.userCarId},(error,result)=>{
             if(error){
                 logger.error('queryCheckCar' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
