@@ -11,9 +11,9 @@ const userCarDAO = require('../dao/UserCarDAO.js');
 const getQrCode = (req,res,next)=>{
     let params = req.params;
     let userType = req.headers['user-type'] ;
-    let message = serializer.parse(params.qrCode);
-    if(userType==0){
-        userCarDAO.queryUserCar({userCarId:message.userCarId},(error,result)=>{
+    let result = serializer.parse(params.qrCode);
+    if(0==0){
+        userCarDAO.queryUserCar({userCarId:result.userCarId},(error,result)=>{
             if(error){
                 logger.error('queryCheckCar' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
@@ -33,9 +33,6 @@ const getQrCode = (req,res,next)=>{
             resUtil.resetQueryRes(res,'错误',null);
         }
     }
-
-    resUtil.resetQueryRes(res,result,null);
-    return next();
     /*oauthUtil.getQrCode({qrCodeId:params.qrCodeId},(error,result)=>{
         if(error){
             logger.error('getQrCode' + error.message);
