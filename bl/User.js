@@ -113,8 +113,8 @@ const updatePhone=(req,res,next)=>{
                     }
                 })
             }else{
-                logger.warn('getSignCode' + '验证失败');
-                resUtil.resetFailedRes(res,'验证失败',null);
+                logger.warn('getSignCode' + '验证码错误');
+                resUtil.resetFailedRes(res,'验证码错误',null);
                 return next();
             }
         }
