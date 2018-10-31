@@ -16,8 +16,9 @@ const addOrder = (params,callback) => {
     })
 }
 const addOrderItem = (params,callback) => {
-    let query = "insert into order_item(user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)values(?,?,?,?,?,?,?)";
+    let query = "insert into order_item(freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)values(?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.freight;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = params.productId;
@@ -51,9 +52,10 @@ const getOrderItem = (params,callback) => {
     })
 }
 const updateOrderPrice = (params,callback) => {
-    let query = " update order_info set total_price = ?,prod_count = ?,recv_address=?,recv_name=?,recv_phone=?, " +
+    let query = " update order_info set total_freight=?,total_price = ?,prod_count = ?,recv_address=?,recv_name=?,recv_phone=?, " +
                 " remark=?,payment_status=?,log_status=?,status=? where user_id=? and id=? ";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.totalFreight;
     paramsArray[i++] = params.totalPrice;
     paramsArray[i++] = params.prodCount;
     paramsArray[i++] = params.recvAddress;

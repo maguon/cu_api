@@ -75,6 +75,7 @@ const updateOrderPrice = (req,res,next)=>{
     let rowsLength = 0;
     let totalPrice = 0;
     let prodCount = 0;
+    let totalFreight = 0;
     new Promise((resolve,reject)=>{
         orderDAO.getOrderItem(params,(error,rows)=>{
             if(error){
@@ -87,7 +88,8 @@ const updateOrderPrice = (req,res,next)=>{
                 rowsLength = rows.length;
                 for(let i=0;i<rowsLength;i++){
                     totalPrice =  rows[i].total_price + totalPrice,
-                    prodCount =  rows[i].prod_count + prodCount
+                    prodCount =  rows[i].prod_count + prodCount,
+                    totalFreight = rows[i].total_freight + totalFreight
                 }
                 resolve();
             }
@@ -95,6 +97,7 @@ const updateOrderPrice = (req,res,next)=>{
     }).then(()=>{
         params.totalPrice = totalPrice;
         params.prodCount = prodCount;
+        params.totalFreight = totalFreight;
         orderDAO.updateOrderPrice(params,(error,result)=>{
             if(error){
                 logger.error('updateOrderPrice' + error.message);

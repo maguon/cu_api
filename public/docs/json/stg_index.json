@@ -2578,6 +2578,111 @@
         }
       }
     },
+    "/admin/{adminId}/orderItem": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "userOrder get ",
+        "description": "userOrder get ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemId",
+            "in": "query",
+            "description": "orderItemId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getOrderItem"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/orderItem": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "userOrder get ",
+        "description": "userOrder get ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemId",
+            "in": "query",
+            "description": "orderItemId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getOrderItem"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/user/{userId}/order/{orderId}/product/{productId}": {
       "post": {
         "tags": [
@@ -4437,6 +4542,9 @@
       "properties": {
         "prodCount": {
           "type": "integer"
+        },
+        "freight": {
+          "type": "integer"
         }
       },
       "xml": {
@@ -4465,6 +4573,9 @@
           "type": "integer"
         },
         "status": {
+          "type": "integer"
+        },
+        "totalFreight": {
           "type": "integer"
         }
       },
