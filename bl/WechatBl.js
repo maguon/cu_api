@@ -57,7 +57,8 @@ const unifiedOrder = (req,res,next) => {
                     code_url: rows[0].code_url,
                 }
                 logger.info(' unifiedOrder ' + 'success');
-                resolve(paramsOrder);
+                resUtil.resetQueryRes(res,paramsOrder,null);
+                resolve();
             }
         })
     }).then(()=>{

@@ -3,6 +3,7 @@ const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('WechatDAO.js');
 const sysConfig = require("../config/SystemConfig");
 const httpUtil = require('../util/HttpUtil');
+const oAuthUtil = require('../util/OAuthUtil');
 
 const getUserIdByCode = (params,callback) => {
     const url = '/sns/jscode2session';
@@ -33,14 +34,14 @@ const unifiedOrder = (params,callback) => {
     const url = '/pay/unifiedorder';
     const unifiedOrder = {
         appid: sysConfig.wechatPayConfig.mpAppId, //小程序ID	appid	是
-        mch_id:600,//商户号	mch_id	是
-        device_info:600,//设备号	device_info	否
-        nonce_str:600,//随机字符串	nonce_str	是
-        sign:600,//签名	sign	是
-        sign_type:600,//签名类型	sign_type	否
-        body:600,//商品描述	body	是
-        detail:600,//商品详情	detail	否
-        attach:600,//附加数据	attach	否
+        mch_id:sysConfig.wechatPayConfig.mchId,//商户号	mch_id	是
+        device_info:'',//设备号	device_info	否
+        nonce_str:oAuthUtil.randomString,//随机字符串	nonce_str	是
+        sign:'myxxjs',//签名	sign	是
+        sign_type:'',//签名类型	sign_type	否
+        body:'二维码支付',//商品描述	body	是
+        detail:'',//商品详情	detail	否
+        attach:'',//附加数据	attach	否
         out_trade_no:600,//商户订单号	out_trade_no	是
         fee_type:600,//标价币种	fee_type	否
         total_fee:params.totalFee,//标价金额	total_fee	是

@@ -54,6 +54,14 @@
     {
       "name": "qrCode",
       "description": "app of log api"
+    },
+    {
+      "name": "product",
+      "description": "app of log api"
+    },
+    {
+      "name": "order",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -2426,7 +2434,7 @@
     "/user/{userId}/order": {
       "post": {
         "tags": [
-          "user"
+          "order"
         ],
         "summary": "userOrder add ",
         "description": "userOrder add ",
@@ -2468,7 +2476,7 @@
       },
       "get": {
         "tags": [
-          "user"
+          "order"
         ],
         "summary": "userOrder get ",
         "description": "userOrder get ",
@@ -2498,6 +2506,115 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/getOrder"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/product/{productId}": {
+      "post": {
+        "tags": [
+          "order"
+        ],
+        "summary": "orderItem add ",
+        "description": "orderItem add ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItem",
+            "in": "body",
+            "description": "add orderItem",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/orderItem"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/addOrder"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/orderInfo": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "orderItem add ",
+        "description": "orderItem add ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateOrder",
+            "in": "body",
+            "description": "update order",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateOrder"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateOrder"
               }
             }
           },
@@ -3498,6 +3615,113 @@
           }
         }
       }
+    },
+    "/user/{userId}/product": {
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user get product ",
+        "description": "user get product",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/product": {
+      "post": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user addUserShipAddress ",
+        "description": "user addUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "product",
+            "in": "body",
+            "description": "add product",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/product"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -3675,6 +3899,12 @@
           "type": "integer"
         },
         "userCarId": {
+          "type": "integer"
+        },
+        "lon": {
+          "type": "integer"
+        },
+        "lat": {
           "type": "integer"
         },
         "address": {
@@ -3906,14 +4136,8 @@
     "addOrder": {
       "type": "object",
       "properties": {
-        "address": {
+        "orderName": {
           "type": "string"
-        },
-        "remark": {
-          "type": "string"
-        },
-        "num": {
-          "type": "integer"
         }
       },
       "xml": {
@@ -3983,6 +4207,66 @@
       },
       "xml": {
         "name": "message"
+      }
+    },
+    "product": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string"
+        },
+        "originalPrice": {
+          "type": "integer"
+        },
+        "unitPrice": {
+          "type": "integer"
+        },
+        "productRemark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "product"
+      }
+    },
+    "orderItem": {
+      "type": "object",
+      "properties": {
+        "prodCount": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "orderItem"
+      }
+    },
+    "updateOrder": {
+      "type": "object",
+      "properties": {
+        "recvAddress": {
+          "type": "string"
+        },
+        "recvName": {
+          "type": "string"
+        },
+        "recvPhone": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "paymentStatus": {
+          "type": "integer"
+        },
+        "logStatus": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateOrder"
       }
     }
   }

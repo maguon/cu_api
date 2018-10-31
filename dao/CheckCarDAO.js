@@ -41,12 +41,14 @@ const updateStatus = (params,callback) => {
     });
 }
 const addCheckCar = (params,callback) => {
-    let query = "insert into check_car_info(supervise_id,user_id,car_id,date_id,address) values(?,?,?,?,?) ";
+    let query = "insert into check_car_info(supervise_id,user_id,car_id,date_id,lon,lat,address) values(?,?,?,?,?,?,?) ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.superviseId;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.userCarId;
     paramsArray[i++] = params.createdDateId;
+    paramsArray[i++] = params.lon;
+    paramsArray[i++] = params.lat;
     paramsArray[i] = params.address;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' addCheckCar ');

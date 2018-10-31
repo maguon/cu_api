@@ -14,10 +14,11 @@ const superviseDevice = require('./bl/SuperviseDevice.js');
 const sms = require('./bl/Sms.js');
 const adminUser = require('./bl/AdminUser.js');
 const userShipAddress = require('./bl/UserShipAddress.js');
-const userOrder = require('./bl/UserOrder.js');
+const order = require('./bl/Order.js');
 const wechatBl = require('./bl/WechatBl.js');
 const oauth = require('./bl/OAuth.js');
 const qrCode = require('./bl/QrCode.js');
+const product = require('./bl/Product.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -163,11 +164,13 @@ function createServer() {
     server.get('/api/user/:userId/msgStat',userMessage.queryUserMessageNumById);
     server.put({path:'/api/user/:userId/msg/:msgId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
     /**
-     user_order
+     order_info
      */
-    server.post({path:'/api/user/:userId/order',contentType: 'application/json'},userOrder.addOrder);
-    server.get('/api/user/:userId/order',userOrder.getOrder);
-    server.put({path:'/api/user/:userId/userOrder/:userOrderId/status/:status',contentType: 'application/json'},userOrder.updateOrderStatus);
+    server.post({path:'/api/user/:userId/order',contentType: 'application/json'},order.addOrder);
+    server.get('/api/user/:userId/order',order.getOrder);
+    server.post({path:'/api/user/:userId/order/:orderId/product/:productId',contentType: 'application/json'},order.addOrderItem);
+    server.put({path:'/api/user/:userId/order/:orderId/orderInfo',contentType: 'application/json'},order.updateOrderPrice);
+    //server.put({path:'/api/user/:userId/userOrder/:userOrderId/status/:status',contentType: 'application/json'},userOrder.updateOrderStatus);
     /**
      * App Module
      */
@@ -198,7 +201,11 @@ function createServer() {
      */
     server.get('/api/qrCode/:qrCode' ,qrCode.getQrCode);
     server.post({path:'/api/user/:userId/userCar/:userCarId/qrCode',contentType: 'application/json'},qrCode.createQrCode);
-
+    /**
+     * Product_info
+     */
+    server.get('/api/user/:userId/product' ,product.getProduct);
+    server.post({path:'/api/admin/:adminId/product',contentType: 'application/json'},product.addProduct);
 
 
     server.on('NotFound',(req, res ,next)=>{

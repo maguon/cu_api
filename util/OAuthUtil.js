@@ -54,7 +54,14 @@ const _extend=(dst,src)=>{
 }
 
 
-
+const randomString=(e)=>{
+    e = e || 32;
+    let t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+        a = t.length,
+        n = "";
+    for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n
+}
 
 const createAccessToken=(clientType,userId ,status)=>{
     let out ;
@@ -253,5 +260,6 @@ module.exports = {
     saveSupervisePswdCode,
     getSupervisePhoneCode,
     getUserPhoneCode,
-    getSupervisePswdCode
+    getSupervisePswdCode,
+    randomString
 };
