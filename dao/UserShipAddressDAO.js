@@ -19,7 +19,7 @@ const addUserShipAddress = (params,callback) => {
 const getUserShipAddress = (params,callback) => {
     let query = " select ui.wechat_name,usa.created_on,usa.updated_on,usa.id,usa.address,usa.user_name as ship_name,usa.phone as ship_phone,usa.status,usa.type,ui.phone,ui.user_name from user_ship_address usa " +
                 " left join user_info ui on ui.id=usa.user_id " +
-                " where usa.id is not null and usa.status = 1 ";
+                " where usa.id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
