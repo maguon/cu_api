@@ -2492,9 +2492,16 @@
             "type": "integer"
           },
           {
-            "name": "userOrderId",
+            "name": "orderId",
             "in": "query",
-            "description": "userOrderId",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
             "required": false,
             "type": "integer"
           }
@@ -2511,6 +2518,55 @@
           },
           "400": {
             "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/order": {
+      "get": {
+        "tags": [
+          "order"
+        ],
+        "summary": "userOrder get ",
+        "description": "userOrder get ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/getOrder"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
           }
         }
       }
@@ -2666,10 +2722,10 @@
         }
       }
     },
-    "/user/{userId}/userOrder/{userOrderId}/status/{status}": {
+    "/user/{userId}/order/{orderId}/status/{status}": {
       "put": {
         "tags": [
-          "user"
+          "order"
         ],
         "summary": "update userOrder status ",
         "description": "update userOrder status ",
@@ -2685,9 +2741,9 @@
             "type": "integer"
           },
           {
-            "name": "userOrderId",
+            "name": "orderId",
             "in": "path",
-            "description": "userOrderId",
+            "description": "orderId",
             "required": true,
             "type": "integer"
           },
@@ -2706,6 +2762,104 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/updateUserOrderStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/logStatus/{logStatus}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "update userOrder status ",
+        "description": "update userOrder status ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logStatus",
+            "in": "path",
+            "description": "logStatus",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateUserOrderLogStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/paymentStatus/{paymentStatus}": {
+      "put": {
+        "tags": [
+          "order"
+        ],
+        "summary": "update userOrder status ",
+        "description": "update userOrder status ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentStatus",
+            "in": "path",
+            "description": "paymentStatus",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/updateUserOrderPaymentStatus"
               }
             }
           },

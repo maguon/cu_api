@@ -125,6 +125,8 @@ const sendMessage=(req,res,next)=>{
             }else{
                 logger.info('queryUser' + 'success');
                 let phone = rows[0].phone;
+                let openid = rows[0].wechat_id;
+                params.openid = openid;
                 params.phone = phone;
                 resolve();
             }

@@ -168,10 +168,14 @@ function createServer() {
      */
     server.post({path:'/api/user/:userId/order',contentType: 'application/json'},order.addOrder);
     server.get('/api/user/:userId/order',order.getOrder);
+    server.get('/api/admin/:adminId/order',order.getOrder);
     server.post({path:'/api/user/:userId/order/:orderId/product/:productId',contentType: 'application/json'},order.addOrderItem);
     server.put({path:'/api/user/:userId/order/:orderId/orderInfo',contentType: 'application/json'},order.updateOrderPrice);
     server.del('/api/user/:userId/orderItem/:orderItemId',order.delOrderItem);
-    //server.put({path:'/api/user/:userId/userOrder/:userOrderId/status/:status',contentType: 'application/json'},userOrder.updateOrderStatus);
+    server.put({path:'/api/user/:userId/order/:orderId/status/:status',contentType: 'application/json'},order.updateOrderStatus);
+    server.put({path:'/api/user/:userId/order/:orderId/logStatus/:logStatus',contentType: 'application/json'},order.updateOrderLogStatus);
+    server.put({path:'/api/user/:userId/order/:orderId/paymentStatus/:paymentStatus',contentType: 'application/json'},order.updateOrderPaymengStatus);
+
     /**
      * App Module
      */

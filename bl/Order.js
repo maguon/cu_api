@@ -57,6 +57,19 @@ const addOrderItem = (req,res,next)=>{
         })
     })
 }
+const getOrderItem = (req,res,next)=>{
+    let params = req.params;
+    orderDAO.getOrderItem(params,(error,result)=>{
+        if(error){
+            logger.error('getOrderItem' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('getOrderItem' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+}
 const updateOrderPrice = (req,res,next)=>{
     let params = req.params;
     let rowsLength = 0;
@@ -133,11 +146,40 @@ const updateOrderStatus = (req,res,next)=>{
         }
     });
 }
+const updateOrderLogStatus = (req,res,next)=>{
+    let params = req.params;
+    orderDAO.updateOrderLogStatus(params,(error,result)=>{
+        if(error){
+            logger.error('updateOrderLogStatus' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateOrderLogStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
+const updateOrderPaymengStatus = (req,res,next)=>{
+    let params = req.params;
+    orderDAO.updateOrderPaymengStatus(params,(error,result)=>{
+        if(error){
+            logger.error('updateOrderPaymengStatus' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateOrderPaymengStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
 module.exports = {
     addOrder,
     addOrderItem,
+    getOrderItem,
     updateOrderPrice,
     getOrder,
     delOrderItem,
-    updateOrderStatus
+    updateOrderStatus,
+    updateOrderLogStatus,
+    updateOrderPaymengStatus
 }
