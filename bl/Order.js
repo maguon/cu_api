@@ -107,6 +107,19 @@ const getOrder = (req,res,next)=>{
         }
     });
 }
+const delOrderItem = (req,res,next)=>{
+    let params = req.params;
+    orderDAO.delOrderItem(params,(error,result)=>{
+        if(error){
+            logger.error('delOrderItem' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('delOrderItem' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
 const updateOrderStatus = (req,res,next)=>{
     let params = req.params;
     orderDAO.updateOrderStatus(params,(error,result)=>{
@@ -125,5 +138,6 @@ module.exports = {
     addOrderItem,
     updateOrderPrice,
     getOrder,
+    delOrderItem,
     updateOrderStatus
 }

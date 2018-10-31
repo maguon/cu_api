@@ -170,6 +170,7 @@ function createServer() {
     server.get('/api/user/:userId/order',order.getOrder);
     server.post({path:'/api/user/:userId/order/:orderId/product/:productId',contentType: 'application/json'},order.addOrderItem);
     server.put({path:'/api/user/:userId/order/:orderId/orderInfo',contentType: 'application/json'},order.updateOrderPrice);
+    server.del('/api/user/:userId/orderItem/:orderItemId',order.delOrderItem);
     //server.put({path:'/api/user/:userId/userOrder/:userOrderId/status/:status',contentType: 'application/json'},userOrder.updateOrderStatus);
     /**
      * App Module

@@ -2624,6 +2624,48 @@
         }
       }
     },
+    "/user/{userId}/orderItem/{orderItemId}": {
+      "delete": {
+        "tags": [
+          "order"
+        ],
+        "summary": "orderItem del ",
+        "description": "orderItem del ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderItemId",
+            "in": "path",
+            "description": "orderItemId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/del Order item"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/user/{userId}/userOrder/{userOrderId}/status/{status}": {
       "put": {
         "tags": [

@@ -82,8 +82,18 @@ const getOrder = (params,callback) => {
         callback(error,rows);
     })
 }
+const delOrderItem = (params,callback) => {
+    let query = "delete from order_item where user_id=? and id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.userId;
+    paramsArray[i] = params.orderItemId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('delOrderItem');
+        callback(error,rows);
+    })
+}
 const updateOrderStatus = (params,callback) => {
-    let query = "update user_order set status = ? where user_id=? and id=? ";
+    let query = "update order_info set status = ? where user_id=? and id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.status;
     paramsArray[i++] = params.userId;
@@ -99,5 +109,6 @@ module.exports = {
     getOrderItem,
     updateOrderPrice,
     getOrder,
+    delOrderItem,
     updateOrderStatus
 }
