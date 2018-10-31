@@ -2112,6 +2112,13 @@
             "type": "integer"
           },
           {
+            "name": "userType",
+            "in": "query",
+            "description": "userType",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
