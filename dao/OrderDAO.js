@@ -67,14 +67,14 @@ const updateOrderPrice = (params,callback) => {
     })
 }
 const getOrder = (params,callback) => {
-    let query = "select * from product_info where id is not null ";
+    let query = "select * from order_info where id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
         query = query + " and user_id =?";
     }
-    if(params.userOrderId){
-        paramsArray[i] = params.userOrderId;
+    if(params.orderId){
+        paramsArray[i] = params.orderId;
         query = query + " and id =?";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
