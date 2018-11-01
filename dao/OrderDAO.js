@@ -33,7 +33,7 @@ const addOrderItem = (params,callback) => {
     })
 }
 const getOrder = (params,callback) => {
-    let query = " select oi.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oi.order_name,ui.wechat_name,oi.id,oi.order_name,oi.prod_count,oi.total_freight,oi.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_info oi " +
+    let query = " select oi.updated_on,oi.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oi.order_name,ui.wechat_name,oi.id,oi.order_name,oi.prod_count,oi.total_freight,oi.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_info oi " +
                 " left join user_info ui on ui.id=oi.user_id " +
                 " where oi.id is not null ";
     let paramsArray = [],i=0;

@@ -19,6 +19,7 @@ const wechatBl = require('./bl/WechatBl.js');
 const oauth = require('./bl/OAuth.js');
 const qrCode = require('./bl/QrCode.js');
 const product = require('./bl/Product.js');
+const courier = require('./bl/Courier.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -177,7 +178,12 @@ function createServer() {
     server.put({path:'/api/user/:userId/order/:orderId/status/:status',contentType: 'application/json'},order.updateOrderStatus);
     server.put({path:'/api/user/:userId/order/:orderId/logStatus/:logStatus',contentType: 'application/json'},order.updateOrderLogStatus);
     server.put({path:'/api/user/:userId/order/:orderId/paymentStatus/:paymentStatus',contentType: 'application/json'},order.updateOrderPaymengStatus);
-
+    /**
+     courier_info
+     */
+    server.post({path:'/api/admin/:adminId/order/:orderId/courier',contentType: 'application/json'},courier.addCourier);
+    server.get('/api/user/:userId/order/:orderId/courier',courier.getCourier);
+    server.get('/api/admin/:adminId/order/:orderId/courier',courier.getCourier);
     /**
      * App Module
      */

@@ -62,6 +62,10 @@
     {
       "name": "order",
       "description": "app of log api"
+    },
+    {
+      "name": "courier",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -4332,6 +4336,153 @@
           }
         }
       }
+    },
+    "/admin/{adminId}/order/{orderId}/courier": {
+      "post": {
+        "tags": [
+          "courier"
+        ],
+        "summary": "create userDevice",
+        "description": "create userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "courier",
+            "in": "body",
+            "description": "courier info",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/courier"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/courier"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "courier"
+        ],
+        "summary": "create userDevice",
+        "description": "create userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "courierId",
+            "in": "query",
+            "description": "courierId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/courier"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/courier": {
+      "get": {
+        "tags": [
+          "courier"
+        ],
+        "summary": "create userDevice",
+        "description": "create userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "courierId",
+            "in": "query",
+            "description": "courierId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/courier"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4878,6 +5029,29 @@
       },
       "xml": {
         "name": "updateOrder"
+      }
+    },
+    "courier": {
+      "type": "object",
+      "properties": {
+        "courierNum": {
+          "type": "integer"
+        },
+        "courierCompany": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sendName": {
+          "type": "string"
+        },
+        "sendPhone": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "courier"
       }
     }
   }
