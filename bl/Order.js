@@ -38,10 +38,13 @@ const addOrderItem = (req,res,next)=>{
                     productId: rows[0].id,
                     productName: rows[0].product_name,
                     unitPrice: rows[0].unit_price,
-                    prodCount:params.prodCount
-                }
-                product.totalPrice = product.unitPrice * product.prodCount;
-                resolve(product);
+                    prodCount:params.prodCount,
+                    remark: params.remark,
+                    carId: params.carId,
+                    freight: params.freight
+                 }
+                 product.totalPrice = product.unitPrice * product.prodCount;
+                 resolve(product);
             }
         });
     }).then(()=>{

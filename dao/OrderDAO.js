@@ -6,18 +6,19 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addOrder = (params,callback) => {
-    let query = "insert into order_info(user_id,order_name)values(?,?)";
+    let query = "insert into order_info(user_id)values(?)";
     let paramsArray = [],i=0;
-    paramsArray[i++] = params.userId;
-    paramsArray[i] = params.orderName;
+    paramsArray[i] = params.userId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addOrder');
         callback(error,rows);
     })
 }
 const addOrderItem = (params,callback) => {
-    let query = "insert into order_item(freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)values(?,?,?,?,?,?,?,?)";
+    let query = "insert into order_item(remark,car_id,freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)values(?,?,?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.remark;
+    paramsArray[i++] = params.carId;
     paramsArray[i++] = params.freight;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
@@ -31,30 +32,67 @@ const addOrderItem = (params,callback) => {
         callback(error,rows);
     })
 }
-const getOrderItem = (params,callback) => {
-    let query = "select * from order_item where id is not null ";
+const getOrder = (params,callback) => {
+    let query = " select oi.order_name,ui.wechat_name,oi.id,oi.order_name,oi.prod_count,oi.total_freight,oi.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_info oi " +
+                " left join user_info ui on ui.id=oi.user_id " +
+                " where oi.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
-        query = query + " and user_id =?";
+        query = query + " and oi.user_id =? ";
     }
     if(params.orderId){
-        paramsArray[i] = params.orderId;
-        query = query + " and order_id =?";
+        paramsArray[i++] = params.orderId;
+        query = query + " and oi.id =? ";
     }
-    if(params.orderItemId){
-        paramsArray[i] = params.orderItemId;
-        query = query + " and id =?";
+    if(params.orderName){
+        paramsArray[i++] = params.orderName;
+        query = query + " and oi.order_name =? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name =? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone =? ";
+    }
+    if(params.logStatus){
+        paramsArray[i++] = params.logStatus;
+        query = query + " and oi.log_status =? ";
+    }
+    if(params.paymentStatus){
+        paramsArray[i++] = params.paymentStatus;
+        query = query + " and oi.payment_status =? ";
+    }
+    if(params.createdOnStart){
+        paramsArray[i++] = params.createdOnStart+" 00:00:00 ";
+        query = query + " and ui.created_on >= ? ";
+    }
+    if(params.createdOnEnd){
+        paramsArray[i++] = params.createdOnEnd+" 23:59:59 ";
+        query = query + " and ui.created_on <= ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and oi.status =? ";
+    }
+    query = query + " order by oi.id asc ";
+    if(params.start&&params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?,? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug('getOrderItem');
+        logger.debug('getOrder');
         callback(error,rows);
     })
 }
 const updateOrderPrice = (params,callback) => {
-    let query = " update order_info set total_freight=?,total_price = ?,prod_count = ?,recv_address=?,recv_name=?,recv_phone=?, " +
+    let query = " update order_info set order_name=?,total_freight=?,total_price = ?,prod_count = ?,recv_address=?,recv_name=?,recv_phone=?, " +
                 " remark=?,payment_status=?,log_status=?,status=? where user_id=? and id=? ";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.orderName;
     paramsArray[i++] = params.totalFreight;
     paramsArray[i++] = params.totalPrice;
     paramsArray[i++] = params.prodCount;
@@ -72,23 +110,69 @@ const updateOrderPrice = (params,callback) => {
         callback(error,rows);
     })
 }
-const getOrder = (params,callback) => {
-    let query = "select * from order_info where id is not null ";
+const getOrderItem = (params,callback) => {
+    let query = " select oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_item oit " +
+                " left join order_info oi on oit.order_id=oi.id " +
+                " left join user_info ui on ui.id=oit.user_id " +
+                " left join user_car uc on uc.id=oit.car_id " +
+                " where oit.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
-        query = query + " and user_id =? ";
+        query = query + " and oit.user_id =? ";
     }
     if(params.orderId){
         paramsArray[i++] = params.orderId;
-        query = query + " and id =? ";
+        query = query + " and oi.id =? ";
+    }
+    if(params.orderItemId){
+        paramsArray[i++] = params.orderItemId;
+        query = query + " and oit.id =? ";
+    }
+    if(params.carId){
+        paramsArray[i++] = params.carId;
+        query = query + " and uc.id =? ";
+    }
+    if(params.orderName){
+        paramsArray[i++] = params.orderName;
+        query = query + " and oi.order_name =? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name =? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone =? ";
+    }
+    if(params.logStatus){
+        paramsArray[i++] = params.logStatus;
+        query = query + " and oi.log_status =? ";
+    }
+    if(params.paymentStatus){
+        paramsArray[i++] = params.paymentStatus;
+        query = query + " and oi.payment_status =? ";
+    }
+    if(params.createdOnStart){
+        paramsArray[i++] = params.createdOnStart+" 00:00:00 ";
+        query = query + " and oi.created_on >= ? ";
+    }
+    if(params.createdOnEnd){
+        paramsArray[i++] = params.createdOnEnd+" 23:59:59 ";
+        query = query + " and oi.created_on <= ? ";
     }
     if(params.status){
-        paramsArray[i] = params.status;
-        query = query + " and status =? ";
+        paramsArray[i++] = params.status;
+        query = query + " and oi.status =? ";
+    }
+    query = query + " order by oit.id asc ";
+    if(params.start&&params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?,? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
-        logger.debug('getOrder');
+        logger.debug('getOrderItem');
         callback(error,rows);
     })
 }
