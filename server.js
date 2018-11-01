@@ -20,6 +20,7 @@ const oauth = require('./bl/OAuth.js');
 const qrCode = require('./bl/QrCode.js');
 const product = require('./bl/Product.js');
 const courier = require('./bl/Courier.js');
+const afterSale = require('./bl/AfterSale.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -179,11 +180,22 @@ function createServer() {
     server.put({path:'/api/user/:userId/order/:orderId/logStatus/:logStatus',contentType: 'application/json'},order.updateOrderLogStatus);
     server.put({path:'/api/user/:userId/order/:orderId/paymentStatus/:paymentStatus',contentType: 'application/json'},order.updateOrderPaymengStatus);
     /**
-     courier_info
+     courier_info快递
      */
     server.post({path:'/api/admin/:adminId/order/:orderId/courier',contentType: 'application/json'},courier.addCourier);
     server.get('/api/user/:userId/order/:orderId/courier',courier.getCourier);
     server.get('/api/admin/:adminId/order/:orderId/courier',courier.getCourier);
+    /**
+     after_sale售后
+     */
+    server.post({path:'/api/user/:userId/order/:orderId/afterSale',contentType: 'application/json'},afterSale.addAfterSale);
+    server.get('/api/user/:userId/order/:orderId/afterSale',afterSale.getAfterSale);
+    server.get('/api/admin/:adminId/order/:orderId/afterSale',afterSale.getAfterSale);
+    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSalePayment',contentType: 'application/json'},afterSale.updateAfterSalePayment);
+    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSaleCount',contentType: 'application/json'},afterSale.updateAfterSaleCount);
+    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSaleRemark',contentType: 'application/json'},afterSale.updateAfterSaleRemark);
+    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSaleStatus',contentType: 'application/json'},afterSale.updateAfterSaleStatus);
+
     /**
      * App Module
      */

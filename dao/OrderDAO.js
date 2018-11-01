@@ -15,8 +15,9 @@ const addOrder = (params,callback) => {
     })
 }
 const addOrderItem = (params,callback) => {
-    let query = "insert into order_item(remark,car_id,freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)values(?,?,?,?,?,?,?,?,?,?)";
+    let query = "insert into order_item(imag,remark,car_id,freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)values(?,?,?,?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.imag;
     paramsArray[i++] = params.remark;
     paramsArray[i++] = params.carId;
     paramsArray[i++] = params.freight;
@@ -111,7 +112,7 @@ const updateOrderPrice = (params,callback) => {
     })
 }
 const getOrderItem = (params,callback) => {
-    let query = " select oit.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_item oit " +
+    let query = " select oit.imag,oit.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_item oit " +
                 " left join order_info oi on oit.order_id=oi.id " +
                 " left join user_info ui on ui.id=oit.user_id " +
                 " left join user_car uc on uc.id=oit.car_id " +

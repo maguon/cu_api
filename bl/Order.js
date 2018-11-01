@@ -41,7 +41,8 @@ const addOrderItem = (req,res,next)=>{
                     prodCount:params.prodCount,
                     remark: params.remark,
                     carId: params.carId,
-                    freight: params.freight
+                    freight: params.freight,
+                    imag: params.imag
                  }
                  product.totalPrice = product.unitPrice * product.prodCount;
                  resolve(product);

@@ -66,6 +66,10 @@
     {
       "name": "courier",
       "description": "app of log api"
+    },
+    {
+      "name": "afterSale",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -4483,6 +4487,343 @@
           }
         }
       }
+    },
+    "/user/{userId}/order/{orderId}/afterSale": {
+      "post": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "create afterSale",
+        "description": "create afterSale",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "afterSale",
+            "in": "body",
+            "description": "afterSale 售后",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/afterSale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSale"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "get afterSale",
+        "description": "get afterSale",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSale"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/order/{orderId}/afterSale": {
+      "get": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "create userDevice",
+        "description": "create userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "orderId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSole"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/orderSale/{orderSaleId}/afterSalePayment": {
+      "put": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "put userDevice",
+        "description": "put userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderSaleId",
+            "in": "path",
+            "description": "orderSaleId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateAfterSalePayment",
+            "in": "body",
+            "description": "updateAfterSale",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateAfterSalePayment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSole"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/orderSale/{orderSaleId}/afterSaleCount": {
+      "put": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "put userDevice",
+        "description": "put userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderSaleId",
+            "in": "path",
+            "description": "orderSaleId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateAfterSaleCount",
+            "in": "body",
+            "description": "updateAfterSale",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateAfterSaleCount"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSole"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/orderSale/{orderSaleId}/afterSaleRemark": {
+      "put": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "put userDevice",
+        "description": "put userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderSaleId",
+            "in": "path",
+            "description": "orderSaleId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateAfterSaleRemark",
+            "in": "body",
+            "description": "updateAfterSaleRemark",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateAfterSaleRemark"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSole"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/orderSale/{orderSaleId}/afterSaleStatus": {
+      "put": {
+        "tags": [
+          "afterSale"
+        ],
+        "summary": "put userDevice",
+        "description": "put userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderSaleId",
+            "in": "path",
+            "description": "orderSaleId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateAfterSaleStatus",
+            "in": "body",
+            "description": "updateAfterSaleStatus",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateAfterSaleStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/afterSole"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4990,6 +5331,9 @@
         },
         "remark": {
           "type": "string"
+        },
+        "imag": {
+          "type": "string"
         }
       },
       "xml": {
@@ -5048,10 +5392,89 @@
         },
         "sendPhone": {
           "type": "string"
+        },
+        "productName": {
+          "type": "string"
+        },
+        "productCount": {
+          "type": "integer"
         }
       },
       "xml": {
         "name": "courier"
+      }
+    },
+    "afterSale": {
+      "type": "object",
+      "properties": {
+        "applyReason": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "afterSale"
+      }
+    },
+    "updateAfterSalePayment": {
+      "type": "object",
+      "properties": {
+        "processRemark": {
+          "type": "string"
+        },
+        "processMethod": {
+          "type": "string"
+        },
+        "refundAmount": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateAfterSalePayment"
+      }
+    },
+    "updateAfterSaleCount": {
+      "type": "object",
+      "properties": {
+        "processRemark": {
+          "type": "string"
+        },
+        "processMethod": {
+          "type": "string"
+        },
+        "replaceName": {
+          "type": "string"
+        },
+        "replaceCount": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateAfterSaleCount"
+      }
+    },
+    "updateAfterSaleRemark": {
+      "type": "object",
+      "properties": {
+        "processRemark": {
+          "type": "string"
+        },
+        "processMethod": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "updateAfterSaleRemark"
+      }
+    },
+    "updateAfterSaleStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateAfterSaleStatus"
       }
     }
   }

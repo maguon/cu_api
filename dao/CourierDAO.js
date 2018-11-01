@@ -6,8 +6,10 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addCourier = (params,callback) => {
-    let query = "insert into courier_info(order_id,courier_num,courier_company,remark,send_name,send_phone)values(?,?,?,?,?,?)";
+    let query = "insert into courier_info(product_name,product_count,order_id,courier_num,courier_company,remark,send_name,send_phone)values(?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.productName;
+    paramsArray[i++] = params.productCount;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = params.courierNum;
     paramsArray[i++] = params.courierCompany;
