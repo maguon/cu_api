@@ -111,7 +111,7 @@ const updateOrderPrice = (params,callback) => {
     })
 }
 const getOrderItem = (params,callback) => {
-    let query = " select oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_item oit " +
+    let query = " select oit.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_item oit " +
                 " left join order_info oi on oit.order_id=oi.id " +
                 " left join user_info ui on ui.id=oit.user_id " +
                 " left join user_car uc on uc.id=oit.car_id " +
