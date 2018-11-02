@@ -185,16 +185,18 @@ function createServer() {
     server.post({path:'/api/admin/:adminId/order/:orderId/courier',contentType: 'application/json'},courier.addCourier);
     server.get('/api/user/:userId/order/:orderId/courier',courier.getCourier);
     server.get('/api/admin/:adminId/order/:orderId/courier',courier.getCourier);
+    server.put({path:'/api/admin/:adminId/courier/:courierId',contentType: 'application/json'},courier.updateCourier);
+
     /**
      after_sale售后
      */
     server.post({path:'/api/user/:userId/order/:orderId/afterSale',contentType: 'application/json'},afterSale.addAfterSale);
     server.get('/api/user/:userId/order/:orderId/afterSale',afterSale.getAfterSale);
     server.get('/api/admin/:adminId/order/:orderId/afterSale',afterSale.getAfterSale);
-    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSalePayment',contentType: 'application/json'},afterSale.updateAfterSalePayment);
-    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSaleCount',contentType: 'application/json'},afterSale.updateAfterSaleCount);
-    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSaleRemark',contentType: 'application/json'},afterSale.updateAfterSaleRemark);
-    server.put({path:'/api/admin/:adminId/orderSale/:afterSaleId/afterSaleStatus',contentType: 'application/json'},afterSale.updateAfterSaleStatus);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSalePayment',contentType: 'application/json'},afterSale.updateAfterSalePayment);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSaleCount',contentType: 'application/json'},afterSale.updateAfterSaleCount);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSaleRemark',contentType: 'application/json'},afterSale.updateAfterSaleRemark);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSaleStatus',contentType: 'application/json'},afterSale.updateAfterSaleStatus);
 
     /**
      * App Module

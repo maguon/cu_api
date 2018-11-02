@@ -4488,6 +4488,57 @@
         }
       }
     },
+    "/admin/{adminId}/courier/{courierId}": {
+      "put": {
+        "tags": [
+          "courier"
+        ],
+        "summary": "user courier ",
+        "description": "user courier",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "courierId",
+            "in": "path",
+            "description": "courierId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "courier",
+            "in": "body",
+            "description": "put courier",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateCourier"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
     "/user/{userId}/order/{orderId}/afterSale": {
       "post": {
         "tags": [
@@ -4621,7 +4672,7 @@
         }
       }
     },
-    "/admin/{adminId}/orderSale/{orderSaleId}/afterSalePayment": {
+    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSalePayment": {
       "put": {
         "tags": [
           "afterSale"
@@ -4636,6 +4687,13 @@
             "name": "adminId",
             "in": "path",
             "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
             "required": true,
             "type": "integer"
           },
@@ -4672,7 +4730,7 @@
         }
       }
     },
-    "/admin/{adminId}/orderSale/{orderSaleId}/afterSaleCount": {
+    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSaleCount": {
       "put": {
         "tags": [
           "afterSale"
@@ -4687,6 +4745,13 @@
             "name": "adminId",
             "in": "path",
             "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
             "required": true,
             "type": "integer"
           },
@@ -4723,7 +4788,7 @@
         }
       }
     },
-    "/admin/{adminId}/orderSale/{orderSaleId}/afterSaleRemark": {
+    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSaleRemark": {
       "put": {
         "tags": [
           "afterSale"
@@ -4737,7 +4802,14 @@
           {
             "name": "adminId",
             "in": "path",
-            "description": "admin Id",
+            "description": "admin IafterSalePaymentd",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
             "required": true,
             "type": "integer"
           },
@@ -4774,7 +4846,7 @@
         }
       }
     },
-    "/admin/{adminId}/orderSale/{orderSaleId}/afterSaleStatus": {
+    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSaleStatus": {
       "put": {
         "tags": [
           "afterSale"
@@ -4789,6 +4861,13 @@
             "name": "adminId",
             "in": "path",
             "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
             "required": true,
             "type": "integer"
           },
@@ -5398,6 +5477,15 @@
         },
         "productCount": {
           "type": "integer"
+        },
+        "recvName": {
+          "type": "string"
+        },
+        "recvPhone": {
+          "type": "string"
+        },
+        "recvAddress": {
+          "type": "string"
         }
       },
       "xml": {
@@ -5475,6 +5563,38 @@
       },
       "xml": {
         "name": "updateAfterSaleStatus"
+      }
+    },
+    "updateCourier": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string"
+        },
+        "productCount": {
+          "type": "integer"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "sendName": {
+          "type": "string"
+        },
+        "sendPhone": {
+          "type": "string"
+        },
+        "recvName": {
+          "type": "string"
+        },
+        "recvPhone": {
+          "type": "string"
+        },
+        "recvAddress": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "updateCourier"
       }
     }
   }

@@ -32,7 +32,21 @@ const getCourier = (req,res,next)=>{
         }
     });
 }
+const updateCourier = (req,res,next)=>{
+    let params = req.params;
+    courierDAO.updateCourier(params,(error,result)=>{
+        if(error){
+            logger.error('updateCourier' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateCourier' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
 module.exports = {
     addCourier,
-    getCourier
+    getCourier,
+    updateCourier
 }

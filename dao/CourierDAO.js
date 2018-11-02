@@ -6,7 +6,7 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addCourier = (params,callback) => {
-    let query = "insert into courier_info(product_name,product_count,order_id,courier_num,courier_company,remark,send_name,send_phone)values(?,?,?,?,?,?,?,?)";
+    let query = "insert into courier_info(product_name,product_count,order_id,courier_num,courier_company,remark,send_name,send_phone,recv_name,recv_phone,recv_address)values(?,?,?,?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.productName;
     paramsArray[i++] = params.productCount;
@@ -15,7 +15,10 @@ const addCourier = (params,callback) => {
     paramsArray[i++] = params.courierCompany;
     paramsArray[i++] = params.remark;
     paramsArray[i++] = params.sendName;
-    paramsArray[i] = params.sendPhone;
+    paramsArray[i++] = params.sendPhone;
+    paramsArray[i++] = params.recvName;
+    paramsArray[i++] = params.recvPhone;
+    paramsArray[i] = params.recvAddress;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addCourier');
         callback(error,rows);
@@ -26,6 +29,10 @@ const getCourier = (params,callback) => {
                 " left join order_info oi on oi.id=ci.order_id " +
                 " where ci.id is not null ";
     let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and ci.user_id =? ";
+    }
     if(params.orderId){
         paramsArray[i++] = params.orderId;
         query = query + " and ci.order_id =? ";
@@ -39,7 +46,25 @@ const getCourier = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateCourier = (params,callback) => {
+    let query = "update courier_info set product_name=?,product_count=?,remark=?,send_name=?,send_phone=?,recv_name=?,recv_phone=?,recv_address=? where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.productName;
+    paramsArray[i++] = params.productCount;
+    paramsArray[i++] = params.remark;
+    paramsArray[i++] = params.sendName;
+    paramsArray[i++] = params.sendPhone;
+    paramsArray[i++] = params.recvName;
+    paramsArray[i++] = params.recvPhone;
+    paramsArray[i++] = params.recvAddress;
+    paramsArray[i] = params.courierId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateCourier');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addCourier,
-    getCourier
+    getCourier,
+    updateCourier
 }
