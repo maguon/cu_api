@@ -24,14 +24,7 @@ const getQrCode = (req,res,next)=>{
             }
         })
     }else{
-        let ua = window.navigator.userAgent.toLowerCase();
-        if (ua.match(/MicroMessenger/i) == 'micromessenger'){
-            let url = "";
-            resUtil.resetQueryRes(res,url,null);
-            return "WeiXIN";
-        }else{
-            resUtil.resetQueryRes(res,'错误',null);
-        }
+        resUtil.resetQueryRes(res,{success:true},null);
     }
     /*oauthUtil.getQrCode({qrCodeId:params.qrCodeId},(error,result)=>{
         if(error){
