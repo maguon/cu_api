@@ -20,7 +20,7 @@ const oauth = require('./bl/OAuth.js');
 const qrCode = require('./bl/QrCode.js');
 const product = require('./bl/Product.js');
 const courier = require('./bl/Courier.js');
-const afterSale = require('./bl/AfterSale.js');
+const orderFeedback = require('./bl/OrderFeedback.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -188,15 +188,15 @@ function createServer() {
     server.put({path:'/api/admin/:adminId/courier/:courierId',contentType: 'application/json'},courier.updateCourier);
 
     /**
-     after_sale售后
+     order_feedback售后
      */
-    server.post({path:'/api/user/:userId/order/:orderId/afterSale',contentType: 'application/json'},afterSale.addAfterSale);
-    server.get('/api/user/:userId/order/:orderId/afterSale',afterSale.getAfterSale);
-    server.get('/api/admin/:adminId/order/:orderId/afterSale',afterSale.getAfterSale);
-    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSalePayment',contentType: 'application/json'},afterSale.updateAfterSalePayment);
-    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSaleCount',contentType: 'application/json'},afterSale.updateAfterSaleCount);
-    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSaleRemark',contentType: 'application/json'},afterSale.updateAfterSaleRemark);
-    server.put({path:'/api/admin/:adminId/order/:orderId/orderSale/:afterSaleId/afterSaleStatus',contentType: 'application/json'},afterSale.updateAfterSaleStatus);
+    server.post({path:'/api/user/:userId/order/:orderId/orderFeedback',contentType: 'application/json'},orderFeedback.addOrderFeedback);
+    server.get('/api/user/:userId/order/:orderId/orderFeedback',orderFeedback.getOrderFeedback);
+    server.get('/api/admin/:adminId/order/:orderId/orderFeedback',orderFeedback.getOrderFeedback);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackPayment',contentType: 'application/json'},orderFeedback.updateOrderFeedbackPayment);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackCount',contentType: 'application/json'},orderFeedback.updateOrderFeedbackCount);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackRemark',contentType: 'application/json'},orderFeedback.updateOrderFeedbackRemark);
+    server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackStatus',contentType: 'application/json'},orderFeedback.updateOrderFeedbackStatus);
 
     /**
      * App Module

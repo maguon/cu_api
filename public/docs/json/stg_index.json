@@ -68,7 +68,7 @@
       "description": "app of log api"
     },
     {
-      "name": "afterSale",
+      "name": "orderFeedback",
       "description": "app of log api"
     }
   ],
@@ -4539,13 +4539,13 @@
         }
       }
     },
-    "/user/{userId}/order/{orderId}/afterSale": {
+    "/user/{userId}/order/{orderId}/orderFeedback": {
       "post": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
-        "summary": "create afterSale",
-        "description": "create afterSale",
+        "summary": "create orderFeedback",
+        "description": "create orderFeedback",
         "produces": [
           "application/json"
         ],
@@ -4565,12 +4565,12 @@
             "type": "integer"
           },
           {
-            "name": "afterSale",
+            "name": "orderFeedback",
             "in": "body",
-            "description": "afterSale 售后",
+            "description": "orderFeedback 售后",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/afterSale"
+              "$ref": "#/definitions/orderFeedback"
             }
           }
         ],
@@ -4580,7 +4580,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSale"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -4591,10 +4591,10 @@
       },
       "get": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
-        "summary": "get afterSale",
-        "description": "get afterSale",
+        "summary": "get orderFeedback",
+        "description": "get orderFeedback",
         "produces": [
           "application/json"
         ],
@@ -4620,7 +4620,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSale"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -4630,10 +4630,10 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/afterSale": {
+    "/admin/{adminId}/order/{orderId}/orderFeedback": {
       "get": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
         "summary": "create userDevice",
         "description": "create userDevice",
@@ -4662,7 +4662,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSole"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -4672,10 +4672,10 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSalePayment": {
+    "/admin/{adminId}/order/{orderId}/orderFeedback/{orderFeedbackId}/orderFeedbackPayment": {
       "put": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
         "summary": "put userDevice",
         "description": "put userDevice",
@@ -4698,19 +4698,19 @@
             "type": "integer"
           },
           {
-            "name": "orderSaleId",
+            "name": "orderFeedbackId",
             "in": "path",
-            "description": "orderSaleId",
+            "description": "orderFeedbackId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "updateAfterSalePayment",
+            "name": "updateOrderFeedbackPayment",
             "in": "body",
-            "description": "updateAfterSale",
+            "description": "updateOrderFeedback",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/updateAfterSalePayment"
+              "$ref": "#/definitions/updateOrderFeedbackPayment"
             }
           }
         ],
@@ -4720,7 +4720,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSole"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -4730,13 +4730,13 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSaleCount": {
+    "/admin/{adminId}/order/{orderId}/orderFeedback/{orderFeedbackId}/orderFeedbackCount": {
       "put": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
-        "summary": "put userDevice",
-        "description": "put userDevice",
+        "summary": "put orderFeedbackCount",
+        "description": "put orderFeedbackCount",
         "produces": [
           "application/json"
         ],
@@ -4756,19 +4756,19 @@
             "type": "integer"
           },
           {
-            "name": "orderSaleId",
+            "name": "orderFeedbackId",
             "in": "path",
-            "description": "orderSaleId",
+            "description": "orderFeedbackId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "updateAfterSaleCount",
+            "name": "updateOrderFeedbackCount",
             "in": "body",
-            "description": "updateAfterSale",
+            "description": "updateOrderFeedback",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/updateAfterSaleCount"
+              "$ref": "#/definitions/updateOrderFeedbackCount"
             }
           }
         ],
@@ -4778,7 +4778,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSole"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -4788,13 +4788,13 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSaleRemark": {
+    "/admin/{adminId}/order/{orderId}/orderFeedback/{orderFeedbackId}/orderFeedbackRemark": {
       "put": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
-        "summary": "put userDevice",
-        "description": "put userDevice",
+        "summary": "put orderFeedbackRemark",
+        "description": "put orderFeedbackRemark",
         "produces": [
           "application/json"
         ],
@@ -4802,7 +4802,7 @@
           {
             "name": "adminId",
             "in": "path",
-            "description": "admin IafterSalePaymentd",
+            "description": "admin orderFeedback",
             "required": true,
             "type": "integer"
           },
@@ -4814,19 +4814,19 @@
             "type": "integer"
           },
           {
-            "name": "orderSaleId",
+            "name": "orderFeedbackId",
             "in": "path",
-            "description": "orderSaleId",
+            "description": "orderFeedbackId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "updateAfterSaleRemark",
+            "name": "updateOrderFeedbackRemark",
             "in": "body",
-            "description": "updateAfterSaleRemark",
+            "description": "updateOrderFeedbackRemark",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/updateAfterSaleRemark"
+              "$ref": "#/definitions/updateOrderFeedbackRemark"
             }
           }
         ],
@@ -4836,7 +4836,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSole"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -4846,13 +4846,13 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/orderSale/{orderSaleId}/afterSaleStatus": {
+    "/admin/{adminId}/order/{orderId}/orderFeedback/{orderFeedbackId}/orderFeedbackStatus": {
       "put": {
         "tags": [
-          "afterSale"
+          "orderFeedback"
         ],
-        "summary": "put userDevice",
-        "description": "put userDevice",
+        "summary": "put orderFeedback",
+        "description": "put orderFeedback",
         "produces": [
           "application/json"
         ],
@@ -4872,19 +4872,19 @@
             "type": "integer"
           },
           {
-            "name": "orderSaleId",
+            "name": "orderFeedbackId",
             "in": "path",
-            "description": "orderSaleId",
+            "description": "orderFeedbackId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "updateAfterSaleStatus",
+            "name": "updateOrderFeedbackStatus",
             "in": "body",
-            "description": "updateAfterSaleStatus",
+            "description": "updateOrderFeedbackStatus",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/updateAfterSaleStatus"
+              "$ref": "#/definitions/updateOrderFeedbackStatus"
             }
           }
         ],
@@ -4894,7 +4894,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/afterSole"
+                "$ref": "#/definitions/orderFeedback"
               }
             }
           },
@@ -5492,7 +5492,7 @@
         "name": "courier"
       }
     },
-    "afterSale": {
+    "orderFeedback": {
       "type": "object",
       "properties": {
         "applyReason": {
@@ -5500,10 +5500,10 @@
         }
       },
       "xml": {
-        "name": "afterSale"
+        "name": "orderFeedback"
       }
     },
-    "updateAfterSalePayment": {
+    "updateOrderFeedbackPayment": {
       "type": "object",
       "properties": {
         "processRemark": {
@@ -5517,10 +5517,10 @@
         }
       },
       "xml": {
-        "name": "updateAfterSalePayment"
+        "name": "updateOrderFeedbackPayment"
       }
     },
-    "updateAfterSaleCount": {
+    "updateOrderFeedbackCount": {
       "type": "object",
       "properties": {
         "processRemark": {
@@ -5537,10 +5537,10 @@
         }
       },
       "xml": {
-        "name": "updateAfterSaleCount"
+        "name": "updateOrderFeedbackCount"
       }
     },
-    "updateAfterSaleRemark": {
+    "updateoOrderFeedbackRemark": {
       "type": "object",
       "properties": {
         "processRemark": {
@@ -5551,10 +5551,10 @@
         }
       },
       "xml": {
-        "name": "updateAfterSaleRemark"
+        "name": "updateOrderFeedbackRemark"
       }
     },
-    "updateAfterSaleStatus": {
+    "updateOrderFeedbackStatus": {
       "type": "object",
       "properties": {
         "status": {
@@ -5562,7 +5562,7 @@
         }
       },
       "xml": {
-        "name": "updateAfterSaleStatus"
+        "name": "updateOrderFeedbackStatus"
       }
     },
     "updateCourier": {
