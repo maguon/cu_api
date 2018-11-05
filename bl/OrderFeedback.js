@@ -48,16 +48,6 @@ const updateOrderFeedbackPayment = (req,res,next)=>{
 }
 const updateOrderFeedbackCount = (req,res,next)=>{
     let params = req.params;
-    new Promise((resolve,reject)=>{
-        courierDAO.getCourier(params,(error,rows)=>{
-            if(error){
-                logger.error('getCourier' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else if(rows && rows.length<1){
-
-            }
-        })
-    })
     orderFeedbackDAO.updateOrderFeedbackCount(params,(error,result)=>{
         if(error){
             logger.error('updateOrderFeedbackCount' + error.message);
