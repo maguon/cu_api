@@ -64,7 +64,7 @@
       "description": "app of log api"
     },
     {
-      "name": "courier",
+      "name": "log",
       "description": "app of log api"
     },
     {
@@ -4341,10 +4341,10 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/courier": {
+    "/admin/{adminId}/order/{orderId}/log": {
       "post": {
         "tags": [
-          "courier"
+          "log"
         ],
         "summary": "create userDevice",
         "description": "create userDevice",
@@ -4367,12 +4367,12 @@
             "type": "integer"
           },
           {
-            "name": "courier",
+            "name": "log",
             "in": "body",
-            "description": "courier info",
+            "description": "log info",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/courier"
+              "$ref": "#/definitions/log"
             }
           }
         ],
@@ -4382,7 +4382,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/courier"
+                "$ref": "#/definitions/log"
               }
             }
           },
@@ -4393,7 +4393,7 @@
       },
       "get": {
         "tags": [
-          "courier"
+          "log"
         ],
         "summary": "create userDevice",
         "description": "create userDevice",
@@ -4416,9 +4416,9 @@
             "type": "integer"
           },
           {
-            "name": "courierId",
+            "name": "logId",
             "in": "query",
-            "description": "courierId",
+            "description": "logId",
             "required": false,
             "type": "integer"
           }
@@ -4429,7 +4429,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/courier"
+                "$ref": "#/definitions/log"
               }
             }
           },
@@ -4439,10 +4439,10 @@
         }
       }
     },
-    "/user/{userId}/order/{orderId}/courier": {
+    "/user/{userId}/order/{orderId}/log": {
       "get": {
         "tags": [
-          "courier"
+          "log"
         ],
         "summary": "create userDevice",
         "description": "create userDevice",
@@ -4465,9 +4465,9 @@
             "type": "integer"
           },
           {
-            "name": "courierId",
+            "name": "logId",
             "in": "query",
-            "description": "courierId",
+            "description": "logId",
             "required": false,
             "type": "integer"
           }
@@ -4478,7 +4478,7 @@
             "schema": {
               "type": "object",
               "items": {
-                "$ref": "#/definitions/courier"
+                "$ref": "#/definitions/log"
               }
             }
           },
@@ -4488,13 +4488,13 @@
         }
       }
     },
-    "/admin/{adminId}/courier/{courierId}": {
+    "/admin/{adminId}/log/{logId}": {
       "put": {
         "tags": [
-          "courier"
+          "log"
         ],
-        "summary": "user courier ",
-        "description": "user courier",
+        "summary": "user log ",
+        "description": "user log",
         "produces": [
           "application/json"
         ],
@@ -4507,19 +4507,19 @@
             "type": "integer"
           },
           {
-            "name": "courierId",
+            "name": "logId",
             "in": "path",
-            "description": "courierId",
+            "description": "logId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "courier",
+            "name": "log",
             "in": "body",
-            "description": "put courier",
+            "description": "put log",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/updateCourier"
+              "$ref": "#/definitions/updateLog"
             }
           }
         ],
@@ -5454,29 +5454,20 @@
         "name": "updateOrder"
       }
     },
-    "courier": {
+    "log": {
       "type": "object",
       "properties": {
-        "courierNum": {
+        "logNum": {
+          "type": "string"
+        },
+        "logCompanyId": {
           "type": "integer"
         },
-        "courierCompany": {
+        "productDes": {
           "type": "string"
         },
         "remark": {
           "type": "string"
-        },
-        "sendName": {
-          "type": "string"
-        },
-        "sendPhone": {
-          "type": "string"
-        },
-        "productName": {
-          "type": "string"
-        },
-        "productCount": {
-          "type": "integer"
         },
         "recvName": {
           "type": "string"
@@ -5489,7 +5480,7 @@
         }
       },
       "xml": {
-        "name": "courier"
+        "name": "log"
       }
     },
     "orderFeedback": {
@@ -5565,22 +5556,13 @@
         "name": "updateOrderFeedbackStatus"
       }
     },
-    "updateCourier": {
+    "updateLog": {
       "type": "object",
       "properties": {
-        "productName": {
+        "productDes": {
           "type": "string"
-        },
-        "productCount": {
-          "type": "integer"
         },
         "remark": {
-          "type": "string"
-        },
-        "sendName": {
-          "type": "string"
-        },
-        "sendPhone": {
           "type": "string"
         },
         "recvName": {
@@ -5594,7 +5576,7 @@
         }
       },
       "xml": {
-        "name": "updateCourier"
+        "name": "updateLog"
       }
     }
   }

@@ -19,7 +19,7 @@ const wechatBl = require('./bl/WechatBl.js');
 const oauth = require('./bl/OAuth.js');
 const qrCode = require('./bl/QrCode.js');
 const product = require('./bl/Product.js');
-const courier = require('./bl/Courier.js');
+const log = require('./bl/Log.js');
 const orderFeedback = require('./bl/OrderFeedback.js');
 
 /**
@@ -180,12 +180,12 @@ function createServer() {
     server.put({path:'/api/user/:userId/order/:orderId/logStatus/:logStatus',contentType: 'application/json'},order.updateOrderLogStatus);
     server.put({path:'/api/user/:userId/order/:orderId/paymentStatus/:paymentStatus',contentType: 'application/json'},order.updateOrderPaymengStatus);
     /**
-     courier_info快递
+     log_info物流
      */
-    server.post({path:'/api/admin/:adminId/order/:orderId/courier',contentType: 'application/json'},courier.addCourier);
-    server.get('/api/user/:userId/order/:orderId/courier',courier.getCourier);
-    server.get('/api/admin/:adminId/order/:orderId/courier',courier.getCourier);
-    server.put({path:'/api/admin/:adminId/courier/:courierId',contentType: 'application/json'},courier.updateCourier);
+    server.post({path:'/api/admin/:adminId/order/:orderId/log',contentType: 'application/json'},log.addLog);
+    server.get('/api/user/:userId/order/:orderId/log',log.getLog);
+    server.get('/api/admin/:adminId/order/:orderId/log',log.getLog);
+    server.put({path:'/api/admin/:adminId/log/:logId',contentType: 'application/json'},log.updateLog);
 
     /**
      order_feedback售后

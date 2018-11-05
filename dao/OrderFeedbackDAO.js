@@ -6,7 +6,7 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addOrderFeedback = (params,callback) => {
-    let query = "insert into after_sale(order_id,apply_reason)values(?,?) ";
+    let query = "insert into order_feedback(order_id,apply_reason)values(?,?) ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.orderId;
     paramsArray[i] = params.applyReason;
@@ -16,7 +16,7 @@ const addOrderFeedback = (params,callback) => {
     })
 }
 const getOrderFeedback = (params,callback) => {
-    let query = "select * from after_sale where id is not null ";
+    let query = "select * from order_feedback where id is not null ";
     let paramsArray = [],i=0;
     if(params.orderId){
         paramsArray[i] = params.orderId;
@@ -28,7 +28,7 @@ const getOrderFeedback = (params,callback) => {
     })
 }
 const updateOrderFeedbackPayment = (params,callback) => {
-    let query = "update after_sale set process_remark=?,process_method=?,refund_amount=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=?,refund_amount=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
@@ -40,7 +40,7 @@ const updateOrderFeedbackPayment = (params,callback) => {
     })
 }
 const updateOrderFeedbackCount = (params,callback) => {
-    let query = "update after_sale set process_remark=?,process_method=?,replace_name=?,replace_count=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=?,replace_name=?,replace_count=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
@@ -53,7 +53,7 @@ const updateOrderFeedbackCount = (params,callback) => {
     })
 }
 const updateOrderFeedbackRemark = (params,callback) => {
-    let query = "update after_sale set process_remark=?,process_method=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
@@ -64,7 +64,7 @@ const updateOrderFeedbackRemark = (params,callback) => {
     })
 }
 const updateOrderFeedbackStatus = (params,callback) => {
-    let query = "update after_sale set status=? where id = ? ";
+    let query = "update order_feedback set status=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.status;
     paramsArray[i] = params.orderFeedbackId;

@@ -5,7 +5,6 @@ const sysMsg = require('../util/SystemMsg.js');
 const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('OrderFeedback.js');
 const orderFeedbackDAO = require('../dao/OrderFeedbackDAO.js');
-const courierDAO = require('../dao/CourierDAO.js');
 
 const addOrderFeedback = (req,res,next)=>{
     let params = req.params;
