@@ -67,12 +67,12 @@ const getOrder = (params,callback) => {
         query = query + " and oi.payment_status =? ";
     }
     if(params.createdOnStart){
-        paramsArray[i++] = params.createdOnStart+" 00:00:00 ";
-        query = query + " and ui.created_on >= ? ";
+        paramsArray[i++] = params.createdOnStart+" 00:00:00";
+        query = query + " and oi.created_on >= ? ";
     }
     if(params.createdOnEnd){
-        paramsArray[i++] = params.createdOnEnd+" 23:59:59 ";
-        query = query + " and ui.created_on <= ? ";
+        paramsArray[i++] = params.createdOnEnd+" 23:59:59";
+        query = query + " and oi.created_on <= ? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
