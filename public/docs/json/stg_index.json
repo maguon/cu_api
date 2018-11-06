@@ -4959,7 +4959,7 @@
         }
       }
     },
-    "/user/{userId}/order/{orderId}/updateStatus": {
+    "/user/{userId}/order/{orderId}/wechatPayment": {
       "put": {
         "tags": [
           "payment"
@@ -5701,6 +5701,9 @@
         },
         "status": {
           "type": "integer"
+        },
+        "openid": {
+          "type": "string"
         }
       },
       "xml": {

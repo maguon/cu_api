@@ -241,13 +241,12 @@ function createServer() {
     /*
      ** server return wechat payment prepay_id
      */
-    server.post({path:'/api/user/:userId/order/:orderId/wechatPayment',contentType: 'application/json'},payment.addPayment);
+    server.post({path:'/api/user/:userId/order/:orderId/wechatPayment',contentType: 'application/json'},payment.wechatPayment);
     /*
      ** wechat payment callback api
      */
     server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
     server.post({path:'/api/user/:userId/order/:orderId/payment/:paymentId/refund',contentType: 'application/json'},payment.addPayment);
-    server.put({path:'/api/user/:userId/order/:orderId/updateStatus',contentType: 'application/json'},payment.updateStatus);
 
     server.on('NotFound',(req, res ,next)=>{
         logger.warn(req.url + " not found");

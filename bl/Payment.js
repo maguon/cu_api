@@ -54,7 +54,7 @@ const getPayment = (req,res,next)=>{
         }
     });
 }
-const updateStatus = (req,res,next)=>{
+const wechatPayment = (req,res,next)=>{
     let params = req.params;
     let signStr = "appid="+sysConfig.wechatConfig.mpAppId+"&attach=test&body=test&mch_id="+sysConfig.wechatConfig.mchId
         + "&nonce_str="+sysConfig.wechatConfig.notifyUrl+"&notify_url="+sysConfig.wechatConfig.WECHAT_PAYMENT_CALLBACK+"&openid="+params.openid
@@ -113,32 +113,6 @@ const updateStatus = (req,res,next)=>{
         res.send(500,e);
         return next();
     });
-    new Promise((resolve,reject)=>{
-        wechatDAO.unifiedOrder(params,(error,rows)=>{
-            if(error){
-                logger.error('unifiedOrder' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else if(rows&& rows.length<1){
-                logger.warn('unifiedOrder '+'支付失败');
-                resUtil.resetFailedRes(res,'支付失败',null);
-            }else{
-                let paramsUnifiedOrder = {
-                    rows
-                }
-            }
-        })
-    }).then(()=>{
-        paymentDAO.updateStatus(params,(error,result)=>{
-            if(error){
-                logger.error('updateStatus' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else{
-                logger.info('updateStatus' + 'success');
-                resUtil.resetUpdateRes(res,result,null);
-                return next();
-            }
-        });
-    })
 }
 const addWechatPayment=(req,res,next) => {
 
@@ -146,6 +120,6 @@ const addWechatPayment=(req,res,next) => {
 module.exports = {
     addPayment,
     getPayment,
-    updateStatus,
+    wechatPayment,
     addWechatPayment
 }
