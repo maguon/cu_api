@@ -33,9 +33,9 @@ const getUserInfoById = (params,callback) =>{
 const unifiedOrder = (params,callback) => {
     const url = '/pay/unifiedorder';
     const unifiedOrder = {
-        appid: sysConfig.wechatPayConfig.mpAppId, //小程序ID	appid	是
-        mch_id:sysConfig.wechatPayConfig.mchId,//商户号	mch_id	是
-        device_info:'WEB',//设备号	device_info	否
+        appid: sysConfig.wechatConfig.mpAppId, //小程序ID	appid	是
+        mch_id:sysConfig.wechatConfig.mchId,//商户号	mch_id	是
+        //device_info:'WEB',//设备号	device_info	否
         nonce_str:oAuthUtil.randomString,//随机字符串	nonce_str	是
         sign:'myxxjs',//签名	sign	是
         //sign_type:'',//签名类型	sign_type	否
@@ -45,17 +45,17 @@ const unifiedOrder = (params,callback) => {
         out_trade_no:params.orderId,//商户订单号	out_trade_no	是
         fee_type:'CNY',//标价币种	fee_type	否
         total_fee:params.totalFee,//标价金额	total_fee	是
-        spbill_create_ip:'127.0.0.1',//终端IP	spbill_create_ip	是
+        spbill_create_ip:'47.93.121.1',//终端IP	spbill_create_ip	是
         //time_start:600,//交易起始时间	time_start	否
         //time_expire:600,//交易结束时间	time_expire	否
         //goods_tag:600,//订单优惠标记	goods_tag	否
-        notify_url:'http://www.weixin.qq.com/wxpay/pay.php',//通知地址	notify_url	是
+        notify_url:'https://stg.myxxjs.com/api/wechatPament',//通知地址	notify_url	是
         trade_type:'JSAPI',//交易类型	trade_type	是
         //product_id:600,//商品ID	product_id	否
         //limit_pay:600,//指定支付方式	limit_pay	否
         //openid:params.openid//用户标识	openid	否
     }
-    httpUtil.httpPost(sysConfig.wechatPayConfig.mphost,443,url,unifiedOrder,(err,rows)=>{
+    httpUtil.httpPost(sysConfig.wechatConfig.mphost,443,url,unifiedOrder,(err,rows)=>{
         logger.debug('unifiedOrder');
         callback(err,rows);
     })

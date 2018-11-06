@@ -4960,7 +4960,7 @@
       }
     },
     "/user/{userId}/order/{orderId}/updateStatus": {
-      "post": {
+      "put": {
         "tags": [
           "payment"
         ],

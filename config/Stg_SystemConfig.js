@@ -27,27 +27,28 @@ const mongoConfig = {
     connect : 'mongodb://127.0.0.1:27017/log_cu'
 }
 
+
+const wechatConfig = {
+    mpAppId : "wx694764f7676e75c3",
+    mpSecret : "08baba525260e016ce793c7267133035",
+    mpHost : "api.weixin.qq.com",
+    paymentHost : "api.mch.weixin.qq.com",
+    mchId : "1517493001",
+    notifyUrl : "https://stg.myxxjs.com/api/wechatPayment",
+    WECHAT_PAYMENT_CALLBACK : 'https://stg.myxxjs.com/api/wechatPament',
+    WECHAT_PAYMENT_KEY : '',
+
+}
+
 const hosts = {
     auth:{
         host :"stg.myxxjs.com",
         port : 9009
     },
     mq : {
-        host: "stg.myxxjs.com",
-        port: 9202
+        host :"stg.myxxjs.com",
+        port : 9202
     }
 }
-const wechatConfig = {
-    mpAppId : "wx694764f7676e75c3",
-    mpSecret : "08baba525260e016ce793c7267133035",
-    mphost : "api.weixin.qq.com"
-}
-const wechatPayConfig = {
-    mpAppId : "wx694764f7676e75c3",
-    mpSecret : "08baba525260e016ce793c7267133035",
-    mphost : "api.mch.weixin.qq.com",
-    mchId : '1517493001'
-}
 
-
-module.exports = { mysqlConnectOptions ,loggerConfig, logLevel , mongoConfig  ,wechatPayConfig ,hosts,wechatConfig}
+module.exports = { mysqlConnectOptions ,loggerConfig, logLevel , mongoConfig  ,wechatConfig,hosts}
