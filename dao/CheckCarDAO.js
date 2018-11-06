@@ -190,7 +190,7 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.createdEndOn + " 23:59:59";
         query = query + " and cci.created_on <= ?  ";
     }
-    query = query + " order by cci.id asc ";
+    query = query + " order by cci.created_on desc ";
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);
         paramsArray[i] = parseInt(params.size);
