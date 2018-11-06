@@ -13,7 +13,7 @@ const getUserIdByCode = (params,callback) => {
         js_code : params.code,
         grant_type : 'authorization_code'
     }
-    httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
+    httpUtil.httpsGet(sysConfig.wechatConfig.mpHost,443,url,paramObj,(err,res)=>{
         logger.debug('getUserIdByCode');
         callback(err,res);
     })
@@ -25,7 +25,7 @@ const getUserInfoById = (params,callback) =>{
         appid : sysConfig.wechatConfig.mpAppId,
         secret : sysConfig.wechatConfig.mpSecret,
     }
-    httpUtil.httpsGet(sysConfig.wechatConfig.mphost,443,url,paramObj,(err,res)=>{
+    httpUtil.httpsGet(sysConfig.wechatConfig.mpHost,443,url,paramObj,(err,res)=>{
         logger.debug('getUserInfoById');
         callback(err,res);
     })
@@ -55,7 +55,7 @@ const unifiedOrder = (params,callback) => {
         //limit_pay:600,//指定支付方式	limit_pay	否
         //openid:params.openid//用户标识	openid	否
     }
-    httpUtil.httpPost(sysConfig.wechatConfig.mphost,443,url,unifiedOrder,(err,rows)=>{
+    httpUtil.httpPost(sysConfig.wechatConfig.mpHost,443,url,unifiedOrder,(err,rows)=>{
         logger.debug('unifiedOrder');
         callback(err,rows);
     })
@@ -92,7 +92,7 @@ const orderQuery = (params,callback) => {
         sign: params,
         sign_type: params
     }
-    httpUtil.httpGet(sysConfig.wechatConfig.mphost,666,url,orderQuery,(err,res)=>{
+    httpUtil.httpGet(sysConfig.wechatConfig.mpHost,666,url,orderQuery,(err,res)=>{
         logger.debug('orderQuery');
         callback(err,res);
     })
@@ -107,7 +107,7 @@ const closeOrder = (params,callback) => {
         sign:params,
         sign_type: params
     }
-    httpUtil.httpPut(sysConfig.wechatConfig.mphost,666,url,closeOrder,(err,res)=>{
+    httpUtil.httpPut(sysConfig.wechatConfig.mpHost,666,url,closeOrder,(err,res)=>{
         logger.debug('closeOrder');
         callback(err,res);
     })
@@ -130,7 +130,7 @@ const refund = (params,callback) => {
         refund_account: params,
         notify_url: params
     }
-    httpUtil.httpPost(sysConfig.wechatConfig.mphost,666,url,refund,(err,res)=>{
+    httpUtil.httpPost(sysConfig.wechatConfig.mpHost,666,url,refund,(err,res)=>{
         logger.debug('refund');
         callback(err,res);
     })
@@ -149,7 +149,7 @@ const refundQuery = (params,callback) => {
         refund_id: params,
         offset: params
     }
-    httpUtil.httpGet(sysConfig.wechatConfig.mphost,666,url,refundQuery,(err,res)=>{
+    httpUtil.httpGet(sysConfig.wechatConfig.mpHost,666,url,refundQuery,(err,res)=>{
         logger.debug('refundQuery');
         callback(err,res);
     })

@@ -9,6 +9,7 @@ const orderDAO = require('../dao/OrderDAO.js');
 const wechatDAO =require('../dao/WechatDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const sysConfig = require('../config/SystemConfig.js');
+const https = require('https');
 
 const addPayment = (req,res,next)=>{
     let params = req.params;
