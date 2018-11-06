@@ -70,6 +70,10 @@
     {
       "name": "orderFeedback",
       "description": "app of log api"
+    },
+    {
+      "name": "payment",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -4903,6 +4907,108 @@
           }
         }
       }
+    },
+    "/user/{userId}/order/{orderId}/payment": {
+      "post": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "add payment",
+        "description": "add payment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "payment",
+            "in": "body",
+            "description": "payment",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/payment"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/payment"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/order/{orderId}/updateStatus": {
+      "post": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "add payment",
+        "description": "add payment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "updateStatus",
+            "in": "body",
+            "description": "updateStatus",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/updateStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/payment"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -5502,9 +5608,6 @@
         },
         "processMethod": {
           "type": "string"
-        },
-        "refundAmount": {
-          "type": "integer"
         }
       },
       "xml": {
@@ -5519,12 +5622,6 @@
         },
         "processMethod": {
           "type": "string"
-        },
-        "replaceName": {
-          "type": "string"
-        },
-        "replaceCount": {
-          "type": "integer"
         }
       },
       "xml": {
@@ -5577,6 +5674,37 @@
       },
       "xml": {
         "name": "updateLog"
+      }
+    },
+    "payment": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "integer"
+        },
+        "paymentType": {
+          "type": "integer"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "payment"
+      }
+    },
+    "updateStatus": {
+      "type": "object",
+      "properties": {
+        "totalFee": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "updateStatus"
       }
     }
   }

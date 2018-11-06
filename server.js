@@ -21,6 +21,7 @@ const qrCode = require('./bl/QrCode.js');
 const product = require('./bl/Product.js');
 const log = require('./bl/Log.js');
 const orderFeedback = require('./bl/OrderFeedback.js');
+const payment = require('./bl/Payment.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -233,7 +234,13 @@ function createServer() {
      */
     server.get('/api/user/:userId/product' ,product.getProduct);
     server.post({path:'/api/admin/:adminId/product',contentType: 'application/json'},product.addProduct);
-
+    /**
+     * payment_info
+     */
+    server.get('/api/user/:userId/payment' ,payment.getPayment);
+    server.post({path:'/api/user/:userId/order/:orderId/payment',contentType: 'application/json'},payment.addPayment);
+    server.post({path:'/api/user/:userId/order/:orderId/payment/:paymentId/refund',contentType: 'application/json'},payment.addPayment);
+    server.post({path:'/api/user/:userId/order/:orderId/updateStatus',contentType: 'application/json'},payment.updateStatus);
 
     server.on('NotFound',(req, res ,next)=>{
         logger.warn(req.url + " not found");

@@ -6,8 +6,9 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addOrderFeedback = (params,callback) => {
-    let query = "insert into order_feedback(order_id,apply_reason)values(?,?) ";
+    let query = "insert into order_feedback(user_id,order_id,apply_reason)values(?,?,?) ";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i] = params.applyReason;
     db.dbQuery(query,paramsArray,(error,rows)=>{
@@ -18,6 +19,10 @@ const addOrderFeedback = (params,callback) => {
 const getOrderFeedback = (params,callback) => {
     let query = "select * from order_feedback where id is not null ";
     let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and user_id =? ";
+    }
     if(params.orderId){
         paramsArray[i] = params.orderId;
         query = query + " and order_id =? ";
@@ -28,11 +33,10 @@ const getOrderFeedback = (params,callback) => {
     })
 }
 const updateOrderFeedbackPayment = (params,callback) => {
-    let query = "update order_feedback set process_remark=?,process_method=?,refund_amount=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
-    paramsArray[i++] = params.refundAmount;
     paramsArray[i] = params.orderFeedbackId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateOrderFeedbackPayment');
@@ -40,12 +44,10 @@ const updateOrderFeedbackPayment = (params,callback) => {
     })
 }
 const updateOrderFeedbackCount = (params,callback) => {
-    let query = "update order_feedback set process_remark=?,process_method=?,replace_name=?,replace_count=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
-    paramsArray[i++] = params.replaceName;
-    paramsArray[i++] = params.replaceCount;
     paramsArray[i] = params.orderFeedbackId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateOrderFeedbackCount');
