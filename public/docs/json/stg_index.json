@@ -4960,7 +4960,7 @@
       }
     },
     "/user/{userId}/order/{orderId}/wechatPayment": {
-      "put": {
+      "post": {
         "tags": [
           "payment"
         ],
