@@ -35,8 +35,7 @@ const wechatConfig = {
     paymentHost : "api.mch.weixin.qq.com",
     mchId : "1517493001",
     notifyUrl : "https://stg.myxxjs.com/api/wechatPayment",
-    WECHAT_PAYMENT_CALLBACK : 'https://stg.myxxjs.com/api/wechatPament',
-    WECHAT_PAYMENT_KEY : '',
+    paymentKey : '',
 
 }
 

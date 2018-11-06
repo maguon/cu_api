@@ -186,7 +186,7 @@ function createServer() {
     server.post({path:'/api/admin/:adminId/order/:orderId/log',contentType: 'application/json'},log.addLog);
     server.get('/api/user/:userId/order/:orderId/log',log.getLog);
     server.get('/api/admin/:adminId/order/:orderId/log',log.getLog);
-    server.put({path:'/api/admin/:adminId/log/:logId',contentType: 'application/json'},log.updateLog);
+    server.put({path:'/api/admin/:adminId/log/:logId/logInfo',contentType: 'application/json'},log.updateLog);
 
     /**
      order_feedback售后

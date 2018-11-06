@@ -4492,7 +4492,7 @@
         }
       }
     },
-    "/admin/{adminId}/log/{logId}": {
+    "/admin/{adminId}/log/{logId}/logInfo": {
       "put": {
         "tags": [
           "log"
@@ -5628,7 +5628,7 @@
         "name": "updateOrderFeedbackCount"
       }
     },
-    "updateoOrderFeedbackRemark": {
+    "updateOrderFeedbackRemark": {
       "type": "object",
       "properties": {
         "processRemark": {
