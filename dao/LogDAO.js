@@ -60,11 +60,11 @@ const getLog = (params,callback) => {
     }
     if(params.updatedOnStart){
         paramsArray[i++] = params.updatedOnStart+" 00:00:00";
-        query = query + " and ci.update_on >=? ";
+        query = query + " and ci.updated_on >=? ";
     }
     if(params.updatedOnEnd){
         paramsArray[i++] = params.updatedOnEnd+" 23:59:59";
-        query = query + " and ci.update_on <=? ";
+        query = query + " and ci.updated_on <=? ";
     }
     if(params.recvPhone){
         paramsArray[i++] = params.recvPhone;
