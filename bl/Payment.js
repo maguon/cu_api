@@ -10,6 +10,7 @@ const wechatDAO =require('../dao/WechatDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const sysConfig = require('../config/SystemConfig.js');
 const https = require('https');
+//const parser = require('xml2json');
 const oAuthUtil = require('../util/OAuthUtil.js');
 
 const addPayment = (req,res,next)=>{

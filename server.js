@@ -22,6 +22,7 @@ const product = require('./bl/Product.js');
 const log = require('./bl/Log.js');
 const orderFeedback = require('./bl/OrderFeedback.js');
 const payment = require('./bl/Payment.js');
+const logCompany = require('./bl/LogCompany.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -247,6 +248,11 @@ function createServer() {
      */
     server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
     server.post({path:'/api/user/:userId/order/:orderId/payment/:paymentId/refund',contentType: 'application/json'},payment.addPayment);
+    /**
+     * log_company
+     */
+    server.get('/api/user/:userId/logCompany/:logCompanyId' ,logCompany.getLogCompany);
+    server.post({path:'/api/user/:userId/logCompany',contentType: 'application/json'},logCompany.addLogCompany);
 
     server.on('NotFound',(req, res ,next)=>{
         logger.warn(req.url + " not found");

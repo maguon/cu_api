@@ -74,6 +74,10 @@
     {
       "name": "payment",
       "description": "app of log api"
+    },
+    {
+      "name": "logCompany",
+      "description": "app of log api"
     }
   ],
   "schemes": [
@@ -4425,6 +4429,69 @@
             "description": "logId",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "logCompanyId",
+            "in": "query",
+            "description": "logCompanyId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "recvName",
+            "in": "query",
+            "description": "recvName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "updatedOnStart",
+            "in": "query",
+            "description": "updatedOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "updatedOnEnd",
+            "in": "query",
+            "description": "updatedOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "recvPhone",
+            "in": "query",
+            "description": "recvPhone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -5009,6 +5076,92 @@
           }
         }
       }
+    },
+    "/user/{userId}/logCompany": {
+      "post": {
+        "tags": [
+          "logCompany"
+        ],
+        "summary": "add logCompany",
+        "description": "add logCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logCompany",
+            "in": "body",
+            "description": "logCompany",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/logCompany"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/logCompany"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/logCompany/{logCompanyId}": {
+      "get": {
+        "tags": [
+          "logCompany"
+        ],
+        "summary": "get logCompany",
+        "description": "get logCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logCompanyId",
+            "in": "path",
+            "description": "logCompanyId",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/logCompany"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -5563,16 +5716,7 @@
     "log": {
       "type": "object",
       "properties": {
-        "logNum": {
-          "type": "string"
-        },
-        "logCompanyId": {
-          "type": "integer"
-        },
         "productDes": {
-          "type": "string"
-        },
-        "remark": {
           "type": "string"
         },
         "recvName": {
@@ -5583,6 +5727,9 @@
         },
         "recvAddress": {
           "type": "string"
+        },
+        "type": {
+          "type": "integer"
         }
       },
       "xml": {
@@ -5656,20 +5803,17 @@
     "updateLog": {
       "type": "object",
       "properties": {
-        "productDes": {
+        "logNum": {
           "type": "string"
         },
         "remark": {
           "type": "string"
         },
-        "recvName": {
-          "type": "string"
+        "logCompanyId": {
+          "type": "integer"
         },
-        "recvPhone": {
-          "type": "string"
-        },
-        "recvAddress": {
-          "type": "string"
+        "freight": {
+          "type": "integer"
         }
       },
       "xml": {
@@ -5708,6 +5852,17 @@
       },
       "xml": {
         "name": "updateStatus"
+      }
+    },
+    "logCompany": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "logCompany"
       }
     }
   }
