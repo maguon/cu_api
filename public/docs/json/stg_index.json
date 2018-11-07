@@ -4473,9 +4473,9 @@
           },
           {
             "name": "orderId",
-            "in": "path",
+            "in": "query",
             "description": "orderId",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
