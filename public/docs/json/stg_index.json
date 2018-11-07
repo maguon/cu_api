@@ -4248,7 +4248,7 @@
         ],
         "parameters": [
           {
-            "name": "user",
+            "name": "userId",
             "in": "path",
             "description": "userId",
             "required": true,
@@ -4353,14 +4353,14 @@
         ],
         "parameters": [
           {
-            "name": "admin",
-            "in": "query",
+            "name": "adminId",
+            "in": "path",
             "description": "adminId",
             "required": true,
             "type": "integer"
           },
           {
-            "name": "user",
+            "name": "userId",
             "in": "query",
             "description": "userId",
             "required": false,
