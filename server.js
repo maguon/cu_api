@@ -254,7 +254,7 @@ function createServer() {
      */
     server.get('/api/user/:userId/logCompany' ,logCompany.getLogCompany);
     server.get('/api/admin/:adminId/logCompany' ,logCompany.getLogCompany);
-    server.post({path:'/api/user/:userId/logCompany',contentType: 'application/json'},logCompany.addLogCompany);
+    server.post({path:'/api/admin/:adminId/logCompany',contentType: 'application/json'},logCompany.addLogCompany);
 
     server.on('NotFound',(req, res ,next)=>{
         logger.warn(req.url + " not found");
