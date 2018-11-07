@@ -193,8 +193,8 @@ function createServer() {
      order_feedback售后
      */
     server.post({path:'/api/user/:userId/order/:orderId/orderFeedback',contentType: 'application/json'},orderFeedback.addOrderFeedback);
-    server.get('/api/user/:userId/order/:orderId/orderFeedback',orderFeedback.getOrderFeedback);
-    server.get('/api/admin/:adminId/order/:orderId/orderFeedback',orderFeedback.getOrderFeedback);
+    server.get('/api/user/:userId/orderFeedback',orderFeedback.getOrderFeedback);
+    server.get('/api/admin/:adminId/orderFeedback',orderFeedback.getOrderFeedback);
     server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackPayment',contentType: 'application/json'},orderFeedback.updateOrderFeedbackPayment);
     server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackCount',contentType: 'application/json'},orderFeedback.updateOrderFeedbackCount);
     server.put({path:'/api/admin/:adminId/order/:orderId/orderFeedback/:orderFeedbackId/orderFeedbackRemark',contentType: 'application/json'},orderFeedback.updateOrderFeedbackRemark);

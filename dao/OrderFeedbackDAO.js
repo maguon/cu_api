@@ -17,15 +17,55 @@ const addOrderFeedback = (params,callback) => {
     })
 }
 const getOrderFeedback = (params,callback) => {
-    let query = "select * from order_feedback where id is not null ";
+    let query = " select of.*,ui.phone,ui.user_name,oi.total_price from order_feedback of " +
+                " left join user_info ui on ui.id=of.user_id " +
+                " left join order_info oi on oi.id=of.order_id " +
+                " where of.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
-        query = query + " and user_id =? ";
+        query = query + " and of.user_id =? ";
     }
     if(params.orderId){
-        paramsArray[i] = params.orderId;
-        query = query + " and order_id =? ";
+        paramsArray[i++] = params.orderId;
+        query = query + " and of.order_id =? ";
+    }
+    if(params.orderFeedbackId){
+        paramsArray[i++] = params.orderFeedbackId;
+        query = query + " and of.id =? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name =? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone =? ";
+    }
+    if(params.createdOnStart){
+        paramsArray[i++] = params.createdOnStart;
+        query = query + " and of.created_on >=? " + " 00:00:00";
+    }
+    if(params.createdOnEnd){
+        paramsArray[i++] = params.createdOnEnd;
+        query = query + " and of.created_on <=? "+ " 23:59:59";
+    }
+    if(params.updatedOnStart){
+        paramsArray[i++] = params.updatedOnStart;
+        query = query + " and of.updated_on >=? "+ " 00:00:00";
+    }
+    if(params.updatedOnEnd){
+        paramsArray[i++] = params.updatedOnEnd;
+        query = query + " and of.updated_on <=? "+" 23:59:59";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and of.status =? ";
+    }
+    if(params.start && params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?,? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getOrderFeedback');

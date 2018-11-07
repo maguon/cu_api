@@ -3316,7 +3316,6 @@
             "description": "app id",
             "required": false,
             "type": "integer"
-
           },
           {
             "name": "app",
@@ -3345,7 +3344,6 @@
             "description": " list start pos",
             "required": false,
             "type": "integer"
-
           },
           {
             "name": "size",
@@ -3353,7 +3351,6 @@
             "description": "list size for pagination",
             "required": false,
             "type": "integer"
-
           }
         ],
         "responses": {
@@ -3389,7 +3386,6 @@
             "description": "user Id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "appId",
@@ -3397,7 +3393,6 @@
             "description": "app verion id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "appVersion",
@@ -3407,7 +3402,6 @@
             "schema": {
               "$ref": "#/definitions/app"
             }
-
           }
         ],
         "responses": {
@@ -3443,7 +3437,6 @@
             "description": "user id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "appVersion",
@@ -3488,7 +3481,6 @@
             "description": "userDevice id",
             "required": false,
             "type": "integer"
-
           },
           {
             "name": "userId",
@@ -3496,7 +3488,6 @@
             "description": "user id",
             "required": false,
             "type": "integer"
-
           },
           {
             "name": "deviceToken",
@@ -3504,7 +3495,6 @@
             "description": "device token",
             "required": false,
             "type": "string"
-
           }
         ],
         "responses": {
@@ -3540,7 +3530,6 @@
             "description": "superviseDevice id",
             "required": false,
             "type": "integer"
-
           },
           {
             "name": "superviseId",
@@ -3548,7 +3537,6 @@
             "description": "supervise id",
             "required": false,
             "type": "integer"
-
           },
           {
             "name": "deviceToken",
@@ -3556,7 +3544,6 @@
             "description": "device token",
             "required": false,
             "type": "string"
-
           }
         ],
         "responses": {
@@ -3592,7 +3579,6 @@
             "description": "user Id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "userDevice",
@@ -3637,7 +3623,6 @@
             "description": "supervise Id",
             "required": true,
             "type": "integer"
-
           },
           {
             "name": "superviseDevice",
@@ -4701,7 +4686,49 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/orderFeedback": {
+    "/user/{userId}/orderFeedback": {
+      "get": {
+        "tags": [
+          "orderFeedback"
+        ],
+        "summary": "get orderFeedback",
+        "description": "get orderFeedback",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/orderFeedback"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/orderFeedback": {
       "get": {
         "tags": [
           "orderFeedback"
@@ -4721,9 +4748,86 @@
           },
           {
             "name": "orderId",
-            "in": "path",
+            "in": "query",
             "description": "orderId",
-            "required": true,
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "orderFeedbackId",
+            "in": "query",
+            "description": "orderFeedbackId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "updatedOnStart",
+            "in": "query",
+            "description": "updatedOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "updatedOnEnd",
+            "in": "query",
+            "description": "updatedOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
             "type": "integer"
           }
         ],
