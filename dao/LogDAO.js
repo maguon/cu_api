@@ -82,7 +82,7 @@ const getLog = (params,callback) => {
     })
 }
 const updateLog = (params,callback) => {
-    let query = "update log_info set remark=?,log_num=?,log_company_id=?,freight=? where id=? ";
+    let query = "update log_info set remark=?,log_num=?,log_company_id=?,freight=?,status=1 where id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.remark;
     paramsArray[i++] = params.logNum;
