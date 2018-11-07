@@ -9,16 +9,88 @@ const productDAO = require('../dao/ProductDAO.js');
 
 const addOrder = (req,res,next)=>{
     let params = req.params;
-    orderDAO.addOrder(params,(error,result)=>{
-        if(error){
-            logger.error('addOrder' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-        }else{
-            logger.info('getOrder' + 'success');
-            resUtil.resetCreateRes(res,result,null);
-            return next();
-        }
-    });
+    let rowsLength = 0;
+    let totalPrice = 0;
+    let prodCount = 0;
+    let totalFreight = 0;
+    let product = {};
+    new Promise((resolve,reject)=>{
+        orderDAO.addOrder(params,(error,result)=>{
+            if(error){
+                logger.error('addOrder' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            }else{
+                logger.info('getOrder' + 'success');
+                params.orderId = result.insertId;
+                resolve();
+            }
+        });
+    }).then(()=>{
+        productDAO.getProduct({productId:params.productId},(error,rows)=>{
+            if(error){
+                logger.error('getProduct' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            }else if(rows && rows.length<1){
+                logger.warn('getProduct' + '没有此商品');
+                resUtil.resetQueryRes(res,'没有此商品',null);
+                return next();
+            }else{
+                 product = {
+                    userId: params.userId,
+                    orderId: params.orderId,
+                    productId: rows[0].id,
+                    productName: rows[0].product_name,
+                    unitPrice: rows[0].unit_price,
+                    prodCount:params.prodCount,
+                    remark: params.remark,
+                    carId: params.carId,
+                    freight: params.freight,
+                    imag: params.imag
+                }
+                product.totalPrice = product.unitPrice * product.prodCount;
+            }
+        });
+    }).then(()=>{
+        orderDAO.addOrderItem(product,(error,result)=>{
+            if(error){
+                logger.error('addOrderItem' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            }else{
+                logger.info('addOrderItem' + 'success');
+            }
+        })
+    }).then(()=>{
+        orderDAO.getOrderItem(params,(error,rows)=>{
+            if(error){
+                logger.error('getOrderItem' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            }else if(rows && rows.length<1){
+                logger.warn('getOrderItem' + '没有选择商品');
+                resUtil.resetQueryRes(res,'没有选择商品',null);
+            }else{
+                rowsLength = rows.length;
+                for(let i=0;i<rowsLength;i++){
+                    totalPrice =  rows[i].total_price + totalPrice,
+                    prodCount =  rows[i].prod_count + prodCount,
+                    totalFreight = rows[i].total_freight + totalFreight
+                }
+            }
+        })
+    }).then(()=>{
+        params.totalPrice = totalPrice;
+        params.prodCount = prodCount;
+        params.totalFreight = totalFreight;
+        orderDAO.updateOrderPrice(params,(error,result)=>{
+            if(error){
+                logger.error('updateOrderPrice' + error.message);
+                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            }else{
+                logger.info('updateOrderPrice' + 'success');
+                resUtil.resetUpdateRes(res,result,null);
+                return next();
+            }
+        });
+    })
 }
 const addOrderItem = (req,res,next)=>{
     let params = req.params;
