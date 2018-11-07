@@ -4486,6 +4486,13 @@
             "type": "integer"
           },
           {
+            "name": "logNum",
+            "in": "query",
+            "description": "logNum",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "logCompanyId",
             "in": "query",
             "description": "logCompanyId",
@@ -5405,9 +5412,7 @@
             "description": "Invalid token value or invalid user id"
           }
         }
-      }
-    },
-    "/user/{userId}/logCompany/{logCompanyId}": {
+      },
       "get": {
         "tags": [
           "logCompany"
@@ -5427,9 +5432,100 @@
           },
           {
             "name": "logCompanyId",
-            "in": "path",
+            "in": "query",
             "description": "logCompanyId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/logCompany"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/logCompany": {
+      "post": {
+        "tags": [
+          "logCompany"
+        ],
+        "summary": "add logCompany",
+        "description": "add logCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
             "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logCompany",
+            "in": "body",
+            "description": "logCompany",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/logCompany"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/logCompany"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "logCompany"
+        ],
+        "summary": "get logCompany",
+        "description": "get logCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "user Id",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "logCompanyId",
+            "in": "query",
+            "description": "logCompanyId",
+            "required": false,
             "type": "integer"
           }
         ],

@@ -38,6 +38,10 @@ const getLog = (params,callback) => {
         paramsArray[i++] = params.logId;
         query = query + " and ci.id =? ";
     }
+    if(params.logNum){
+        paramsArray[i++] = params.logNum;
+        query = query + " and ci.log_num =? ";
+    }
     if(params.logCompanyId){
         paramsArray[i++] = params.logCompanyId;
         query = query + " and ci.log_company_id =? ";

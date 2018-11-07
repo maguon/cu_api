@@ -252,7 +252,8 @@ function createServer() {
     /**
      * log_company
      */
-    server.get('/api/user/:userId/logCompany/:logCompanyId' ,logCompany.getLogCompany);
+    server.get('/api/user/:userId/logCompany' ,logCompany.getLogCompany);
+    server.get('/api/admin/:adminId/logCompany' ,logCompany.getLogCompany);
     server.post({path:'/api/user/:userId/logCompany',contentType: 'application/json'},logCompany.addLogCompany);
 
     server.on('NotFound',(req, res ,next)=>{
