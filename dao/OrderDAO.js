@@ -6,7 +6,7 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addOrder = (params,callback) => {
-    let query = "insert into order_info(user_id)values(?)";
+    let query = "insert into order_info(user_id) values(?)";
     let paramsArray = [],i=0;
     paramsArray[i] = params.userId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
@@ -91,7 +91,7 @@ const getOrder = (params,callback) => {
 }
 const updateOrderPrice = (params,callback) => {
     let query = " update order_info set order_name=?,total_freight=?,total_price = ?,prod_count = ?,recv_address=?,recv_name=?,recv_phone=?, " +
-                " remark=?,payment_status=?,log_status=?,status=? where user_id=? and id=? ";
+                " remark=? where user_id=? and id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.orderName;
     paramsArray[i++] = params.totalFreight;
@@ -101,9 +101,6 @@ const updateOrderPrice = (params,callback) => {
     paramsArray[i++] = params.recvName;
     paramsArray[i++] = params.recvPhone;
     paramsArray[i++] = params.remark;
-    paramsArray[i++] = params.paymentStatus;
-    paramsArray[i++] = params.logStatus;
-    paramsArray[i++] = params.status;
     paramsArray[i++] = params.userId;
     paramsArray[i] = params.orderId;
     db.dbQuery(query,paramsArray,(error,rows)=>{

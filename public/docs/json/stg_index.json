@@ -2460,6 +2460,15 @@
             "description": "userId",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "addOrder",
+            "in": "body",
+            "description": "addOrder",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/addOrder"
+            }
           }
         ],
         "responses": {
@@ -4332,15 +4341,83 @@
             "description": "Invalid token value or invalid user id"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user get product ",
+        "description": "user get product",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "admin",
+            "in": "query",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/product"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
       }
     },
-    "/admin/{adminId}/order/{orderId}/log": {
+    "/admin/{adminId}/log": {
       "post": {
         "tags": [
           "log"
         ],
-        "summary": "create userDevice",
-        "description": "create userDevice",
+        "summary": "create log",
+        "description": "create log",
         "produces": [
           "application/json"
         ],
@@ -4349,13 +4426,6 @@
             "name": "adminId",
             "in": "path",
             "description": "admin Id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "name": "orderId",
-            "in": "path",
-            "description": "order Id",
             "required": true,
             "type": "integer"
           },
@@ -4406,6 +4476,118 @@
             "in": "path",
             "description": "orderId",
             "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logId",
+            "in": "query",
+            "description": "logId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "logCompanyId",
+            "in": "query",
+            "description": "logCompanyId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "recvName",
+            "in": "query",
+            "description": "recvName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "updatedOnStart",
+            "in": "query",
+            "description": "updatedOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "updatedOnEnd",
+            "in": "query",
+            "description": "updatedOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "recvPhone",
+            "in": "query",
+            "description": "recvPhone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/log"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/log": {
+      "get": {
+        "tags": [
+          "log"
+        ],
+        "summary": "create userDevice",
+        "description": "create userDevice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
             "type": "integer"
           },
           {
@@ -5753,9 +5935,6 @@
         },
         "unitPrice": {
           "type": "integer"
-        },
-        "productRemark": {
-          "type": "string"
         }
       },
       "xml": {
@@ -5820,6 +5999,9 @@
     "log": {
       "type": "object",
       "properties": {
+        "orderId": {
+          "type": "integer"
+        },
         "productDes": {
           "type": "string"
         },
@@ -5967,6 +6149,44 @@
       },
       "xml": {
         "name": "logCompany"
+      }
+    },
+    "addOrder": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "integer"
+        },
+        "prodCount": {
+          "type": "integer"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "carId": {
+          "type": "integer"
+        },
+        "freight": {
+          "type": "integer"
+        },
+        "imag": {
+          "type": "string"
+        },
+        "recvName": {
+          "type": "string"
+        },
+        "recvPhone": {
+          "type": "string"
+        },
+        "recvAddress": {
+          "type": "string"
+        },
+        "orderName": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "addOrder"
       }
     }
   }

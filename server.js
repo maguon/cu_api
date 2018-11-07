@@ -185,8 +185,8 @@ function createServer() {
      log_info物流
      */
     server.post({path:'/api/admin/:adminId/order/:orderId/log',contentType: 'application/json'},log.addLog);
-    server.get('/api/user/:userId/order/:orderId/log',log.getLog);
-    server.get('/api/admin/:adminId/order/:orderId/log',log.getLog);
+    server.get('/api/user/:userId/log',log.getLog);
+    server.get('/api/admin/:adminId/log',log.getLog);
     server.put({path:'/api/admin/:adminId/log/:logId/logInfo',contentType: 'application/json'},log.updateLog);
 
     /**
@@ -234,6 +234,7 @@ function createServer() {
      * Product_info
      */
     server.get('/api/user/:userId/product' ,product.getProduct);
+    server.get('/api/admin/:adminId/product' ,product.getProduct);
     server.post({path:'/api/admin/:adminId/product',contentType: 'application/json'},product.addProduct);
     /**
      * payment_info
