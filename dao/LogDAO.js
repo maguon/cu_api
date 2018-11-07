@@ -51,20 +51,20 @@ const getLog = (params,callback) => {
         query = query + " and ci.recv_name =? ";
     }
     if(params.createdOnStart){
-        paramsArray[i++] = params.createdOnStart;
-        query = query + " and ci.created_on >=? "+ " 00:00:00";
+        paramsArray[i++] = params.createdOnStart+ " 00:00:00";
+        query = query + " and ci.created_on >=? ";
     }
     if(params.createdOnEnd){
-        paramsArray[i++] = params.createdOnEnd;
-        query = query + " and ci.created_on <=? "+ " 23:59:59";
+        paramsArray[i++] = params.createdOnEnd+ " 23:59:59";
+        query = query + " and ci.created_on <=? ";
     }
     if(params.updatedOnStart){
-        paramsArray[i++] = params.updatedOnStart;
-        query = query + " and ci.update_on >=? "+" 00:00:00";
+        paramsArray[i++] = params.updatedOnStart+" 00:00:00";
+        query = query + " and ci.update_on >=? ";
     }
     if(params.updatedOnEnd){
-        paramsArray[i++] = params.updatedOnEnd;
-        query = query + " and ci.update_on <=? "+" 23:59:59";
+        paramsArray[i++] = params.updatedOnEnd+" 23:59:59";
+        query = query + " and ci.update_on <=? ";
     }
     if(params.recvPhone){
         paramsArray[i++] = params.recvPhone;
