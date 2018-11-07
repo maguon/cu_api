@@ -21,8 +21,13 @@ const getProduct = (params,callback) => {
     let query = "select * from product_info where id is not null ";
     let paramsArray = [],i=0;
     if(params.productId){
-        paramsArray[i] = params.productId;
+        paramsArray[i++] = params.productId;
         query = query + " and id = ? ";
+    }
+    if(params.start && params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?, ? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getProduct');

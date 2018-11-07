@@ -77,7 +77,6 @@ const addOrder = (req,res,next)=>{
             });
         }
     });
-
 }
 const addOrderItem = (req,res,next)=>{
     let params = req.params;
