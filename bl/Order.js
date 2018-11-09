@@ -6,71 +6,81 @@ const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('Order.js');
 const orderDAO = require('../dao/OrderDAO.js');
 const productDAO = require('../dao/ProductDAO.js');
-
+/**
+ * productArray [{prodId:1000,num:2,remark:'abc},{prodId:1001,num:1,remark:'dcd'}]
+ * insert into order_itemprod_id,prod_name) values (select id,name from product_info where id =1000);
+ * @param req
+ * @param res
+ * @param next
+ */
 const addOrder = (req,res,next)=>{
-    const arr = [1,2,3];
-    Promise.all(arr.map((item,i)=>{
-        console.log(i+"-"+item);
-    })).then(item => {
-            console.log('results:',item);
-        });
-    resUtil.resetQueryRes(res,[],null);
-    return next();
-
     /*let params = req.params;
+    new Promise((resolve, reject) => {
+        superviseDao.querySupervise(params,(error,rows)=>{
+            if(error){
+                reject(error);
+            }else{
+                resolve(rows);
+            }
+        })
+    }).then((result)=>{
+        Promise.all(result.map((item)=>{
+            new Promise((resolve,reject) =>{
+                superviseDao.updateSuperviseStatus({superviseId:item.id,status:1},(error,result)=>{
+                    if(error){
+                        reject(error);
+                    }else{
+                        resolve(result);
+                    }
+                })
+            }).then((result)=>{
+                console.log(result);
+            }).catch((error)=>{resUtil.resInternalError(error, res, next);})
+
+        })).then(()=>{
+            resUtil.resetQueryRes(res,[],null)
+        })
+    }).catch((error)=>{
+        resUtil.resInternalError(error, res, next);
+    })*/
+    let params = req.params;
     let rowsLength = 0;
     let totalPrice = 0;
     let prodCount = 0;
     let totalFreight = 0;
-    new Promise((resolve,reject)=>{
-        orderDAO.addOrder(params,(error,result)=> {
-            if (error) {
-                logger.error('addOrder' + error.message);
-                throw sysError.InternalError(error.message, sysMsg.SYS_INTERNAL_ERROR_MSG);
-            } else {
-                logger.info('addOrder' + 'success');
-                params.orderId = result.insertId;
-                resolve();
-            }
-        })
-    }).then(()=>{
-            productDAO.getProduct({productId:params.productId},(error,rows)=>{
-                if(error){
-                    logger.error('getProduct' + error.message);
-                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-                }else if(rows && rows.length<1){
-                    logger.warn('getProduct' + '没有此商品');
-                    resUtil.resetFailedRes(res,'没有此商品',null);
-                    return next();
-                }else{
-                    params.productName = rows[0].product_name;
-                    params.unitPrice = rows[0].unit_price;
-                    params.freight = rows[0].freight;
-                    params.totalPrice = params.unitPrice * params.prodCount;
+    let orderId = 0;
+    let productIds = {};
+    let prodCounts = {};
+    orderDAO.addOrder(params,(error,result)=> {
+        if (error) {
+            logger.error('addOrder' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('addOrder' + 'success');
+            orderId = result.insertId;
+            params.orderId = orderId;
+            productIds = params.productId;
+            prodCounts = params.prodCount;
+            for(let i=0;i<2;i++){
+                params.productId= productIds[i];
+                params.prodCount = prodCounts[i];
+                orderDAO.addOrderItemByProduct(params,(error,result)=>{
+                    if(error){
+                        logger.error('addOrderItemByProduct' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('addOrderItemByProduct' + 'success');
 
-                }
-            });
-    }).then(()=>{
-            orderDAO.addOrderItem(params,(error,result)=>{
-                if(error){
-                    logger.error('addOrderItem' + error.message);
-                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-                }else if(result && result.insertId < 1){
-                    logger.warn('addOrderItem' + '插入item失败');
-                    resUtil.resetFailedRes(res,'插入item失败',null);
-                }else{
-                    logger.info('addOrderItem' + 'success');
-                }
-            })
-    }).then(()=>{
+                    }
+                })
+            }
             orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=>{
                 if(error){
                     logger.error('getOrderItem' + error.message);
-                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                    resUtil.resInternalError(error, res, next);
                 }else if(rows && rows.length<1){
                     logger.warn('getOrderItem' + '没有选择商品');
-                    resUtil.resetFailedRes(res,'没有选择商品',null);
-                    return next();
+                    resUtil.resetQueryRes(res,'没有选择商品',null);
                 }else{
                     rowsLength = rows.length;
                     for(let i=0;i<rowsLength;i++){
@@ -81,19 +91,20 @@ const addOrder = (req,res,next)=>{
                         params.prodCount = prodCount;
                         params.totalFreight = totalFreight;
                     }
+                    orderDAO.updateOrderPrice(params,(error,result)=>{
+                        if(error){
+                            logger.error('updateOrderPrice' + error.message);
+                            resUtil.resInternalError(error, res, next);
+                        }else{
+                            logger.info('updateOrderPrice' + 'success');
+                            resUtil.resetUpdateRes(res,result,null);
+                            return next();
+                        }
+                    });
                 }
             })
-    }).then(()=>{
-            orderDAO.updateOrderPrice(params,(error,result)=>{
-                if(error){
-                    logger.error('updateOrderPrice' + error.message);
-                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-                }else{
-                    logger.info('updateOrderPrice' + 'success');
-                    resUtil.resetUpdateRes(res,result,null);
-                }
-            });
-    })*/
+        }
+    })
 }
 const addOrderItem = (req,res,next)=>{
     let params = req.params;
@@ -102,7 +113,7 @@ const addOrderItem = (req,res,next)=>{
         productDAO.getProduct({productId:params.productId},(error,rows)=>{
             if(error){
                 logger.error('getProduct' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else if(rows && rows.length<1){
                 logger.warn('getProduct' + '没有此商品');
                 resUtil.resetQueryRes(res,'没有此商品',null);
@@ -127,7 +138,7 @@ const addOrderItem = (req,res,next)=>{
         orderDAO.addOrderItem(product,(error,result)=>{
             if(error){
                 logger.error('addOrderItem' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else{
                 logger.info('addOrderItem' + 'success');
                 resUtil.resetCreateRes(res,result,null);
@@ -141,7 +152,7 @@ const getOrderItem = (req,res,next)=>{
     orderDAO.getOrderItem(params,(error,result)=>{
         if(error){
             logger.error('getOrderItem' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('getOrderItem' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -159,7 +170,7 @@ const updateOrderPrice = (req,res,next)=>{
         orderDAO.getOrderItem(params,(error,rows)=>{
             if(error){
                 logger.error('getOrderItem' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else if(rows && rows.length<1){
                 logger.warn('getOrderItem' + '没有选择商品');
                 resUtil.resetQueryRes(res,'没有选择商品',null);
@@ -180,7 +191,7 @@ const updateOrderPrice = (req,res,next)=>{
         orderDAO.updateOrderPrice(params,(error,result)=>{
             if(error){
                 logger.error('updateOrderPrice' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else{
                 logger.info('updateOrderPrice' + 'success');
                 resUtil.resetUpdateRes(res,result,null);
@@ -194,7 +205,7 @@ const getOrder = (req,res,next)=>{
     orderDAO.getOrder(params,(error,result)=>{
         if(error){
             logger.error('getOrder' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('getOrder' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -207,7 +218,7 @@ const delOrderItem = (req,res,next)=>{
     orderDAO.delOrderItem(params,(error,result)=>{
         if(error){
             logger.error('delOrderItem' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('delOrderItem' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -220,7 +231,7 @@ const updateOrderStatus = (req,res,next)=>{
     orderDAO.updateOrderStatus(params,(error,result)=>{
         if(error){
             logger.error('updateOrderStatus' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderStatus' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -233,7 +244,7 @@ const updateOrderLogStatus = (req,res,next)=>{
     orderDAO.updateOrderLogStatus(params,(error,result)=>{
         if(error){
             logger.error('updateOrderLogStatus' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderLogStatus' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -246,7 +257,7 @@ const updateOrderPaymengStatus = (req,res,next)=>{
     orderDAO.updateOrderPaymengStatus(params,(error,result)=>{
         if(error){
             logger.error('updateOrderPaymengStatus' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderPaymengStatus' + 'success');
             resUtil.resetUpdateRes(res,result,null);

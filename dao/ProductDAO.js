@@ -6,8 +6,9 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addProduct = (params,callback) => {
-    let query = "insert into product_info(product_name,original_price,unit_price,product_remark)values(?,?,?,?)";
+    let query = "insert into product_info(freight,product_name,original_price,unit_price,product_remark)values(?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.freight;
     paramsArray[i++] = params.productName;
     paramsArray[i++] = params.originalPrice;
     paramsArray[i++] = params.unitPrice;
@@ -34,7 +35,17 @@ const getProduct = (params,callback) => {
         callback(error,rows);
     })
 }
+const getProductToOrderItem = (params,callback) => {
+    let query = "insert into order_item(imag,remark,car_id,freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price)(?,?,?,?,?,?,?,?,?,?,?) ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.productId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getProduct');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addProduct,
-    getProduct
+    getProduct,
+    getProductToOrderItem
 }
