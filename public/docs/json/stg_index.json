@@ -6076,6 +6076,9 @@
         },
         "logCompanyId": {
           "type": "integer"
+        },
+        "logNum": {
+          "type": "string"
         }
       },
       "xml": {
