@@ -184,7 +184,7 @@ function createServer() {
     /**
      log_info物流
      */
-    server.post({path:'/api/admin/:adminId/order/:orderId/log',contentType: 'application/json'},log.addLog);
+    server.post({path:'/api/admin/:adminId/log',contentType: 'application/json'},log.addLog);
     server.get('/api/user/:userId/log',log.getLog);
     server.get('/api/admin/:adminId/log',log.getLog);
     server.put({path:'/api/admin/:adminId/log/:logId/logInfo',contentType: 'application/json'},log.updateLog);

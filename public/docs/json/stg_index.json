@@ -5989,6 +5989,9 @@
         },
         "unitPrice": {
           "type": "integer"
+        },
+        "freight": {
+          "type": "integer"
         }
       },
       "xml": {
@@ -6218,9 +6221,6 @@
           "type": "string"
         },
         "carId": {
-          "type": "integer"
-        },
-        "freight": {
           "type": "integer"
         },
         "imag": {
