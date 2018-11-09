@@ -88,7 +88,7 @@ const wechatPayment = (req,res,next)=>{
         '<trade_type>'+jsa+'</trade_type>' +
         '<sign>'+signByMd+'</sign></xml>';
     let url="/pay/unifiedorder";
-    console.log("ip---"+req.connection.remoteAddress);
+    logger.info("ip---"+req.connection.remoteAddress);
     let options = {
         host: 'api.mch.weixin.qq.com',
         port: 443,
@@ -104,7 +104,7 @@ const wechatPayment = (req,res,next)=>{
         result.on('data',(d)=>{
             data += d;
         }).on('end',()=>{
-            console.log(data);
+            logger.info("payment result"+data);
             /*let resObj = JSON.parse(parser.toJson(data));
             console.log(resObj);
             console.log(data);
