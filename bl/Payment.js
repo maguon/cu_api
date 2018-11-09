@@ -119,7 +119,7 @@ const wechatPayment = (req,res,next)=>{
             resParams.sign = encrypt.encryptByMd5NoKey(paySignStr);
             logger.info('wechatPayment '+resParams);
 */
-            res.send(200,resParams);
+            res.send(200,data);
             return next();
         }).on('error', (e)=>{
             logger.info('wechatPayment '+ e.message);
