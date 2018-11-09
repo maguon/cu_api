@@ -63,6 +63,7 @@ const wechatPayment = (req,res,next)=>{
     let jsa = 'JSAPI';
     let parser = new xml2js.Parser();
     let params = req.params;
+    let requestIp = req.connection.remoteAddress.replace('::ffff:','')
     let ourString = encrypt.randomString();
     let signStr =
           "appid="+sysConfig.wechatConfig.mpAppId
@@ -71,7 +72,7 @@ const wechatPayment = (req,res,next)=>{
         + "&nonce_str="+ourString
         + "&notify_url="+sysConfig.wechatConfig.notifyUrl
         + "&out_trade_no="+params.orderId
-        + "&spbill_create_ip="+req.connection.remoteAddress
+        + "&spbill_create_ip="+requestIp
         + "&total_fee=" +params.totalFee
         + "&trade_type="+jsa
         + "&key="+sysConfig.wechatConfig.paymentKey;
@@ -83,7 +84,7 @@ const wechatPayment = (req,res,next)=>{
         '<nonce_str>'+ourString+'</nonce_str>' +
         '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url>' +
         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
-        '<spbill_create_ip>'+req.connection.remoteAddress+'</spbill_create_ip>' +
+        '<spbill_create_ip>'+requestIp+'</spbill_create_ip>' +
         '<total_fee>'+params.totalFee + '</total_fee>' +
         '<trade_type>'+jsa+'</trade_type>' +
         '<sign>'+signByMd+'</sign></xml>';
