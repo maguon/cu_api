@@ -88,6 +88,7 @@ const wechatPayment = (req,res,next)=>{
         '<trade_type>'+jsa+'</trade_type>' +
         '<sign>'+signByMd+'</sign></xml>';
     let url="/pay/unifiedorder";
+    console.log("ip---"+req.connection.remoteAddress);
     let options = {
         host: 'api.mch.weixin.qq.com',
         port: 443,
