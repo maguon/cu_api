@@ -10,7 +10,8 @@ const wechatDAO =require('../dao/WechatDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const sysConfig = require('../config/SystemConfig.js');
 const https = require('https');
-//const parser = require('xml2json');
+const fs = require('fs'),
+    xml2js = require('xml2js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 
 const addPayment = (req,res,next)=>{
@@ -58,17 +59,34 @@ const getPayment = (req,res,next)=>{
     });
 }
 const wechatPayment = (req,res,next)=>{
+    let body = 'test';
+    let jsa = 'JSAPI';
+    let parser = new xml2js.Parser();
     let params = req.params;
-    let signStr = "appid="+sysConfig.wechatConfig.mpAppId+"&attach=test&body=test&mch_id="+sysConfig.wechatConfig.mchId
-        + "&nonce_str="+oAuthUtil.randomString+"&notify_url="+sysConfig.wechatConfig.notifyUrl+"&openid="+params.openid
-        + "&out_trade_no="+params.orderId+"&spbill_create_ip="+req.connection.remoteAddress+"&total_fee=" +params.totalFee
-        + "&trade_type=JSAPI&key="+sysConfig.wechatConfig.paymentKey;
+    let ourString = encrypt.randomString();
+    let signStr =
+          "appid="+sysConfig.wechatConfig.mpAppId
+        + "&body="+body
+        + "&mch_id="+sysConfig.wechatConfig.mchId
+        + "&nonce_str="+ourString
+        + "&notify_url="+sysConfig.wechatConfig.notifyUrl
+        + "&out_trade_no="+params.orderId
+        + "&spbill_create_ip="+req.connection.remoteAddress
+        + "&total_fee=" +params.totalFee
+        + "&trade_type="+jsa
+        + "&key="+sysConfig.wechatConfig.paymentKey;
     let signByMd = encrypt.encryptByMd5NoKey(signStr);
-    let reqBody = '<xml><appid>'+sysConfig.wechatConfig.mpAppId+'</appid><attach>'+'test'+'</attach><body>test</body>'
-        +'<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id><nonce_str>'+oAuthUtil.randomString+'</nonce_str>' +
-        '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url><openid>'+params.openid+'</openid>' +
-        '<out_trade_no>'+params.orderId+'</out_trade_no><spbill_create_ip>'+req.connection.remoteAddress+'</spbill_create_ip><total_fee>'+params.totalFee+'</total_fee>' +
-        '<trade_type>JSAPI</trade_type><sign>'+signByMd+'</sign></xml>';
+    let reqBody =
+        '<xml><appid>'+sysConfig.wechatConfig.mpAppId+'</appid>' +
+        '<body>'+body+'</body>' +
+        '<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id>' +
+        '<nonce_str>'+ourString+'</nonce_str>' +
+        '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url>' +
+        '<out_trade_no>'+params.orderId+'</out_trade_no>' +
+        '<spbill_create_ip>'+req.connection.remoteAddress+'</spbill_create_ip>' +
+        '<total_fee>'+params.totalFee + '</total_fee>' +
+        '<trade_type>'+jsa+'</trade_type>' +
+        '<sign>'+signByMd+'</sign></xml>';
     let url="/pay/unifiedorder";
     let options = {
         host: 'api.mch.weixin.qq.com',
@@ -85,7 +103,8 @@ const wechatPayment = (req,res,next)=>{
         result.on('data',(d)=>{
             data += d;
         }).on('end',()=>{
-            let resObj = JSON.parse(parser.toJson(data));
+            console.log(data);
+            /*let resObj = JSON.parse(parser.toJson(data));
             console.log(resObj);
             console.log(data);
             let resParams = {};
@@ -99,7 +118,7 @@ const wechatPayment = (req,res,next)=>{
             console.log(paySignStr);
             resParams.sign = encrypt.encryptByMd5NoKey(paySignStr);
             logger.info('wechatPayment '+resParams);
-
+*/
             res.send(200,resParams);
             return next();
         }).on('error', (e)=>{

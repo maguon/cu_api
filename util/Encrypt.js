@@ -229,6 +229,15 @@ function getNumberRandomKey(max,min){
 function getSmsRandomKey(){
     return getNumberRandomKey(9999,1000);
 }
+const randomString=(e)=>{
+    e = e || 32;
+    let t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+        a = t.length,
+        n = "";
+    for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+    return n
+}
+
 
 module.exports = {
     encryptByMd5 : encryptByMd5,
@@ -246,5 +255,6 @@ module.exports = {
     resolveGiftCode : resolveGiftCode,
     getGiftOrderCode :getGiftOrderCode ,
     encryptByMd5NoKey : encryptByMd5NoKey ,
-    getSmsRandomKey : getSmsRandomKey
+    getSmsRandomKey : getSmsRandomKey ,
+    randomString
 };
