@@ -112,6 +112,7 @@ const wechatPayment = (req,res,next)=>{
                 let resString = JSON.stringify(result);
                 let evalJson = eval('(' + resString + ')');
                 logger.info("paymentResult1"+resString);
+                let prepayId = evalJson.xml.prepay_id;
                 resUtil.resetQueryRes(res,evalJson,null);
             });
             /*logger.info("payment result"+date);
