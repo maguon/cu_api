@@ -111,6 +111,12 @@ const wechatPayment = (req,res,next)=>{
                 //将返回的结果再次格式化
                 let resString = JSON.stringify(result);
                 logger.info(resString);
+                let a = '"{\"xml\":';
+                let b = '}"';
+                let c = '\\\\';
+                resString.replace(a,"[{");
+                resString.replace(b,"]");
+                resString.replaceAll(c,"");
                 resUtil.resetQueryRes(res,resString,null);
             });
             /*logger.info("payment result"+date);
