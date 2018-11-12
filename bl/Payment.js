@@ -112,7 +112,7 @@ const wechatPayment = (req,res,next)=>{
                 //将返回的结果再次格式化
                 logger.info("ceShi2"+JSON.stringify(result));
             });
-            let resParams = {};*/
+            let resParams = {};
             resParams.prepayId = JSON.stringify(result).prepay_id;
             resParams.nonceStr = sysConfig.wechatConfig.notifyUrl;
             resParams.appId = sysConfig.wechatConfig.mpAppId;
@@ -122,7 +122,7 @@ const wechatPayment = (req,res,next)=>{
                 "&signType=MD5&timeStamp="+resParams.timeStamp+"&key="+sysConfig.wechatConfig.mpSecret;
             console.log(paySignStr);
             resParams.sign = encrypt.encryptByMd5NoKey(paySignStr);
-            logger.info('wechatPayment '+resParams);
+            logger.info('wechatPayment '+resParams);*/
 
             res.send(200,data);
             return next();
