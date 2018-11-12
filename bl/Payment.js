@@ -125,7 +125,6 @@ const wechatPayment = (req,res,next)=>{
             logger.info('wechatPayment '+resParams);*/
 
             res.send(200,data);
-            logger.info("payment result"+date);
             return next();
         }).on('error', (e)=>{
             logger.info('wechatPayment '+ e.message);
@@ -134,6 +133,7 @@ const wechatPayment = (req,res,next)=>{
         });
 
     });
+    logger.info("payment result"+reqBody);
     httpsReq.write(reqBody,"utf-8");
     httpsReq.end();
     httpsReq.on('error',(e)=>{
