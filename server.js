@@ -171,7 +171,7 @@ function createServer() {
      order_info
      */
     server.post({path:'/api/user/:userId/order',contentType: 'application/json'},order.addOrder);
-    server.get('/api/user/:userId/order',order.getOrder);
+    server.get('/api/user/:userId/order/:orderId',order.getOrder);
     server.get('/api/admin/:adminId/order',order.getOrder);
     server.get('/api/user/:userId/orderItem',order.getOrderItem);
     server.get('/api/admin/:adminId/orderItem',order.getOrderItem);
@@ -247,8 +247,10 @@ function createServer() {
     /*
      ** wechat payment callback api
      */
+    server.get('/api/admin/:adminId/payment' ,payment.getPayment);
     server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
-    server.post({path:'/api/user/:userId/order/:orderId/payment/:paymentId/refund',contentType: 'application/json'},payment.addPayment);
+    server.post({path:'/api/user/:userId/order/:orderId/refund',contentType: 'application/json'},payment.addWechatRefund);
+    server.post({path:'/api/admin/:adminId/payment/:paymentId/refund',contentType: 'application/json'},payment.wechatRefund);
     /**
      * log_company
      */

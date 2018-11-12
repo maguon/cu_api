@@ -51,6 +51,8 @@ const addOrder = (req,res,next)=>{
     let orderId = 0;
     let productIds = {};
     let prodCounts = {};
+    let remark = {};
+    let carId = {};
     orderDAO.addOrder(params,(error,result)=> {
         if (error) {
             logger.error('addOrder' + error.message);
@@ -61,9 +63,13 @@ const addOrder = (req,res,next)=>{
             params.orderId = orderId;
             productIds = params.productId;
             prodCounts = params.prodCount;
-            for(let i=0;i<2;i++){
-                params.productId= productIds[i];
+            remark = params.remark;
+            carId = params.carId;
+            for(let i=0;i<productIds.length;i++){
+                params.productId = productIds[i];
                 params.prodCount = prodCounts[i];
+                params.remark = prodCounts[i];
+                params.carId = prodCounts[i];
                 orderDAO.addOrderItemByProduct(params,(error,result)=>{
                     if(error){
                         logger.error('addOrderItemByProduct' + error.message);
