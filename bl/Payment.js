@@ -13,6 +13,7 @@ const https = require('https');
 const fs = require('fs');
 const xml2js = require('xml2js');
 const oAuthUtil = require('../util/OAuthUtil.js');
+const parseString = require('xml2js').parseString;
 
 const addPayment = (req,res,next)=>{
     let params = req.params;
@@ -59,7 +60,7 @@ const getPayment = (req,res,next)=>{
     });
 }
 const wechatPayment = (req,res,next)=>{
-    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
+    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true})
     let body = 'test';
     let jsa = 'JSAPI';
     let params = req.params;
@@ -107,14 +108,18 @@ const wechatPayment = (req,res,next)=>{
         result.on('data',(d)=>{
             data += d;
         }).on('end',()=>{
-            xmlParser.parseString(data,  (err, result) => {
+            parseString(data,  (err, result) => {
+                logger.info(JSON.stringify(result));
+                resUtil.resetQueryRes(res,JSON.stringify(result),null);
+            });
+            /*xmlParser.parseString(data,  (err, result) => {
                 //将返回的结果再次格式化
                 let resString = JSON.stringify(result);
                 resString.replace("{\"xml\":","[");
                 resString.replace("}}","}]");
                 logger.info("paymentResult1"+resString);
                 resUtil.resetQueryRes(res,resString,null);
-            });
+            });*/
             /*logger.info("payment result"+date);
             xmlParser.parseString(date,(err,result)=>{
                 //将返回的结果再次格式化
