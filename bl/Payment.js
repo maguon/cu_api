@@ -107,10 +107,12 @@ const wechatPayment = (req,res,next)=>{
         result.on('data',(d)=>{
             data += d;
         }).on('end',()=>{
-            let parser = new xml2js.Parser();
-            let json =  parser.parseString(data);
-            logger.info("payment result"+json);
-            resUtil.resetQueryRes(res,data,null);
+            xmlParser.parseString(data,  (err, result) => {
+                //将返回的结果再次格式化
+                let resString = JSON.stringify(result);
+                logger.info(resString);
+                resUtil.resetQueryRes(res,resString,null);
+            });
             /*logger.info("payment result"+date);
             xmlParser.parseString(date,(err,result)=>{
                 //将返回的结果再次格式化
