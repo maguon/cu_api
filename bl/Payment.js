@@ -108,9 +108,9 @@ const wechatPayment = (req,res,next)=>{
             data += d;
         }).on('end',()=>{
             let parser = new xml2js.Parser();
-            let json =  parser.parseString(data);
+            let json =  parser.parseString(result);
             logger.info("payment result"+json);
-            resUtil.resetQueryRes(res,data,null);
+            resUtil.resetQueryRes(res,result,null);
             /*logger.info("payment result"+date);
             xmlParser.parseString(date,(err,result)=>{
                 //将返回的结果再次格式化
