@@ -13,7 +13,6 @@ const https = require('https');
 const fs = require('fs');
 const xml2js = require('xml2js');
 const oAuthUtil = require('../util/OAuthUtil.js');
-const parseString = require('xml2js').parseString;
 
 const addPayment = (req,res,next)=>{
     let params = req.params;
@@ -108,18 +107,14 @@ const wechatPayment = (req,res,next)=>{
         result.on('data',(d)=>{
             data += d;
         }).on('end',()=>{
-            parseString(data,  (err, result) => {
-                logger.info(JSON.stringify(result));
-                resUtil.resetQueryRes(res,JSON.stringify(result),null);
-            });
-            /*xmlParser.parseString(data,  (err, result) => {
+            xmlParser.parseString(data,  (err, result) => {
                 //将返回的结果再次格式化
                 let resString = JSON.stringify(result);
-                resString.replace("{\"xml\":","[");
-                resString.replace("}}","}]");
+                resString = resString.replace("{\"xml\":","[");
+                resString = resString.replace("}}","}]");
                 logger.info("paymentResult1"+resString);
                 resUtil.resetQueryRes(res,resString,null);
-            });*/
+            });
             /*logger.info("payment result"+date);
             xmlParser.parseString(date,(err,result)=>{
                 //将返回的结果再次格式化
