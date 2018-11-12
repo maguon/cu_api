@@ -50,7 +50,7 @@ const getPayment = (req,res,next)=>{
     paymentDAO.getPayment(params,(error,result)=>{
         if(error){
             logger.error('getPayment' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('getPayment' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -116,22 +116,6 @@ const wechatPayment = (req,res,next)=>{
 
                 resUtil.resetQueryRes(res,prepayIdJson,null);
             });
-            /*logger.info("payment result"+date);
-            xmlParser.parseString(date,(err,result)=>{
-                //将返回的结果再次格式化
-                logger.info("ceShi2"+JSON.stringify(result));
-            });
-            let resParams = {};
-            resParams.prepayId = JSON.stringify(result).prepay_id;
-            resParams.nonceStr = sysConfig.wechatConfig.notifyUrl;
-            resParams.appId = sysConfig.wechatConfig.mpAppId;
-            let resTimestamp = (new Date()).getTime();
-            resParams.timeStamp = parseInt(resTimestamp/1000);
-            let paySignStr = "appId="+sysConfig.wechatConfig.mpAppId+"&nonceStr="+sysConfig.wechatConfig.notifyUrl+"&package=prepay_id="+resParams.prepayId+
-                "&signType=MD5&timeStamp="+resParams.timeStamp+"&key="+sysConfig.wechatConfig.mpSecret;
-            console.log(paySignStr);
-            resParams.sign = encrypt.encryptByMd5NoKey(paySignStr);
-            logger.info('wechatPayment '+resParams);*/
             res.send(200,data);
             return next();
         }).on('error', (e)=>{
@@ -149,12 +133,106 @@ const wechatPayment = (req,res,next)=>{
         return next();
     });
 }
-const addWechatPayment=(req,res,next) => {
+const wechatRefund = (req,res,next)=>{
+    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
+    let params = req.params;
+    let ourString = encrypt.randomString();
+    let signStr =
+        "appid="+sysConfig.wechatConfig.mpAppId
+        + "&mch_id="+sysConfig.wechatConfig.mchId
+        + "&nonce_str="+ourString
+        + "&notify_url="+sysConfig.wechatConfig.notifyUrl
+        //+ "&openid="+params.openid
+        + "&out_trade_no="+params.orderId
+        + "&out_refund_no="+params.orderId
+        + "refund_fee="+params.refundFee
+        + "&total_fee=" +params.totalFee
+        + "&key="+sysConfig.wechatConfig.paymentKey;
+    let signByMd = encrypt.encryptByMd5NoKey(signStr);
+    let reqBody =
+        '<xml><appid>'+sysConfig.wechatConfig.mpAppId+'</appid>' +
+        '<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id>' +
+        '<nonce_str>'+ourString+'</nonce_str>' +
+        '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url>' +
+        //'<openid>'+params.openid+'</openid>' +
+        '<out_trade_no>'+params.orderId+'</out_trade_no>' +
+        '<out_refund_no>'+params.orderId+'</out_refund_no>' +
+        '<refund_fee>'+params.refundFee+'</refund_fee>' +
+        '<total_fee>'+params.totalFee + '</total_fee>' +
+        '<sign>'+signByMd+'</sign></xml>';
+    let url="/secapi/pay/refund";
+    logger.info("ip---"+req.connection.remoteAddress);
+    let options = {
+        host: 'api.mch.weixin.qq.com',
+        port: 443,
+        path: url,
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length' : Buffer.byteLength(reqBody, 'utf8')
+        }
+    }
+    let httpsReq = https.request(options,(result)=>{
+        let data = "";
+        result.on('data',(d)=>{
+            data += d;
+        }).on('end',()=>{
+            xmlParser.parseString(data,(err,result)=>{
+                let resString = JSON.stringify(result);
+                let evalJson = eval('(' + resString + ')');
+                let prepayIdJson = [{prepayId: evalJson.xml}];
+                logger.info("paymentResult1"+prepayIdJson);
 
+                resUtil.resetQueryRes(res,prepayIdJson,null);
+            });
+            res.send(200,data);
+            return next();
+        }).on('error', (e)=>{
+            logger.info('wechatPayment '+ e.message);
+            res.send(500,e);
+            return next();
+        });
+
+    });
+    httpsReq.write(reqBody,"utf-8");
+    httpsReq.end();
+    httpsReq.on('error',(e)=>{
+        logger.info('wechatPayment '+ e.message);
+        res.send(500,e);
+        return next();
+    });
+};
+const addWechatPayment=(req,res,next) => {
+    let params = req.params;
+    paymentDAO.addWechatPayment(params,(error,result)=>{
+        if(error){
+            logger.error('addWechatPayment' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('addWechatPayment' + 'success');
+            resUtil.resetCreateRes(res,result,null);
+            return next();
+        }
+    });
+}
+const addWechatRefund=(req,res,next) => {
+    let params = req.params;
+    paymentDAO.addWechatRefund(params,(error,result)=>{
+        if(error){
+            logger.error('addWechatRefund' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('addWechatRefund' + 'success');
+            resUtil.resetCreateRes(res,result,null);
+            return next();
+        }
+    });
 }
 module.exports = {
     addPayment,
     getPayment,
     wechatPayment,
-    addWechatPayment
+    addWechatPayment,
+    wechatRefund,
+    addWechatRefund
 }
