@@ -107,6 +107,9 @@ const wechatPayment = (req,res,next)=>{
         result.on('data',(d)=>{
             data += d;
         }).on('end',()=>{
+            let parser = new xml2js.Parser();
+            let json =  parser.parseString(date);
+            logger.info(json);
             /*logger.info("payment result"+date);
             xmlParser.parseString(date,(err,result)=>{
                 //将返回的结果再次格式化
@@ -123,7 +126,6 @@ const wechatPayment = (req,res,next)=>{
             console.log(paySignStr);
             resParams.sign = encrypt.encryptByMd5NoKey(paySignStr);
             logger.info('wechatPayment '+resParams);*/
-
             res.send(200,data);
             return next();
         }).on('error', (e)=>{
@@ -133,7 +135,6 @@ const wechatPayment = (req,res,next)=>{
         });
 
     });
-    logger.info("payment result"+reqBody);
     httpsReq.write(reqBody,"utf-8");
     httpsReq.end();
     httpsReq.on('error',(e)=>{
