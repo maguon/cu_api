@@ -113,7 +113,7 @@ const wechatPayment = (req,res,next)=>{
                 logger.info("ceShi2"+JSON.stringify(result));
             });
             let resParams = {};
-            //resParams.prepayId = resObj.xml.prepay_id;
+            resParams.prepayId = JSON.stringify(result).prepay_id;
             resParams.nonceStr = sysConfig.wechatConfig.notifyUrl;
             resParams.appId = sysConfig.wechatConfig.mpAppId;
             let resTimestamp = (new Date()).getTime();
