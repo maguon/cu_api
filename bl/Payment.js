@@ -10,8 +10,8 @@ const wechatDAO =require('../dao/WechatDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const sysConfig = require('../config/SystemConfig.js');
 const https = require('https');
-const fs = require('fs'),
-    xml2js = require('xml2js');
+const fs = require('fs');
+const xml2js = require('xml2js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 
 const addPayment = (req,res,next)=>{
@@ -59,11 +59,11 @@ const getPayment = (req,res,next)=>{
     });
 }
 const wechatPayment = (req,res,next)=>{
+    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let body = 'test';
     let jsa = 'JSAPI';
-    let parser = new xml2js.Parser();
     let params = req.params;
-    let requestIp = req.connection.remoteAddress.replace('::ffff:','')
+    let requestIp = req.connection.remoteAddress.replace('::ffff:','');
     let ourString = encrypt.randomString();
     let signStr =
           "appid="+sysConfig.wechatConfig.mpAppId
@@ -108,11 +108,12 @@ const wechatPayment = (req,res,next)=>{
             data += d;
         }).on('end',()=>{
             logger.info("payment result"+data);
-            /*let resObj = JSON.parse(parser.toJson(data));
-            console.log(resObj);
-            console.log(data);
+            xmlParser.parseString(date,(err,result)=>{
+                //将返回的结果再次格式化
+                logger.info("ceShi2"+JSON.stringify(result));
+            });
             let resParams = {};
-            resParams.prepayId = resObj.xml.prepay_id;
+            //resParams.prepayId = resObj.xml.prepay_id;
             resParams.nonceStr = sysConfig.wechatConfig.notifyUrl;
             resParams.appId = sysConfig.wechatConfig.mpAppId;
             let resTimestamp = (new Date()).getTime();
@@ -122,7 +123,7 @@ const wechatPayment = (req,res,next)=>{
             console.log(paySignStr);
             resParams.sign = encrypt.encryptByMd5NoKey(paySignStr);
             logger.info('wechatPayment '+resParams);
-*/
+
             res.send(200,data);
             return next();
         }).on('error', (e)=>{
