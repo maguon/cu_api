@@ -119,6 +119,7 @@ const wechatPayment = (req,res,next)=>{
                     sign:evalJson.xml.sign,
                     timeStemp: myDateStr
                 }];
+                logger.info("paymentResult"+result);
                 resUtil.resetQueryRes(res,paymentJson,null);
             });
             res.send(200,data);
