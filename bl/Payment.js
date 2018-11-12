@@ -111,10 +111,9 @@ const wechatPayment = (req,res,next)=>{
                 //将返回的结果再次格式化
                 let resString = JSON.stringify(result);
                 let evalJson = eval('(' + resString + ')');
-                let prepayIdJson = [{prepayId: evalJson.xml.prepay_id}];
-                logger.info("paymentResult1"+prepayIdJson);
+                logger.info("paymentResult1"+evalJson);
 
-                resUtil.resetQueryRes(res,prepayIdJson,null);
+                resUtil.resetQueryRes(res,evalJson,null);
             });
             res.send(200,data);
             return next();
