@@ -108,7 +108,7 @@ const wechatPayment = (req,res,next)=>{
             data += d;
         }).on('end',()=>{
             logger.info("payment result"+data);
-            xmlParser.parseString(result,(err,result)=>{
+            xmlParser.parseString(date,(err,result)=>{
                 //将返回的结果再次格式化
                 logger.info("ceShi2"+JSON.stringify(result));
             });
