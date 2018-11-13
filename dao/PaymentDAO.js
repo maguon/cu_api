@@ -93,7 +93,7 @@ const addWechatPayment = (params,callback) => {
     })
 }
 const addWechatRefund = (params,callback) => {
-    let query = " insert into payment_info(user_id,order_id,type,num) values(?,?,?,?)";
+    let query = " insert into payment_info(user_id,order_id,type,p_id) values(?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
@@ -119,12 +119,8 @@ const getRefundByPaymentId = (params,callback) => {
     let query = " select * from payment_info where id is not null ";
     let paramsArray = [],i=0;
     if(params.paymentId){
-        paramsArray[i++] = params.paymentId;
-        query = query + " and id = ?"
-    }
-    if(params.paymentId){
         paramsArray[i] = params.paymentId;
-        query = query + " or num = ?"
+        query = query + " or p_id = ?"
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getRefundByPaymentId');

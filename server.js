@@ -245,6 +245,7 @@ function createServer() {
     server.get('/api/admin/:adminId/paymentRefund' ,payment.getRefundByPaymentId);
     server.post({path:'/api/user/:userId/order/:orderId/wechatPayment',contentType: 'application/json'},payment.wechatPayment);
     server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
+    server.get('/api/wechatPayment',payment.addWechatPayment);
     server.post({path:'/api/user/:userId/payment/:paymentId/refund',contentType: 'application/json'},payment.addWechatRefund);
     server.post({path:'/api/admin/:adminId/order/:orderId/payment/:paymentId/wechatRefund',contentType: 'application/json'},payment.wechatRefund);
     server.put({path:'/api/wechatRefund',contentType: 'application/json'},payment.updateRefund);

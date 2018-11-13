@@ -10,7 +10,6 @@ const wechatDAO =require('../dao/WechatDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const sysConfig = require('../config/SystemConfig.js');
 const https = require('https');
-const fs = require('fs');
 const xml2js = require('xml2js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 
@@ -59,7 +58,7 @@ const getPayment = (req,res,next)=>{
     });
 }
 const wechatPayment = (req,res,next)=>{
-    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true})
+    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let body = 'test';
     let jsa = 'JSAPI';
     let params = req.params;
@@ -91,7 +90,6 @@ const wechatPayment = (req,res,next)=>{
         '<trade_type>'+jsa+'</trade_type>' +
         '<sign>'+signByMd+'</sign></xml>';
     let url="/pay/unifiedorder";
-    logger.info("ip---"+req.connection.remoteAddress);
     let options = {
         host: 'api.mch.weixin.qq.com',
         port: 443,
@@ -149,7 +147,7 @@ const wechatRefund = (req,res,next)=>{
         "appid="+sysConfig.wechatConfig.mpAppId
         + "&mch_id="+sysConfig.wechatConfig.mchId
         + "&nonce_str="+ourString
-        + "&notify_url="+'https://stg.myxxjs.com/api/wechatPayment'
+        + "&notify_url="+sysConfig.wechatConfig.notifyUrl
         //+ "&openid="+params.openid
         + "&out_trade_no="+params.orderId
         + "&out_refund_no="+params.orderId
@@ -161,7 +159,7 @@ const wechatRefund = (req,res,next)=>{
         '<xml><appid>'+sysConfig.wechatConfig.mpAppId+'</appid>' +
         '<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id>' +
         '<nonce_str>'+ourString+'</nonce_str>' +
-        '<notify_url>'+'https://stg.myxxjs.com:9021/api/wechatPayment'+'</notify_url>' +
+        '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url>' +
         //'<openid>'+params.openid+'</openid>' +
         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
         '<out_refund_no>'+params.orderId+'</out_refund_no>' +
@@ -169,7 +167,6 @@ const wechatRefund = (req,res,next)=>{
         '<total_fee>'+params.totalFee + '</total_fee>' +
         '<sign>'+signByMd+'</sign></xml>';
     let url="/secapi/pay/refund";
-    logger.info("ip---"+req.connection.remoteAddress);
     let options = {
         host: 'api.mch.weixin.qq.com',
         port: 443,
@@ -180,12 +177,10 @@ const wechatRefund = (req,res,next)=>{
             'Content-Length' : Buffer.byteLength(reqBody, 'utf8')
         }
     }
-    logger.info("2ip---"+req.connection.remoteAddress);
     let httpsReq = https.request(options,(result)=>{
         let data = "";
         logger.info(result);
         result.on('data',(d)=>{
-            logger.info("3ip---"+req.connection.remoteAddress);
             data += d;
         }).on('end',()=>{
             xmlParser.parseString(data,(err,result)=>{
@@ -197,7 +192,6 @@ const wechatRefund = (req,res,next)=>{
                 resUtil.resetQueryRes(res,prepayIdJson,null);
             });
             res.send(200,data);
-            logger.info("4ip---"+req.connection.remoteAddress);
             return next();
         }).on('error', (e)=>{
             logger.info('wechatPayment '+ e.message);
