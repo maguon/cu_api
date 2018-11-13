@@ -6,12 +6,13 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addProduct = (params,callback) => {
-    let query = "insert into product_info(freight,product_name,original_price,unit_price,product_remark)values(?,?,?,?,?)";
+    let query = "insert into product_info(freight,product_name,original_price,unit_price,type,product_remark)values(?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.freight;
     paramsArray[i++] = params.productName;
     paramsArray[i++] = params.originalPrice;
     paramsArray[i++] = params.unitPrice;
+    paramsArray[i++] = params.type;
     paramsArray[i] = params.productRemark;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addProduct');
@@ -25,6 +26,27 @@ const getProduct = (params,callback) => {
         paramsArray[i++] = params.productId;
         query = query + " and id = ? ";
     }
+    if(params.productName){
+        paramsArray[i++] = params.productName;
+        query = query + " and product_Name = ? ";
+    }
+    if(params.type){
+        paramsArray[i++] = params.type;
+        query = query + " and type) = ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and status = ? ";
+    }
+    if(params.createdOnStart){
+        paramsArray[i++] = params.createdOnStart+" 00:00:00";
+        query = query + " and created_on >= ? ";
+    }
+    if(params.createdOnEnd){
+        paramsArray[i++] = params.createdOnEnd+" 23:59:59";
+        query = query + " and created_on <= ? ";
+    }
+    query = query + " order by id asc ";
     if(params.start && params.size){
         paramsArray[i++] = parseInt(params.start);
         paramsArray[i] = parseInt(params.size);
@@ -44,8 +66,19 @@ const getProductToOrderItem = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateStatus = (params,callback) => {
+    let query = " update product_info set status = ? where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.status;
+    paramsArray[i] = params.productId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateStatus');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addProduct,
     getProduct,
-    getProductToOrderItem
+    getProductToOrderItem,
+    updateStatus
 }

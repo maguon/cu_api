@@ -32,7 +32,21 @@ const getProduct = (req,res,next)=>{
         }
     });
 }
+const updateStatus = (req,res,next)=>{
+    let params = req.params;
+    productDAO.updateStatus(params,(error,result)=>{
+        if(error){
+            logger.error('updateStatus' + error.message);
+            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+        }else{
+            logger.info('updateStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
 module.exports = {
     addProduct,
-    getProduct
+    getProduct,
+    updateStatus
 }

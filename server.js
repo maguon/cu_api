@@ -236,6 +236,7 @@ function createServer() {
     server.get('/api/user/:userId/product' ,product.getProduct);
     server.get('/api/admin/:adminId/product' ,product.getProduct);
     server.post({path:'/api/admin/:adminId/product',contentType: 'application/json'},product.addProduct);
+    server.put({path:'/api/admin/:adminId/product/:productId/status',contentType: 'application/json'},product.updateStatus);
     /**
      * payment_info
      */
@@ -250,7 +251,7 @@ function createServer() {
     server.get('/api/admin/:adminId/payment' ,payment.getPayment);
     server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
     server.post({path:'/api/user/:userId/order/:orderId/refund',contentType: 'application/json'},payment.addWechatRefund);
-    server.post({path:'/api/admin/:adminId/payment/:paymentId/refund',contentType: 'application/json'},payment.wechatRefund);
+    server.post({path:'/api/admin/:adminId/order/:orderId/payment/:paymentId/refund',contentType: 'application/json'},payment.wechatRefund);
     /**
      * log_company
      */

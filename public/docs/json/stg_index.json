@@ -4271,6 +4271,27 @@
             "type": "integer"
           },
           {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "start",
             "in": "query",
             "description": "start",
@@ -4362,13 +4383,6 @@
             "type": "integer"
           },
           {
-            "name": "userId",
-            "in": "query",
-            "description": "userId",
-            "required": false,
-            "type": "integer"
-          },
-          {
             "name": "productId",
             "in": "query",
             "description": "productId",
@@ -4376,9 +4390,37 @@
             "type": "integer"
           },
           {
+            "name": "productName",
+            "in": "query",
+            "description": "productName",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "status",
             "in": "query",
             "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
             "required": false,
             "type": "integer"
           },
@@ -4409,6 +4451,57 @@
           },
           "400": {
             "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/product/{productId}/status": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user addUserShipAddress ",
+        "description": "user addUserShipAddress",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productStatus",
+            "in": "body",
+            "description": "update product status",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productStatus"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/productStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
           }
         }
       }
@@ -5514,7 +5607,7 @@
         }
       }
     },
-    "/admin/{adminId}/payment/{paymentId}/refund": {
+    "/admin/{adminId}/order/{orderId}/payment/{paymentId}/refund": {
       "post": {
         "tags": [
           "payment"
@@ -5529,6 +5622,13 @@
             "name": "adminId",
             "in": "path",
             "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "order Id",
             "required": true,
             "type": "integer"
           },
@@ -6187,10 +6287,27 @@
         },
         "freight": {
           "type": "integer"
+        },
+        "type": {
+          "type": "integer"
+        },
+        "productRemark": {
+          "type": "string"
         }
       },
       "xml": {
         "name": "product"
+      }
+    },
+    "productStatus": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer"
+        }
+      },
+      "xml": {
+        "name": "productStatus"
       }
     },
     "orderItem": {
@@ -6455,9 +6572,6 @@
       "properties": {
         "type": {
           "type": "integer"
-        },
-        "remark": {
-          "type": "string"
         }
       },
       "xml": {
@@ -6470,8 +6584,8 @@
         "refundFee": {
           "type": "integer"
         },
-        "totalFee": {
-          "type": "integer"
+        "remark": {
+          "type": "string"
         }
       },
       "xml": {

@@ -65,6 +65,10 @@ const addOrder = (req,res,next)=>{
             prodCounts = params.prodCount;
             remark = params.remark;
             carId = params.carId;
+            let p = [{
+                bb:2
+            }]
+            logger.info(p[0].bb);
             for(let i=0;i<productIds.length;i++){
                 params.productId = productIds[i];
                 params.prodCount = prodCounts[i];
