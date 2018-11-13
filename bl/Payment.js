@@ -70,7 +70,7 @@ const wechatPayment = (req,res,next)=>{
         + "&body="+body
         + "&mch_id="+sysConfig.wechatConfig.mchId
         + "&nonce_str="+ourString
-        + "&notify_url="+ppUrl
+        + "&notify_url="+sysConfig.wechatConfig.notifyUrl
         + "&openid="+params.openid
         + "&out_trade_no="+params.orderId
         + "&spbill_create_ip="+requestIp
@@ -83,7 +83,7 @@ const wechatPayment = (req,res,next)=>{
         '<body>'+body+'</body>' +
         '<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id>' +
         '<nonce_str>'+ourString+'</nonce_str>' +
-        '<notify_url>'+ppUrl+'</notify_url>' +
+        '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url>' +
         '<openid>'+params.openid+'</openid>' +
         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
         '<spbill_create_ip>'+requestIp+'</spbill_create_ip>' +
