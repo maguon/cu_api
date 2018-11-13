@@ -214,7 +214,8 @@ const addWechatPayment=(req,res,next) => {
     let params = req.params;
     logger.info("loggerWechatAdd"+req);
     logger.info("loggerWechatAdd1"+params);
-    paymentDAO.addWechatPayment(params,(error,result)=>{
+    resUtil.resetQueryRes(res,[],null);
+    /*paymentDAO.addWechatPayment(params,(error,result)=>{
         if(error){
             logger.error('addWechatPayment' + error.message);
             resUtil.resInternalError(error, res, next);
@@ -223,7 +224,7 @@ const addWechatPayment=(req,res,next) => {
             resUtil.resetCreateRes(res,result,null);
             return next();
         }
-    });
+    });*/
 }
 const addWechatRefund=(req,res,next) => {
     let params = req.params;
