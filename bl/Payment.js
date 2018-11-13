@@ -112,12 +112,13 @@ const wechatPayment = (req,res,next)=>{
                 let evalJson = eval('(' + resString + ')');
                 let myDate = new Date();
                 let myDateStr = myDate.getTime()/1000;
+                let parseIntDate = parseInt(myDateStr);
                 let paySignMD5 = encrypt.encryptByMd5NoKey('appId='+sysConfig.wechatConfig.mpAppId+'&nonceStr='+evalJson.xml.nonce_str+'&package=prepay_id='+evalJson.xml.prepay_id+'&signType=MD5&timeStamp='+myDateStr+'&key=a7c5c6cd22d89a3eea6c739a1a3c74d1');
                 let paymentJson = [{
                     nonce_str: evalJson.xml.nonce_str,
                     prepay_id: evalJson.xml.prepay_id,
                     sign:evalJson.xml.sign,
-                    timeStamp: myDateStr,
+                    timeStamp: parseIntDate,
                     paySign: paySignMD5
                 }];
                 logger.info("paymentResult"+resString);

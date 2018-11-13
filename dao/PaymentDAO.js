@@ -139,8 +139,9 @@ const getPaymentByRefundId = (params,callback) => {
         query = query + " and id = ?"
     }
     if(params.pId){
+        paramsArray[i++] = params.pId;
         paramsArray[i] = params.pId;
-        query = query + " or p_id = ?"
+        query = query + " or p_id = ? and p_id <> ?"
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getPaymentByRefundId');
