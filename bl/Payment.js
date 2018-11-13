@@ -149,7 +149,7 @@ const wechatRefund = (req,res,next)=>{
         "appid="+sysConfig.wechatConfig.mpAppId
         + "&mch_id="+sysConfig.wechatConfig.mchId
         + "&nonce_str="+ourString
-        + "&notify_url="+sysConfig.wechatConfig.notifyUrl
+        + "&notify_url="+'https://stg.myxxjs.com/api/wechatPayment'
         //+ "&openid="+params.openid
         + "&out_trade_no="+params.orderId
         + "&out_refund_no="+params.orderId
@@ -161,7 +161,7 @@ const wechatRefund = (req,res,next)=>{
         '<xml><appid>'+sysConfig.wechatConfig.mpAppId+'</appid>' +
         '<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id>' +
         '<nonce_str>'+ourString+'</nonce_str>' +
-        '<notify_url>'+sysConfig.wechatConfig.notifyUrl+'</notify_url>' +
+        '<notify_url>'+'https://stg.myxxjs.com:9021/api/wechatPayment'+'</notify_url>' +
         //'<openid>'+params.openid+'</openid>' +
         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
         '<out_refund_no>'+params.orderId+'</out_refund_no>' +
