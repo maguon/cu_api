@@ -242,11 +242,39 @@ const addWechatRefund=(req,res,next) => {
         }
     });
 }
+const updateRefund=(req,res,next) => {
+    let params = req.params;
+    paymentDAO.updateRefund(params,(error,result)=>{
+        if(error){
+            logger.error('updateRefund' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('updateRefund' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+}
+const getRefundByPaymentId=(req,res,next) => {
+    let params = req.params;
+    paymentDAO.getRefundByPaymentId(params,(error,result)=>{
+        if(error){
+            logger.error('getRefundByPaymentId' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getRefundByPaymentId' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+}
 module.exports = {
     addPayment,
     getPayment,
     wechatPayment,
     addWechatPayment,
     wechatRefund,
-    addWechatRefund
+    addWechatRefund,
+    updateRefund,
+    getRefundByPaymentId
 }

@@ -93,14 +93,41 @@ const addWechatPayment = (params,callback) => {
     })
 }
 const addWechatRefund = (params,callback) => {
-    let query = " insert into payment_info(user_id,order_id,type,remark) values(?,?,?,?)";
+    let query = " insert into payment_info(user_id,order_id,type,num) values(?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = params.type;
-    paramsArray[i] = params.remark;
+    paramsArray[i] = params.paymentId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addWechatRefund');
+        callback(error,rows);
+    })
+}
+const updateRefund = (params,callback) => {
+    let query = " update payment_info set total_fee=?,remark=? where id = ?";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.totalFee;
+    paramsArray[i++] = params.remark;
+    paramsArray[i] = params.paymentId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateRefund');
+        callback(error,rows);
+    })
+}
+const getRefundByPaymentId = (params,callback) => {
+    let query = " select * from payment_info where id is not null ";
+    let paramsArray = [],i=0;
+    if(params.paymentId){
+        paramsArray[i++] = params.paymentId;
+        query = query + " and id = ?"
+    }
+    if(params.paymentId){
+        paramsArray[i] = params.paymentId;
+        query = query + " and num = ?"
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getRefundByPaymentId');
         callback(error,rows);
     })
 }
@@ -109,5 +136,7 @@ module.exports = {
     getPayment,
     updateStatus,
     addWechatPayment,
-    addWechatRefund
+    addWechatRefund,
+    updateRefund,
+    getRefundByPaymentId
 }

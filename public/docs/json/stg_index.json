@@ -2485,9 +2485,7 @@
             "description": "Invalid token value or invalid admin id"
           }
         }
-      }
-    },
-    "/user/{userId}/order/{orderId}": {
+      },
       "get": {
         "tags": [
           "order"
@@ -2507,9 +2505,9 @@
           },
           {
             "name": "orderId",
-            "in": "path",
+            "in": "query",
             "description": "orderId",
-            "required": true,
+            "required": false,
             "type": "integer"
           },
           {
@@ -5363,43 +5361,6 @@
         }
       }
     },
-    "/wechatPayment": {
-      "post": {
-        "tags": [
-          "payment"
-        ],
-        "summary": "add payment",
-        "description": "add payment",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "payment",
-            "in": "body",
-            "description": "payment",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/payment"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "type": "object",
-              "items": {
-                "$ref": "#/definitions/payment"
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid token value or invalid user id"
-          }
-        }
-      }
-    },
     "/user/{userId}/order/{orderId}/wechatPayment": {
       "post": {
         "tags": [
@@ -5433,6 +5394,55 @@
             "schema": {
               "$ref": "#/definitions/updateStatus"
             }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/payment"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/payment": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "get payment",
+        "description": "get payment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "user Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "description": "orderId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "query",
+            "description": "paymentId",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -5556,7 +5566,49 @@
         }
       }
     },
-    "/user/{userId}/order/{orderId}/refund": {
+    "/admin/{adminId}/paymentRefund": {
+      "get": {
+        "tags": [
+          "payment"
+        ],
+        "summary": "get payment",
+        "description": "get payment",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "in": "query",
+            "description": "paymentId",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/payment"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/payment/{paymentId}/refund": {
       "post": {
         "tags": [
           "payment"
@@ -5575,9 +5627,9 @@
             "type": "integer"
           },
           {
-            "name": "orderId",
+            "name": "paymentId",
             "in": "path",
-            "description": "order Id",
+            "description": "payment Id",
             "required": true,
             "type": "integer"
           },
@@ -5607,7 +5659,7 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/payment/{paymentId}/refund": {
+    "/admin/{adminId}/order/{orderId}/payment/{paymentId}/wechatRefund": {
       "post": {
         "tags": [
           "payment"
@@ -6570,6 +6622,9 @@
     "paymentRefund": {
       "type": "object",
       "properties": {
+        "orderId": {
+          "type": "integer"
+        },
         "type": {
           "type": "integer"
         }

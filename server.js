@@ -171,7 +171,7 @@ function createServer() {
      order_info
      */
     server.post({path:'/api/user/:userId/order',contentType: 'application/json'},order.addOrder);
-    server.get('/api/user/:userId/order/:orderId',order.getOrder);
+    server.get('/api/user/:userId/order',order.getOrder);
     server.get('/api/admin/:adminId/order',order.getOrder);
     server.get('/api/user/:userId/orderItem',order.getOrderItem);
     server.get('/api/admin/:adminId/orderItem',order.getOrderItem);
@@ -241,17 +241,14 @@ function createServer() {
      * payment_info
      */
     server.get('/api/user/:userId/payment' ,payment.getPayment);
-    /*
-     ** server return wechat payment prepay_id
-     */
-    server.post({path:'/api/user/:userId/order/:orderId/wechatPayment',contentType: 'application/json'},payment.wechatPayment);
-    /*
-     ** wechat payment callback api
-     */
     server.get('/api/admin/:adminId/payment' ,payment.getPayment);
+    server.get('/api/admin/:adminId/paymentRefund' ,payment.getRefundByPaymentId);
+    server.post({path:'/api/user/:userId/order/:orderId/wechatPayment',contentType: 'application/json'},payment.wechatPayment);
     server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
-    server.post({path:'/api/user/:userId/order/:orderId/refund',contentType: 'application/json'},payment.addWechatRefund);
-    server.post({path:'/api/admin/:adminId/order/:orderId/payment/:paymentId/refund',contentType: 'application/json'},payment.wechatRefund);
+    server.post({path:'/api/user/:userId/payment/:paymentId/refund',contentType: 'application/json'},payment.addWechatRefund);
+    server.post({path:'/api/admin/:adminId/order/:orderId/payment/:paymentId/wechatRefund',contentType: 'application/json'},payment.wechatRefund);
+    server.put({path:'/api/wechatRefund',contentType: 'application/json'},payment.updateRefund);
+
     /**
      * log_company
      */
