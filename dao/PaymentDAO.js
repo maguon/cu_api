@@ -44,6 +44,10 @@ const getPayment = (params,callback) => {
         paramsArray[i++] = params.type;
         query = query + " and pi.type =? ";
     }
+    if(params.pId){
+        paramsArray[i++] = params.pId;
+        query = query + " and pi.p_id =? ";
+    }
     if(params.createdOnStart){
         paramsArray[i++] = params.createdOnStart+" 00:00:00";
         query = query + " and pi.created_on >=? ";
@@ -127,6 +131,22 @@ const getRefundByPaymentId = (params,callback) => {
         callback(error,rows);
     })
 }
+const getPaymentByRefundId = (params,callback) => {
+    let query = " select * from payment_info where id is not null ";
+    let paramsArray = [],i=0;
+    if(params.pId){
+        paramsArray[i++] = params.pId;
+        query = query + " and id = ?"
+    }
+    if(params.pId){
+        paramsArray[i] = params.pId;
+        query = query + " or p_id = ?"
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getPaymentByRefundId');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addPayment,
     getPayment,
@@ -134,5 +154,6 @@ module.exports = {
     addWechatPayment,
     addWechatRefund,
     updateRefund,
-    getRefundByPaymentId
+    getRefundByPaymentId,
+    getPaymentByRefundId
 }

@@ -61,7 +61,7 @@ const wechatPayment = (req,res,next)=>{
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let body = 'test';
     let jsa = 'JSAPI';
-    let ppUrl = "http://stg.myxxjs.com:9201/api/wechatPayment"
+    let ppUrl = "http://stg.myxxjs.com:9201/api/wechatPayment";
     let params = req.params;
     let requestIp = req.connection.remoteAddress.replace('::ffff:','');
     let ourString = encrypt.randomString();
@@ -111,7 +111,7 @@ const wechatPayment = (req,res,next)=>{
                 let resString = JSON.stringify(result);
                 let evalJson = eval('(' + resString + ')');
                 let myDate = new Date();
-                let myDateStr = myDate.toString();
+                let myDateStr = myDate.getTime()/1000;
                 let paySignMD5 = encrypt.encryptByMd5NoKey('appId='+sysConfig.wechatConfig.mpAppId+'&nonceStr='+evalJson.xml.nonce_str+'&package=prepay_id='+evalJson.xml.prepay_id+'&signType=MD5&timeStamp='+myDateStr+'&key=a7c5c6cd22d89a3eea6c739a1a3c74d1');
                 let paymentJson = [{
                     nonce_str: evalJson.xml.nonce_str,
@@ -252,16 +252,42 @@ const updateRefund=(req,res,next) => {
 }
 const getRefundByPaymentId=(req,res,next) => {
     let params = req.params;
-    paymentDAO.getRefundByPaymentId(params,(error,result)=>{
+    paymentDAO.getPayment(params,(error,rows)=>{
         if(error){
-            logger.error('getRefundByPaymentId' + error.message);
+            logger.error('getPayment' + error.message);
             resUtil.resInternalError(error, res, next);
+        }else if(rows[0].type && rows[0].type==1){
+            paymentDAO.getRefundByPaymentId(params,(error,result)=>{
+                if(error){
+                    logger.error('getRefundByPaymentId' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else{
+                    logger.info('getRefundByPaymentId' + 'success');
+                    resUtil.resetQueryRes(res,result,null);
+                    return next();
+                }
+            });
         }else{
-            logger.info('getRefundByPaymentId' + 'success');
-            resUtil.resetQueryRes(res,result,null);
-            return next();
+            paymentDAO.getPayment(params,(error,rows)=>{
+                if(error){
+                    logger.error('getPayment' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else{
+                    params.pId = rows[0].p_id;
+                    paymentDAO.getPaymentByRefundId(params,(error,result)=>{
+                        if(error){
+                            logger.error('getPaymentByRefundId' + error.message);
+                            resUtil.resInternalError(error, res, next);
+                        }else{
+                            logger.info('getPaymentByRefundId' + 'success');
+                            resUtil.resetQueryRes(res,result,null);
+                            return next();
+                        }
+                    })
+                }
+            })
         }
-    });
+    })
 }
 module.exports = {
     addPayment,
