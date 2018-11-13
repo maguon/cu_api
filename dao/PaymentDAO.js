@@ -56,12 +56,12 @@ const getPayment = (params,callback) => {
         paramsArray[i++] = params.paymentId;
         query = query + " and pi.id =? ";
     }
+    query = query + " order by pi.created_on desc";
     if(params.start && params.size){
         paramsArray[i++] = parseInt(params.start);
         paramsArray[i] = parseInt(params.size);
         query = query + " limit ?,? ";
     }
-    query = query + " order by created_on desc";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getPayment');
         callback(error,rows);
