@@ -112,12 +112,14 @@ const wechatPayment = (req,res,next)=>{
                 let resString = JSON.stringify(result);
                 let evalJson = eval('(' + resString + ')');
                 let myDate = new Date();
-                let myDateStr = myDate.toLocaleString();
+                let myDateStr = myDate.getTime();
+                let paySignMD5 = encrypt.encryptByMd5NoKey('appId='+sysConfig.wechatConfig.mpAppId+'&nonceStr='+evalJson.xml.nonce_str+'&package=prepay_id='+evalJson.xml.prepay_id+'&signType=MD5&timeStamp='+myDateStr+'&key=a7c5c6cd22d89a3eea6c739a1a3c74d1');
                 let paymentJson = [{
                     nonce_str: evalJson.xml.nonce_str,
                     prepay_id: evalJson.xml.prepay_id,
                     sign:evalJson.xml.sign,
-                    timeStemp: myDateStr
+                    timeStamp: myDateStr,
+                    paySign: paySignMD5
                 }];
                 logger.info("paymentResult"+resString);
                 resUtil.resetQueryRes(res,paymentJson,null);
@@ -178,9 +180,12 @@ const wechatRefund = (req,res,next)=>{
             'Content-Length' : Buffer.byteLength(reqBody, 'utf8')
         }
     }
+    logger.info("2ip---"+req.connection.remoteAddress);
     let httpsReq = https.request(options,(result)=>{
         let data = "";
+        logger.info(result);
         result.on('data',(d)=>{
+            logger.info("3ip---"+req.connection.remoteAddress);
             data += d;
         }).on('end',()=>{
             xmlParser.parseString(data,(err,result)=>{
@@ -192,6 +197,7 @@ const wechatRefund = (req,res,next)=>{
                 resUtil.resetQueryRes(res,prepayIdJson,null);
             });
             res.send(200,data);
+            logger.info("4ip---"+req.connection.remoteAddress);
             return next();
         }).on('error', (e)=>{
             logger.info('wechatPayment '+ e.message);
