@@ -141,7 +141,7 @@ const userLogin = (req,res,next)=>{
                 logger.error('userLogin'+error.message);
                 reject(error);
             }else if(rows && rows.length < 1){
-                logger.info("userInfo"+rows[0]);
+                logger.info("userInfoRows"+rows[0]);
                 resolve(params);
             }else{
                 let user ={
