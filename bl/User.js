@@ -156,8 +156,6 @@ const userLogin = (req,res,next)=>{
                     user.lastLoginOn = params.lastLoginOn;
                     userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
                     user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
-                    resUtil.resetQueryRes(res,user,null);
-                    return next();
                 }
             }
         })
