@@ -213,7 +213,7 @@ const wechatRefund = (req,res,next)=>{
 const addWechatPayment=(req,res,next) => {
     let params = req.params;
     logger.info("loggerWechatAdd"+req);
-    logger.info("loggerWechatAdd1"+params);
+    logger.info("loggerWechatAdd1"+params.object);
     resUtil.resetQueryRes(res,[],null);
     /*paymentDAO.addWechatPayment(params,(error,result)=>{
         if(error){
