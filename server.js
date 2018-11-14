@@ -237,6 +237,9 @@ function createServer() {
     server.get('/api/admin/:adminId/product' ,product.getProduct);
     server.post({path:'/api/admin/:adminId/product',contentType: 'application/json'},product.addProduct);
     server.put({path:'/api/admin/:adminId/product/:productId/status',contentType: 'application/json'},product.updateStatus);
+    server.put({path:'/api/admin/:adminId/product/:productId/productInfo',contentType: 'application/json'},product.updateProductInfo);
+    server.put({path:'/api/admin/:adminId/product/:productId/productImg',contentType: 'application/json'},product.updateImg);
+    server.put({path:'/api/admin/:adminId/product/:productId/productRemark',contentType: 'application/json'},product.updateProductRemark);
     /**
      * payment_info
      */
@@ -244,12 +247,12 @@ function createServer() {
     server.get('/api/admin/:adminId/payment' ,payment.getPayment);
     server.get('/api/admin/:adminId/paymentRefund' ,payment.getRefundByPaymentId);
     server.post({path:'/api/user/:userId/order/:orderId/wechatPayment',contentType: 'application/json'},payment.wechatPayment);
-    server.post({path:'/api/wechatPayment',contentType: 'application/x-www-form-urlencoded'},payment.addWechatPayment);
-    server.post({path:'/api/wechatPayment',contentType: 'application/xml'},payment.addWechatPayment);
+    //server.post({path:'/api/wechatPayment',contentType: 'application/x-www-form-urlencoded'},payment.addWechatPayment);
+    //server.post({path:'/api/wechatPayment',contentType: 'application/xml'},payment.addWechatPayment);
     server.post({path:'/api/wechatPayment',contentType: 'text/xml'},payment.addWechatPayment);
     //server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
     //server.get('/api/wechatPayment',payment.addWechatPayment);
-    server.post({path:'/api/wechatPayment',contentType: 'multipart/form-data'},payment.addWechatPayment);
+    //server.post({path:'/api/wechatPayment',contentType: 'multipart/form-data'},payment.addWechatPayment);
     server.post({path:'/api/user/:userId/payment/:paymentId/refund',contentType: 'application/json'},payment.addWechatRefund);
     server.post({path:'/api/admin/:adminId/order/:orderId/payment/:paymentId/wechatRefund',contentType: 'application/json'},payment.wechatRefund);
     server.put({path:'/api/wechatRefund',contentType: 'application/json'},payment.updateRefund);

@@ -139,9 +139,9 @@ const userLogin = (req,res,next)=>{
         userDao.queryUser({wechatId:params.wechatId},(error,rows)=>{
             if(error){
                 logger.error('userLogin'+error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                reject(error);
             }else if(rows && rows.length < 1){
-                params.password = encrypt.encryptByMd5(params.password);
+                logger.info("userInfo"+rows[0]);
                 resolve(params);
             }else{
                 let user ={
@@ -163,14 +163,37 @@ const userLogin = (req,res,next)=>{
         userDao.createUser(params,(error,result)=>{
             if(error) {
                 logger.error('createUser' + error.message);
-                throw sysError.InternalError(error.message, sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }
             else{
-                logger.info('create' + 'success');
-                resUtil.resetCreateRes(res,result,null);
-                return next();
+                params.userId = result.insertId;
+                userDao.queryUser({userId:params.userId},(error,rows)=>{
+                    if(error){
+                        logger.error('queryUser'+error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else if(rows && rows.length < 1){
+                        logger.warn("queryUser"+"创建用户失败");
+                        resUtil.resetFailedRes(res,'创建用户失败',null);
+                    }else{
+                        let user ={
+                            userId: rows[0].id,
+                            wechatName:rows[0].wechat_name,
+                            wechatId: rows[0].wechat_id,
+                            userStatus: rows[0].status
+                        };
+                        let myDate = new Date();
+                        params.lastLoginOn = myDate;
+                        user.lastLoginOn = params.lastLoginOn;
+                        userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
+                        user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
+                        resUtil.resetQueryRes(res,user,null);
+                        return next();
+                    }
+                })
             }
         });
+    }).catch((error)=>{
+        resUtil.resInternalError(error,res,next);
     })
 };
 module.exports ={

@@ -64,13 +64,12 @@ const queryUser = (params,callback) => {
     })
 }
 const createUser = (params,callback)=>{
-    let query = "insert into user_info (wechat_name,wechat_id,gender,avatar_image,password) values(?,?,?,?,?) ";
+    let query = "insert into user_info (wechat_name,wechat_id,gender,avatar_image) values(?,?,?,?) ";
     let paramsArray = [],i=0;
     paramsArray[i++]=params.wechatName;
     paramsArray[i++]=params.wechatId;
     paramsArray[i++]=params.gender;
-    paramsArray[i++]=params.avatarImage;
-    paramsArray[i]=params.password;
+    paramsArray[i]=params.avatarImage;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('createUser');
         callback(error,rows);

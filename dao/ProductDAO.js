@@ -6,14 +6,14 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addProduct = (params,callback) => {
-    let query = "insert into product_info(freight,product_name,original_price,unit_price,type,product_remark)values(?,?,?,?,?,?)";
+    let query = "insert into product_info(freight,product_name,original_price,unit_price,type,remark)values(?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.freight;
     paramsArray[i++] = params.productName;
     paramsArray[i++] = params.originalPrice;
     paramsArray[i++] = params.unitPrice;
     paramsArray[i++] = params.type;
-    paramsArray[i] = params.productRemark;
+    paramsArray[i] = params.remark;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addProduct');
         callback(error,rows);
@@ -76,9 +76,46 @@ const updateStatus = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateProductInfo = (params,callback) => {
+    let query = " update product_info set product_name = ?,original_price=?,unit_price=?,freight=?,remark=? where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.productName;
+    paramsArray[i++] = params.originalPrice;
+    paramsArray[i++] = params.unitPrice;
+    paramsArray[i++] = params.freight;
+    paramsArray[i++] = params.remark;
+    paramsArray[i] = params.productId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateProductInfo');
+        callback(error,rows);
+    })
+}
+const updateImg = (params,callback) => {
+    let query = " update product_info set img = ? where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.img;
+    paramsArray[i] = params.productId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateImg');
+        callback(error,rows);
+    })
+}
+const updateProductRemark = (params,callback) => {
+    let query = " update product_info set product_remark = ? where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.productRemark;
+    paramsArray[i] = params.productId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateProductRemark');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addProduct,
     getProduct,
     getProductToOrderItem,
-    updateStatus
+    updateStatus,
+    updateProductInfo,
+    updateImg,
+    updateProductRemark
 }

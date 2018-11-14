@@ -4504,6 +4504,159 @@
         }
       }
     },
+    "/admin/{adminId}/product/{productId}/productInfo": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user update product info ",
+        "description": "user update product info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productInfo",
+            "in": "body",
+            "description": "productInfo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productInfo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/productStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/product/{productId}/productImg": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user update product img ",
+        "description": "user update product img",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productImg",
+            "in": "body",
+            "description": "productImg",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productImg"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/productStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/product/{productId}/productRemark": {
+      "put": {
+        "tags": [
+          "product"
+        ],
+        "summary": "user update product remark ",
+        "description": "user update product remark",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "productId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "productRemark",
+            "in": "body",
+            "description": "productRemark",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/productRemark"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/productStatus"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/admin/{adminId}/log": {
       "post": {
         "tags": [
@@ -6158,9 +6311,6 @@
         "wechatId": {
           "type": "string"
         },
-        "password": {
-          "type": "string"
-        },
         "gender": {
           "type": "integer"
         },
@@ -6450,12 +6600,38 @@
         "type": {
           "type": "integer"
         },
-        "productRemark": {
+        "remark": {
           "type": "string"
         }
       },
       "xml": {
         "name": "product"
+      }
+    },
+    "productInfo": {
+      "type": "object",
+      "properties": {
+        "productName": {
+          "type": "string"
+        },
+        "originalPrice": {
+          "type": "integer"
+        },
+        "unitPrice": {
+          "type": "integer"
+        },
+        "freight": {
+          "type": "integer"
+        },
+        "type": {
+          "type": "integer"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "productInfo"
       }
     },
     "productStatus": {
@@ -6467,6 +6643,28 @@
       },
       "xml": {
         "name": "productStatus"
+      }
+    },
+    "productImg": {
+      "type": "object",
+      "properties": {
+        "img": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "productImg"
+      }
+    },
+    "productRemark": {
+      "type": "object",
+      "properties": {
+        "productRemark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "productRemark"
       }
     },
     "orderItem": {
