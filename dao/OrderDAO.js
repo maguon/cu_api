@@ -220,13 +220,14 @@ const updateOrderPaymengStatus = (params,callback) => {
 const addOrderItemByProduct = (params,callback) => {
     let query = " insert into order_item " +
                 " (remark,car_id,freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price) " +
-                " select ?,?,1*freight ,?,?,id,product_name,unit_price,1,?*unit_price+1*freight from product_info where id =? ";
+                " select ?,?,1*freight ,?,?,id,product_name,unit_price,?,?*unit_price+1*freight from product_info where id =? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.remark;
     paramsArray[i++] = params.carId;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
-    paramsArray[i++] = params.prodCount;
+    paramsArray[i++] = params.count;
+    paramsArray[i++] = params.count;
     paramsArray[i] = params.productId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addOrderItemByProduct');
