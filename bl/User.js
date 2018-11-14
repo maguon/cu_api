@@ -140,25 +140,23 @@ const userLogin = (req,res,next)=>{
             if(error){
                 logger.error('userLogin'+error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else {
-                if(rows && rows.length < 1){
-                    params.password = encrypt.encryptByMd5(params.password);
-                    resolve(params);
-                }else{
-                    let user ={
-                        userId: rows[0].id,
-                        wechatName:rows[0].wechat_name,
-                        wechatId: rows[0].wechat_id,
-                        userStatus: rows[0].status
-                    };
-                    let myDate = new Date();
-                    params.lastLoginOn = myDate;
-                    user.lastLoginOn = params.lastLoginOn;
-                    userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
-                    user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
-                    resUtil.resetQueryRes(res,user,null);
-                    return next();
-                }
+            }else if(rows && rows.length < 1){
+                params.password = encrypt.encryptByMd5(params.password);
+                resolve(params);
+            }else{
+                let user ={
+                    userId: rows[0].id,
+                    wechatName:rows[0].wechat_name,
+                    wechatId: rows[0].wechat_id,
+                    userStatus: rows[0].status
+                };
+                let myDate = new Date();
+                params.lastLoginOn = myDate;
+                user.lastLoginOn = params.lastLoginOn;
+                userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
+                user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
+                resUtil.resetQueryRes(res,user,null);
+                return next();
             }
         })
     }).then((params)=>{
