@@ -72,8 +72,8 @@ const addOrder = (req,res,next)=>{
             for(let i=0;i<productIds.length;i++){
                 params.productId = productIds[i];
                 params.prodCount = prodCounts[i];
-                params.remark = prodCounts[i];
-                params.carId = prodCounts[i];
+                params.remark = remark[i];
+                params.carId = carId[i];
                 orderDAO.addOrderItemByProduct(params,(error,result)=>{
                     if(error){
                         logger.error('addOrderItemByProduct' + error.message);
