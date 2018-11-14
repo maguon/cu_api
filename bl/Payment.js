@@ -225,18 +225,18 @@ const wechatRefund = (req,res,next)=>{
 };
 const addWechatPayment=(req,res,next) => {
     let params = req.params;
+    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     logger.info("notifyUrlReq");
     logger.info(req);
     logger.info("notifyUrlReqBody");
     logger.info(req.body);
-    xmlParser.parseString(data,(err,result)=>{
+    xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = [{prepayId: evalJson.xml}];
         logger.info("paymentResult1"+prepayIdJson);
         resUtil.resetQueryRes(res,prepayIdJson,null);
     });
-    resUtil.resetQueryRes(res,[],null);
     /*paymentDAO.addWechatPayment(params,(error,result)=>{
         if(error){
             logger.error('addWechatPayment' + error.message);
