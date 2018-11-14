@@ -138,7 +138,7 @@ const userLogin = (req,res,next)=>{
     new Promise((resolve,reject)=>{
         userDao.queryUser({wechatId:params.wechatId},(error,rows)=>{
             if(error){
-                logger.error('userLogin'+error.message);
+                logger.error('queryUser'+error.message);
                 reject(error);
             }else if(rows && rows.length < 1){
                 logger.info("userInfoRows"+rows[0]);
@@ -159,6 +159,8 @@ const userLogin = (req,res,next)=>{
                 return next();
             }
         })
+    }).catch(()=>{
+        resUtil.resInternalError(error,res,next);
     }).then((params)=>{
         userDao.createUser(params,(error,result)=>{
             if(error) {
