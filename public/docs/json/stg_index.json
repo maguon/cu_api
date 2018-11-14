@@ -5741,6 +5741,34 @@
             "description": "logCompanyId",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "companyName",
+            "in": "query",
+            "description": "companyName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -5832,6 +5860,85 @@
             "description": "logCompanyId",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "companyName",
+            "in": "query",
+            "description": "companyName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "description": "start",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "size",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/logCompany"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid user id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/logCompany/{logCompanyId}/logCompanyInfo": {
+      "put": {
+        "tags": [
+          "logCompany"
+        ],
+        "summary": "put logCompany",
+        "description": "put logCompany",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "admin Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logCompanyId",
+            "in": "path",
+            "description": "logCompany Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "logCompanyInfo",
+            "in": "body",
+            "description": "logCompanyInfo",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/logCompanyInfo"
+            }
           }
         ],
         "responses": {
@@ -6578,10 +6685,32 @@
       "properties": {
         "companyName": {
           "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
         }
       },
       "xml": {
         "name": "logCompany"
+      }
+    },"logCompanyInfo": {
+      "type": "object",
+      "properties": {
+        "companyName": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "logCompanyInfo"
       }
     },
     "addOrder": {
