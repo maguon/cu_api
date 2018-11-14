@@ -135,7 +135,7 @@ const queryUser = (req,res,next)=>{
 };
 const userLogin = (req,res,next)=>{
     let params = req.params;
-    new Promise((resolve)=>{
+    new Promise((resolve,reject)=>{
         userDao.queryUser({wechatId:params.wechatId},(error,rows)=>{
             if(error){
                 logger.error('userLogin'+error.message);
@@ -143,7 +143,7 @@ const userLogin = (req,res,next)=>{
             }else {
                 if(rows && rows.length < 1){
                     params.password = encrypt.encryptByMd5(params.password);
-                    resolve();
+                    resolve(params);
                 }else{
                     let user ={
                         userId: rows[0].id,
@@ -156,10 +156,12 @@ const userLogin = (req,res,next)=>{
                     user.lastLoginOn = params.lastLoginOn;
                     userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
                     user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
+                    resUtil.resetQueryRes(res,user,null);
+                    return next();
                 }
             }
         })
-    }).then(()=>{
+    }).then((params)=>{
         userDao.createUser(params,(error,result)=>{
             if(error) {
                 logger.error('createUser' + error.message);
