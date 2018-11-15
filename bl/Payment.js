@@ -62,8 +62,15 @@ const wechatPayment = (req,res,next)=>{
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let body = 'test';
     let jsa = 'JSAPI';
-    let ppUrl = "http://stg.myxxjs.com:9201/api/wechatPayment";
     let params = req.params;
+    paymentDAO.addWechatPayment(params,(error,result)=>{
+        if(error){
+            logger.error('getPayment' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getPayment' + 'success');
+        }
+    });
     let requestIp = req.connection.remoteAddress.replace('::ffff:','');
     let ourString = encrypt.randomString();
     let signStr =
@@ -132,7 +139,6 @@ const wechatPayment = (req,res,next)=>{
             res.send(500,e);
             return next();
         });
-
     });
     httpsReq.write(reqBody,"utf-8");
     httpsReq.end();
@@ -224,7 +230,6 @@ const wechatRefund = (req,res,next)=>{
     })
 };
 const addWechatPayment=(req,res,next) => {
-    let params = req.params;
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     logger.info("notifyUrlReq");
     logger.info(req);
@@ -233,20 +238,38 @@ const addWechatPayment=(req,res,next) => {
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
         let evalJson = eval('(' + resString + ')');
-        let prepayIdJson = [{prepayId: evalJson.xml}];
-        logger.info("paymentResult1"+resString);
-        resUtil.resetQueryRes(res,prepayIdJson,null);
+        let prepayIdJson = {
+            nonceStr: evalJson.xml.nonce_str,
+            openid: evalJson.xml.openid,
+            orderId: evalJson.xml.out_trade_no,
+            timeEnd: evalJson.xml.time_end,
+            transactionId: evalJson.xml.transaction_id,
+            status: 1,
+            type:1
+        };
+        paymentDAO.getPayment({orderId:prepayIdJson.orderId},(error,rows)=>{
+            if(error){
+                logger.error('getPayment' + error.message);
+                resUtil.resInternalError(error, res, next);
+            }else if(rows && rows.length < 1){
+                logger.warn('addWechatPayment' + '没有此支付信息');
+                resUtil.resetFailedRes(res,'没有此支付信息',null);
+            }else{
+                logger.info("paymentResult1"+resString);
+                prepayIdJson.paymentId = rows[0].id;
+                paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
+                    if(error){
+                        logger.error('updateWechatPayment' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('updateWechatPayment' + 'success');
+                        resUtil.resetCreateRes(res,result,null);
+                        return next();
+                    }
+                });
+            }
+        })
     });
-    /*paymentDAO.addWechatPayment(params,(error,result)=>{
-        if(error){
-            logger.error('addWechatPayment' + error.message);
-            resUtil.resInternalError(error, res, next);
-        }else{
-            logger.info('addWechatPayment' + 'success');
-            resUtil.resetCreateRes(res,result,null);
-            return next();
-        }
-    });*/
 }
 const addWechatRefund=(req,res,next) => {
     let params = req.params;

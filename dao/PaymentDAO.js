@@ -84,15 +84,29 @@ const updateStatus = (req,res,next) => {
     })
 }
 const addWechatPayment = (params,callback) => {
-    let query = " insert into payment_info (user_id,order_id,total_fee,type,remark) values(?,?,?,?,?)";
+    let query = " insert into payment_info (user_id,order_id,total_fee,status,type,payment_type) values(?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = params.totalFee;
-    paramsArray[i++] = params.type;
-    paramsArray[i] = params.remark;
+    paramsArray[i++] = 0;
+    paramsArray[i++] = 1;
+    paramsArray[i] = 1;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addWechatPayment');
+        callback(error,rows);
+    })
+}
+const updateWechatPayment = (params,callback) => {
+    let query = " update payment_info set type=?,status=?,transaction_id=? where paymentId = ? and nonce_str=?";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.type;
+    paramsArray[i++] = params.status;
+    paramsArray[i++] = params.transactionId;
+    paramsArray[i++] = params.paymentId;
+    paramsArray[i] = params.nonceStr;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateWechatPayment');
         callback(error,rows);
     })
 }
@@ -153,6 +167,7 @@ module.exports = {
     getPayment,
     updateStatus,
     addWechatPayment,
+    updateWechatPayment,
     addWechatRefund,
     updateRefund,
     getRefundByPaymentId,
