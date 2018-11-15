@@ -77,13 +77,14 @@ const updateStatus = (params,callback) => {
     })
 }
 const updateProductInfo = (params,callback) => {
-    let query = " update product_info set product_name = ?,original_price=?,unit_price=?,freight=?,remark=? where id=? ";
+    let query = " update product_info set product_name = ?,original_price=?,unit_price=?,freight=?,remark=?,type=? where id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.productName;
     paramsArray[i++] = params.originalPrice;
     paramsArray[i++] = params.unitPrice;
     paramsArray[i++] = params.freight;
     paramsArray[i++] = params.remark;
+    paramsArray[i++] = params.type;
     paramsArray[i] = params.productId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateProductInfo');
