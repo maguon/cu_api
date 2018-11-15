@@ -65,14 +65,24 @@ const wechatPayment = (req,res,next)=>{
     let params = req.params;
     let ourString = encrypt.randomString();
     params.nonceStr = ourString;
-    paymentDAO.addWechatPayment(params,(error,result)=>{
+    paymentDAO.getPayment({orderId:params.orderId},(error,rows)=>{
         if(error){
             logger.error('getPayment' + error.message);
             resUtil.resInternalError(error, res, next);
+        }else if(rows && rows > 0){
+            logger.warn('getPayment' + '已经生成支付信息');
+            resUtil.resetFailedRes(res,'已经生成支付信息',null);
         }else{
-            logger.info('getPayment' + 'success');
+            paymentDAO.addWechatPayment(params,(error,result)=>{
+                if(error){
+                    logger.error('addWechatPayment' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else{
+                    logger.info('addWechatPayment' + 'success');
+                }
+            });
         }
-    });
+    })
     let requestIp = req.connection.remoteAddress.replace('::ffff:','');
     let signStr =
           "appid="+sysConfig.wechatConfig.mpAppId
