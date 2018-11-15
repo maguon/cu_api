@@ -32,7 +32,7 @@ const getProduct = (params,callback) => {
     }
     if(params.type){
         paramsArray[i++] = params.type;
-        query = query + " and type) = ? ";
+        query = query + " and type = ? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
