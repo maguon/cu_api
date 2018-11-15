@@ -72,10 +72,10 @@ const updateUserShipAddressById = (params,callback) => {
     })
 }
 const updateUserShipAddress = (params,callback) => {
-    let query = " update user_ship_address set status = 0 where user_id = ? ";
+    let query = " update user_ship_address set status = 0 where user_id=? ";
     let paramsArray = [],i=0;
     paramsArray[i] = params.userId;
-    db.dbQuery(query,null,(error,rows)=>{
+    db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateUserShipAddress');
         callback(error,rows);
     })

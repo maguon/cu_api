@@ -37,12 +37,12 @@ const updateUserShipAddress = (req,res,next)=>{
     userShipAddressDAO.updateUserShipAddress(params,(error,result)=>{
         if(error){
             logger.error('updateUserShipAddress' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             userShipAddressDAO.updateUserShipAddressById(params,(error,result)=>{
                 if(error){
                     logger.error('updateUserShipAddressById' + error.message);
-                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                    resUtil.resInternalError(error, res, next);
                 }else{
                     logger.info('updateUserShipAddressById' + 'success');
                     resUtil.resetUpdateRes(res,result,null);
