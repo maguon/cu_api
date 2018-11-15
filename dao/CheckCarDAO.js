@@ -174,6 +174,10 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.userCarId;
         query = query + " and cci.car_id = ?";
     }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and cci.status = ?";
+    }
     if(params.phone){
         paramsArray[i++] = params.phone;
         query = query + " and ui.phone = ?";
