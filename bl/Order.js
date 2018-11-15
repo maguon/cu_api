@@ -58,6 +58,7 @@ const addOrder = (req,res,next)=>{
             logger.error('addOrder' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
+            let resultOrderId = [{orderId: result.insertId}];
             logger.info('addOrder' + 'success');
             orderId = result.insertId;
             params.orderId = orderId;
@@ -107,7 +108,7 @@ const addOrder = (req,res,next)=>{
                             resUtil.resInternalError(error, res, next);
                         }else{
                             logger.info('updateOrderPrice' + 'success');
-                            resUtil.resetUpdateRes(res,result,null);
+                            resUtil.resetQueryRes(res,resultOrderId,null);
                             return next();
                         }
                     });
