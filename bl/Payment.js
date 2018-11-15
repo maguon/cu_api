@@ -234,7 +234,7 @@ const addWechatPayment=(req,res,next) => {
         let resString = JSON.stringify(result);
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = [{prepayId: evalJson.xml}];
-        logger.info("paymentResult1"+prepayIdJson);
+        logger.info("paymentResult1"+resString);
         resUtil.resetQueryRes(res,prepayIdJson,null);
     });
     /*paymentDAO.addWechatPayment(params,(error,result)=>{

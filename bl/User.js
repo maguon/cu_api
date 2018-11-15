@@ -159,8 +159,6 @@ const userLogin = (req,res,next)=>{
                 return next();
             }
         })
-    }).catch(()=>{
-        resUtil.resInternalError(error,res,next);
     }).then((params)=>{
         userDao.createUser(params,(error,result)=>{
             if(error) {
