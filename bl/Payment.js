@@ -63,6 +63,8 @@ const wechatPayment = (req,res,next)=>{
     let body = 'test';
     let jsa = 'JSAPI';
     let params = req.params;
+    let ourString = encrypt.randomString();
+    params.nonceStr = ourString;
     paymentDAO.addWechatPayment(params,(error,result)=>{
         if(error){
             logger.error('getPayment' + error.message);
@@ -72,7 +74,6 @@ const wechatPayment = (req,res,next)=>{
         }
     });
     let requestIp = req.connection.remoteAddress.replace('::ffff:','');
-    let ourString = encrypt.randomString();
     let signStr =
           "appid="+sysConfig.wechatConfig.mpAppId
         + "&body="+body

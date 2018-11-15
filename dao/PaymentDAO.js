@@ -84,11 +84,12 @@ const updateStatus = (req,res,next) => {
     })
 }
 const addWechatPayment = (params,callback) => {
-    let query = " insert into payment_info (user_id,order_id,total_fee,status,type,payment_type) values(?,?,?,?,?,?)";
+    let query = " insert into payment_info (user_id,order_id,total_fee,nonce_str,status,type,payment_type) values(?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = params.totalFee;
+    paramsArray[i++] = params.nonceStr;
     paramsArray[i++] = 0;
     paramsArray[i++] = 1;
     paramsArray[i] = 1;
