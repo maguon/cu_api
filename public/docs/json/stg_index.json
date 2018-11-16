@@ -5812,7 +5812,7 @@
         }
       }
     },
-    "/admin/{adminId}/order/{orderId}/payment/{paymentId}/wechatRefund": {
+    "/admin/{adminId}/user/{userId}/order/{orderId}/wechatRefund": {
       "post": {
         "tags": [
           "payment"
@@ -5838,9 +5838,9 @@
             "type": "integer"
           },
           {
-            "name": "paymentId",
+            "name": "userId",
             "in": "path",
-            "description": "payment Id",
+            "description": "user Id",
             "required": true,
             "type": "integer"
           },
