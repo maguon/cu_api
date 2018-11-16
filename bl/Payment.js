@@ -198,7 +198,7 @@ const wechatRefund = (req,res,next)=>{
                         '<nonce_str>'+ourString+'</nonce_str>' +
                         '<notify_url>'+refundUrl+'</notify_url>' +
                         //'<openid>'+params.openid+'</openid>' +
-                        '<out_refund_no>'+params.orderId+'</out_refund_no>' +
+                        '<out_refund_no>'+params.refundId+'</out_refund_no>' +
                         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
                         '<refund_fee>'+params.refundFee+'</refund_fee>' +
                         '<total_fee>'+params.totalFee+'</total_fee>' +
