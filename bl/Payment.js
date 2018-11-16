@@ -228,7 +228,7 @@ const wechatRefund = (req,res,next)=>{
                                 let resString = JSON.stringify(result);
                                 let evalJson = eval('(' + resString + ')');
                                 let prepayIdJson = [{prepayId: evalJson.xml}];
-                                logger.info("paymentResult2"+prepayIdJson);
+                                logger.info("paymentResult2"+resString);
                                 resUtil.resetQueryRes(res,prepayIdJson,null);
                             });
                             res.send(200,data);
