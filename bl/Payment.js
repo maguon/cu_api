@@ -297,7 +297,7 @@ const addWechatRefund=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
-        logger.info("notifyUrlReqBodyRefund");
+        logger.info("notifyUrlReqBodyRefund2");
         logger.info(resString);
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = {
