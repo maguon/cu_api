@@ -23,6 +23,7 @@ const log = require('./bl/Log.js');
 const orderFeedback = require('./bl/OrderFeedback.js');
 const payment = require('./bl/Payment.js');
 const logCompany = require('./bl/LogCompany.js');
+const sysRecord = require('./bl/SysRecord.js');
 
 /**
  * Returns a server with all routes defined on it
@@ -123,7 +124,7 @@ function createServer() {
      */
     server.get('/api/admin/:adminId/checkCar',checkCar.queryCheckCar);
     server.put({path:'/api/supervise/:superviseId/checkCar/:checkCarId/status/:status',contentType: 'application/json'},checkCar.updateStatus);
-    server.post({path:'/api/supervise/:superviseId/checkCar',contentType: 'application/json'},checkCar.addCheckCar);
+    server.post({path:'/api/supervise/:superviseId/checkCar',contentType: 'application/json'},checkCar.addCheckCar,sysRecord.saveCheckRecord);
     //发送消息
     server.get('/api/supervise/:superviseId/monthStat',checkCar.queryCarByMonth);
     server.get('/api/supervise/:superviseId/checkCar',checkCar.queryCheckCar);

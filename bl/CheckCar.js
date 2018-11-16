@@ -42,10 +42,14 @@ const addCheckCar = (req,res,next) => {
     checkCarDAO.addCheckCar(params,(error,result)=>{
         if (error) {
             logger.error(' addCheckCar ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' addCheckCar ' + "success");
-            resUtil.resetCreateRes(res,result,null) ;
+            params.checkCarId = result.insertId;
+            params.checkContent =" 扫码成功 ";
+            params.checkId = params.checkCarId;
+            params.carNo = params.userCarId;
+            resUtil.resetCreateRes(res,result,null);
             return next();
         }
     })
