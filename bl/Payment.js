@@ -161,6 +161,8 @@ const wechatPayment = (req,res,next)=>{
 }
 const wechatRefund = (req,res,next)=>{
     let params = req.params;
+    let ourString = encrypt.randomString();
+    params.nonceStr = ourString;
     paymentDAO.getPayment({orderId:params.orderId},(error,rows)=>{
         if(error){
             logger.error('getPayment' + error.message);
@@ -168,8 +170,10 @@ const wechatRefund = (req,res,next)=>{
         }else{
             logger.info('getPayment' + 'success');
             params.totalFee = rows[0].total_fee;
-            params.type = 1;
+            params.type = 2;
             params.paymentId = rows[0].id;
+            let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
+            let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
             paymentDAO.addWechatRefund(params,(error,result)=>{
                 if(error){
                     logger.error('addWechatRefund' + error.message);
@@ -177,9 +181,6 @@ const wechatRefund = (req,res,next)=>{
                 }else{
                     logger.info('addWechatRefund '+'success');
                     params.refundId = result.insertId;
-                    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-                    let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
-                    let ourString = encrypt.randomString();
                     let signStr =
                         "appid="+sysConfig.wechatConfig.mpAppId
                         + "&mch_id="+sysConfig.wechatConfig.mchId
@@ -305,15 +306,14 @@ const addWechatRefund=(req,res,next) => {
             orderId: evalJson.xml.out_trade_no,
             timeEnd: evalJson.xml.time_end,
             transactionId: evalJson.xml.transaction_id,
-            status: 1,
-            type:2
+            status: 1
         };
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
             if(error){
-                logger.error('addWechatRefund' + error.message);
+                logger.error('updateRefund' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info('addWechatRefund' + 'success');
+                logger.info('updateRefund' + 'success');
                 resUtil.resetCreateRes(res,result,null);
                 return next();
             }
