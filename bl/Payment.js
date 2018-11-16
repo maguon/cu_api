@@ -255,8 +255,7 @@ const addWechatPayment=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     logger.info("notifyUrlReq");
     logger.info(req);
-    logger.info("notifyUrlReqBodyRefund");
-    logger.info("1");
+    logger.info("notifyUrlReqBodyRefund1");
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
         let evalJson = eval('(' + resString + ')');
