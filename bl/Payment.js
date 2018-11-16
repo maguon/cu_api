@@ -294,8 +294,6 @@ const addWechatPayment=(req,res,next) => {
     });
 }
 const addWechatRefund=(req,res,next) => {
-    logger.info("notifyUrlReqBodyRefund");
-    logger.info(req.body);
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
@@ -308,6 +306,8 @@ const addWechatRefund=(req,res,next) => {
             transactionId: evalJson.xml.transaction_id,
             status: 1
         };
+        logger.info("notifyUrlReqBodyRefund");
+        logger.info(resString);
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
             if(error){
                 logger.error('updateRefund' + error.message);
