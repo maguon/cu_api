@@ -184,7 +184,7 @@ const wechatRefund = (req,res,next)=>{
                     let signStr =
                         "appid="+sysConfig.wechatConfig.mpAppId
                         + "&mch_id="+sysConfig.wechatConfig.mchId
-                        + "&nonce_str="+ourString
+                        + "&nonce_str="+params.nonceStr
                         + "&notify_url="+refundUrl
                         //+ "&openid="+params.openid
                         + "&out_refund_no="+params.refundId
@@ -196,7 +196,7 @@ const wechatRefund = (req,res,next)=>{
                     let reqBody =
                         '<xml><appid>'+sysConfig.wechatConfig.mpAppId+'</appid>' +
                         '<mch_id>'+sysConfig.wechatConfig.mchId+'</mch_id>' +
-                        '<nonce_str>'+ourString+'</nonce_str>' +
+                        '<nonce_str>'+params.nonceStr+'</nonce_str>' +
                         '<notify_url>'+refundUrl+'</notify_url>' +
                         //'<openid>'+params.openid+'</openid>' +
                         '<out_refund_no>'+params.refundId+'</out_refund_no>' +
@@ -297,7 +297,6 @@ const addWechatRefund=(req,res,next) => {
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
         logger.info("notifyUrlReqBodyRefund4" +resString);
-        logger.info(resString);
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = {
             nonceStr: evalJson.xml.nonce_str,
