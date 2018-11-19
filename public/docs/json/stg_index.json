@@ -12,7 +12,7 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "stg.myxxjs.com:9201",
+  "host": "localhost:9201",
   "basePath": "/api",
   "tags": [
     {
@@ -1300,6 +1300,20 @@
             "name": "status",
             "in": "query",
             "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
             "required": false,
             "type": "integer"
           }

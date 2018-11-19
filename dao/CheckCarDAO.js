@@ -122,7 +122,7 @@ const queryCarByDay = (params,callback) => {
     });
 }
 const queryCarNumByDay = (params,callback) => {
-    let query = " select count(uc.id) as count from check_car_info uc " +
+    let query = " select uc.date_id,count(uc.id) as count from check_car_info uc " +
                 " left join date_base db on db.id=uc.date_id " +
                 " where uc.id is not null ";
     let paramsArray = [],i=0;
@@ -135,9 +135,20 @@ const queryCarNumByDay = (params,callback) => {
         query = query + " and uc.date_id = ?";
     }
     if(params.status){
-        paramsArray[i] = params.status;
+        paramsArray[i++] = params.status;
         query = query + " and uc.status = ?";
     }
+    if(params.dateIdStart){
+        paramsArray[i++] = params.dateIdStart;
+        query = query + " and uc.date_id >= ?";
+    }
+    if(params.dateIdEnd){
+        paramsArray[i] = params.dateIdEnd;
+        query = query + " and uc.date_id <= ?";
+    }
+
+        query = query + " GROUP BY uc.date_id ";
+
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' queryCarNumByDay ');
         return callback(error,rows);
