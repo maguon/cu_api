@@ -301,6 +301,7 @@ const addWechatRefund=(req,res,next) => {
             transactionId: 2,
             status: 1
         };
+        logger.info("notifyUrlReqBodyRefund4" +resString);
         let reqInfo = encrypt.base64Decode(evalJson.xml.req_info);
         let reqInfoKey = encrypt.decryptByACE(reqInfo,sysConfig.wechatConfig.paymentKey);
             logger.info("reqInfoKeyRow"+ reqInfo);
