@@ -301,10 +301,7 @@ const addWechatRefund=(req,res,next) => {
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = {
             nonceStr: evalJson.xml.nonce_str,
-            openid: evalJson.xml.openid,
-            orderId: evalJson.xml.out_trade_no,
-            timeEnd: evalJson.xml.time_end,
-            transactionId: evalJson.xml.transaction_id,
+            transactionId: 2,
             status: 1
         };
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
