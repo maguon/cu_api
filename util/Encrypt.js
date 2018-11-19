@@ -30,7 +30,7 @@ function encryptByAES(plainText){
 }
 
 function decryptByAES(cipherText,key){
-    var decipher = crypto.createDecipher('aes-256-cbc',key);
+    var decipher = crypto.createDecipher('AES-256-ECB',key);
     var dec = decipher.update(cipherText,'hex','utf8');
     if(dec == null || dec.length<1){
         return null;
