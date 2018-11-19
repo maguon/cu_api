@@ -99,13 +99,12 @@ const addWechatPayment = (params,callback) => {
     })
 }
 const updateWechatPayment = (params,callback) => {
-    let query = " update payment_info set type=?,status=?,transaction_id=? where id = ? and nonce_str=?";
+    let query = " update payment_info set type=?,status=?,transaction_id=? where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.type;
     paramsArray[i++] = params.status;
     paramsArray[i++] = params.transactionId;
-    paramsArray[i++] = params.paymentId;
-    paramsArray[i] = params.nonceStr;
+    paramsArray[i] = params.paymentId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateWechatPayment');
         callback(error,rows);

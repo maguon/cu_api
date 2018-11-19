@@ -227,9 +227,8 @@ const wechatRefund = (req,res,next)=>{
                             xmlParser.parseString(data,(err,result)=>{
                                 let resString = JSON.stringify(result);
                                 let evalJson = eval('(' + resString + ')');
-                                let prepayIdJson = [{prepayId: evalJson.xml}];
                                 logger.info("paymentResult2"+resString);
-                                resUtil.resetQueryRes(res,prepayIdJson,null);
+                                resUtil.resetQueryRes(res,evalJson.xml,null);
                             });
                             res.send(200,data);
                             return next();
@@ -296,18 +295,21 @@ const addWechatRefund=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
-        logger.info("notifyUrlReqBodyRefund4" +resString);
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = {
             nonceStr: evalJson.xml.nonce_str,
             transactionId: 2,
             status: 1
         };
+        let reqInfo = encrypt.base64Decode(evalJson.xml.req_info);
+        let reqInfoKey = encrypt.decryptByACE(reqInfo,sysConfig.wechatConfig.paymentKey);
+        logger.info("reqInfoKeyResult"+ reqInfoKey);
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
             if(error){
                 logger.error('updateRefund' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
+                logger.info("notifyUrlReqBodyRefund4" +resString);
                 logger.info('updateRefund' + 'success');
                 resUtil.resetCreateRes(res,result,null);
                 return next();
