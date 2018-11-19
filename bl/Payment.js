@@ -163,6 +163,8 @@ const wechatRefund = (req,res,next)=>{
     let params = req.params;
     let ourString = encrypt.randomString();
     params.nonceStr = ourString;
+    let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
+    let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
     paymentDAO.getPayment({orderId:params.orderId},(error,rows)=>{
         if(error){
             logger.error('getPayment' + error.message);
@@ -172,8 +174,6 @@ const wechatRefund = (req,res,next)=>{
             params.totalFee = rows[0].total_fee;
             params.type = 2;
             params.paymentId = rows[0].id;
-            let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-            let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
             paymentDAO.addWechatRefund(params,(error,result)=>{
                 if(error){
                     logger.error('addWechatRefund' + error.message);
