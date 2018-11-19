@@ -56,7 +56,7 @@ const addCheckCar = (params,callback) => {
     });
 }
 const queryCarByMonth = (params,callback) => {
-    let query = " select db.id,count(cc.id) as car_count from date_base db " +
+    let query = " select cc.date_id,count(cc.id) as car_count from date_base db " +
                 " left join check_car_info cc on db.id = cc.date_id " +
                 " where cc.id is not null ";
     let paramsArray = [],i=0;
@@ -67,6 +67,14 @@ const queryCarByMonth = (params,callback) => {
     if(params.yMonth){
         paramsArray[i++] = params.yMonth;
         query = query + " and db.y_Month = ?";
+    }
+    if(params.dateIdStart){
+        paramsArray[i++] = params.dateIdStart;
+        query = query + " and cc.date_id >= ?";
+    }
+    if(params.dateIdEnd){
+        paramsArray[i++] = params.dateIdEnd;
+        query = query + " and cc.date_id <= ?";
     }
     query = query + " GROUP BY db.id ORDER BY db.id DESC ";
     if(params.start&&params.size){
