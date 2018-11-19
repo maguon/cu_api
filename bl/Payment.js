@@ -301,9 +301,9 @@ const addWechatRefund=(req,res,next) => {
             transactionId: 2,
             status: 1
         };
-        let reqInfo = encrypt.base64Decode(evalJson.xml.req_info);
+        let reqInfo = encrypt.base64Encode(evalJson.xml.req_info);
         let reqInfoKey = encrypt.decryptByACE(reqInfo,encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey));
-        logger.info("reqInfoKeyRow"+ reqInfo);
+            logger.info("reqInfoKeyRow"+ reqInfo);
         logger.info("reqInfoKeyResult"+ reqInfoKey);
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
             if(error){
