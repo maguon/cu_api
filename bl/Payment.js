@@ -172,7 +172,7 @@ const wechatRefund = (req,res,next)=>{
         }else{
             logger.info('getPayment' + 'success');
             params.totalFee = rows[0].total_fee;
-            params.type = 2;
+            params.type = 0;
             params.paymentId = rows[0].id;
             paymentDAO.addWechatRefund(params,(error,result)=>{
                 if(error){

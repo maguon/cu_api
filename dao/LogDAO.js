@@ -6,7 +6,7 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addLog = (params,callback) => {
-    let query = "insert into log_info(user_id,order_id,product_des,type,recv_name,recv_phone,recv_address)values(?,?,?,?,?,?,?)";
+    let query = "insert into log_info(user_id,order_id,product_des,type,recv_name,recv_phone,recv_address,freight,remark,log_company_id,log_num)values(?,?,?,?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
@@ -14,7 +14,11 @@ const addLog = (params,callback) => {
     paramsArray[i++] = params.type;
     paramsArray[i++] = params.recvName;
     paramsArray[i++] = params.recvPhone;
-    paramsArray[i] = params.recvAddress;
+    paramsArray[i++] = params.recvAddress;
+    paramsArray[i++] = params.freight;
+    paramsArray[i++] = params.remark;
+    paramsArray[i++] = params.logCompanyId;
+    paramsArray[i] = params.logNum;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('addLog');
         callback(error,rows);

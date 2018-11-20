@@ -20,6 +20,8 @@ const addLog = (req,res,next)=>{
             }else{
                 logger.info('getOrder '+ 'success');
                 params.userId = rows[0].user_id;
+                params.freight = rows[0].total_freight;
+                params.remark = rows[0].remark;
                 resolve();
             }
         })
