@@ -401,6 +401,19 @@ const changeSuperviseToken=(req,res,next)=>{
         return next();
     }
 }
+const updateSuperviseImg = (req,res,next) => {
+    let params = req.params;
+    superviseDao.updateSuperviseImg(params,(error,result)=>{
+        if (error) {
+            logger.error(' updateSuperviseImg ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' updateSuperviseImg ' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    })
+}
 module.exports = {
     createSupervise,
     superviseLogin,
@@ -411,5 +424,6 @@ module.exports = {
     changeSupervisePhone,
     updateSuperviseStatus,
     changeSupervisePasswordByPhone,
-    changeSuperviseToken
+    changeSuperviseToken,
+    updateSuperviseImg
 }

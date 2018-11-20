@@ -696,6 +696,48 @@
         }
       }
     },
+    "/supervise/{superviseId}/img/{img}": {
+      "put": {
+        "tags": [
+          "supervise"
+        ],
+        "summary": "update supervise info",
+        "description": "update supervise info",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "superviseId",
+            "in": "path",
+            "description": "supervise Id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "img",
+            "in": "path",
+            "description": "img",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/supervise"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid supervise id"
+          }
+        }
+      }
+    },
     "/admin/{adminId}/supervise/{superviseId}/status/{status}": {
       "put": {
         "tags": [

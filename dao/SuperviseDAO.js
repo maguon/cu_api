@@ -198,6 +198,16 @@ const addSuperviseDevice=(params,callback)=>{
         return callback(error,rows);
     });
 }
+const updateSuperviseImg = (params,callback) => {
+    let query = " update supervise_info set avatar_image = ? where id = ?";
+    let paramsArray=[],i=0;
+    paramsArray[i++] = params.img;
+    paramsArray[i] = params.superviseId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' updateSuperviseImg ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     createSupervise,
     querySupervise,
@@ -211,5 +221,6 @@ module.exports = {
     deleteSuperviseDevice,
     addSuperviseDevice,
     updatePasswordByPhone,
-    querySupervisePass
+    querySupervisePass,
+    updateSuperviseImg
 }
