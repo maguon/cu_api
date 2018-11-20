@@ -2805,6 +2805,20 @@
             "type": "integer"
           },
           {
+            "name": "productId",
+            "in": "query",
+            "description": "productId",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "productName",
+            "in": "query",
+            "description": "productName",
+            "required": false,
+            "type": "string"
+          },
+          {
             "name": "carId",
             "in": "query",
             "description": "carId",

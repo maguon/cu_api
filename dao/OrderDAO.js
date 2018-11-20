@@ -109,10 +109,11 @@ const updateOrderPrice = (params,callback) => {
     })
 }
 const getOrderItem = (params,callback) => {
-    let query = " select oi.id as order_id,oit.imag,oit.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status from order_item oit " +
+    let query = " select oi.id as order_id,oit.imag,oit.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oit.product_id,oit.product_name,ui.wechat_name,uc.license_plate,oit.id,oi.order_name,oit.prod_count,oit.unit_price,oit.freight,oit.total_price,ui.user_name,ui.phone,oit.created_on,oi.payment_status,oi.log_status from order_item oit " +
                 " left join order_info oi on oit.order_id=oi.id " +
                 " left join user_info ui on ui.id=oit.user_id " +
                 " left join user_car uc on uc.id=oit.car_id " +
+                " left join product_info pi on pi.id=oit.product_id " +
                 " where oit.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
@@ -126,6 +127,14 @@ const getOrderItem = (params,callback) => {
     if(params.orderItemId){
         paramsArray[i++] = params.orderItemId;
         query = query + " and oit.id =? ";
+    }
+    if(params.productId){
+        paramsArray[i++] = params.productId;
+        query = query + " and oit.product_id =? ";
+    }
+    if(params.productName){
+        paramsArray[i++] = params.productName;
+        query = query + " and pi.product_name =? ";
     }
     if(params.carId){
         paramsArray[i++] = params.carId;
@@ -153,11 +162,11 @@ const getOrderItem = (params,callback) => {
     }
     if(params.createdOnStart){
         paramsArray[i++] = params.createdOnStart+" 00:00:00 ";
-        query = query + " and oi.created_on >= ? ";
+        query = query + " and oit.created_on >= ? ";
     }
     if(params.createdOnEnd){
         paramsArray[i++] = params.createdOnEnd+" 23:59:59 ";
-        query = query + " and oi.created_on <= ? ";
+        query = query + " and oit.created_on <= ? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
