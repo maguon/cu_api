@@ -201,7 +201,7 @@ const addSuperviseDevice=(params,callback)=>{
 const updateSuperviseImg = (params,callback) => {
     let query = " update supervise_info set avatar_image = ? where id = ?";
     let paramsArray=[],i=0;
-    paramsArray[i++] = params.img;
+    paramsArray[i++] = params.avatarImage;
     paramsArray[i] = params.superviseId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' updateSuperviseImg ');

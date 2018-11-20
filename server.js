@@ -112,7 +112,7 @@ function createServer() {
     server.get('/api/supervise',supervise.querySupervise);
     server.get('/api/admin/:adminId/supervise',supervise.querySupervise);
     server.put({path:'/api/admin/:adminId/supervise/:superviseId/status/:status',contentType: 'application/json'},supervise.updateSuperviseStatus);
-    server.put({path:'/api/supervise/:superviseId/img/:img',contentType: 'application/json'},supervise.updateSuperviseImg);
+    server.put({path:'/api/supervise/:superviseId/avatarImage/:avatarImage',contentType: 'application/json'},supervise.updateSuperviseImg);
     server.put({path:'/api/admin/:adminId/supervise/:superviseId',contentType: 'application/json'},supervise.updateSuperviseInfo);
     server.put({path:'/api/supervise/:superviseId/password',contentType: 'application/json'},supervise.changeSupervisePassword);
     server.put({path:'/api/supervise/:superviseId/phone',contentType: 'application/json'},supervise.changeSupervisePhone);

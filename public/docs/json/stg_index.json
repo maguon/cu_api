@@ -696,7 +696,7 @@
         }
       }
     },
-    "/supervise/{superviseId}/img/{img}": {
+    "/supervise/{superviseId}/avatarImage/{avatarImage}": {
       "put": {
         "tags": [
           "supervise"
@@ -715,9 +715,9 @@
             "type": "integer"
           },
           {
-            "name": "img",
+            "name": "avatarImage",
             "in": "path",
-            "description": "img",
+            "description": "avatarImage",
             "required": true,
             "type": "string"
           }
