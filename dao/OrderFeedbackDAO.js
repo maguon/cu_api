@@ -73,43 +73,47 @@ const getOrderFeedback = (params,callback) => {
     })
 }
 const updateOrderFeedbackPayment = (params,callback) => {
-    let query = "update order_feedback set process_remark=?,process_method=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? where id = ? and order_id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
-    paramsArray[i] = params.orderFeedbackId;
+    paramsArray[i++] = params.orderFeedbackId;
+    paramsArray[i] = params.orderId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateOrderFeedbackPayment');
         callback(error,rows);
     })
 }
 const updateOrderFeedbackCount = (params,callback) => {
-    let query = "update order_feedback set process_remark=?,process_method=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? where id = ? and order_id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
-    paramsArray[i] = params.orderFeedbackId;
+    paramsArray[i++] = params.orderFeedbackId;
+    paramsArray[i] = params.orderId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateOrderFeedbackCount');
         callback(error,rows);
     })
 }
 const updateOrderFeedbackRemark = (params,callback) => {
-    let query = "update order_feedback set process_remark=?,process_method=? where id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? where id = ? and order_id=? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
-    paramsArray[i] = params.orderFeedbackId;
+    paramsArray[i++] = params.orderFeedbackId;
+    paramsArray[i] = params.orderId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateOrderFeedbackRemark');
         callback(error,rows);
     })
 }
 const updateOrderFeedbackStatus = (params,callback) => {
-    let query = "update order_feedback set status=? where id = ? ";
+    let query = "update order_feedback set status=? where id = ? and order_id=?";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.status;
-    paramsArray[i] = params.orderFeedbackId;
+    paramsArray[i++] = params.orderFeedbackId;
+    paramsArray[i] = params.orderId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateOrderFeedbackStatus');
         callback(error,rows);
