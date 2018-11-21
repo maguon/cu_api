@@ -30,7 +30,7 @@ function encryptByAES(plainText){
 }
 
 function decryptByAES(cipherText,key){
-    var decipher = crypto.createDecipher('aes-256-cbc',key);
+    var decipher = crypto.createDecipher('aes-256-ecb',key);
     var dec = decipher.update(cipherText,'hex','utf8');
     if(dec == null || dec.length<1){
         return null;
@@ -39,7 +39,14 @@ function decryptByAES(cipherText,key){
 
     return dec;
 }
-
+function decryption(reqInfo, md5Key) {
+    let reqStr = new Buffer(reqInfo, 'base64').toString('hex');
+    var dec, decipher;
+    decipher = crypto.createDecipheriv('aes-256-ecb', md5Key, '');
+    dec = decipher.update(reqStr, 'hex', 'utf8');
+    dec += decipher.final('utf8');
+    console.log(dec);
+}
 function createActiveCode(email,uid){
     var plaintext = email + "|" +uid + "|" + (new Date().getTime());
     return encryptByAES(plaintext);
@@ -256,5 +263,6 @@ module.exports = {
     getGiftOrderCode :getGiftOrderCode ,
     encryptByMd5NoKey : encryptByMd5NoKey ,
     getSmsRandomKey : getSmsRandomKey ,
-    randomString
+    randomString,
+    decryption
 };
