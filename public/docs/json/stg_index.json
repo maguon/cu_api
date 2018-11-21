@@ -2217,6 +2217,160 @@
         }
       }
     },
+    "/admin/{adminId}/msgStatByDay": {
+      "get": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": " message ",
+        "description": "message",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "user info",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userType",
+            "in": "query",
+            "description": "userType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdStart",
+            "in": "query",
+            "description": "dateIdStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "dateIdEnd",
+            "in": "query",
+            "description": "dateIdEnd",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/queryUserMessageNumById"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/msgStatByMonth": {
+      "get": {
+        "tags": [
+          "userMessage"
+        ],
+        "summary": " message ",
+        "description": "message",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "user info",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "userType",
+            "in": "query",
+            "description": "userType",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "monthStart",
+            "in": "query",
+            "description": "monthStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "monthEnd",
+            "in": "query",
+            "description": "monthEnd",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/queryUserMessageNumById"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/supervise/{superviseId}/user/{userId}/car/{carId}/message": {
       "post": {
         "tags": [

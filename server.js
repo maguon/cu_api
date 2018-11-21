@@ -168,6 +168,8 @@ function createServer() {
     server.get('/api/user/:userId/getMessage',userMessage.getMessage);
     server.get('/api/admin/:adminId/getMessage',userMessage.getMessage);
     server.get('/api/user/:userId/msgStat',userMessage.queryUserMessageNumById);
+    server.get('/api/admin/:adminId/msgStatByDay',userMessage.getUserMessageStatByDay);
+    server.get('/api/admin/:adminId/msgStatByMonth',userMessage.getUserMessageStatByMonth);
     server.put({path:'/api/user/:userId/msg/:msgId/status/:status',contentType: 'application/json'},userMessage.updateUserMessageStatus);
     /**
      order_info
@@ -255,7 +257,7 @@ function createServer() {
     //server.post({path:'/api/wechatPayment',contentType: 'application/json'},payment.addWechatPayment);
     //server.get('/api/wechatPayment',payment.addWechatPayment);
     //server.post({path:'/api/wechatPayment',contentType: 'multipart/form-data'},payment.addWechatPayment);
-    server.post({path:'/api/user/:userId/payment/:paymentId/refund',contentType: 'application/json'},payment.addWechatRefund);
+    //server.post({path:'/api/user/:userId/payment/:paymentId/refund',contentType: 'application/json'},payment.addWechatRefund);
     server.post({path:'/api/admin/:adminId/user/:userId/order/:orderId/wechatRefund',contentType: 'application/json'},payment.wechatRefund);
     server.post({path:'/api/wechatRefund',contentType: 'text/xml'},payment.addWechatRefund);
 

@@ -6,8 +6,9 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addMessage = (params,callback) => {
-    let query = "insert into user_message(user_id,supervise_id,car_id,message_name,message_order,address)values(?,?,?,?,?,?)";
+    let query = "insert into user_message(date_id,user_id,supervise_id,car_id,message_name,message_order,address)values(?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.dateId;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.superviseId;
     paramsArray[i++] = params.carId;
@@ -101,9 +102,81 @@ const updateUserMessageStatus = (params,callback) => {
         callback(error,rows);
     })
 }
+const getUserMessageStatByDay = (params,callback) => {
+    let query = " select db.id,count(um.id) as count from user_message um " +
+                " left join date_base db on db.id=um.date_id " +
+                " where um.id is not null ";
+    let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and um.user_id = ? ";
+    }
+    if(params.userType){
+        paramsArray[i++] = params.userType;
+        query = query + " and um.user_type = ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and um.status = ? ";
+    }
+    if(params.type){
+        paramsArray[i++] = params.type;
+        query = query + " and um.type = ? ";
+    }
+    if(params.dateIdStart){
+        paramsArray[i++] = params.dateIdStart;
+        query = query + " and db.id >= ? ";
+    }
+    if(params.dateIdEnd){
+        paramsArray[i] = params.dateIdEnd;
+        query = query + " and db.id <= ? ";
+    }
+    query = query + " group by db.id ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getUserMessageStatByDay');
+        callback(error,rows);
+    })
+}
+const getUserMessageStatByMonth = (params,callback) => {
+    let query = " select db.y_month,count(um.id) as count from user_message um " +
+                " left join date_base db on db.id=um.date_id " +
+                " where um.id is not null ";
+    let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and um.user_id = ? ";
+    }
+    if(params.userType){
+        paramsArray[i++] = params.userType;
+        query = query + " and um.user_type = ? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and um.status = ? ";
+    }
+    if(params.type){
+        paramsArray[i++] = params.type;
+        query = query + " and um.type = ? ";
+    }
+    if(params.monthStart){
+        paramsArray[i++] = params.monthStart;
+        query = query + " and db.y_month >= ? ";
+    }
+    if(params.monthEnd){
+        paramsArray[i] = params.monthEnd;
+        query = query + " and db.y_month <= ? ";
+    }
+    query = query + " group by db.y_month ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getUserMessageStatByMonth');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addMessage,
     getMessage,
     queryUserMessageNumById,
-    updateUserMessageStatus
+    updateUserMessageStatus,
+    getUserMessageStatByDay,
+    getUserMessageStatByMonth
 }

@@ -8,10 +8,12 @@ const userMessageDAO = require('../dao/UserMessageDAO.js');
 
 const addMessage = (req,res,next)=>{
     let params = req.params;
+    let myDate = new date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
     userMessageDAO.addMessage(params,(error,result)=>{
         if(error){
             logger.error('addMessage' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('addMessage' + 'success');
             resUtil.resetCreateRes(res,result,null);
@@ -24,7 +26,7 @@ const getMessage = (req,res,next)=>{
     userMessageDAO.getMessage(params,(error,result)=>{
         if(error){
             logger.error('getMessage' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('getMessage' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -37,7 +39,7 @@ const queryUserMessageNumById = (req,res,next)=>{
     userMessageDAO.queryUserMessageNumById(params,(error,result)=>{
         if(error){
             logger.error('queryUserMessageNumById' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('queryUserMessageNumById' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -50,10 +52,36 @@ const updateUserMessageStatus = (req,res,next)=>{
     userMessageDAO.updateUserMessageStatus(params,(error,result)=>{
         if(error){
             logger.error('updateUserMessageStatus' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateUserMessageStatus' + 'success');
             resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
+const getUserMessageStatByDay = (req,res,next)=>{
+    let params = req.params;
+    userMessageDAO.getUserMessageStatByDay(params,(error,result)=>{
+        if(error){
+            logger.error('getUserMessageStatByDay' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getUserMessageStatByDay' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
+const getUserMessageStatByMonth = (req,res,next)=>{
+    let params = req.params;
+    userMessageDAO.getUserMessageStatByMonth(params,(error,result)=>{
+        if(error){
+            logger.error('getUserMessageStatByMonth' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getUserMessageStatByMonth' + 'success');
+            resUtil.resetQueryRes(res,result,null);
             return next();
         }
     });
@@ -62,5 +90,7 @@ module.exports = {
     addMessage,
     getMessage,
     queryUserMessageNumById,
-    updateUserMessageStatus
+    updateUserMessageStatus,
+    getUserMessageStatByDay,
+    getUserMessageStatByMonth
 }
