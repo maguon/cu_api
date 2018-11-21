@@ -117,6 +117,8 @@ const sendMessage=(req,res,next)=>{
     let params = req.params;
     params.userType = 1;
     params.plateNumber = params.licensePlate;
+    // let myDate = new date();
+    // params.dateId = moment(myDate).format('YYYYMMDD');
     new Promise((resolve,reject)=>{
         userDAO.queryUser({userId:params.userId},(error,rows)=>{
             if(error){
