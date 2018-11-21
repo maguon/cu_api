@@ -292,15 +292,6 @@ const addWechatPayment=(req,res,next) => {
     });
 }
 const addWechatRefund=(req,res,next) => {
-    let reqInfo = 'b7eSPFu4bjo0gTtKBk9o7pi8lOnAen/rNPyXIGq/aHyKDcLCaL2wHSnIcaZNNGohmvW3aJQbn6jk2nvtQibiA7tUvCBQqzvMlrGY41LS1w6qN/jCVflmZzrGGKhqa9nq7v4SKkkHWhOikdwoCjW8mkvZuYLwXXxO86H/G/iAe6ngb7DfufKro+y6vAQNcR/3r+2JYDt6zJ6YfrJIKTPxLEF2Ga788zquNNZFAH3tPK6e8HLQsJYPUWS8o3TrZs4Ii5nXIzHAMcG+W0iqapTcipknGT7gWk+UvqPOL/6gcggcXd6nJfxw0iedIrgWLVDU+9fTwzuZbH3QrVNLGRh36Eu+bXKtjuTHFzS9J5Hx3XVG+VbLfKdFrLFA0zGkJBz6sRo6CLp7wQCOJzQh1PRShHUlYWJA+5eAaAezuCzKPaO0qiScT+Peelf8PeXDjauIzPsWDoXIGM5DTJVDiadh/OipSWr5VFbiICgJoafInd7b1cERD/UIDm/lWl70WSzaFn9fwr1UOBYMUTi+TWCh1B9RYp98N9Gp5+x37rsgtWaBhcK0aCLI8S+DM4k7RMO5wLu1UbmkdonPXiv8ul5NPaeefSlJ3bQizO314Bc3cjFWXI7EwpRyKwSkUPHWsvSv7EV5HIgcgZX7/FFFEqz762NUGLZNY6K3/maKKSSrqBgtGHshHB2h+kERn7AoDWJlxTF6OCI8Rn9P3iKcqa/f1SYm2KoR3pEvQToJpa+Ig9aVi0fbrRl+XYM/LN2J2x/qJd+0a2J/EgQjDI8qLvB7yWwNutvi6zCynGCC40RF2L8GpDu59hlhYhtka0V/6lpaH9ob2Yt+LBFtYEbL0M4qmNU7IGNeTDR65Vm1SPL5LT1C2zOhBZjq6YEJ8Ume8J4Y/GieuBjlbsyVZ2s4G5xl4LXSfWIXMaERSGqQPBUJcE0i7O5uWj5YyoMbZYvgDCW8D7ZEmjfZKjRG2PKS1eLFYcilG7l6eIPh9y6k2PNRL1HCGpJLIW40VQno5giI/7d5';
-    let baseReqInfo = encrypt.base64Encode(reqInfo);
-    let reqKey = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey);
-    console.log(reqKey);
-    let reqInfoKey = encrypt.decryption(baseReqInfo,sysConfig.wechatConfig.paymentKey);
-    // logger.info("reqInfoKeyRow");
-    // logger.info(reqInfo);
-    logger.info("reqInfoKeyResult");
-    logger.info(reqInfoKey);
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
