@@ -5901,14 +5901,21 @@
           {
             "name": "type",
             "in": "query",
-            "description": "type",
+            "description": "type 0退款1支付",
             "required": false,
             "type": "integer"
           },
           {
-            "name": "createdOnStart",
+            "name": "status",
             "in": "query",
-            "description": "createdOnStart",
+            "description": "status 0未完成1已完成",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentType",
+            "in": "query",
+            "description": "payment_type 1微信支付2··",
             "required": false,
             "type": "integer"
           },
