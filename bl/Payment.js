@@ -226,7 +226,10 @@ const wechatRefund = (req,res,next)=>{
                             xmlParser.parseString(data,(err,result)=>{
                                 let resString = JSON.stringify(result);
                                 let evalJson = eval('(' + resString + ')');
-                                logger.info("paymentResult2"+resString);
+                                if(error){
+                                    logger.warn('退款失败')
+                                    resUtil.resetFailedRes(res,'退款失败',null)
+                                }
                                 resUtil.resetQueryRes(res,evalJson.xml,null);
                             });
                             res.send(200,data);
