@@ -40,12 +40,12 @@ function decryptByAES(cipherText,key){
     return dec;
 }
 function decryption(reqInfo, md5Key) {
-    let reqStr = new Buffer(reqInfo, 'base64').toString('hex');
+    var reqStr = new Buffer(reqInfo, 'base64').toString('hex');
     var dec, decipher;
     decipher = crypto.createDecipheriv('aes-256-ecb', md5Key, '');
     dec = decipher.update(reqStr, 'hex', 'utf8');
     dec += decipher.final('utf8');
-    console.log(dec);
+    return dec;
 }
 function createActiveCode(email,uid){
     var plaintext = email + "|" +uid + "|" + (new Date().getTime());
