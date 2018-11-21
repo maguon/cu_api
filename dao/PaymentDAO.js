@@ -115,7 +115,7 @@ const addWechatRefund = (params,callback) => {
     let paramsArray = [],i=0;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
-    paramsArray[i++] = params.type;
+    paramsArray[i++] = 0;
     paramsArray[i++] = params.paymentId;
     paramsArray[i++] = params.nonceStr;
     paramsArray[i] = params.refundFee;

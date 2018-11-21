@@ -172,7 +172,6 @@ const wechatRefund = (req,res,next)=>{
         }else{
             logger.info('getPayment' + 'success');
             params.totalFee = rows[0].total_fee;
-            params.type = 0;
             params.paymentId = rows[0].id;
             paymentDAO.addWechatRefund(params,(error,result)=>{
                 if(error){
@@ -301,11 +300,16 @@ const addWechatRefund=(req,res,next) => {
         };
         let md5Key = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey).toLowerCase();
         let reqInfo = evalJson.xml.req_info;
-        logger.info("notifyUrlReqBodyRefund4" +reqInfo);
         let reqResult = encrypt.decryption(reqInfo,md5Key);
-        logger.info("reqInfoKeyResult6"+ reqResult);
-        prepayIdJson.refundId = reqResult.xml.out_refund_no;
-        prepayIdJson.transactionId = reqResult.xml.transaction_id;
+        xmlParser.parseString(reqResult,(err,result)=>{
+            let resStrings = JSON.stringify(result);
+            let evalJsons = eval('(' + resStrings + ')');
+            prepayIdJson.refundId = evalJsons.root.out_refund_no;
+            prepayIdJson.transactionId = evalJsons.root.transaction_id;
+        })
+        prepayIdJson.refundId = reqResult.root.out_refund_no;
+        prepayIdJson.transactionId = reqResult.root.transaction_id;
+        logger.info(prepayIdJson);
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
             if(error){
                 logger.error('updateRefund' + error.message);
