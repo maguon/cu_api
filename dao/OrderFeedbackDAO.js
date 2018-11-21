@@ -73,7 +73,7 @@ const getOrderFeedback = (params,callback) => {
     })
 }
 const updateOrderFeedbackPayment = (params,callback) => {
-    let query = "update order_feedback set process_remark=?,process_method=? where id = ? and order_id = ? ";
+    let query = "update order_feedback set process_remark=?,process_method=? status = 1 where id = ? and order_id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.processRemark;
     paramsArray[i++] = params.processMethod;
