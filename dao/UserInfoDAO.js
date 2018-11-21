@@ -64,8 +64,9 @@ const queryUser = (params,callback) => {
     })
 }
 const createUser = (params,callback)=>{
-    let query = "insert into user_info (wechat_name,wechat_id,gender,avatar_image) values(?,?,?,?) ";
+    let query = "insert into user_info (date_id,wechat_name,wechat_id,gender,avatar_image) values(?,?,?,?,?) ";
     let paramsArray = [],i=0;
+    paramsArray[i++]=params.dateId;
     paramsArray[i++]=params.wechatName;
     paramsArray[i++]=params.wechatId;
     paramsArray[i++]=params.gender;
@@ -158,6 +159,44 @@ const updateCreatedTime=(params,callback)=>{
         callback(error,rows);
     });
 }
+const getUserStatByDay=(params,callback)=>{
+    let query = " select db.id,count(ui.id) as user_count from user_info ui " +
+                " left join date_base db on db.id=ui.date_id " +
+                " where ui.id is not null ";
+    let paramsArray =[],i=0;
+    if(params.dateIdStart){
+        paramsArray[i++] = params.dateIdStart;
+        query = query + " and db.id >= ? "
+    }
+    if(params.dateIdEnd){
+        paramsArray[i] = params.dateIdEnd;
+        query = query + " and db.id <= ? "
+    }
+    query = query + " group by db.id";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getUserStatByDay');
+        callback(error,rows);
+    });
+}
+const getUserStatByMonth=(params,callback)=>{
+    let query = " select db.y_month,count(ui.id) as user_count from user_info ui " +
+                " left join date_base db on db.id=ui.date_id " +
+                " where ui.id is not null ";
+    let paramsArray =[],i=0;
+    if(params.yMonthStart){
+        paramsArray[i++] = params.yMonthStart;
+        query = query + " and db.y_month >= ? "
+    }
+    if(params.yMonthEnd){
+        paramsArray[i] = params.yMonthEnd;
+        query = query + " and db.y_month <= ? "
+    }
+    query = query + " group by db.y_month";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getUserStatByMonth');
+        callback(error,rows);
+    });
+}
 module.exports = {
     queryUser,
     createUser,
@@ -168,5 +207,7 @@ module.exports = {
     updateStatus,
     updateType,
     updateAuthTime,
-    updateCreatedTime
+    updateCreatedTime,
+    getUserStatByDay,
+    getUserStatByMonth
 }

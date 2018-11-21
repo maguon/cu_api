@@ -11,7 +11,7 @@ const addOrderFeedback = (req,res,next)=>{
     orderFeedbackDAO.addOrderFeedback(params,(error,result)=>{
         if(error){
             logger.error('addOrderFeedback' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('addOrderFeedback' + 'success');
             resUtil.resetCreateRes(res,result,null);
@@ -24,7 +24,7 @@ const getOrderFeedback = (req,res,next)=>{
     orderFeedbackDAO.getOrderFeedback(params,(error,result)=>{
         if(error){
             logger.error('getOrderFeedback' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('getOrderFeedback' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -37,7 +37,7 @@ const updateOrderFeedbackPayment = (req,res,next)=>{
     orderFeedbackDAO.updateOrderFeedbackPayment(params,(error,result)=>{
         if(error){
             logger.error('updateOrderFeedbackPayment' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderFeedbackPayment' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -50,7 +50,7 @@ const updateOrderFeedbackCount = (req,res,next)=>{
     orderFeedbackDAO.updateOrderFeedbackCount(params,(error,result)=>{
         if(error){
             logger.error('updateOrderFeedbackCount' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderFeedbackCount' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -63,7 +63,7 @@ const updateOrderFeedbackRemark = (req,res,next)=>{
     orderFeedbackDAO.updateOrderFeedbackRemark(params,(error,result)=>{
         if(error){
             logger.error('updateOrderFeedbackRemark' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderFeedbackRemark' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -76,7 +76,7 @@ const updateOrderFeedbackStatus = (req,res,next)=>{
     orderFeedbackDAO.updateOrderFeedbackStatus(params,(error,result)=>{
         if(error){
             logger.error('updateOrderFeedbackStatus' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderFeedbackStatus' + 'success');
             resUtil.resetUpdateRes(res,result,null);

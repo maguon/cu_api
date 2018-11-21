@@ -13,7 +13,7 @@ const updateUser = (req,res,next)=>{
     userDao.updateUser(params,(error,result)=>{
         if(error){
             logger.error('updateUser' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateUser' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -27,7 +27,7 @@ const updatePassword=(req,res,next)=>{
         userDao.queryUser(params,(error,rows)=>{
             if(error){
                 logger.error('updatePassword' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else if(rows && rows.length < 1){
                 logger.warn('updatePassword' + "尚未注册");
                 resUtil.resetFailedRes(res,"尚未注册");
@@ -45,7 +45,7 @@ const updatePassword=(req,res,next)=>{
         userDao.updatePassword(params,(error,result)=>{
             if(error){
                 logger.error('updatePassword' + error.message);
-                throw sysError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else{
                 logger.info('updatePassword' + 'success');
                 resUtil.resetUpdateRes(res,result,null);
@@ -59,7 +59,7 @@ const updateStatus=(req,res,next)=>{
     userDao.updateStatus(params,(error,result)=>{
         if(error){
             logger.error('updateStatus' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             if(params.wechatStatus==1){
                 let myDate = new Date();
@@ -77,7 +77,7 @@ const updateType=(req,res,next)=>{
     userDao.updateType(params,(error,result)=>{
         if(error){
             logger.error('updateType' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             if(params.authStatus==1){
                 let myDate = new Date();
@@ -102,7 +102,7 @@ const updatePhone=(req,res,next)=>{
                 userDao.updatePhone(params,(error,result)=>{
                     if(error){
                         logger.error('updatePhone' + error.message);
-                        throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                        resUtil.resInternalError(error, res, next);
                     }else{
                         let myDate = new Date();
                         params.myDate = myDate;
@@ -125,7 +125,7 @@ const queryUser = (req,res,next)=>{
     userDao.queryUser(params,(error,result)=>{
         if(error){
             logger.error('queryUser' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('queryUser' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -160,6 +160,8 @@ const userLogin = (req,res,next)=>{
             }
         })
     }).then((params)=>{
+        let myDate = new date();
+        params.dateId = moment(myDate).format('YYYYMMDD');
         userDao.createUser(params,(error,result)=>{
             if(error) {
                 logger.error('createUser' + error.message);
@@ -196,6 +198,32 @@ const userLogin = (req,res,next)=>{
         resUtil.resInternalError(error,res,next);
     })
 };
+const getUserStatByDay = (req,res,next)=>{
+    let params = req.params;
+    userDao.getUserStatByDay(params,(error,result)=>{
+        if(error){
+            logger.error('getUserStatByDay' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getUserStatByDay' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
+const getUserStatByMonth = (req,res,next)=>{
+    let params = req.params;
+    userDao.getUserStatByMonth(params,(error,result)=>{
+        if(error){
+            logger.error('getUserStatByMonth' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getUserStatByMonth' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports ={
     queryUser,
     userLogin,
@@ -203,5 +231,7 @@ module.exports ={
     updatePassword,
     updateStatus,
     updatePhone,
-    updateType
+    updateType,
+    getUserStatByDay,
+    getUserStatByMonth
 };
