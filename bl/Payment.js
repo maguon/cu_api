@@ -297,8 +297,6 @@ const addWechatRefund=(req,res,next) => {
         let resString = JSON.stringify(result);
         let evalJson = eval('(' + resString + ')');
         let prepayIdJson = {
-            nonceStr: evalJson.xml.nonce_str,
-            transactionId: 2,
             status: 1
         };
         let md5Key = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey).toLowerCase();
@@ -306,12 +304,13 @@ const addWechatRefund=(req,res,next) => {
         logger.info("notifyUrlReqBodyRefund4" +reqInfo);
         let reqResult = encrypt.decryption(reqInfo,md5Key);
         logger.info("reqInfoKeyResult6"+ reqResult);
+        prepayIdJson.refundId = reqResult.out_refund_no;
+        prepayIdJson.transactionId = reqResult.transaction_id;
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
             if(error){
                 logger.error('updateRefund' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info("notifyUrlReqBodyRefund4" +resString);
                 logger.info('updateRefund' + 'success');
                 resUtil.resetCreateRes(res,result,null);
                 return next();

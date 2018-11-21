@@ -125,11 +125,11 @@ const addWechatRefund = (params,callback) => {
     })
 }
 const updateRefund = (params,callback) => {
-    let query = " update payment_info set transaction_id=?,status=? where nonce_str = ?";
+    let query = " update payment_info set transaction_id=?,status=? where id = ?";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.transactionId;
     paramsArray[i++] = params.status;
-    paramsArray[i] = params.nonceStr;
+    paramsArray[i] = params.refundId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateRefund');
         callback(error,rows);
