@@ -43,20 +43,20 @@ const getOrderFeedback = (params,callback) => {
         query = query + " and ui.phone =? ";
     }
     if(params.createdOnStart){
-        paramsArray[i++] = params.createdOnStart;
-        query = query + " and of.created_on >=? " + " 00:00:00";
+        paramsArray[i++] = params.createdOnStart + " 00:00:00";
+        query = query + " and of.created_on >=? ";
     }
     if(params.createdOnEnd){
-        paramsArray[i++] = params.createdOnEnd;
-        query = query + " and of.created_on <=? "+ " 23:59:59";
+        paramsArray[i++] = params.createdOnEnd+ " 23:59:59";
+        query = query + " and of.created_on <=? ";
     }
     if(params.updatedOnStart){
         paramsArray[i++] = params.updatedOnStart;
         query = query + " and of.updated_on >=? "+ " 00:00:00";
     }
     if(params.updatedOnEnd){
-        paramsArray[i++] = params.updatedOnEnd;
-        query = query + " and of.updated_on <=? "+" 23:59:59";
+        paramsArray[i++] = params.updatedOnEnd+" 23:59:59";
+        query = query + " and of.updated_on <=? ";
     }
     if(params.status){
         paramsArray[i++] = params.status;
