@@ -34,11 +34,8 @@ const addOrderItem = (params,callback) => {
     })
 }
 const getOrder = (params,callback) => {
-    let query = " select li.id as log_id,lc.company_name,li.log_num,li.created_on as lig_time,li.freight,pi.type,pi.total_fee as payment_fee,pi.created_on as payment_time,oi.user_id,oi.updated_on,oi.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oi.order_name,ui.wechat_name,oi.id,oi.order_name,oi.prod_count,oi.total_freight,oi.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status,oi.status from order_info oi " +
+    let query = " select oi.user_id,oi.updated_on,oi.remark,oi.recv_name,oi.recv_phone,oi.recv_address,oi.order_name,ui.wechat_name,oi.id,oi.order_name,oi.prod_count,oi.total_freight,oi.total_price,ui.user_name,ui.phone,oi.created_on,oi.payment_status,oi.log_status,oi.status from order_info oi " +
                 " left join user_info ui on ui.id=oi.user_id " +
-                " left join payment_info pi on pi.order_id = oi.id " +
-                " left join log_info li on li.order_id = oi.id " +
-                " left join log_company lc on lc.id = li.log_company_id " +
                 " where oi.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
