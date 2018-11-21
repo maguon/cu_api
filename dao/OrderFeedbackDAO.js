@@ -51,8 +51,8 @@ const getOrderFeedback = (params,callback) => {
         query = query + " and of.created_on <=? ";
     }
     if(params.updatedOnStart){
-        paramsArray[i++] = params.updatedOnStart;
-        query = query + " and of.updated_on >=? "+ " 00:00:00";
+        paramsArray[i++] = params.updatedOnStart+ " 00:00:00";
+        query = query + " and of.updated_on >=? ";
     }
     if(params.updatedOnEnd){
         paramsArray[i++] = params.updatedOnEnd+" 23:59:59";
