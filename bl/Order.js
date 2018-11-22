@@ -6,6 +6,7 @@ const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('Order.js');
 const orderDAO = require('../dao/OrderDAO.js');
 const productDAO = require('../dao/ProductDAO.js');
+const moment = require('moment/moment.js');
 /**
  * productArray [{prodId:1000,num:2,remark:'abc},{prodId:1001,num:1,remark:'dcd'}]
  * insert into order_itemprod_id,prod_name) values (select id,name from product_info where id =1000);
@@ -21,6 +22,8 @@ const addOrder = (req,res,next)=>{
     let totalFreight = 0;
     let orderId = 0;
     let resultOrderId =[{}];
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
 new Promise((resolve,reject)=>{
     orderDAO.addOrder(params,(error,result)=> {
         if(error){

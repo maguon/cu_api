@@ -7,6 +7,7 @@ const logger = serverLogger.createLogger('User.js');
 const userDao = require('../dao/UserInfoDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const oauthUtil = require('../util/OAuthUtil.js');
+const moment = require('moment/moment.js');
 
 const updateUser = (req,res,next)=>{
     let params = req.params;
@@ -160,7 +161,7 @@ const userLogin = (req,res,next)=>{
             }
         })
     }).then((params)=>{
-        let myDate = new date();
+        let myDate = new Date();
         params.dateId = moment(myDate).format('YYYYMMDD');
         userDao.createUser(params,(error,result)=>{
             if(error) {
