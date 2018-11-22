@@ -64,21 +64,20 @@ new Promise((resolve,reject)=>{
             logger.info('addOrder' + 'success');
              orderId = result.insertId;
              params.orderId = orderId;
-             productIds = params.productId;
-             prodCounts = params.prodCount;
-             remark = params.remark;
-             carId = params.carId;
-             for(let i=0;i<productIds.length;i++){
-                params.productId = productIds[i];
-                params.count = prodCounts[i];
-                params.remark = remark[i];
-                params.carId = carId[i];
-            }
             resolve();
         }
     });
 }).then(()=>{
     new Promise((resolve,reject)=>{
+        productIds = params.productId;
+        prodCounts = params.prodCount;
+        remark = params.remark;
+        carId = params.carId;
+        for(let i=0;i<productIds.length;i++){
+            params.productId = productIds[i];
+            params.count = prodCounts[i];
+            params.remark = remark[i];
+            params.carId = carId[i];
         orderDAO.addOrderItemByProduct(params,(error,result)=>{
             if(error){
                 logger.error('addOrderItemByProduct' + error.message);
@@ -92,6 +91,7 @@ new Promise((resolve,reject)=>{
                 resolve();
             }
         })
+        }
     }).then(()=>{
         new Promise((resolve,reject)=>{
             orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=> {
