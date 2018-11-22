@@ -14,45 +14,12 @@ const productDAO = require('../dao/ProductDAO.js');
  * @param next
  */
 const addOrder = (req,res,next)=>{
-    /*let params = req.params;
-    new Promise((resolve, reject) => {
-        superviseDao.querySupervise(params,(error,rows)=>{
-            if(error){
-                reject(error);
-            }else{
-                resolve(rows);
-            }
-        })
-    }).then((result)=>{
-        Promise.all(result.map((item)=>{
-            new Promise((resolve,reject) =>{
-                superviseDao.updateSuperviseStatus({superviseId:item.id,status:1},(error,result)=>{
-                    if(error){
-                        reject(error);
-                    }else{
-                        resolve(result);
-                    }
-                })
-            }).then((result)=>{
-                console.log(result);
-            }).catch((error)=>{resUtil.resInternalError(error, res, next);})
-
-        })).then(()=>{
-            resUtil.resetQueryRes(res,[],null)
-        })
-    }).catch((error)=>{
-        resUtil.resInternalError(error, res, next);
-    })*/
     let params = req.params;
     let rowsLength = 0;
     let totalPrice = 0;
     let prodCount = 0;
     let totalFreight = 0;
     let orderId = 0;
-    let productIds = {};
-    let prodCounts = {};
-    let remark = {};
-    let carId = {};
     let resultOrderId =[{}];
 new Promise((resolve,reject)=>{
     orderDAO.addOrder(params,(error,result)=> {
@@ -69,31 +36,37 @@ new Promise((resolve,reject)=>{
     });
 }).then(()=>{
     new Promise((resolve,reject)=>{
-        productIds = params.productId;
-        prodCounts = params.prodCount;
-        remark = params.remark;
-        carId = params.carId;
+        let productIds = params.productId;
+        let prodCounts = params.prodCount;
+        let remark = params.remark;
+        let carId = params.carId;
         for(let i=0;i<productIds.length;i++){
             params.productId = productIds[i];
             params.count = prodCounts[i];
             params.remark = remark[i];
             params.carId = carId[i];
-        orderDAO.addOrderItemByProduct(params,(error,result)=>{
-            if(error){
-                logger.error('addOrderItemByProduct' + error.message);
-                resUtil.resInternalError(error, res, next);
-            }else if(result && result.insertId < 1){
-                logger.warn('addOrderItemByProduct' +'选择商品失败');
-                resUtil.resetFailedRes(res,'选择商品失败',null);
-                return next();
-            }else{
-                logger.info('addOrderItemByProduct' + 'success');
-                resolve();
-            }
-        })
+            orderDAO.addOrderItemByProduct(params,(error,result)=>{
+                if(error){
+                    logger.error('addOrderItemByProduct' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else if(result && result.insertId < 1){
+                    logger.warn('addOrderItemByProduct' +'选择商品失败');
+                    resUtil.resetFailedRes(res,'选择商品失败',null);
+                    return next();
+                }else{
+                    logger.info('addOrderItemByProduct' + 'success');
+                    resolve();
+                }
+            })
         }
+        setTimeout( ()=>{
+            console.log('This will still run1.');
+        }, 100);
     }).then(()=>{
         new Promise((resolve,reject)=>{
+            setTimeout( ()=>{
+                console.log('This will still run2.');
+            }, 400);
             orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=> {
                 if (error) {
                     logger.error('getOrderItem' + error.message);
@@ -118,6 +91,9 @@ new Promise((resolve,reject)=>{
             });
         }).then(()=>{
             new Promise((resolve,reject)=>{
+                setTimeout( ()=>{
+                    console.log('This will still run3.');
+                }, 500);
                 orderDAO.updateOrderPrice(params,(error,result)=>{
                     if(error){
                         logger.error('updateOrderPrice' + error.message);
@@ -134,39 +110,6 @@ new Promise((resolve,reject)=>{
 }).catch((error)=>{
     resUtil.resInternalError(error, res, next);
 })
-        // orderDAO.addOrder(params,(error,result)=> {
-        //     if (error) {
-        //         logger.error('addOrder' + error.message);
-        //         resUtil.resInternalError(error, res, next);
-        //     }else{
-        //         resultOrderId = [{orderId: result.insertId}];
-        //         logger.info('addOrder' + 'success');
-        //         orderId = result.insertId;
-        //         params.orderId = orderId;
-        //         productIds = params.productId;
-        //         prodCounts = params.prodCount;
-        //         remark = params.remark;
-        //         carId = params.carId;
-        //         for(let i=0;i<productIds.length;i++){
-        //             params.productId = productIds[i];
-        //             params.count = prodCounts[i];
-        //             params.remark = remark[i];
-        //             params.carId = carId[i];
-        //             orderDAO.addOrderItemByProduct(params,(error,result)=>{
-        //                 if(error){
-        //                     logger.error('addOrderItemByProduct' + error.message);
-        //                     resUtil.resInternalError(error, res, next);
-        //                 }else if(result && result.insertId < 1){
-        //                     logger.warn('addOrderItemByProduct' +'选择商品失败');
-        //                     resUtil.resetFailedRes(res,'选择商品失败',null);
-        //                     return next();
-        //                 }else{
-        //                     logger.info('addOrderItemByProduct' + 'success');
-        //                 }
-        //             })
-        //         }
-        //     }
-        // });
 }
 const addOrderItem = (req,res,next)=>{
     let params = req.params;
