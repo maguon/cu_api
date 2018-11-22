@@ -260,12 +260,11 @@ const wechatRefund = (req,res,next)=>{
 };
 const addWechatPayment=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-    logger.info("notifyUrlReq");
-    logger.info(req);
-    logger.info("notifyUrlReqBodyRefund1");
     xmlParser.parseString(req.body,(err,result)=>{
         let resString = JSON.stringify(result);
         let evalJson = eval('(' + resString + ')');
+        logger.info("paymentResult166"+resString);
+        logger.info("paymentResult1666"+req.body);
         let prepayIdJson = {
             nonceStr: evalJson.xml.nonce_str,
             openid: evalJson.xml.openid,
@@ -283,7 +282,6 @@ const addWechatPayment=(req,res,next) => {
                 logger.warn('addWechatPayment' + '没有此支付信息');
                 resUtil.resetFailedRes(res,'没有此支付信息',null);
             }else{
-                logger.info("paymentResult1"+resString);
                 prepayIdJson.paymentId = rows[0].id;
                 paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
                     if(error){
