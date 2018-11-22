@@ -165,7 +165,7 @@ const wechatRefund = (req,res,next)=>{
     params.nonceStr = ourString;
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
-    paymentDAO.getPaymentByOrderId({orderId:params.orderId},(error,rows)=>{
+    paymentDAO.getPaymentByOrderId({orderId:params.orderId,type:1},(error,rows)=>{
         if(error){
             logger.error('getPaymentByOrderId' + error.message);
             resUtil.resInternalError(error, res, next);
