@@ -165,15 +165,15 @@ const wechatRefund = (req,res,next)=>{
     params.nonceStr = ourString;
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
-    paymentDAO.getPayment({orderId:params.orderId},(error,rows)=>{
+    paymentDAO.getPaymentByOrderId({orderId:params.orderId},(error,rows)=>{
         if(error){
-            logger.error('getPayment' + error.message);
+            logger.error('getPaymentByOrderId' + error.message);
             resUtil.resInternalError(error, res, next);
         }else if(rows && rows.length < 1){
-            logger.warn('getPayment' + '没有此订单');
+            logger.warn('getPaymentByOrderId' + '没有此订单');
             resUtil.resetFailedRes(res,'没有此订单',null);
         }else{
-            logger.info('getPayment' + 'success');
+            logger.info('getPaymentByOrderId' + 'success');
             params.totalFee = rows[0].total_fee;
             params.paymentId = rows[0].id;
             paymentDAO.addWechatRefund(params,(error,result)=>{
