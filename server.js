@@ -100,6 +100,10 @@ function createServer() {
      * Admin User Module
      */
     server.get('/api/admin/:adminId' ,adminUser.getAdminUserInfo);
+    server.get('/api/admin/:adminId/userStat' ,adminUser.getUserStat);
+    server.get('/api/admin/:adminId/userCarStat' ,adminUser.getUserCarStat);
+    server.get('/api/admin/:adminId/superviseStat' ,adminUser.getSuperviseStat);
+    server.get('/api/admin/:adminId/checkCarStatByMonth' ,adminUser.getCheckCarStatByMonth);
     server.post({path:'/api/adminLogin',contentType: 'application/json'},adminUser.adminUserLogin);
     server.put({path:'/api/admin/:adminId',contentType: 'application/json'} ,adminUser.updateAdminInfo);
     server.put({path:'/api/admin/:adminId/password',contentType: 'application/json'} ,adminUser.changeAdminPassword);

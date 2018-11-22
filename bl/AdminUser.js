@@ -33,7 +33,7 @@ const createAdminUser = (req,res,next) => {
         adminUserDao.createAdminUser(params,(error,result)=>{
             if (error) {
                 logger.error(' createAdminUser ' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             } else {
                 if(result && result.insertId>0){
                     logger.info(' createAdminUser ' + 'success');
@@ -57,7 +57,7 @@ const adminUserLogin = (req,res,next) =>{
     adminUserDao.queryAdminUser(params,(error,rows)=>{
         if (error) {
             logger.error(' adminUserLogin ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         } else {
             if(rows && rows.length<1){
                 logger.warn(' adminUserLogin ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
@@ -99,7 +99,7 @@ const getAdminUserInfo = (req,res,next) => {
     adminUserDao.queryAdminInfo(params,(error,rows)=>{
         if (error) {
             logger.error(' getAdminUserInfo ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         } else {
             logger.info(' getAdminUserInfo ' + 'success');
             resUtil.resetQueryRes(res,rows,null);
@@ -112,7 +112,7 @@ const updateAdminInfo = (req,res,next) => {
     adminUserDao.updateInfo(params,(error,result)=>{
         if (error) {
             logger.error(' updateAdminInfo ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         } else {
             logger.info(' updateAdminInfo ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -126,7 +126,7 @@ const changeAdminPassword = (req,res,next) => {
         adminUserDao.queryAdminUser(params,(error,rows)=>{
             if (error) {
                 logger.error(' changeAdminPassword ' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             } else {
                 if(rows && rows.length<1){
                     logger.warn(' changeAdminPassword ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
@@ -146,7 +146,7 @@ const changeAdminPassword = (req,res,next) => {
         adminUserDao.updatePassword(params,(error,result)=>{
             if (error) {
                 logger.error(' changeAdminPassword ' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             } else {
                 logger.info(' changeAdminPassword ' + 'success');
                 resUtil.resetUpdateRes(res,result,null);
@@ -155,10 +155,66 @@ const changeAdminPassword = (req,res,next) => {
         })
     })
 }
+const getUserStat = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getUserStat(params,(error,result)=>{
+        if (error) {
+            logger.error(' getUserStat ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getUserStat ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
+const getUserCarStat = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getUserCarStat(params,(error,result)=>{
+        if (error) {
+            logger.error(' getUserCarStat ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getUserCarStat ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
+const getSuperviseStat = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getSuperviseStat(params,(error,result)=>{
+        if (error) {
+            logger.error(' getSuperviseStat ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getSuperviseStat ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
+const getCheckCarStatByMonth = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getCheckCarStatByMonth(params,(error,result)=>{
+        if (error) {
+            logger.error(' getCheckCarStatByMonth ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getCheckCarStatByMonth ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
 module.exports = {
     createAdminUser,
     adminUserLogin,
     getAdminUserInfo,
     updateAdminInfo,
-    changeAdminPassword
+    changeAdminPassword,
+    getUserStat,
+    getUserCarStat,
+    getSuperviseStat,
+    getCheckCarStatByMonth
 }

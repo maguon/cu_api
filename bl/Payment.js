@@ -169,6 +169,9 @@ const wechatRefund = (req,res,next)=>{
         if(error){
             logger.error('getPayment' + error.message);
             resUtil.resInternalError(error, res, next);
+        }else if(rows && rows.length < 1){
+            logger.warn('getPayment' + '没有此订单');
+            resUtil.resetFailedRes(res,'没有此订单',null);
         }else{
             logger.info('getPayment' + 'success');
             params.totalFee = rows[0].total_fee;
@@ -227,7 +230,7 @@ const wechatRefund = (req,res,next)=>{
                                 let resString = JSON.stringify(result);
                                 let evalJson = eval('(' + resString + ')');
                                 if(evalJson.xml.return_code == 'FAIL'){
-                                    logger.warn('退款失败')
+                                    logger.warn('退款失败');
                                     resUtil.resetFailedRes(res,'退款失败',null)
                                 }
                                 resUtil.resetQueryRes(res,evalJson.xml,null);

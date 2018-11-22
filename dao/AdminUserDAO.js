@@ -68,13 +68,54 @@ const updatePassword = (params,callback) => {
         logger.debug(' updatePassword ');
         return callback(error,rows);
     });
-
 }
-
+const getUserStat = (params,callback) => {
+    let query = " select count(id) from user_info where id is not null ";
+    let paramsArray=[],i=0;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getUserStat ');
+        return callback(error,rows);
+    });
+}
+const getUserCarStat = (params,callback) => {
+    let query = " select count(id) from user_car where id is not null ";
+    let paramsArray=[],i=0;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getUserCarStat ');
+        return callback(error,rows);
+    });
+}
+const getSuperviseStat = (params,callback) => {
+    let query = " select count(id) from supervise_info where id is not null ";
+    let paramsArray=[],i=0;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getSuperviseStat ');
+        return callback(error,rows);
+    });
+}
+const getCheckCarStatByMonth = (params,callback) => {
+    let query = " select db.y_month,count(cci.id) from check_car_info cci " +
+                " left join date_base db on db.id=cci.date_id " +
+                " where cci.id is not null ";
+    let paramsArray=[],i=0;
+    if(params.yMonth){
+        paramsArray[i++] = params.yMonth;
+        query = query + " and db.y_month = ? ";
+    }
+    query = query + " group by db.y_month ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getCheckCarStatByMonth ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     createAdminUser,
     queryAdminUser,
     queryAdminInfo,
     updateInfo,
-    updatePassword
+    updatePassword,
+    getUserStat,
+    getUserCarStat,
+    getSuperviseStat,
+    getCheckCarStatByMonth
 }
