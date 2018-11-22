@@ -232,6 +232,9 @@ const wechatRefund = (req,res,next)=>{
                                 if(evalJson.xml.return_code == 'FAIL'){
                                     logger.warn('退款失败');
                                     resUtil.resetFailedRes(res,evalJson.xml,null)
+                                }else if(evalJson.xml.result_code=='FAIL'){
+                                    logger.warn('退款失败');
+                                    resUtil.resetFailedRes(res,evalJson.xml.err_code_des,null)
                                 }
                                 resUtil.resetQueryRes(res,evalJson.xml,null);
                             });
