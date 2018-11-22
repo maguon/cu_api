@@ -274,12 +274,12 @@ const addWechatPayment=(req,res,next) => {
             status: 1,
             type:1
         };
-        paymentDAO.getPayment({orderId:prepayIdJson.orderId},(error,rows)=>{
+        paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
             if(error){
-                logger.error('getPayment' + error.message);
+                logger.error('getPaymentByOrderId' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else if(rows && rows.length < 1){
-                logger.warn('addWechatPayment' + '没有此支付信息');
+                logger.warn('getPaymentByOrderId' + '没有此支付信息');
                 resUtil.resetFailedRes(res,'没有此支付信息',null);
             }else{
                 prepayIdJson.paymentId = rows[0].id;
