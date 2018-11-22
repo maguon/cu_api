@@ -105,6 +105,7 @@ function createServer() {
     server.get('/api/admin/:adminId/superviseStat' ,adminUser.getSuperviseStat);
     server.get('/api/admin/:adminId/checkCarStatByMonth' ,adminUser.getCheckCarStatByMonth);
     server.get('/api/admin/:adminId/orderStatByMonth' ,adminUser.getOrderStatByMonth);
+    server.get('/api/admin/:adminId/logStatByMonth' ,adminUser.getLogStatByMonth);
     server.post({path:'/api/adminLogin',contentType: 'application/json'},adminUser.adminUserLogin);
     server.put({path:'/api/admin/:adminId',contentType: 'application/json'} ,adminUser.updateAdminInfo);
     server.put({path:'/api/admin/:adminId/password',contentType: 'application/json'} ,adminUser.changeAdminPassword);

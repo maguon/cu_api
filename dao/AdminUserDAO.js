@@ -117,9 +117,40 @@ const getOrderStatByMonth = (params,callback) => {
         paramsArray[i++] = params.yMonth;
         query = query + " and db.y_month = ? ";
     }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and cci.status = ? ";
+    }
+    if(params.paymentStatus){
+        paramsArray[i++] = params.paymentStatus;
+        query = query + " and cci.payment_status = ? ";
+    }
+    if(params.logStatus){
+        paramsArray[i++] = params.logStatus;
+        query = query + " and cci.log_status = ? ";
+    }
     query = query + " group by db.y_month ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getOrderStatByMonth ');
+        return callback(error,rows);
+    });
+}
+const getLogStatByMonth = (params,callback) => {
+    let query = " select db.y_month,count(cci.id) from log_info cci " +
+                " left join date_base db on db.id=cci.date_id " +
+                " where cci.id is not null ";
+    let paramsArray=[],i=0;
+    if(params.yMonth){
+        paramsArray[i++] = params.yMonth;
+        query = query + " and db.y_month = ? ";
+    }
+    if(params.status){
+        paramsArray[i] = params.status;
+        query = query + " and cci.status = ? ";
+    }
+    query = query + " group by db.y_month ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getLogStatByMonth ');
         return callback(error,rows);
     });
 }
@@ -133,5 +164,6 @@ module.exports = {
     getUserCarStat,
     getSuperviseStat,
     getCheckCarStatByMonth,
-    getOrderStatByMonth
+    getOrderStatByMonth,
+    getLogStatByMonth
 }

@@ -6,9 +6,11 @@ const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('log.js');
 const logDAO = require('../dao/LogDAO.js');
 const orderDAO = require('../dao/OrderDAO.js');
+const moment = require('moment/moment.js');
 
 const addLog = (req,res,next)=>{
     let params = req.params;
+
     new Promise((resolve,reject)=>{
         orderDAO.getOrder({orderId:params.orderId},(error,rows)=>{
             if(error){
@@ -26,6 +28,8 @@ const addLog = (req,res,next)=>{
             }
         })
     }).then(()=>{
+        let myDate = new Date();
+        params.dateId = moment(myDate).format('YYYYMMDD');
         logDAO.addLog(params,(error,result)=>{
             if(error){
                 logger.error('addLog' + error.message);
