@@ -207,6 +207,19 @@ const getCheckCarStatByMonth = (req,res,next) => {
         }
     })
 }
+const getOrderStatByMonth = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getOrderStatByMonth(params,(error,result)=>{
+        if (error) {
+            logger.error(' getOrderStatByMonth ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getOrderStatByMonth ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
 module.exports = {
     createAdminUser,
     adminUserLogin,
@@ -216,5 +229,6 @@ module.exports = {
     getUserStat,
     getUserCarStat,
     getSuperviseStat,
-    getCheckCarStatByMonth
+    getCheckCarStatByMonth,
+    getOrderStatByMonth
 }

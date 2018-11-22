@@ -108,6 +108,21 @@ const getCheckCarStatByMonth = (params,callback) => {
         return callback(error,rows);
     });
 }
+const getOrderStatByMonth = (params,callback) => {
+    let query = " select db.y_month,count(cci.id) from order_info cci " +
+                " left join date_base db on db.id=cci.date_id " +
+                " where cci.id is not null ";
+    let paramsArray=[],i=0;
+    if(params.yMonth){
+        paramsArray[i++] = params.yMonth;
+        query = query + " and db.y_month = ? ";
+    }
+    query = query + " group by db.y_month ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getOrderStatByMonth ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     createAdminUser,
     queryAdminUser,
@@ -117,5 +132,6 @@ module.exports = {
     getUserStat,
     getUserCarStat,
     getSuperviseStat,
-    getCheckCarStatByMonth
+    getCheckCarStatByMonth,
+    getOrderStatByMonth
 }
