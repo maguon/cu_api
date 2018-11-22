@@ -53,69 +53,120 @@ const addOrder = (req,res,next)=>{
     let prodCounts = {};
     let remark = {};
     let carId = {};
+    let resultOrderId =[{}];
+new Promise((resolve,reject)=>{
     orderDAO.addOrder(params,(error,result)=> {
-        if (error) {
+        if(error){
             logger.error('addOrder' + error.message);
-            resUtil.resInternalError(error, res, next);
+            reject(error)
         }else{
-            let resultOrderId = [{orderId: result.insertId}];
+            resultOrderId = [{orderId: result.insertId}];
             logger.info('addOrder' + 'success');
-            orderId = result.insertId;
-            params.orderId = orderId;
-            productIds = params.productId;
-            prodCounts = params.prodCount;
-            remark = params.remark;
-            carId = params.carId;
-            let p = [{
-                bb:2
-            }]
-            logger.info(p[0].bb);
-            for(let i=0;i<productIds.length;i++){
+             orderId = result.insertId;
+             params.orderId = orderId;
+             productIds = params.productId;
+             prodCounts = params.prodCount;
+             remark = params.remark;
+             carId = params.carId;
+             for(let i=0;i<productIds.length;i++){
                 params.productId = productIds[i];
                 params.count = prodCounts[i];
                 params.remark = remark[i];
                 params.carId = carId[i];
-                orderDAO.addOrderItemByProduct(params,(error,result)=>{
-                    if(error){
-                        logger.error('addOrderItemByProduct' + error.message);
-                        resUtil.resInternalError(error, res, next);
-                    }else{
-                        logger.info('addOrderItemByProduct' + 'success');
-
-                    }
-                })
             }
-            orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=>{
-                if(error){
+            resolve();
+        }
+    });
+}).then(()=>{
+    new Promise((resolve,reject)=>{
+        orderDAO.addOrderItemByProduct(params,(error,result)=>{
+            if(error){
+                logger.error('addOrderItemByProduct' + error.message);
+                resUtil.resInternalError(error, res, next);
+            }else if(result && result.insertId < 1){
+                logger.warn('addOrderItemByProduct' +'选择商品失败');
+                resUtil.resetFailedRes(res,'选择商品失败',null);
+                return next();
+            }else{
+                logger.info('addOrderItemByProduct' + 'success');
+                resolve();
+            }
+        })
+    }).then(()=>{
+        new Promise((resolve,reject)=>{
+            orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=> {
+                if (error) {
                     logger.error('getOrderItem' + error.message);
                     resUtil.resInternalError(error, res, next);
-                }else if(rows && rows.length<1){
+                } else if (rows && rows.length < 1) {
                     logger.warn('getOrderItem' + '没有选择商品');
-                    resUtil.resetQueryRes(res,'没有选择商品',null);
-                }else{
+                    resUtil.resetQueryRes(res, '没有选择商品', null);
+                    return next();
+                } else {
+                    logger.info('getOrderItem' + 'success');
                     rowsLength = rows.length;
-                    for(let i=0;i<rowsLength;i++){
-                        totalPrice =  rows[i].total_price + totalPrice;
-                        prodCount =  rows[i].prod_count + prodCount;
+                    for (let i = 0; i < rowsLength; i++) {
+                        totalPrice = rows[i].total_price + totalPrice;
+                        prodCount = rows[i].prod_count + prodCount;
                         totalFreight = rows[i].freight + totalFreight;
                         params.totalPrice = totalPrice;
                         params.prodCount = prodCount;
                         params.totalFreight = totalFreight;
                     }
-                    orderDAO.updateOrderPrice(params,(error,result)=>{
-                        if(error){
-                            logger.error('updateOrderPrice' + error.message);
-                            resUtil.resInternalError(error, res, next);
-                        }else{
-                            logger.info('updateOrderPrice' + 'success');
-                            resUtil.resetQueryRes(res,resultOrderId,null);
-                            return next();
-                        }
-                    });
+                    resolve(params);
                 }
+            });
+        }).then(()=>{
+            new Promise((resolve,reject)=>{
+                orderDAO.updateOrderPrice(params,(error,result)=>{
+                    if(error){
+                        logger.error('updateOrderPrice' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('updateOrderPrice' + 'success');
+                        resUtil.resetQueryRes(res,resultOrderId,null);
+                        return next();
+                    }
+                });
             })
-        }
+        })
     })
+}).catch((error)=>{
+    resUtil.resInternalError(error, res, next);
+})
+        // orderDAO.addOrder(params,(error,result)=> {
+        //     if (error) {
+        //         logger.error('addOrder' + error.message);
+        //         resUtil.resInternalError(error, res, next);
+        //     }else{
+        //         resultOrderId = [{orderId: result.insertId}];
+        //         logger.info('addOrder' + 'success');
+        //         orderId = result.insertId;
+        //         params.orderId = orderId;
+        //         productIds = params.productId;
+        //         prodCounts = params.prodCount;
+        //         remark = params.remark;
+        //         carId = params.carId;
+        //         for(let i=0;i<productIds.length;i++){
+        //             params.productId = productIds[i];
+        //             params.count = prodCounts[i];
+        //             params.remark = remark[i];
+        //             params.carId = carId[i];
+        //             orderDAO.addOrderItemByProduct(params,(error,result)=>{
+        //                 if(error){
+        //                     logger.error('addOrderItemByProduct' + error.message);
+        //                     resUtil.resInternalError(error, res, next);
+        //                 }else if(result && result.insertId < 1){
+        //                     logger.warn('addOrderItemByProduct' +'选择商品失败');
+        //                     resUtil.resetFailedRes(res,'选择商品失败',null);
+        //                     return next();
+        //                 }else{
+        //                     logger.info('addOrderItemByProduct' + 'success');
+        //                 }
+        //             })
+        //         }
+        //     }
+        // });
 }
 const addOrderItem = (req,res,next)=>{
     let params = req.params;

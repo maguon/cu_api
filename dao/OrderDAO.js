@@ -215,6 +215,15 @@ const updateOrderLogStatus = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateOrderLogStatusByAdmin = (params,callback) => {
+    let query = "update order_info set log_status = 1 where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i] = params.orderId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateOrderLogStatus');
+        callback(error,rows);
+    })
+}
 const updateOrderPaymengStatus = (params,callback) => {
     let query = "update order_info set payment_status = ? where user_id=? and id=? ";
     let paramsArray = [],i=0;
@@ -253,6 +262,7 @@ module.exports = {
     delOrderItem,
     updateOrderStatus,
     updateOrderLogStatus,
+    updateOrderLogStatusByAdmin,
     updateOrderPaymengStatus,
     addOrderItemByProduct
 }

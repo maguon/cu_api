@@ -59,6 +59,7 @@ const updateLog = (req,res,next)=>{
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
             logger.info('updateLog' + 'success');
+            orderDAO.updateOrderLogStatusByAdmin({orderId:params.orderId},(error,result)=>{});
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
