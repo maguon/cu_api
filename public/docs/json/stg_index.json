@@ -6069,7 +6069,56 @@
           {
             "name": "orderId",
             "in": "query",
-            "description": "orderId",
+            "description": "order Id",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "phone",
+            "in": "query",
+            "description": "phone",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "userName",
+            "in": "query",
+            "description": "userName",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "type 0退款1支付",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "description": "status 0未完成1已完成",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "paymentType",
+            "in": "query",
+            "description": "payment_type 1微信支付2··",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnEnd",
+            "in": "query",
+            "description": "createdOnEnd",
             "required": false,
             "type": "integer"
           },
@@ -6161,6 +6210,13 @@
             "name": "paymentType",
             "in": "query",
             "description": "payment_type 1微信支付2··",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "createdOnStart",
+            "in": "query",
+            "description": "createdOnStart",
             "required": false,
             "type": "integer"
           },
