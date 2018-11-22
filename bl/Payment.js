@@ -65,12 +65,12 @@ const wechatPayment = (req,res,next)=>{
     let params = req.params;
     let ourString = encrypt.randomString();
     params.nonceStr = ourString;
-    paymentDAO.getPayment({orderId:params.orderId},(error,rows)=>{
+    paymentDAO.getPaymentByOrderId({orderId:params.orderId},(error,rows)=>{
         if(error){
-            logger.error('getPayment' + error.message);
+            logger.error('getPaymentByOrderId' + error.message);
             resUtil.resInternalError(error, res, next);
         }else if(rows && rows > 0){
-            logger.warn('getPayment' + '已经生成支付信息');
+            logger.warn('getPaymentByOrderId' + '已经生成支付信息');
             resUtil.resetFailedRes(res,'已经生成支付信息',null);
         }else{
             paymentDAO.addWechatPayment(params,(error,result)=>{

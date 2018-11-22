@@ -79,6 +79,66 @@ const getPayment = (params,callback) => {
         callback(error,rows);
     })
 }
+const getPaymentByOrderId = (params,callback) => {
+    let query = " select ui.user_name,ui.phone,pi.* from payment_info pi " +
+                " left join user_info ui on ui.id=pi.user_id " +
+                " where pi.id is not null  ";
+    let paramsArray = [],i=0;
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and pi.user_id =? ";
+    }
+    if(params.orderId){
+        paramsArray[i++] = params.orderId;
+        query = query + " and pi.order_id =? ";
+    }
+    if(params.phone){
+        paramsArray[i++] = params.phone;
+        query = query + " and ui.phone =? ";
+    }
+    if(params.userName){
+        paramsArray[i++] = params.userName;
+        query = query + " and ui.user_name =? ";
+    }
+    if(params.type){
+        paramsArray[i++] = params.type;
+        query = query + " and pi.type =? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and pi.status =? ";
+    }
+    if(params.paymentType){
+        paramsArray[i++] = params.paymentType;
+        query = query + " and pi.payment_type =? ";
+    }
+    if(params.pId){
+        paramsArray[i++] = params.pId;
+        query = query + " and pi.p_id =? ";
+    }
+    if(params.createdOnStart){
+        paramsArray[i++] = params.createdOnStart+" 00:00:00";
+        query = query + " and pi.created_on >=? ";
+    }
+    if(params.createdOnEnd){
+        paramsArray[i++] = params.createdOnEnd+" 23:59:59";
+        query = query + " and pi.created_on <=? ";
+    }
+    if(params.paymentId){
+        paramsArray[i++] = params.paymentId;
+        query = query + " and pi.id =? ";
+    }
+    query = query + " order by pi.created_on desc";
+    if(params.start && params.size){
+        paramsArray[i++] = parseInt(params.start);
+        paramsArray[i] = parseInt(params.size);
+        query = query + " limit ?,? ";
+    }
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getPayment');
+        callback(error,rows);
+    })
+}
 const updateStatus = (req,res,next) => {
     let params = req.params;
     let query = " update payment_info set status = ? where user_id = ? and id = ? ";
@@ -180,5 +240,6 @@ module.exports = {
     addWechatRefund,
     updateRefund,
     getRefundByPaymentId,
-    getPaymentByRefundId
+    getPaymentByRefundId,
+    getPaymentByOrderId
 }
