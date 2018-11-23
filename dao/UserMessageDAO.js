@@ -87,7 +87,7 @@ const queryUserMessageNumById = (params,callback) => {
         query = query + " and user_type = ? ";
     }
     if(params.status){
-        paramsArray[i] = params.status;
+        paramsArray[i++] = params.status;
         query = query + " and status = ? ";
     }
     if(params.readStatus){
