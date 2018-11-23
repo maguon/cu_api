@@ -111,7 +111,7 @@ const updateUserMessageStatus = (params,callback) => {
     })
 }
 const getUserMessageStatByDay = (params,callback) => {
-    let query = " select db.id,count(um.id) as count from user_message um " +
+    let query = " select db.id,um.status,count(um.id) as message_count  from user_message um " +
                 " left join date_base db on db.id=um.date_id " +
                 " where um.id is not null ";
     let paramsArray = [],i=0;
@@ -139,14 +139,14 @@ const getUserMessageStatByDay = (params,callback) => {
         paramsArray[i] = params.dateIdEnd;
         query = query + " and db.id <= ? ";
     }
-    query = query + " group by db.id ";
+    query = query + " group by db.id,um.status ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserMessageStatByDay');
         callback(error,rows);
     })
 }
 const getUserMessageStatByMonth = (params,callback) => {
-    let query = " select db.y_month,count(um.id) as count from user_message um " +
+    let query = " select db.y_month,um.status,count(um.id) as message_count from user_message um " +
                 " left join date_base db on db.id=um.date_id " +
                 " where um.id is not null ";
     let paramsArray = [],i=0;
@@ -174,7 +174,7 @@ const getUserMessageStatByMonth = (params,callback) => {
         paramsArray[i] = params.monthEnd;
         query = query + " and db.y_month <= ? ";
     }
-    query = query + " group by db.y_month ";
+    query = query + " group by db.y_month,um.status ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserMessageStatByMonth');
         callback(error,rows);
