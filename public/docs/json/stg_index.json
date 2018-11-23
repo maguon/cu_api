@@ -2605,6 +2605,13 @@
             "description": "status",
             "required": false,
             "type": "integer"
+          },
+          {
+            "name": "readStatus",
+            "in": "query",
+            "description": "readStatus",
+            "required": false,
+            "type": "integer"
           }
         ],
         "responses": {
@@ -2924,6 +2931,13 @@
             "type": "integer"
           },
           {
+            "name": "readStatus",
+            "in": "query",
+            "description": "readStatus",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "phone",
             "in": "query",
             "description": "phone",
@@ -3018,6 +3032,13 @@
             "name": "status",
             "in": "query",
             "description": "0未读1已读",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "readStatus",
+            "in": "query",
+            "description": "readStatus",
             "required": false,
             "type": "integer"
           },

@@ -53,6 +53,10 @@ const getMessage = (params,callback) => {
         paramsArray[i++] = params.status;
         query = query + " and um.status = ? ";
     }
+    if(params.readStatus){
+        paramsArray[i++] = params.readStatus;
+        query = query + " and um.read_status = ? ";
+    }
     if(params.createdStartOn){
         paramsArray[i++] = params.createdStartOn+" 00:00:00";
         query = query + " and um.created_on >= ? ";
@@ -85,6 +89,10 @@ const queryUserMessageNumById = (params,callback) => {
     if(params.status){
         paramsArray[i] = params.status;
         query = query + " and status = ? ";
+    }
+    if(params.readStatus){
+        paramsArray[i] = params.readStatus;
+        query = query + " and read_status = ? ";
     }
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('queryUserMessageNumById');
