@@ -179,8 +179,8 @@ const getOrderFeedbackStatByMonth = (params,callback) => {
 const getPaymentFeeByMonth = (params,callback) => {
     let query = " select db.y_month,ms.id as payment_status,if(isnull(sum(cci.total_fee)),0,sum(cci.total_fee)) as payment_fee from date_base db " +
                 " inner join message_status ms " +
-                " left join payment_info cci on db.id=cci.date_id and ms.id=cci.status " +
-                " where db.id is not null ";
+                " left join payment_info cci on db.id=cci.date_id and ms.id=cci.type " +
+                " where db.id is not null and cci.status = 1";
     let paramsArray=[],i=0;
     if(params.yMonth){
         paramsArray[i++] = params.yMonth;
