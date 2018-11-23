@@ -69,7 +69,7 @@ const wechatPayment = (req,res,next)=>{
         if(error){
             logger.error('getPaymentByOrderId' + error.message);
             resUtil.resInternalError(error, res, next);
-        }else if(rows && rows > 0){
+        }else if(rows && rows.length > 0){
             logger.warn('getPaymentByOrderId' + '已经生成支付信息');
             resUtil.resetFailedRes(res,'已经生成支付信息',null);
         }else{
