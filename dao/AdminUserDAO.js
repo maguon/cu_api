@@ -109,9 +109,10 @@ const getCheckCarStatByMonth = (params,callback) => {
     });
 }
 const getOrderStatByMonth = (params,callback) => {
-    let query = " select db.y_month,count(cci.id) as order_count from order_info cci " +
-                " left join date_base db on db.id=cci.date_id " +
-                " where cci.id is not null ";
+    let query = " select db.y_month,ms.id,count(db.id) as order_count from date_base db " +
+                " inner join message_status ms " +
+                " left join order_info cci on db.id=cci.date_id and ms.id=cci.payment_status " +
+                " where db.id is not null ";
     let paramsArray=[],i=0;
     if(params.yMonth){
         paramsArray[i++] = params.yMonth;
@@ -129,7 +130,7 @@ const getOrderStatByMonth = (params,callback) => {
         paramsArray[i++] = params.logStatus;
         query = query + " and cci.log_status = ? ";
     }
-    query = query + " group by db.y_month ";
+    query = query + " group by db.y_month,ms.id";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getOrderStatByMonth ');
         return callback(error,rows);
