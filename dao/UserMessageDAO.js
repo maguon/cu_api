@@ -136,8 +136,8 @@ const getUserMessageStatByDay = (params,callback) => {
         paramsArray[i++] = params.dateIdStart;
         query = query + " and db.id >= ? ";
     }
-    if(params.dateIdEnd){
-        paramsArray[i] = params.dateIdEnd;
+    if(params.dateId){
+        paramsArray[i] = params.dateId;
         query = query + " and db.id <= ? ";
     }
     query = query + " group by db.id,ms.id ";
