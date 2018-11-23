@@ -70,8 +70,7 @@ const wechatPayment = (req,res,next)=>{
             logger.error('getPaymentByOrderId' + error.message);
             resUtil.resInternalError(error, res, next);
         }else if(rows && rows.length > 0){
-            logger.warn('getPaymentByOrderId' + '已经生成支付信息');
-            resUtil.resetFailedRes(res,'已经生成支付信息',null);
+            logger.info('getPaymentByOrderId' + '已经生成支付信息');
         }else{
             paymentDAO.addWechatPayment(params,(error,result)=>{
                 if(error){
