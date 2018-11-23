@@ -234,9 +234,11 @@ const wechatRefund = (req,res,next)=>{
                                 let resString = JSON.stringify(result);
                                 let evalJson = eval('(' + resString + ')');
                                 if(evalJson.xml.return_code == 'FAIL'){
+                                    paymentDAO.delRefundFail(params,(error,result)=>{});
                                     logger.warn('退款失败');
                                     resUtil.resetFailedRes(res,evalJson.xml,null)
                                 }else if(evalJson.xml.result_code=='FAIL'){
+                                    paymentDAO.delRefundFail(params,(error,result)=>{});
                                     logger.warn('退款失败');
                                     resUtil.resetFailedRes(res,evalJson.xml.err_code_des,null)
                                 }

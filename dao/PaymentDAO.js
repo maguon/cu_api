@@ -233,6 +233,17 @@ const getPaymentByRefundId = (params,callback) => {
         callback(error,rows);
     })
 }
+const delRefundFail = (params,callback) => {
+    let query = " delete from payment_info where status=0 and type = 0 and p_id is not null ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.transactionId;
+    paramsArray[i++] = params.status;
+    paramsArray[i] = params.refundId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('delRefundFail');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addPayment,
     getPayment,
@@ -243,5 +254,6 @@ module.exports = {
     updateRefund,
     getRefundByPaymentId,
     getPaymentByRefundId,
-    getPaymentByOrderId
+    getPaymentByOrderId,
+    delRefundFail
 }
