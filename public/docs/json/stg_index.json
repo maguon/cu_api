@@ -1843,16 +1843,9 @@
             "type": "integer"
           },
           {
-            "name": "dateIdStart",
+            "name": "dateSize",
             "in": "query",
-            "description": "dateIdStart",
-            "required": false,
-            "type": "integer"
-          },
-          {
-            "name": "dateIdEnd",
-            "in": "query",
-            "description": "dateIdEnd",
+            "description": "dateSize",
             "required": false,
             "type": "integer"
           }

@@ -201,6 +201,10 @@ const userLogin = (req,res,next)=>{
 };
 const getUserStatByDay = (req,res,next)=>{
     let params = req.params;
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
+    let myDateSize = myDate.setDate(myDate.getDate()-params.dateSize);
+    params.dateIdStart = moment(myDateSize).format('YYYYMMDD');
     userDao.getUserStatByDay(params,(error,result)=>{
         if(error){
             logger.error('getUserStatByDay' + error.message);

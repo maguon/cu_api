@@ -160,19 +160,19 @@ const updateCreatedTime=(params,callback)=>{
     });
 }
 const getUserStatByDay=(params,callback)=>{
-    let query = " select db.id,count(ui.id) as user_count from user_info ui " +
-                " left join date_base db on db.id=ui.date_id " +
-                " where ui.id is not null ";
+    let query = " select db.id,count(ui.id) as user_count from date_base db " +
+                " left join user_info ui on db.id=ui.date_id " +
+                " where db.id is not null ";
     let paramsArray =[],i=0;
     if(params.dateIdStart){
         paramsArray[i++] = params.dateIdStart;
         query = query + " and db.id >= ? "
     }
-    if(params.dateIdEnd){
-        paramsArray[i] = params.dateIdEnd;
+    if(params.dateId){
+        paramsArray[i] = params.dateId;
         query = query + " and db.id <= ? "
     }
-    query = query + " group by db.id";
+    query = query + " group by db.id order by db.id desc ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserStatByDay');
         callback(error,rows);
