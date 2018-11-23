@@ -5,6 +5,7 @@ const sysMsg = require('../util/SystemMsg.js');
 const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('UserMessage.js');
 const userMessageDAO = require('../dao/UserMessageDAO.js');
+const moment = require('moment/moment.js');
 
 const addMessage = (req,res,next)=>{
     let params = req.params;
@@ -62,6 +63,9 @@ const updateUserMessageStatus = (req,res,next)=>{
 };
 const getUserMessageStatByDay = (req,res,next)=>{
     let params = req.params;
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
+    params.dateIdStart = moment(myDate).format('YYYYMMDD')-params.dateSize;
     userMessageDAO.getUserMessageStatByDay(params,(error,result)=>{
         if(error){
             logger.error('getUserMessageStatByDay' + error.message);
