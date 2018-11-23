@@ -6,8 +6,9 @@ const httpUtil = require('../util/HttpUtil');
 const db = require('../db/connection/MysqlDb.js');
 
 const addOrderFeedback = (params,callback) => {
-    let query = "insert into order_feedback(user_id,order_id,apply_reason)values(?,?,?) ";
+    let query = "insert into order_feedback(date_id,user_id,order_id,apply_reason)values(?,?,?,?) ";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.dateId;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i] = params.applyReason;

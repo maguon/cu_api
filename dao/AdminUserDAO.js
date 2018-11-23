@@ -70,7 +70,7 @@ const updatePassword = (params,callback) => {
     });
 }
 const getUserStat = (params,callback) => {
-    let query = " select count(id) from user_info where id is not null ";
+    let query = " select count(id) as user_count from user_info where id is not null ";
     let paramsArray=[],i=0;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getUserStat ');
@@ -78,7 +78,7 @@ const getUserStat = (params,callback) => {
     });
 }
 const getUserCarStat = (params,callback) => {
-    let query = " select count(id) from user_car where id is not null ";
+    let query = " select count(id) as car_count from user_car where id is not null ";
     let paramsArray=[],i=0;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getUserCarStat ');
@@ -86,7 +86,7 @@ const getUserCarStat = (params,callback) => {
     });
 }
 const getSuperviseStat = (params,callback) => {
-    let query = " select count(id) from supervise_info where id is not null ";
+    let query = " select count(id) as supervise_count from supervise_info where id is not null ";
     let paramsArray=[],i=0;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getSuperviseStat ');
@@ -94,7 +94,7 @@ const getSuperviseStat = (params,callback) => {
     });
 }
 const getCheckCarStatByMonth = (params,callback) => {
-    let query = " select db.y_month,count(cci.id) from check_car_info cci " +
+    let query = " select db.y_month,count(cci.id) as checkCar_count from check_car_info cci " +
                 " left join date_base db on db.id=cci.date_id " +
                 " where cci.id is not null ";
     let paramsArray=[],i=0;
@@ -109,7 +109,7 @@ const getCheckCarStatByMonth = (params,callback) => {
     });
 }
 const getOrderStatByMonth = (params,callback) => {
-    let query = " select db.y_month,count(cci.id) from order_info cci " +
+    let query = " select db.y_month,count(cci.id) as order_count from order_info cci " +
                 " left join date_base db on db.id=cci.date_id " +
                 " where cci.id is not null ";
     let paramsArray=[],i=0;
@@ -136,7 +136,7 @@ const getOrderStatByMonth = (params,callback) => {
     });
 }
 const getLogStatByMonth = (params,callback) => {
-    let query = " select db.y_month,count(cci.id) from log_info cci " +
+    let query = " select db.y_month,count(cci.id) as log_count from log_info cci " +
                 " left join date_base db on db.id=cci.date_id " +
                 " where cci.id is not null ";
     let paramsArray=[],i=0;
@@ -154,6 +154,25 @@ const getLogStatByMonth = (params,callback) => {
         return callback(error,rows);
     });
 }
+const getOrderFeedbackStatByMonth = (params,callback) => {
+    let query = " select db.y_month,count(cci.id) as feedback_count from order_feedback cci " +
+                " left join date_base db on db.id=cci.date_id " +
+                " where cci.id is not null ";
+    let paramsArray=[],i=0;
+    if(params.yMonth){
+        paramsArray[i++] = params.yMonth;
+        query = query + " and db.y_month = ? ";
+    }
+    if(params.status){
+        paramsArray[i] = params.status;
+        query = query + " and cci.status = ? ";
+    }
+    query = query + " group by db.y_month ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getOrderFeedbackStatByMonth ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     createAdminUser,
     queryAdminUser,
@@ -165,5 +184,6 @@ module.exports = {
     getSuperviseStat,
     getCheckCarStatByMonth,
     getOrderStatByMonth,
-    getLogStatByMonth
+    getLogStatByMonth,
+    getOrderFeedbackStatByMonth
 }

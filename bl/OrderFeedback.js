@@ -5,9 +5,12 @@ const sysMsg = require('../util/SystemMsg.js');
 const sysError = require('../util/SystemError.js');
 const logger = serverLogger.createLogger('OrderFeedback.js');
 const orderFeedbackDAO = require('../dao/OrderFeedbackDAO.js');
+const moment = require('moment/moment.js');
 
 const addOrderFeedback = (req,res,next)=>{
     let params = req.params;
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
     orderFeedbackDAO.addOrderFeedback(params,(error,result)=>{
         if(error){
             logger.error('addOrderFeedback' + error.message);
