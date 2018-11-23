@@ -157,9 +157,10 @@ const getLogStatByMonth = (params,callback) => {
     });
 }
 const getOrderFeedbackStatByMonth = (params,callback) => {
-    let query = " select db.y_month,count(cci.id) as feedback_count from order_feedback cci " +
-                " left join date_base db on db.id=cci.date_id " +
-                " where cci.id is not null ";
+    let query = " select db.y_month,ms.id as feedback_status,count(cci.id) as feedback_count from date_base db " +
+                " inner join message_status ms " +
+                " left join order_feedback cci on db.id=cci.date_id and ms.id=cci.status " +
+                " where db.id is not null ";
     let paramsArray=[],i=0;
     if(params.yMonth){
         paramsArray[i++] = params.yMonth;
@@ -169,7 +170,7 @@ const getOrderFeedbackStatByMonth = (params,callback) => {
         paramsArray[i] = params.status;
         query = query + " and cci.status = ? ";
     }
-    query = query + " group by db.y_month ";
+    query = query + " group by db.y_month,ms.id order by y_month desc ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug(' getOrderFeedbackStatByMonth ');
         return callback(error,rows);
