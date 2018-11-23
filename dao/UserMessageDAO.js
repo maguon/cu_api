@@ -100,7 +100,7 @@ const queryUserMessageNumById = (params,callback) => {
     })
 }
 const updateUserMessageStatus = (params,callback) => {
-    let query = "update user_message set status = ? where user_id=? and id=? ";
+    let query = "update user_message set read_status = ? where user_id=? and id=? ";
     let paramsArray = [],i=0;
         paramsArray[i++] = params.status;
         paramsArray[i++] = params.userId;
