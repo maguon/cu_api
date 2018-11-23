@@ -82,7 +82,7 @@ const getPayment = (params,callback) => {
 const getPaymentByOrderId = (params,callback) => {
     let query = " select ui.user_name,ui.phone,pi.* from payment_info pi " +
                 " left join user_info ui on ui.id=pi.user_id " +
-                " where pi.id is not null and pi.status =1 ";
+                " where pi.id is not null  ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
@@ -103,6 +103,10 @@ const getPaymentByOrderId = (params,callback) => {
     if(params.type){
         paramsArray[i++] = params.type;
         query = query + " and pi.type =? ";
+    }
+    if(params.status){
+        paramsArray[i++] = params.status;
+        query = query + " and pi.status =? ";
     }
     if(params.paymentType){
         paramsArray[i++] = params.paymentType;
