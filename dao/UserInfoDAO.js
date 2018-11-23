@@ -179,9 +179,9 @@ const getUserStatByDay=(params,callback)=>{
     });
 }
 const getUserStatByMonth=(params,callback)=>{
-    let query = " select db.y_month,count(ui.id) as user_count from user_info ui " +
-                " left join date_base db on db.id=ui.date_id " +
-                " where ui.id is not null ";
+    let query = " select db.y_month,count(ui.id) as user_count from date_base db " +
+                " left join user_info ui on db.id=ui.date_id " +
+                " where db.id is not null ";
     let paramsArray =[],i=0;
     if(params.yMonthStart){
         paramsArray[i++] = params.yMonthStart;
@@ -191,7 +191,7 @@ const getUserStatByMonth=(params,callback)=>{
         paramsArray[i] = params.yMonthEnd;
         query = query + " and db.y_month <= ? "
     }
-    query = query + " group by db.y_month";
+    query = query + " group by db.y_month order by db.y_month desc ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserStatByMonth');
         callback(error,rows);

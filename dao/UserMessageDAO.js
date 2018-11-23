@@ -140,7 +140,7 @@ const getUserMessageStatByDay = (params,callback) => {
         paramsArray[i] = params.dateId;
         query = query + " and db.id <= ? ";
     }
-    query = query + " group by db.id,ms.id ";
+    query = query + " group by db.id,ms.id order by db.id desc ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserMessageStatByDay');
         callback(error,rows);
@@ -176,7 +176,7 @@ const getUserMessageStatByMonth = (params,callback) => {
         paramsArray[i] = params.monthEnd;
         query = query + " and db.y_month <= ? ";
     }
-    query = query + " GROUP BY db.y_month,ms.id ";
+    query = query + " GROUP BY db.y_month,ms.id order by y_month desc ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserMessageStatByMonth');
         callback(error,rows);

@@ -65,7 +65,8 @@ const getUserMessageStatByDay = (req,res,next)=>{
     let params = req.params;
     let myDate = new Date();
     params.dateId = moment(myDate).format('YYYYMMDD');
-    params.dateIdStart = moment(myDate).format('YYYYMMDD')-params.dateSize;
+    let myDateSize = myDate.setDate(myDate.getDate()-params.dateSize);
+    params.dateIdStart = moment(myDateSize).format('YYYYMMDD');
     userMessageDAO.getUserMessageStatByDay(params,(error,result)=>{
         if(error){
             logger.error('getUserMessageStatByDay' + error.message);
