@@ -111,9 +111,10 @@ const updateUserMessageStatus = (params,callback) => {
     })
 }
 const getUserMessageStatByDay = (params,callback) => {
-    let query = " select db.id,um.status,count(um.id) as message_count  from user_message um " +
-                " left join date_base db on db.id=um.date_id " +
-                " where um.id is not null ";
+    let query = " select db.id,ms.id as message_status,count(um.id) as message_count  from date_base db " +
+                " inner join message_status ms" +
+                " left join user_message um on db.id=um.date_id and ms.id=um.status " +
+                " where db.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
@@ -139,16 +140,17 @@ const getUserMessageStatByDay = (params,callback) => {
         paramsArray[i] = params.dateIdEnd;
         query = query + " and db.id <= ? ";
     }
-    query = query + " group by db.id,um.status ";
+    query = query + " group by db.id,ms.id ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserMessageStatByDay');
         callback(error,rows);
     })
 }
 const getUserMessageStatByMonth = (params,callback) => {
-    let query = " select db.y_month,um.status,count(um.id) as message_count from user_message um " +
-                " left join date_base db on db.id=um.date_id " +
-                " where um.id is not null ";
+    let query = " select db.y_month,ms.id as message_status,count(um.id) as user_message_count from date_base db " +
+                " inner join message_status ms " +
+                " left join user_message um on ms.id = um.status and db.id=um.date_id " +
+                " where db.id is not null ";
     let paramsArray = [],i=0;
     if(params.userId){
         paramsArray[i++] = params.userId;
@@ -174,7 +176,7 @@ const getUserMessageStatByMonth = (params,callback) => {
         paramsArray[i] = params.monthEnd;
         query = query + " and db.y_month <= ? ";
     }
-    query = query + " group by db.y_month,um.status ";
+    query = query + " GROUP BY db.y_month,ms.id ";
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('getUserMessageStatByMonth');
         callback(error,rows);
