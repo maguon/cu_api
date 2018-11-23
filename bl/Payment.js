@@ -13,6 +13,7 @@ const https = require('https');
 const xml2js = require('xml2js');
 const oAuthUtil = require('../util/OAuthUtil.js');
 const fs = require('fs');
+const moment = require('moment/moment.js');
 
 const addPayment = (req,res,next)=>{
     let params = req.params;
@@ -65,6 +66,8 @@ const wechatPayment = (req,res,next)=>{
     let params = req.params;
     let ourString = encrypt.randomString();
     params.nonceStr = ourString;
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
     paymentDAO.getPaymentByOrderId({orderId:params.orderId},(error,rows)=>{
         if(error){
             logger.error('getPaymentByOrderId' + error.message);
@@ -164,6 +167,8 @@ const wechatRefund = (req,res,next)=>{
     params.nonceStr = ourString;
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
     paymentDAO.getPaymentByOrderId({orderId:params.orderId,type:1,status:1},(error,rows)=>{
         if(error){
             logger.error('getPaymentByOrderId' + error.message);
@@ -273,6 +278,7 @@ const addWechatPayment=(req,res,next) => {
             status: 1,
             type:1
         };
+
         paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
             if(error){
                 logger.error('getPaymentByOrderId' + error.message);

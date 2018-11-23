@@ -246,6 +246,19 @@ const getOrderFeedbackStatByMonth = (req,res,next) => {
         }
     })
 }
+const getPaymentFeeByMonth = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getPaymentFeeByMonth(params,(error,result)=>{
+        if (error) {
+            logger.error(' getPaymentFeeByMonth ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getPaymentFeeByMonth ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
 module.exports = {
     createAdminUser,
     adminUserLogin,
@@ -258,5 +271,6 @@ module.exports = {
     getCheckCarStatByMonth,
     getOrderStatByMonth,
     getLogStatByMonth,
-    getOrderFeedbackStatByMonth
+    getOrderFeedbackStatByMonth,
+    getPaymentFeeByMonth
 }

@@ -152,8 +152,9 @@ const updateStatus = (req,res,next) => {
     })
 }
 const addWechatPayment = (params,callback) => {
-    let query = " insert into payment_info (user_id,order_id,total_fee,nonce_str,status,type,payment_type) values(?,?,?,?,?,?,?)";
+    let query = " insert into payment_info (date_id,user_id,order_id,total_fee,nonce_str,status,type,payment_type) values(?,?,?,?,?,?,?,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.dateId;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = params.totalFee;
@@ -178,8 +179,9 @@ const updateWechatPayment = (params,callback) => {
     })
 }
 const addWechatRefund = (params,callback) => {
-    let query = " insert into payment_info(user_id,order_id,type,p_id,nonce_str,payment_type,total_fee) values(?,?,?,?,?,1,?)";
+    let query = " insert into payment_info(date_id,user_id,order_id,type,p_id,nonce_str,payment_type,total_fee) values(?,?,?,?,?,?,1,?)";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.dateId;
     paramsArray[i++] = params.userId;
     paramsArray[i++] = params.orderId;
     paramsArray[i++] = 0;

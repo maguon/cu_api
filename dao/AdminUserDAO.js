@@ -176,6 +176,26 @@ const getOrderFeedbackStatByMonth = (params,callback) => {
         return callback(error,rows);
     });
 }
+const getPaymentFeeByMonth = (params,callback) => {
+    let query = " select db.y_month,ms.id as payment_status,if(isnull(sum(cci.total_fee)),0,sum(cci.total_fee)) as payment_fee from date_base db " +
+                " inner join message_status ms " +
+                " left join payment_info cci on db.id=cci.date_id and ms.id=cci.status " +
+                " where db.id is not null ";
+    let paramsArray=[],i=0;
+    if(params.yMonth){
+        paramsArray[i++] = params.yMonth;
+        query = query + " and db.y_month = ? ";
+    }
+    if(params.status){
+        paramsArray[i] = params.status;
+        query = query + " and cci.status = ? ";
+    }
+    query = query + " group by db.y_month,ms.id order by y_month desc ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getPaymentFeeByMonth ');
+        return callback(error,rows);
+    });
+}
 module.exports = {
     createAdminUser,
     queryAdminUser,
@@ -188,5 +208,6 @@ module.exports = {
     getCheckCarStatByMonth,
     getOrderStatByMonth,
     getLogStatByMonth,
-    getOrderFeedbackStatByMonth
+    getOrderFeedbackStatByMonth,
+    getPaymentFeeByMonth
 }
