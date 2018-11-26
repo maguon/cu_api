@@ -11,7 +11,7 @@ const queryUserCar = (req,res,next)=>{
     userCarDao.queryUserCar(params,(error,result)=>{
         if(error){
             logger.error('queryUserCar' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('queryUserCar' + 'success');
             resUtil.resetQueryRes(res,result,null);
@@ -24,7 +24,7 @@ const updateUserCar = (req,res,next)=>{
     userCarDao.updateUserCar(params,(error,result)=>{
         if(error){
             logger.error('updateUserCar' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateUserCar' + 'success');
             resUtil.resetUpdateRes(res,result,null);
@@ -81,12 +81,12 @@ const delUserCar = (req,res,next)=>{
     userCarDao.delUserCar(params,(error,result)=>{
         if(error){
             logger.error('delUserCar' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             userCarDao.getUserCarNum(params,(error,rows)=>{
                 if(error){
                     logger.error('getUserCarNum' + error.message);
-                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                    resUtil.resInternalError(error, res, next);
                 }else{
                     let num = rows[0].num - 1 ;
                     params.num = num;
@@ -99,9 +99,23 @@ const delUserCar = (req,res,next)=>{
         }
     });
 };
+const updateUserCarStatus = (req,res,next)=>{
+    let params = req.params;
+    userCarDao.updateUserCarStatus(params,(error,result)=>{
+        if(error){
+            logger.error('updateUserCarStatus' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('updateUserCarStatus' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     queryUserCar,
     updateUserCar,
     addUserCar,
-    delUserCar
+    delUserCar,
+    updateUserCarStatus
 }

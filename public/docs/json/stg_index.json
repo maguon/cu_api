@@ -2411,6 +2411,13 @@
             "type": "integer"
           },
           {
+            "name": "status",
+            "in": "query",
+            "description": "status",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "start",
             "in": "query",
             "description": "start",
@@ -2670,6 +2677,55 @@
               "type": "object",
               "items": {
                 "$ref": "#/definitions/updatePaperRemark"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/user/{userId}/userCar/{userCarId}/status/{status}": {
+      "put": {
+        "tags": [
+          "userCar"
+        ],
+        "summary": "userCar put ",
+        "description": "userCar put ",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "userCarId",
+            "in": "path",
+            "description": "userCarId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "in": "path",
+            "description": "status",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/delUserCar"
               }
             }
           },

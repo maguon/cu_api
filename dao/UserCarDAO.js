@@ -116,11 +116,22 @@ const updateUserCarNum = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateUserCarStatus = (params,callback) => {
+    let query = "update user_car set status = ? where id = ? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.status;
+    paramsArray[i] = params.userCarId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateUserCarStatus');
+        callback(error,rows);
+    })
+}
 module.exports = {
     queryUserCar,
     updateUserCar,
     addUserCar,
     delUserCar,
     getUserCarNum,
-    updateUserCarNum
+    updateUserCarNum,
+    updateUserCarStatus
 }

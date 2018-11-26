@@ -13,7 +13,7 @@ const queryCarInfo = (req,res,next) => {
     checkCarDAO.queryCarInfo(params,(error,result)=>{
         if (error) {
             logger.error(' queryCarInfo ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' queryCarInfo ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
@@ -26,7 +26,7 @@ const updateStatus = (req,res,next) => {
     checkCarDAO.updateStatus(params,(error,result)=>{
         if (error) {
             logger.error(' updateStatus ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' updateStatus ' + "success");
             resUtil.resetUpdateRes(res,result,null) ;
@@ -59,7 +59,7 @@ const queryCarByMonth = (req,res,next) => {
     checkCarDAO.queryCarByMonth(params,(error,result)=>{
         if (error) {
             logger.error(' queryCarByMonth ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' queryCarByMonth ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
@@ -72,7 +72,7 @@ const queryCarByDay = (req,res,next) => {
     checkCarDAO.queryCarByDay(params,(error,result)=>{
         if (error) {
             logger.error(' queryCarByDay ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' queryCarByDay ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
@@ -85,7 +85,7 @@ const queryCarNumByDay = (req,res,next) => {
     checkCarDAO.queryCarNumByDay(params,(error,result)=>{
         if (error) {
             logger.error(' queryCarNumByDay ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' queryCarNumByDay ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
@@ -98,7 +98,7 @@ const queryCheckCar = (req,res,next) => {
     checkCarDAO.queryCheckCar(params,(error,result)=>{
         if (error) {
             logger.error(' queryCheckCar ' + error.message);
-            throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+            resUtil.resInternalError(error, res, next);
         }else{
             logger.info(' queryCheckCar ' + "success");
             resUtil.resetQueryRes(res,result,null) ;
