@@ -79,7 +79,7 @@ const getOrder = (params,callback) => {
         paramsArray[i++] = params.status;
         query = query + " and oi.status =? ";
     }
-    query = query + " order by oi.id asc ";
+    query = query + " order by oi.id desc ";
     if(params.start&&params.size){
         paramsArray[i++] = parseInt(params.start);
         paramsArray[i] = parseInt(params.size);
