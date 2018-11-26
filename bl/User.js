@@ -235,7 +235,43 @@ const getWXBizDataCrypt = (req,res,next)=>{
     let date = encrypt.WXBizDataCrypt(sysConfig.wechatConfig.mpAppId,params.sessionKey,params.encryptedData,params.iv);
 
     logger.info("WXBizDataCrypt"+date);
-    resUtil.resetQueryRes(res,date,null);
+    userDao.queryUser({userId:params.userId},(error,rows)=>{
+        if(error){
+            logger.error('queryUser' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else if(rows && rows.length < 1){
+            logger.warn('queryUser' + '没有此用户');
+            resUtil.resetFailedRes(res,'m查无此用户',null);
+        }else{
+            if(rows[0].phone && rows[0].phone !== date.result.purePhoneNumber){
+                userDao.updatePhone({userId:params.userId},(error,result)=>{
+                    if(error){
+                        logger.error('queryUser' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('updatePhone' + 'success');
+                        resUtil.resetUpdateRes(res,result,null);
+                        return next();
+                    }
+                })
+            }else if(rows[0].phone == null || rows[0].phone == ''){
+                userDao.updatePhone({userId:params.userId},(error,result)=>{
+                    if(error){
+                        logger.error('queryUser' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('updatePhone' + 'success');
+                        resUtil.resetUpdateRes(res,result,null);
+                        return next();
+                    }
+                })
+            }else{
+                logger.info(rows[0].wechat_name +'此用户是老用户，可以直接登录');
+                resUtil.resetQueryRes(res,{success:true},null);
+                return next();
+            }
+        }
+    })
 };
 module.exports ={
     queryUser,
