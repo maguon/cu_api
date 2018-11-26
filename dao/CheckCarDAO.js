@@ -173,6 +173,10 @@ const queryCheckCar = (params,callback) => {
         paramsArray[i++] = params.superviseId;
         query = query + " and cci.supervise_id = ?";
     }
+    if(params.userId){
+        paramsArray[i++] = params.userId;
+        query = query + " and ui.id = ?";
+    }
     if(params.checkCarId){
         paramsArray[i++] = params.checkCarId;
         query = query + " and cci.id = ?";

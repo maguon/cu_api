@@ -1395,6 +1395,13 @@
             "type": "integer"
           },
           {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "checkCarId",
             "in": "query",
             "description": "checkCarId",
