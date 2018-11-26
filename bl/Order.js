@@ -7,6 +7,7 @@ const logger = serverLogger.createLogger('Order.js');
 const orderDAO = require('../dao/OrderDAO.js');
 const productDAO = require('../dao/ProductDAO.js');
 const moment = require('moment/moment.js');
+const logDAO = require('../dao/LogDAO.js');
 /**
  * productArray [{prodId:1000,num:2,remark:'abc},{prodId:1001,num:1,remark:'dcd'}]
  * insert into order_itemprod_id,prod_name) values (select id,name from product_info where id =1000);
@@ -262,14 +263,39 @@ const updateOrderLogStatus = (req,res,next)=>{
 }
 const updateOrderPaymengStatus = (req,res,next)=>{
     let params = req.params;
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
     orderDAO.updateOrderPaymengStatus(params,(error,result)=>{
         if(error){
             logger.error('updateOrderPaymengStatus' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
             logger.info('updateOrderPaymengStatus' + 'success');
-            resUtil.resetUpdateRes(res,result,null);
-            return next();
+            orderDAO.getOrder({orderId:params.orderId},(error,rows)=>{
+                if(error){
+                    logger.error('getOrder' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else if(rows && rows.length < 1){
+                    logger.warn('getOrder' + '未查到此订单');
+                    resUtil.resetFailedRes(res,'未查到此订单',null);
+                }else{
+                    params.recvName = rows[0].recv_name;
+                    params.recvPhone = rows[0].recv_phone;
+                    params.recvAddress = rows[0].recv_address;
+                    params.remark = rows[0].remark;
+                    params.freight = rows[0].total_freight;
+                    logDAO.addLogFeedback(params,(error,result)=>{
+                        if(error){
+                            logger.error('addLogFeedback' + error.message);
+                            resUtil.resInternalError(error, res, next);
+                        }else{
+                            logger.info('addLogFeedback'+'success');
+                            resUtil.resetCreateRes(res,result,null);
+                            return next();
+                        }
+                    })
+                }
+            })
         }
     });
 }

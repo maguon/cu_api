@@ -103,8 +103,27 @@ const updateLog = (params,callback) => {
         callback(error,rows);
     })
 }
+const addLogFeedback = (params,callback) => {
+    let query = "insert into log_info(date_id,user_id,order_id,product_des,type,recv_name,recv_phone,recv_address,freight,remark)values(?,?,?,?,?,?,?,?,?,?)";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.dateId;
+    paramsArray[i++] = params.userId;
+    paramsArray[i++] = params.orderId;
+    paramsArray[i++] = params.productDes;
+    paramsArray[i++] = params.type;
+    paramsArray[i++] = params.recvName;
+    paramsArray[i++] = params.recvPhone;
+    paramsArray[i++] = params.recvAddress;
+    paramsArray[i++] = params.freight;
+    paramsArray[i] = params.remark;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('addLog');
+        callback(error,rows);
+    })
+}
 module.exports = {
     addLog,
     getLog,
-    updateLog
+    updateLog,
+    addLogFeedback
 }

@@ -196,7 +196,7 @@ function createServer() {
     server.del('/api/user/:userId/orderItem/:orderItemId',order.delOrderItem);
     server.put({path:'/api/user/:userId/order/:orderId/status/:status',contentType: 'application/json'},order.updateOrderStatus);
     server.put({path:'/api/user/:userId/order/:orderId/logStatus/:logStatus',contentType: 'application/json'},order.updateOrderLogStatus);
-    server.put({path:'/api/user/:userId/order/:orderId/paymentStatus/:paymentStatus',contentType: 'application/json'},order.updateOrderPaymengStatus);
+    server.put({path:'/api/user/:userId/order/:orderId/paymentStatus/:paymentStatus/orderFeedback',contentType: 'application/json'},order.updateOrderPaymengStatus);
     /**
      log_info物流
      */

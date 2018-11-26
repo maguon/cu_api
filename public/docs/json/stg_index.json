@@ -12,7 +12,7 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "stg.myxxjs.com:9201",
+  "host": "localhost:9201",
   "basePath": "/api",
   "tags": [
     {
@@ -4109,6 +4109,15 @@
             "description": "paymentStatus",
             "required": true,
             "type": "integer"
+          },
+          {
+            "name": "orderFeedbackLog",
+            "in": "body",
+            "description": "orderFeedbackLog",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/orderFeedbackLog"
+            }
           }
         ],
         "responses": {
@@ -7861,6 +7870,17 @@
       },
       "xml": {
         "name": "refund"
+      }
+    },
+    "orderFeedbackLog": {
+      "type": "object",
+      "properties": {
+        "productDes": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "orderFeedbackLog"
       }
     }
   }
