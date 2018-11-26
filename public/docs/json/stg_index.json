@@ -2334,6 +2334,13 @@
         ],
         "parameters": [
           {
+            "name": "userId",
+            "in": "query",
+            "description": "userId",
+            "required": false,
+            "type": "integer"
+          },
+          {
             "name": "sessionKey",
             "in": "query",
             "description": "sessionKey",
