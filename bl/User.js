@@ -8,6 +8,7 @@ const userDao = require('../dao/UserInfoDAO.js');
 const encrypt = require('../util/Encrypt.js');
 const oauthUtil = require('../util/OAuthUtil.js');
 const moment = require('moment/moment.js');
+const sysConfig = require('../config/SystemConfig.js');
 
 const updateUser = (req,res,next)=>{
     let params = req.params;
@@ -229,6 +230,13 @@ const getUserStatByMonth = (req,res,next)=>{
         }
     });
 };
+const getWXBizDataCrypt = (req,res,next)=>{
+    let params = req.params;
+    let date = encrypt.WXBizDataCrypt(sysConfig.wechatConfig.mpAppId,params.sessionKey,params.encryptedData,params.iv);
+
+    logger.info("WXBizDataCrypt"+date);
+    resUtil.resetQueryRes(res,date,null);
+};
 module.exports ={
     queryUser,
     userLogin,
@@ -238,5 +246,6 @@ module.exports ={
     updatePhone,
     updateType,
     getUserStatByDay,
-    getUserStatByMonth
+    getUserStatByMonth,
+    getWXBizDataCrypt
 };

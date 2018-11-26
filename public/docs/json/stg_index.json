@@ -2322,6 +2322,55 @@
         }
       }
     },
+    "/WXBizDataCrypt": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": " get WXBizDataCrypt",
+        "description": " get WXBizDataCrypt",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "sessionKey",
+            "in": "query",
+            "description": "sessionKey",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "encryptedData",
+            "in": "query",
+            "description": "encryptedData",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "iv",
+            "in": "query",
+            "description": "iv",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/WXBizDataCrypt"
+              }
+            }
+          },
+          "400": {
+            "description": "get WXBizDataCrypt"
+          }
+        }
+      }
+    },
     "/user/{userId}/userCar": {
       "get": {
         "tags": [

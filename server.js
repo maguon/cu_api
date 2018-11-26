@@ -152,6 +152,7 @@ function createServer() {
     server.put({path:'/api/user/:userId/wechatStatus/:wechatStatus',contentType: 'application/json'},user.updateStatus);
     server.put({path:'/api/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
     server.put({path:'/api/user/:userId/userPhone',contentType: 'application/json'},user.updatePhone);
+    server.get('/api/WXBizDataCrypt',user.getWXBizDataCrypt);
     /**
      user_ship_address
      */
