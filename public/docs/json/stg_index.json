@@ -7877,6 +7877,9 @@
       "properties": {
         "productDes": {
           "type": "string"
+        },
+        "type": {
+          "type": "integer"
         }
       },
       "xml": {
