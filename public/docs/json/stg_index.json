@@ -12,7 +12,7 @@
       "url": "https://github.com/maguon/uc_api"
     }
   },
-  "host": "localhost:9201",
+  "host": "stg.myxxjs.com:9201",
   "basePath": "/api",
   "tags": [
     {
@@ -4078,7 +4078,7 @@
         }
       }
     },
-    "/user/{userId}/order/{orderId}/paymentStatus/{paymentStatus}": {
+    "/user/{userId}/order/{orderId}/paymentStatus/{paymentStatus}/orderFeedback": {
       "put": {
         "tags": [
           "order"
