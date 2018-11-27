@@ -243,7 +243,7 @@ const getWXBizDataCrypt = (req,res,next)=>{
             logger.warn('queryUser' + '没有此用户');
             resUtil.resetFailedRes(res,'m查无此用户',null);
         }else{
-            if(rows[0].phone && rows[0].phone !== date.result.purePhoneNumber){
+            if(rows[0].phone && rows[0].phone !== date.purePhoneNumber){
                 userDao.updatePhone({userId:params.userId},(error,result)=>{
                     if(error){
                         logger.error('queryUser' + error.message);
