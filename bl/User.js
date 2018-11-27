@@ -244,7 +244,7 @@ const getWXBizDataCrypt = (req,res,next)=>{
             resUtil.resetFailedRes(res,'m查无此用户',null);
         }else{
             if(rows[0].phone && rows[0].phone !== date.purePhoneNumber){
-                userDao.updatePhone({userId:params.userId},(error,result)=>{
+                userDao.updatePhone({userId:params.userId,phone:date.purePhoneNumber},(error,result)=>{
                     if(error){
                         logger.error('queryUser' + error.message);
                         resUtil.resInternalError(error, res, next);
@@ -255,7 +255,7 @@ const getWXBizDataCrypt = (req,res,next)=>{
                     }
                 })
             }else if(rows[0].phone == null || rows[0].phone == ''){
-                userDao.updatePhone({userId:params.userId},(error,result)=>{
+                userDao.updatePhone({userId:params.userId,phone:date.purePhoneNumber},(error,result)=>{
                     if(error){
                         logger.error('queryUser' + error.message);
                         resUtil.resInternalError(error, res, next);
