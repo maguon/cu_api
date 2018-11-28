@@ -106,6 +106,16 @@ const updateUserCarStatus = (req,res,next)=>{
             logger.error('updateUserCarStatus' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
+            userCarDao.getUserCarNum(params,(error,rows)=>{
+                if(error){
+                    logger.error('getUserCarNum' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else{
+                    let num = rows[0].num - 1 ;
+                    params.num = num;
+                    userCarDao.updateUserCarNum(params,(error,result));
+                }
+            })
             logger.info('updateUserCarStatus' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
