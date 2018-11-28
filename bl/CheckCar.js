@@ -66,8 +66,8 @@ const addCheckCar = (req,res,next) => {
                     params.checkId = params.checkCarId;
                     params.carNo = params.userCarId;
                     params.userType = 1;
-                    // let myDate = new date();
-                    // params.dateId = moment(myDate).format('YYYYMMDD');
+                    let myDate = new Date();
+                    params.timeStr = moment(myDate).format('YYYY-MM-DD HH:mm:ss');
                     new Promise((resolve,reject)=>{
                         userDAO.queryUser({userId:params.userId},(error,rows)=>{
                             if(error){
