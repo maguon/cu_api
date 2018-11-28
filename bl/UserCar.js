@@ -34,7 +34,7 @@ const updateUserCar = (req,res,next)=>{
 };
 const addUserCar = (req,res,next)=>{
     let params = req.params;
-    userCarDao.queryUserCar({vin:params.vin},(error,rows)=>{
+    userCarDao.queryUserCar({vin:params.vin,status:1},(error,rows)=>{
         if(error){
             logger.error('queryUserCar' + error.message);
             resUtil.resInternalError(error, res, next);
@@ -43,7 +43,7 @@ const addUserCar = (req,res,next)=>{
             resUtil.resetFailedRes(res,'该车辆识别码已经被绑定',null);
         }else{
             logger.info('queryUserCar'+'success');
-            userCarDao.queryUserCar({licensePlate:params.licensePlate},(error,rows)=>{
+            userCarDao.queryUserCar({licensePlate:params.licensePlate,status:1},(error,rows)=>{
                 if(error){
                     logger.error('queryUserCar' + error.message);
                     resUtil.resInternalError(error, res, next);
