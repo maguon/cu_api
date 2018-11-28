@@ -198,6 +198,16 @@ const getUserStatByMonth=(params,callback)=>{
         callback(error,rows);
     });
 }
+const updateUserImg=(params,callback)=>{
+    let query = "update user_info set avatar_image = ? where id = ? ";
+    let paramsArray =[],i=0;
+    paramsArray[i++] = params.avatarImage;
+    paramsArray[i] = params.userId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateUserImg');
+        callback(error,rows);
+    });
+}
 module.exports = {
     queryUser,
     createUser,
@@ -210,5 +220,6 @@ module.exports = {
     updateAuthTime,
     updateCreatedTime,
     getUserStatByDay,
-    getUserStatByMonth
+    getUserStatByMonth,
+    updateUserImg
 }

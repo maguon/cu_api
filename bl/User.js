@@ -273,6 +273,19 @@ const getWXBizDataCrypt = (req,res,next)=>{
         }
     })
 };
+const updateUserImg = (req,res,next)=>{
+    let params = req.params;
+    userDao.updateUserImg(params,(error,result)=>{
+        if(error){
+            logger.error('updateUserImg' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('updateUserImg' + 'success');
+            resUtil.resetUpdateRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports ={
     queryUser,
     userLogin,
@@ -283,5 +296,6 @@ module.exports ={
     updateType,
     getUserStatByDay,
     getUserStatByMonth,
-    getWXBizDataCrypt
+    getWXBizDataCrypt,
+    updateUserImg
 };

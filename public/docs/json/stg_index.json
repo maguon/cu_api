@@ -2385,6 +2385,48 @@
         }
       }
     },
+    "/user/{userId}/avatarImage/{avatarImage}": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": " put avatar_image",
+        "description": " put avatar_image",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "avatarImage",
+            "in": "path",
+            "description": "avatarImage",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/WXBizDataCrypt"
+              }
+            }
+          },
+          "400": {
+            "description": "get WXBizDataCrypt"
+          }
+        }
+      }
+    },
     "/user/{userId}/userCar": {
       "get": {
         "tags": [

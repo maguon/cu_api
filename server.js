@@ -153,6 +153,7 @@ function createServer() {
     server.put({path:'/api/user/:userId/authStatus/:authStatus',contentType: 'application/json'},user.updateType);
     server.put({path:'/api/user/:userId/userPhone',contentType: 'application/json'},user.updatePhone);
     server.get('/api/WXBizDataCrypt',user.getWXBizDataCrypt);
+    server.put({path:'/api/user/:userId/avatarImage/:avatarImage',contentType: 'application/json'},user.updateUserImg);
     /**
      user_ship_address
      */
