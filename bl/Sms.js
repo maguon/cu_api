@@ -135,7 +135,7 @@ const sendMessage=(req,res,next)=>{
                 logger.error(' queryUser ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info('queryUser' + 'success');
+                logger.info('queryUserToUserMessage' + 'success');
                 let phone = rows[0].phone;
                 let openid = rows[0].wechat_id;
                 params.openid = openid;
