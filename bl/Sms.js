@@ -20,7 +20,7 @@ const sendSupervisePswdSms=(req,res,next)=>{
         superviseDAO.querySupervise(params,(error,rows)=>{
             if(error){
                 logger.error(' querySupervise ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else if(rows.length<1){
                 logger.warn(' querySupervise ' + '查无此人');
                 resUtil.resetFailedRes(res,'查无此人',null);
@@ -33,7 +33,7 @@ const sendSupervisePswdSms=(req,res,next)=>{
         oauthUtil.saveSupervisePswdCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
                 logger.error(' saveSupervisePswdCode ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
                 return next();
             }else{
                 logger.info('saveSupervisePswdCode' + 'success');
@@ -45,7 +45,7 @@ const sendSupervisePswdSms=(req,res,next)=>{
         oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
                 logger.error(' sendCaptcha ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
                 return next();
             }else{
                 resUtil.resetQueryRes(res,{success:true},null);
@@ -61,7 +61,7 @@ const sendSupervisePhoneSms=(req,res,next)=>{
         oauthUtil.saveSupervisePhoneCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
                 logger.error(' saveSupervisePhoneCode ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
                 return next();
             }else{
                 logger.info('saveSupervisePhoneCode' + 'success');
@@ -75,7 +75,7 @@ const sendSupervisePhoneSms=(req,res,next)=>{
         oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
                 logger.error(' sendCaptcha ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
                 return next();
             }else{
                 logger.info('sendCaptcha' + 'success');
@@ -88,29 +88,39 @@ const sendUserSms=(req,res,next)=>{
     let params = req.params;
     let captcha = "";
     captcha = encrypt.getSmsRandomKey();
-    new Promise((resolve,reject)=>{
-        oauthUtil.saveUserPhoneCode({phone:params.phone,code:captcha},(error,result)=>{
-            if(error){
-                logger.error(' saveUserPhoneCode ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else{
-                logger.info('saveUserPhoneCode' + 'success');
-                resolve();
-            }
-        })
-    }).then(()=>{
-        params.captcha = captcha;
-        params.userType = 1;
-        oauthUtil.sendCaptcha(params,(error,result)=>{
-            if(error){
-                logger.error(' sendCaptcha ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else{
-                logger.info('sendCaptcha' + 'success');
-                resUtil.resetQueryRes(res,{success:true},null);
-                return next();
-            }
-        })
+    userDAO.queryUser({phone:params.phone},(error,rows)=>{
+        if(error){
+            logger.error(' queryUser ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else if(rows && rows.length > 0){
+            logger.warn('queryUser'+'手机已经被绑定');
+            resUtil.resetFailedRes(res,'手机已经被绑定',null);
+        }else{
+            new Promise((resolve,reject)=>{
+                oauthUtil.saveUserPhoneCode({phone:params.phone,code:captcha},(error,result)=>{
+                    if(error){
+                        logger.error(' saveUserPhoneCode ' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('saveUserPhoneCode' + 'success');
+                        resolve();
+                    }
+                })
+            }).then(()=>{
+                params.captcha = captcha;
+                params.userType = 1;
+                oauthUtil.sendCaptcha(params,(error,result)=>{
+                    if(error){
+                        logger.error(' sendCaptcha ' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else{
+                        logger.info('sendCaptcha' + 'success');
+                        resUtil.resetQueryRes(res,{success:true},null);
+                        return next();
+                    }
+                })
+            })
+        }
     })
 }
 const sendMessage=(req,res,next)=>{
@@ -123,7 +133,7 @@ const sendMessage=(req,res,next)=>{
         userDAO.queryUser({userId:params.userId},(error,rows)=>{
             if(error){
                 logger.error(' queryUser ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else{
                 logger.info('queryUser' + 'success');
                 let phone = rows[0].phone;
@@ -137,7 +147,7 @@ const sendMessage=(req,res,next)=>{
         oauthUtil.sendMessage(params,(error,result)=>{
             if(error){
                 logger.error(' sendMessage ' + error.message);
-                resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                resUtil.resInternalError(error, res, next);
             }else{
                 logger.info('sendMessage' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
