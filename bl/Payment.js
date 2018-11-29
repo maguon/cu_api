@@ -195,8 +195,8 @@ const wechatRefund = (req,res,next)=>{
                         //+ "&openid="+params.openid
                         + "&out_refund_no="+params.refundId
                         + "&out_trade_no="+params.orderId
-                        + "&refund_fee="+params.refundFee
-                        + "&total_fee=" +params.totalFee
+                        + "&refund_fee="+params.refundFee * 100
+                        + "&total_fee=" +params.totalFee * 100
                         + "&key="+sysConfig.wechatConfig.paymentKey;
                     let signByMd = encrypt.encryptByMd5NoKey(signStr);
                     let reqBody =
@@ -207,8 +207,8 @@ const wechatRefund = (req,res,next)=>{
                         //'<openid>'+params.openid+'</openid>' +
                         '<out_refund_no>'+params.refundId+'</out_refund_no>' +
                         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
-                        '<refund_fee>'+params.refundFee+'</refund_fee>' +
-                        '<total_fee>'+params.totalFee+'</total_fee>' +
+                        '<refund_fee>'+params.refundFee * 100+'</refund_fee>' +
+                        '<total_fee>'+params.totalFee * 100+'</total_fee>' +
                         '<sign>'+signByMd+'</sign></xml>';
                     let url="/secapi/pay/refund";
                     let certFile = fs.readFileSync(sysConfig.wechatConfig.paymentCert);
