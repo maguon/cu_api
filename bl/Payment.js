@@ -322,7 +322,7 @@ const addWechatRefund=(req,res,next) => {
             let evalJsons = eval('(' + resStrings + ')');
             prepayIdJson.refundId = evalJsons.root.out_refund_no;
             prepayIdJson.transactionId = evalJsons.root.transaction_id;
-            prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee;
+            prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee / 100;
         })
         logger.info("updateRefundSSS"+prepayIdJson);
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
