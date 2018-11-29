@@ -164,38 +164,41 @@ const userLogin = (req,res,next)=>{
     }).then((params)=>{
         let myDate = new Date();
         params.dateId = moment(myDate).format('YYYYMMDD');
-        userDao.createUser(params,(error,result)=>{
-            if(error) {
-                logger.error('createUser' + error.message);
-                resUtil.resInternalError(error, res, next);
-            }
-            else{
-                params.userId = result.insertId;
-                userDao.queryUser({userId:params.userId},(error,rows)=>{
-                    if(error){
-                        logger.error('queryUser'+error.message);
-                        resUtil.resInternalError(error, res, next);
-                    }else if(rows && rows.length < 1){
-                        logger.warn("queryUser"+"创建用户失败");
-                        resUtil.resetFailedRes(res,'创建用户失败',null);
-                    }else{
-                        let user ={
-                            userId: rows[0].id,
-                            wechatName:rows[0].wechat_name,
-                            wechatId: rows[0].wechat_id,
-                            userStatus: rows[0].status
-                        };
-                        let myDate = new Date();
-                        params.lastLoginOn = myDate;
-                        user.lastLoginOn = params.lastLoginOn;
-                        userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
-                        user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
-                        resUtil.resetQueryRes(res,user,null);
-                        return next();
-                    }
-                })
-            }
-        });
+        if(params.wechatId != null && params.wechatId != ''){
+            params.authTime = '';
+            userDao.createUser(params,(error,result)=>{
+                if(error){
+                    logger.error('createUser' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }
+                else{
+                    params.userId = result.insertId;
+                    userDao.queryUser({userId:params.userId},(error,rows)=>{
+                        if(error){
+                            logger.error('queryUser'+error.message);
+                            resUtil.resInternalError(error, res, next);
+                        }else if(rows && rows.length < 1){
+                            logger.warn("queryUser"+"创建用户失败");
+                            resUtil.resetFailedRes(res,'创建用户失败',null);
+                        }else{
+                            let user ={
+                                userId: rows[0].id,
+                                wechatName:rows[0].wechat_name,
+                                wechatId: rows[0].wechat_id,
+                                userStatus: rows[0].status
+                            };
+                            let myDate = new Date();
+                            params.lastLoginOn = myDate;
+                            user.lastLoginOn = params.lastLoginOn;
+                            userDao.lastLoginOn({wechatId:params.wechatId,lastLoginOn:params.lastLoginOn},(error,rows));
+                            user.accessToken = oauthUtil.createAccessToken(oauthUtil.clientType.user,user.userId,user.userStatus);
+                            resUtil.resetQueryRes(res,user,null);
+                            return next();
+                        }
+                    })
+                }
+            });
+        }
     }).catch((error)=>{
         resUtil.resInternalError(error,res,next);
     })
