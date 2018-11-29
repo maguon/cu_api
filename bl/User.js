@@ -253,7 +253,7 @@ const getWXBizDataCrypt = (req,res,next)=>{
                 let myDate = new Date();
                 userDao.updatePhone({userId:params.userId,phone:date.purePhoneNumber,authStatus:1,myDate:myDate},(error,result)=>{
                     if(error){
-                        logger.error('queryUser' + error.message);
+                        logger.error('updatePhone' + error.message);
                         resUtil.resInternalError(error, res, next);
                     }else{
                         logger.info('updatePhone' + 'success');
@@ -262,7 +262,7 @@ const getWXBizDataCrypt = (req,res,next)=>{
                     }
                 })
             }else if(rows[0].phone == null || rows[0].phone == ''){
-                userDao.updatePhone({userId:params.userId,phone:date.purePhoneNumber},(error,result)=>{
+                userDao.updatePhone({userId:params.userId,phone:date.purePhoneNumber,authStatus:1,myDate:myDate},(error,result)=>{
                     if(error){
                         logger.error('queryUser' + error.message);
                         resUtil.resInternalError(error, res, next);
