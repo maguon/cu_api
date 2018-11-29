@@ -617,6 +617,97 @@
         }
       }
     },
+    "/admin/{adminId}/checkCarByDay": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "get user",
+        "description": "get user",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "dateSize",
+            "in": "query",
+            "description": "dateSize",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/query checkCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
+    "/admin/{adminId}/checkCarByMonth": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "get checkCar",
+        "description": "get checkCar",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "adminId",
+            "in": "path",
+            "description": "adminId",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "yMonthStart",
+            "in": "query",
+            "description": "yMonthStart",
+            "required": false,
+            "type": "integer"
+          },
+          {
+            "name": "yMonthEnd",
+            "in": "query",
+            "description": "yMonthEnd",
+            "required": false,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "items": {
+                "$ref": "#/definitions/query checkCar"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid token value or invalid admin id"
+          }
+        }
+      }
+    },
     "/admin/{adminId}/password": {
       "put": {
         "tags": [

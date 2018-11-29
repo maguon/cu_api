@@ -9,6 +9,7 @@ const oAuthUtil = require('../util/OAuthUtil.js');
 const adminUserDao = require('../dao/AdminUserDAO.js');
 const serverLogger = require('../util/ServerLogger.js');
 const logger = serverLogger.createLogger('AdminUser.js');
+const moment = require('moment/moment.js');
 
 const createAdminUser = (req,res,next) => {
     let params = req.params;
@@ -259,6 +260,36 @@ const getPaymentFeeByMonth = (req,res,next) => {
         }
     })
 }
+const getCheckCarByMonth = (req,res,next) => {
+    let params = req.params;
+    adminUserDao.getCheckCarByMonth(params,(error,result)=>{
+        if (error) {
+            logger.error(' getCheckCarByMonth ' + error.message);
+            resUtil.resInternalError(error, res, next);
+        } else {
+            logger.info(' getCheckCarByMonth ' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    })
+}
+const getCheckCarByDay = (req,res,next)=>{
+    let params = req.params;
+    let myDate = new Date();
+    params.dateId = moment(myDate).format('YYYYMMDD');
+    let myDateSize = myDate.setDate((myDate.getDate()-params.dateSize));
+    params.dateIdStart = moment(myDateSize).format('YYYYMMDD');
+    adminUserDao.getCheckCarByDay(params,(error,result)=>{
+        if(error){
+            logger.error('getCheckCarByDay' + error.message);
+            resUtil.resInternalError(error, res, next);
+        }else{
+            logger.info('getCheckCarByDay' + 'success');
+            resUtil.resetQueryRes(res,result,null);
+            return next();
+        }
+    });
+};
 module.exports = {
     createAdminUser,
     adminUserLogin,
@@ -272,5 +303,7 @@ module.exports = {
     getOrderStatByMonth,
     getLogStatByMonth,
     getOrderFeedbackStatByMonth,
-    getPaymentFeeByMonth
+    getPaymentFeeByMonth,
+    getCheckCarByMonth,
+    getCheckCarByDay
 }

@@ -196,6 +196,44 @@ const getPaymentFeeByMonth = (params,callback) => {
         return callback(error,rows);
     });
 }
+const getCheckCarByMonth = (params,callback) => {
+    let query = " select db.y_month,count(cci.id) as checkCar_count from date_base db" +
+                " left join check_car_info cci on db.id=cci.date_id " +
+                " where db.id is not null ";
+    let paramsArray=[],i=0;
+    if(params.yMonthStart){
+        paramsArray[i++] = params.yMonthStart;
+        query = query + " and db.y_month >= ? "
+    }
+    if(params.yMonthEnd){
+        paramsArray[i] = params.yMonthEnd;
+        query = query + " and db.y_month <= ? "
+    }
+    query = query + " group by db.y_month order by db.y_month desc ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug(' getCheckCarByMonth ');
+        return callback(error,rows);
+    });
+}
+const getCheckCarByDay=(params,callback)=>{
+    let query = " select db.id,count(ui.id) as user_count from date_base db " +
+                " left join check_car_info ui on db.id=ui.date_id " +
+                " where db.id is not null ";
+    let paramsArray =[],i=0;
+    if(params.dateIdStart){
+        paramsArray[i++] = params.dateIdStart;
+        query = query + " and db.id >= ? "
+    }
+    if(params.dateId){
+        paramsArray[i] = params.dateId;
+        query = query + " and db.id <= ? "
+    }
+    query = query + " group by db.id order by db.id desc ";
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('getCheckCarByDay');
+        callback(error,rows);
+    });
+}
 module.exports = {
     createAdminUser,
     queryAdminUser,
@@ -209,5 +247,7 @@ module.exports = {
     getOrderStatByMonth,
     getLogStatByMonth,
     getOrderFeedbackStatByMonth,
-    getPaymentFeeByMonth
+    getPaymentFeeByMonth,
+    getCheckCarByMonth,
+    getCheckCarByDay
 }
