@@ -34,43 +34,61 @@ const updateUserCar = (req,res,next)=>{
 };
 const addUserCar = (req,res,next)=>{
     let params = req.params;
-    userCarDao.queryUserCar({vin:params.vin,status:1},(error,rows)=>{
+    userCarDao.queryUserCar({vin:params.vin,licensePlate:params.licensePlate,status:0},(error,rows)=>{
         if(error){
             logger.error('queryUserCar' + error.message);
             resUtil.resInternalError(error, res, next);
         }else if(rows && rows.length > 0){
-            logger.warn('queryUserCar' + '该车辆识别码已经被绑定');
-            resUtil.resetFailedRes(res,'该车辆识别码已经被绑定',null);
+            userCarDao.updateUserCarByVin({vin:params.vin,licensePlate:params.licensePlate,status:1,userId:params.userId},(error,result)=>{
+                if(error){
+                    logger.error('updateUserCar' + error.message);
+                    resUtil.resInternalError(error, res, next);
+                }else{
+                    logger.info('updateUserCar' + 'success');
+                    resUtil.resetCreateRes(res,result,null);
+                    return next();
+                }
+            })
         }else{
-            logger.info('queryUserCar'+'success');
-            userCarDao.queryUserCar({licensePlate:params.licensePlate,status:1},(error,rows)=>{
+            userCarDao.queryUserCar({vin:params.vin,status:1},(error,rows)=>{
                 if(error){
                     logger.error('queryUserCar' + error.message);
                     resUtil.resInternalError(error, res, next);
                 }else if(rows && rows.length > 0){
-                    logger.warn('queryUserCar' + '该车牌已经被绑定');
-                    resUtil.resetFailedRes(res,'该车牌已经被绑定',null);
+                    logger.warn('queryUserCar' + '该车辆识别码已经被绑定');
+                    resUtil.resetFailedRes(res,'该车辆识别码已经被绑定',null);
                 }else{
-                    userCarDao.addUserCar(params,(error,result)=>{
+                    logger.info('queryUserCar'+'success');
+                    userCarDao.queryUserCar({licensePlate:params.licensePlate,status:1},(error,rows)=>{
                         if(error){
-                            logger.error('addUserCar' + error.message);
+                            logger.error('queryUserCar' + error.message);
                             resUtil.resInternalError(error, res, next);
+                        }else if(rows && rows.length > 0){
+                            logger.warn('queryUserCar' + '该车牌已经被绑定');
+                            resUtil.resetFailedRes(res,'该车牌已经被绑定',null);
                         }else{
-                            userCarDao.getUserCarNum(params,(error,rows)=>{
+                            userCarDao.addUserCar(params,(error,result)=>{
                                 if(error){
-                                    logger.error('getUserCarNum' + error.message);
+                                    logger.error('addUserCar' + error.message);
                                     resUtil.resInternalError(error, res, next);
                                 }else{
-                                    let num = rows[0].num + 1 ;
-                                    params.num = num;
-                                    userCarDao.updateUserCarNum(params,(error,result));
-                                    logger.info('addUserCar' + 'success');
-                                    resUtil.resetCreateRes(res,result,null);
-                                    return next();
+                                    userCarDao.getUserCarNum(params,(error,rows)=>{
+                                        if(error){
+                                            logger.error('getUserCarNum' + error.message);
+                                            resUtil.resInternalError(error, res, next);
+                                        }else{
+                                            let num = rows[0].num + 1 ;
+                                            params.num = num;
+                                            userCarDao.updateUserCarNum(params,(error,result));
+                                            logger.info('addUserCar' + 'success');
+                                            resUtil.resetCreateRes(res,result,null);
+                                            return next();
+                                        }
+                                    })
                                 }
-                            })
+                            });
                         }
-                    });
+                    })
                 }
             })
         }
