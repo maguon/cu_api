@@ -216,7 +216,7 @@ const getCheckCarByMonth = (params,callback) => {
     });
 }
 const getCheckCarByDay=(params,callback)=>{
-    let query = " select db.id,count(ui.id) as user_count from date_base db " +
+    let query = " select db.id,count(ui.id) as checkCar_count from date_base db " +
                 " left join check_car_info ui on db.id=ui.date_id " +
                 " where db.id is not null ";
     let paramsArray =[],i=0;
