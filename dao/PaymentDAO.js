@@ -168,8 +168,9 @@ const addWechatPayment = (params,callback) => {
     })
 }
 const updateWechatPayment = (params,callback) => {
-    let query = " update payment_info set status=?,transaction_id=? where id = ? ";
+    let query = " update payment_info set total_fee=?,status=?,transaction_id=? where id = ? ";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.params.totalFee;
     paramsArray[i++] = params.status;
     paramsArray[i++] = params.transactionId;
     paramsArray[i] = params.paymentId;
@@ -194,8 +195,9 @@ const addWechatRefund = (params,callback) => {
     })
 }
 const updateRefund = (params,callback) => {
-    let query = " update payment_info set transaction_id=?,status=? where id = ?";
+    let query = " update payment_info set total_fee=?,transaction_id=?,status=? where id = ?";
     let paramsArray = [],i=0;
+    paramsArray[i++] = params.settlement_refund_fee;
     paramsArray[i++] = params.transactionId;
     paramsArray[i++] = params.status;
     paramsArray[i] = params.refundId;

@@ -277,6 +277,7 @@ const addWechatPayment=(req,res,next) => {
             orderId: evalJson.xml.out_trade_no,
             timeEnd: evalJson.xml.time_end,
             transactionId: evalJson.xml.transaction_id,
+            totalFee:evalJson.xml.total_fee,
             status: 1,
             type:1
         };
@@ -321,6 +322,7 @@ const addWechatRefund=(req,res,next) => {
             let evalJsons = eval('(' + resStrings + ')');
             prepayIdJson.refundId = evalJsons.root.out_refund_no;
             prepayIdJson.transactionId = evalJsons.root.transaction_id;
+            prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee;
         })
         logger.info("updateRefundSSS"+prepayIdJson);
         paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
