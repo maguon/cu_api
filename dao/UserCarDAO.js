@@ -67,6 +67,18 @@ const updateUserCar = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateUserCarByVin = (params,callback) => {
+    let query = "update user_car set user_id = ? ,status=? where vin=? and engine_num=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.userId;
+    paramsArray[i++] = params.status;
+    paramsArray[i++] = params.vin;
+    paramsArray[i] = params.engineNum;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateUserCar');
+        callback(error,rows);
+    })
+}
 const addUserCar = (params,callback) => {
     let query = " insert into user_car(user_id,vin,make_id,make_name,model_id,model_name,engine_num,license_plate) " +
                 " values(?,?,?,?,?,?,?,?) ";
@@ -117,7 +129,7 @@ const updateUserCarNum = (params,callback) => {
     })
 }
 const updateUserCarStatus = (params,callback) => {
-    let query = "update user_car set status = ? where id = ? ";
+    let query = "update user_car set status = ?,user_id='' where id = ? ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.status;
     paramsArray[i] = params.userCarId;
@@ -133,5 +145,6 @@ module.exports = {
     delUserCar,
     getUserCarNum,
     updateUserCarNum,
-    updateUserCarStatus
+    updateUserCarStatus,
+    updateUserCarByVin
 }
