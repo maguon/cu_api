@@ -101,14 +101,14 @@ const updatePhone=(req,res,next)=>{
             return next();
         }else{
             if(result.result.code==params.signCode){
+                let myDate = new Date();
+                params.myDate = myDate;
+                params.authStatus = 1;
                 userDao.updatePhone(params,(error,result)=>{
                     if(error){
                         logger.error('updatePhone' + error.message);
                         resUtil.resInternalError(error, res, next);
                     }else{
-                        let myDate = new Date();
-                        params.myDate = myDate;
-                        userDao.updateCreatedTime(params,(error,result));
                         logger.info('updatePhone' + 'success');
                         resUtil.resetUpdateRes(res,result,null);
                         return next();
