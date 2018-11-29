@@ -165,7 +165,7 @@ const userLogin = (req,res,next)=>{
         let myDate = new Date();
         params.dateId = moment(myDate).format('YYYYMMDD');
         if(params.wechatId != null && params.wechatId != ''){
-            params.authTime = '';
+            params.authTime = null;
             if(params.gender && params.gender==2){
                 params.gender = 0;
             }
