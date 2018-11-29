@@ -95,7 +95,7 @@ const wechatPayment = (req,res,next)=>{
         + "&openid="+params.openid
         + "&out_trade_no="+params.orderId
         + "&spbill_create_ip="+requestIp
-        + "&total_fee=" +params.totalFee
+        + "&total_fee=" +params.totalFee * 100
         + "&trade_type="+jsa
         + "&key="+sysConfig.wechatConfig.paymentKey;
     let signByMd = encrypt.encryptByMd5NoKey(signStr);
@@ -108,7 +108,7 @@ const wechatPayment = (req,res,next)=>{
         '<openid>'+params.openid+'</openid>' +
         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
         '<spbill_create_ip>'+requestIp+'</spbill_create_ip>' +
-        '<total_fee>'+params.totalFee + '</total_fee>' +
+        '<total_fee>'+params.totalFee * 100 + '</total_fee>' +
         '<trade_type>'+jsa+'</trade_type>' +
         '<sign>'+signByMd+'</sign></xml>';
     let url="/pay/unifiedorder";
@@ -195,7 +195,7 @@ const wechatRefund = (req,res,next)=>{
                         //+ "&openid="+params.openid
                         + "&out_refund_no="+params.refundId
                         + "&out_trade_no="+params.orderId
-                        + "&refund_fee="+params.refundFee
+                        + "&refund_fee="+params.refundFee * 100
                         + "&total_fee=" +params.totalFee
                         + "&key="+sysConfig.wechatConfig.paymentKey;
                     let signByMd = encrypt.encryptByMd5NoKey(signStr);
@@ -207,7 +207,7 @@ const wechatRefund = (req,res,next)=>{
                         //'<openid>'+params.openid+'</openid>' +
                         '<out_refund_no>'+params.refundId+'</out_refund_no>' +
                         '<out_trade_no>'+params.orderId+'</out_trade_no>' +
-                        '<refund_fee>'+params.refundFee+'</refund_fee>' +
+                        '<refund_fee>'+params.refundFee * 100+'</refund_fee>' +
                         '<total_fee>'+params.totalFee+'</total_fee>' +
                         '<sign>'+signByMd+'</sign></xml>';
                     let url="/secapi/pay/refund";
@@ -290,6 +290,7 @@ const addWechatPayment=(req,res,next) => {
                 resUtil.resetFailedRes(res,'没有此支付信息',null);
             }else{
                 prepayIdJson.paymentId = rows[0].id;
+                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result));
                 paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
                     if(error){
                         logger.error('updateWechatPayment' + error.message);

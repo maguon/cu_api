@@ -236,6 +236,16 @@ const updateOrderPaymengStatus = (params,callback) => {
         callback(error,rows);
     })
 }
+const updateOrderPaymengStatusByOrderId = (params,callback) => {
+    let query = "update order_info set payment_status = ? where id=? ";
+    let paramsArray = [],i=0;
+    paramsArray[i++] = params.paymentStatus;
+    paramsArray[i] = params.orderId;
+    db.dbQuery(query,paramsArray,(error,rows)=>{
+        logger.debug('updateOrderPaymengStatusByOrderId');
+        callback(error,rows);
+    })
+}
 const addOrderItemByProduct = (params,callback) => {
     let query = " insert into order_item " +
                 " (imag,remark,car_id,freight,user_id,order_id,product_id,product_name,unit_price,prod_count,total_price) " +
@@ -265,5 +275,6 @@ module.exports = {
     updateOrderLogStatus,
     updateOrderLogStatusByAdmin,
     updateOrderPaymengStatus,
-    addOrderItemByProduct
+    addOrderItemByProduct,
+    updateOrderPaymengStatusByOrderId
 }
