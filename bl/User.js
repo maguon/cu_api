@@ -166,6 +166,9 @@ const userLogin = (req,res,next)=>{
         params.dateId = moment(myDate).format('YYYYMMDD');
         if(params.wechatId != null && params.wechatId != ''){
             params.authTime = '';
+            if(params.gender && params.gender==2){
+                params.gender = 0;
+            }
             userDao.createUser(params,(error,result)=>{
                 if(error){
                     logger.error('createUser' + error.message);
