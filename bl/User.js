@@ -239,7 +239,7 @@ const getUserStatByMonth = (req,res,next)=>{
 const getWXBizDataCrypt = (req,res,next)=>{
     let params = req.params;
     let date = encrypt.WXBizDataCrypt(sysConfig.wechatConfig.mpAppId,params.sessionKey,params.encryptedData,params.iv);
-
+    let myDate = new Date();
     logger.info("WXBizDataCrypt"+date);
     userDao.queryUser({userId:params.userId},(error,rows)=>{
         if(error){
@@ -250,7 +250,6 @@ const getWXBizDataCrypt = (req,res,next)=>{
             resUtil.resetFailedRes(res,'m查无此用户',null);
         }else{
             if(rows[0].phone && rows[0].phone !== date.purePhoneNumber){
-                let myDate = new Date();
                 userDao.updatePhone({userId:params.userId,phone:date.purePhoneNumber,authStatus:1,myDate:myDate},(error,result)=>{
                     if(error){
                         logger.error('updatePhone' + error.message);
