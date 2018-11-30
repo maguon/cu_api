@@ -310,6 +310,9 @@ const addWechatPayment=(req,res,next) => {
                     if(error){
                         logger.error('updateOrderPaymengStatusByOrderId' + error.message);
                         resUtil.resInternalError(error, res, next);
+                    }else if(result && result < 1){
+                        logger.warn('updateOrderPaymengStatusByOrderId' + '修改订单支付状态失败');
+                        resUtil.resetFailedRes(res,'修改订单支付状态失败',null);
                     }else{
                         logger.info('updateOrderPaymengStatusByOrderId'+'success');
                         paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
