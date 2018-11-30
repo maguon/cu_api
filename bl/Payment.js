@@ -282,22 +282,21 @@ const wechatRefund = (req,res,next)=>{
 };
 const addWechatPayment=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-    let prepayIdJson = {};
-        xmlParser.parseString(req.body,(err,result)=>{
-            let resString = JSON.stringify(result);
-            let evalJson = eval('(' + resString + ')');
-            logger.info("paymentResult166"+resString);
-            logger.info("paymentResult1666"+req.body);
-            prepayIdJson = {
-                nonceStr: evalJson.xml.nonce_str,
-                openid: evalJson.xml.openid,
-                orderId: evalJson.xml.out_trade_no,
-                timeEnd: evalJson.xml.time_end,
-                transactionId: evalJson.xml.transaction_id,
-                totalFee:evalJson.xml.total_fee,
-                status: 1,
-                type:1
-            };
+    xmlParser.parseString(req.body,(err,result)=>{
+        let resString = JSON.stringify(result);
+        let evalJson = eval('(' + resString + ')');
+        logger.info("paymentResult166"+resString);
+        logger.info("paymentResult1666"+req.body);
+        let prepayIdJson = {
+            nonceStr: evalJson.xml.nonce_str,
+            openid: evalJson.xml.openid,
+            orderId: evalJson.xml.out_trade_no,
+            timeEnd: evalJson.xml.time_end,
+            transactionId: evalJson.xml.transaction_id,
+            totalFee:evalJson.xml.total_fee,
+            status: 1,
+            type:1
+        };
         new Promise((resolve,reject)=>{
             paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
                 if(error){
@@ -308,27 +307,41 @@ const addWechatPayment=(req,res,next) => {
                     resUtil.resetFailedRes(res,'没有此支付信息',null);
                 }else{
                     prepayIdJson.paymentId = rows[0].id;
-                    resolve();
+                    resolve()
                 }
             })
         }).then(()=>{
             new Promise((resolve,reject)=>{
-                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result)=>{});
-                paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
+                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result)=>{
                     if(error){
-                        logger.error('updateWechatPayment' + error.message);
-                        reject();
+                        logger.error('updateOrderPaymengStatusByOrderId' + error.message);
+                        reject(error);
+                    }else if(result && result.insertId < 1){
+                        logger.warn('updateOrderPaymengStatusByOrderIdWarn'+'修改订单状态失败');
+                        result.resetFailedRes(res,'修改订单状态失败',null);
                     }else{
-                        logger.info('updateWechatPayment' + 'success');
-                        resUtil.resetCreateRes(res,result,null);
-                        return next();
+                        logger.info('updateOrderPaymengStatusByOrderId'+'success');
+                        resolve();
                     }
                 });
+            }).then(()=>{
+                new Promise((resolve,reject)=>{
+                    paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
+                        if(error){
+                            logger.error('updateWechatPayment' + error.message);
+                            reject(error);
+                        }else{
+                            logger.info('updateWechatPayment' + 'success');
+                            resUtil.resetCreateRes(res,result,null);
+                            return next();
+                        }
+                    });
+                })
             })
         }).catch((error)=>{
-        resUtil.resInternalError(error, res, next);
-    })
-        });
+            resUtil.resInternalError(error,res,next);
+        })
+    });
 }
 const addWechatRefund=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
