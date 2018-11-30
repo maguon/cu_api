@@ -293,7 +293,7 @@ const addWechatPayment=(req,res,next) => {
             orderId: evalJson.xml.out_trade_no,
             timeEnd: evalJson.xml.time_end,
             transactionId: evalJson.xml.transaction_id,
-            totalFee:evalJson.xml.total_fee,
+            totalFee:evalJson.xml.total_fee / 100,
             status: 1,
             type:1
         };
