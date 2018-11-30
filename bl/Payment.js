@@ -297,37 +297,49 @@ const addWechatPayment=(req,res,next) => {
             status: 1,
             type:1
         };
-        paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
-            if(error){
-                logger.error('getPaymentByOrderId' + error.message);
-                resUtil.resInternalError(error, res, next);
-            }else if(rows && rows.length < 1){
-                logger.warn('getPaymentByOrderId' + '没有此支付信息');
-                resUtil.resetFailedRes(res,'没有此支付信息',null);
-            }else{
-                prepayIdJson.paymentId = rows[0].id;
+        new Promise((resolve,reject)=>{
+            paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
+                if(error){
+                    logger.error('getPaymentByOrderId' + error.message);
+                    reject();
+                }else if(rows && rows.length < 1){
+                    logger.warn('getPaymentByOrderId' + '没有此支付信息');
+                    resUtil.resetFailedRes(res,'没有此支付信息',null);
+                }else{
+                    prepayIdJson.paymentId = rows[0].id;
+                    resolve();
+                }
+            })
+        }).then(()=>{
+            new Promise((resolve,reject)=>{
                 orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result)=>{
                     if(error){
                         logger.error('updateOrderPaymengStatusByOrderId' + error.message);
-                        resUtil.resInternalError(error, res, next);
+                        reject();
                     }else if(result && result < 1){
                         logger.warn('updateOrderPaymengStatusByOrderId' + '修改订单支付状态失败');
                         resUtil.resetFailedRes(res,'修改订单支付状态失败',null);
                     }else{
                         logger.info('updateOrderPaymengStatusByOrderId'+'success');
-                        paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
-                            if(error){
-                                logger.error('updateWechatPayment' + error.message);
-                                resUtil.resInternalError(error, res, next);
-                            }else{
-                                logger.info('updateWechatPayment' + 'success');
-                                resUtil.resetCreateRes(res,result,null);
-                                return next();
-                            }
-                        });
+                        resolve();
                     }
                 });
-            }
+            }).then(()=>{
+                new Promise((resolve,reject)=>{
+                    paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
+                        if(error){
+                            logger.error('updateWechatPayment' + error.message);
+                            reject();
+                        }else{
+                            logger.info('updateWechatPayment' + 'success');
+                            resUtil.resetCreateRes(res,result,null);
+                            return next();
+                        }
+                    });
+                })
+            })
+        }).catch((error)=>{
+            resUtil.resInternalError(error, res, next);
         })
     });
 }
