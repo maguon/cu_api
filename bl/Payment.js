@@ -316,12 +316,12 @@ const addWechatPayment=(req,res,next) => {
                 }
             })
         }).then(()=>{
-            new Promise(()=>{
+            new Promise((resolve,reject)=>{
                 orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result)=>{});
                 paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
                     if(error){
                         logger.error('updateWechatPayment' + error.message);
-                        resUtil.resInternalError(error, res, next);
+                        reject();
                     }else{
                         logger.info('updateWechatPayment' + 'success');
                         resUtil.resetCreateRes(res,result,null);
