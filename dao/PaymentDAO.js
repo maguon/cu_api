@@ -170,7 +170,7 @@ const addWechatPayment = (params,callback) => {
 const updateWechatPayment = (params,callback) => {
     let query = " update payment_info set total_fee=?,status=?,transaction_id=? where id = ? ";
     let paramsArray = [],i=0;
-    paramsArray[i++] = params.params.totalFee;
+    paramsArray[i++] = params.totalFee;
     paramsArray[i++] = params.status;
     paramsArray[i++] = params.transactionId;
     paramsArray[i] = params.paymentId;
