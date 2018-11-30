@@ -283,7 +283,6 @@ const wechatRefund = (req,res,next)=>{
 const addWechatPayment=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
     let prepayIdJson = {};
-    new Promise((resolve,reject)=>{
         xmlParser.parseString(req.body,(err,result)=>{
             let resString = JSON.stringify(result);
             let evalJson = eval('(' + resString + ')');
@@ -299,9 +298,6 @@ const addWechatPayment=(req,res,next) => {
                 status: 1,
                 type:1
             };
-            resolve();
-        });
-    }).then(()=>{
         new Promise((resolve,reject)=>{
             paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
                 if(error){
@@ -329,50 +325,41 @@ const addWechatPayment=(req,res,next) => {
                     }
                 });
             })
-        })
-    }).catch((error)=>{
+        }).catch((error)=>{
         resUtil.resInternalError(error, res, next);
     })
+        });
 }
 const addWechatRefund=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-    let prepayIdJson = {};
-    new Promise((resolve,reject)=>{
-        xmlParser.parseString(req.body,(err,result)=>{
-            let resString = JSON.stringify(result);
-            let evalJson = eval('(' + resString + ')');
-            prepayIdJson = {
-                status: 1
-            };
-            let md5Key = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey).toLowerCase();
-            let reqInfo = evalJson.xml.req_info;
-            let reqResult = encrypt.decryption(reqInfo,md5Key);
-            xmlParser.parseString(reqResult,(err,result)=>{
-                let resStrings = JSON.stringify(result);
-                let evalJsons = eval('(' + resStrings + ')');
-                prepayIdJson.refundId = evalJsons.root.out_refund_no;
-                prepayIdJson.transactionId = evalJsons.root.transaction_id;
-                prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee / 100;
-            })
-            logger.info("updateRefundSSS"+prepayIdJson);
-            resolve();
-        });
-    }).then(()=>{
-        new Promise((resolve,reject)=>{
-            paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
-                if(error){
-                    logger.error('updateRefund' + error.message);
-                    reject(error)
-                }else{
-                    logger.info('updateRefund' + 'success');
-                    resUtil.resetCreateRes(res,result,null);
-                    return next();
-                }
-            });
+    xmlParser.parseString(req.body,(err,result)=>{
+        let resString = JSON.stringify(result);
+        let evalJson = eval('(' + resString + ')');
+        let prepayIdJson = {
+            status: 1
+        };
+        let md5Key = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey).toLowerCase();
+        let reqInfo = evalJson.xml.req_info;
+        let reqResult = encrypt.decryption(reqInfo,md5Key);
+        xmlParser.parseString(reqResult,(err,result)=>{
+            let resStrings = JSON.stringify(result);
+            let evalJsons = eval('(' + resStrings + ')');
+            prepayIdJson.refundId = evalJsons.root.out_refund_no;
+            prepayIdJson.transactionId = evalJsons.root.transaction_id;
+            prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee / 100;
         })
-    }).catch((error)=>{
-        resUtil.resInternalError(error, res, next);
-    })
+        logger.info("updateRefundSSS"+prepayIdJson);
+        paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
+            if(error){
+                logger.error('updateRefund' + error.message);
+                resUtil.resInternalError(error, res, next);
+            }else{
+                logger.info('updateRefund' + 'success');
+                resUtil.resetCreateRes(res,result,null);
+                return next();
+            }
+        });
+    });
 }
 const updateRefund=(req,res,next) => {
     let params = req.params;
