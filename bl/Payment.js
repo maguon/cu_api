@@ -306,15 +306,22 @@ const addWechatPayment=(req,res,next) => {
                 resUtil.resetFailedRes(res,'没有此支付信息',null);
             }else{
                 prepayIdJson.paymentId = rows[0].id;
-                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result));
-                paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
+                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result)=>{
                     if(error){
-                        logger.error('updateWechatPayment' + error.message);
+                        logger.error('updateOrderPaymengStatusByOrderId' + error.message);
                         resUtil.resInternalError(error, res, next);
                     }else{
-                        logger.info('updateWechatPayment' + 'success');
-                        resUtil.resetCreateRes(res,result,null);
-                        return next();
+                        logger.info('updateOrderPaymengStatusByOrderId'+'success');
+                        paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
+                            if(error){
+                                logger.error('updateWechatPayment' + error.message);
+                                resUtil.resInternalError(error, res, next);
+                            }else{
+                                logger.info('updateWechatPayment' + 'success');
+                                resUtil.resetCreateRes(res,result,null);
+                                return next();
+                            }
+                        });
                     }
                 });
             }
