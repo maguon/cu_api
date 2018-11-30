@@ -299,8 +299,8 @@ const addWechatPayment=(req,res,next) => {
                 status: 1,
                 type:1
             };
+            resolve();
         });
-        resolve();
     }).then(()=>{
         new Promise((resolve,reject)=>{
             paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
