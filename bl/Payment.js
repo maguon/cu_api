@@ -165,6 +165,8 @@ const wechatPayment = (req,res,next)=>{
                 return next();
             });
         })
+    }).catch((error)=>{
+        resUtil.resInternalError(error, res, next);
     })
 }
 const wechatRefund = (req,res,next)=>{
@@ -175,17 +177,23 @@ const wechatRefund = (req,res,next)=>{
     let refundUrl = 'https://stg.myxxjs.com/api/wechatRefund';
     let myDate = new Date();
     params.dateId = moment(myDate).format('YYYYMMDD');
-    paymentDAO.getPaymentByOrderId({orderId:params.orderId,type:1,status:1},(error,rows)=>{
-        if(error){
-            logger.error('getPaymentByOrderId' + error.message);
-            resUtil.resInternalError(error, res, next);
-        }else if(rows && rows.length < 1){
-            logger.warn('getPaymentByOrderId' + '请查看支付信息');
-            resUtil.resetFailedRes(res,'请查看支付信息',null);
-        }else{
-            logger.info('getPaymentByOrderId' + 'success');
-            params.totalFee = rows[0].total_fee;
-            params.paymentId = rows[0].id;
+    new Promise((resolve,reject)=>{
+        paymentDAO.getPaymentByOrderId({orderId:params.orderId,type:1,status:1},(error,rows)=>{
+            if(error){
+                logger.error('getPaymentByOrderId' + error.message);
+                resUtil.resInternalError(error, res, next);
+            }else if(rows && rows.length < 1){
+                logger.warn('getPaymentByOrderId' + '请查看支付信息');
+                resUtil.resetFailedRes(res,'请查看支付信息',null);
+            }else{
+                logger.info('getPaymentByOrderId' + 'success');
+                params.totalFee = rows[0].total_fee;
+                params.paymentId = rows[0].id;
+                resolve();
+            }
+        })
+    }).then(()=>{
+        new Promise((resolve,reject)=>{
             paymentDAO.addWechatRefund(params,(error,result)=>{
                 if(error){
                     logger.error('addWechatRefund' + error.message);
@@ -267,37 +275,49 @@ const wechatRefund = (req,res,next)=>{
                     });
                 }
             })
-        }
+        })
+    }).catch((error)=>{
+        resUtil.resInternalError(error, res, next);
     })
 };
 const addWechatPayment=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-    xmlParser.parseString(req.body,(err,result)=>{
-        let resString = JSON.stringify(result);
-        let evalJson = eval('(' + resString + ')');
-        logger.info("paymentResult166"+resString);
-        logger.info("paymentResult1666"+req.body);
-        let prepayIdJson = {
-            nonceStr: evalJson.xml.nonce_str,
-            openid: evalJson.xml.openid,
-            orderId: evalJson.xml.out_trade_no,
-            timeEnd: evalJson.xml.time_end,
-            transactionId: evalJson.xml.transaction_id,
-            totalFee:evalJson.xml.total_fee,
-            status: 1,
-            type:1
-        };
-
-        paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
-            if(error){
-                logger.error('getPaymentByOrderId' + error.message);
-                resUtil.resInternalError(error, res, next);
-            }else if(rows && rows.length < 1){
-                logger.warn('getPaymentByOrderId' + '没有此支付信息');
-                resUtil.resetFailedRes(res,'没有此支付信息',null);
-            }else{
-                prepayIdJson.paymentId = rows[0].id;
-                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result));
+    let prepayIdJson = {};
+    new Promise((resolve,reject)=>{
+        xmlParser.parseString(req.body,(err,result)=>{
+            let resString = JSON.stringify(result);
+            let evalJson = eval('(' + resString + ')');
+            logger.info("paymentResult166"+resString);
+            logger.info("paymentResult1666"+req.body);
+            prepayIdJson = {
+                nonceStr: evalJson.xml.nonce_str,
+                openid: evalJson.xml.openid,
+                orderId: evalJson.xml.out_trade_no,
+                timeEnd: evalJson.xml.time_end,
+                transactionId: evalJson.xml.transaction_id,
+                totalFee:evalJson.xml.total_fee,
+                status: 1,
+                type:1
+            };
+        });
+        resolve();
+    }).then(()=>{
+        new Promise((resolve,reject)=>{
+            paymentDAO.getPaymentByOrderId({orderId:prepayIdJson.orderId},(error,rows)=>{
+                if(error){
+                    logger.error('getPaymentByOrderId' + error.message);
+                    reject(error);
+                }else if(rows && rows.length < 1){
+                    logger.warn('getPaymentByOrderId' + '没有此支付信息');
+                    resUtil.resetFailedRes(res,'没有此支付信息',null);
+                }else{
+                    prepayIdJson.paymentId = rows[0].id;
+                    resolve();
+                }
+            })
+        }).then(()=>{
+            new Promise(()=>{
+                orderDAO.updateOrderPaymengStatusByOrderId({orderId:prepayIdJson.orderId,paymentStatus:1},(error,result)=>{});
                 paymentDAO.updateWechatPayment(prepayIdJson,(error,result)=>{
                     if(error){
                         logger.error('updateWechatPayment' + error.message);
@@ -308,40 +328,51 @@ const addWechatPayment=(req,res,next) => {
                         return next();
                     }
                 });
-            }
+            })
         })
-    });
+    }).catch((error)=>{
+        resUtil.resInternalError(error, res, next);
+    })
 }
 const addWechatRefund=(req,res,next) => {
     let xmlParser = new xml2js.Parser({explicitArray : false, ignoreAttrs : true});
-    xmlParser.parseString(req.body,(err,result)=>{
-        let resString = JSON.stringify(result);
-        let evalJson = eval('(' + resString + ')');
-        let prepayIdJson = {
-            status: 1
-        };
-        let md5Key = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey).toLowerCase();
-        let reqInfo = evalJson.xml.req_info;
-        let reqResult = encrypt.decryption(reqInfo,md5Key);
-        xmlParser.parseString(reqResult,(err,result)=>{
-            let resStrings = JSON.stringify(result);
-            let evalJsons = eval('(' + resStrings + ')');
-            prepayIdJson.refundId = evalJsons.root.out_refund_no;
-            prepayIdJson.transactionId = evalJsons.root.transaction_id;
-            prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee / 100;
-        })
-        logger.info("updateRefundSSS"+prepayIdJson);
-        paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
-            if(error){
-                logger.error('updateRefund' + error.message);
-                resUtil.resInternalError(error, res, next);
-            }else{
-                logger.info('updateRefund' + 'success');
-                resUtil.resetCreateRes(res,result,null);
-                return next();
-            }
+    let prepayIdJson = {};
+    new Promise((resolve,reject)=>{
+        xmlParser.parseString(req.body,(err,result)=>{
+            let resString = JSON.stringify(result);
+            let evalJson = eval('(' + resString + ')');
+            prepayIdJson = {
+                status: 1
+            };
+            let md5Key = encrypt.encryptByMd5NoKey(sysConfig.wechatConfig.paymentKey).toLowerCase();
+            let reqInfo = evalJson.xml.req_info;
+            let reqResult = encrypt.decryption(reqInfo,md5Key);
+            xmlParser.parseString(reqResult,(err,result)=>{
+                let resStrings = JSON.stringify(result);
+                let evalJsons = eval('(' + resStrings + ')');
+                prepayIdJson.refundId = evalJsons.root.out_refund_no;
+                prepayIdJson.transactionId = evalJsons.root.transaction_id;
+                prepayIdJson.settlement_refund_fee = evalJsons.root.settlement_refund_fee / 100;
+            })
+            logger.info("updateRefundSSS"+prepayIdJson);
+            resolve();
         });
-    });
+    }).then(()=>{
+        new Promise((resolve,reject)=>{
+            paymentDAO.updateRefund(prepayIdJson,(error,result)=>{
+                if(error){
+                    logger.error('updateRefund' + error.message);
+                    reject(error)
+                }else{
+                    logger.info('updateRefund' + 'success');
+                    resUtil.resetCreateRes(res,result,null);
+                    return next();
+                }
+            });
+        })
+    }).catch((error)=>{
+        resUtil.resInternalError(error, res, next);
+    })
 }
 const updateRefund=(req,res,next) => {
     let params = req.params;
