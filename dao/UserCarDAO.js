@@ -129,9 +129,10 @@ const updateUserCarNum = (params,callback) => {
     })
 }
 const updateUserCarStatus = (params,callback) => {
-    let query = "update user_car set status = ?,user_id='' where id = ? ";
+    let query = "update user_car set status = ? where user_id =? and id = ?  ";
     let paramsArray = [],i=0;
     paramsArray[i++] = params.status;
+    paramsArray[i++] = params.userId;
     paramsArray[i] = params.userCarId;
     db.dbQuery(query,paramsArray,(error,rows)=>{
         logger.debug('updateUserCarStatus');
