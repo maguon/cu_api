@@ -16,12 +16,12 @@ const createSupervise = (req,res,next) => {
     new Promise((resolve,reject)=>{
         superviseDao.querySupervise({phone:params.phone},(error,rows)=>{
             if (error) {
-                logger.error(' querySupervise ' + error.message);
+                logger.error('createSupervise querySupervise ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG) ;
                 return next();
             } else {
                 if(rows && rows.length>0){
-                    logger.warn(' querySupervise ' +params.phone+ sysMsg.CUST_SIGNUP_REGISTERED);
+                    logger.warn('createSupervise querySupervise ' +params.phone+ ' ' +sysMsg.CUST_SIGNUP_REGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.CUST_SIGNUP_REGISTERED) ;
                     return next();
                 }else{
@@ -33,18 +33,18 @@ const createSupervise = (req,res,next) => {
         params.password = encrypt.encryptByMd5(params.password);
         superviseDao.createSupervise(params,(error,result)=>{
             if (error) {
-                logger.error(' createSupervise ' + error.message);
+                logger.error(' createSupervise supervise_createSupervise ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(result && result.insertId>0){
-                    logger.info(' createSupervise ' + 'success');
+                    logger.info(' createSupervise supervise_createSupervise ' + 'success');
                     let supervise = {
                         superviseId : result.insertId,
                         status : listOfValue.USER_STATUS_ACTIVE
                     }
                     resUtil.resetQueryRes(res,supervise,null);
                 }else{
-                    logger.warn(' createSupervise ' + 'false');
+                    logger.warn(' createSupervise supervise_createSupervise ' + 'false');
                     resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 }
                 return next();
@@ -126,10 +126,10 @@ const updateSuperviseInfo = (req,res,next) => {
     let params = req.params;
     superviseDao.updateInfo(params,(error,result)=>{
         if (error) {
-            logger.error(' updateInfo ' + error.message);
+            logger.error(' updateSuperviseInfo ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         } else {
-            logger.info(' updateInfo ' + 'success');
+            logger.info(' updateSuperviseInfo ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -153,19 +153,22 @@ const changeSupervisePassword = (req,res,next) => {
     new Promise((resolve,reject) => {
         superviseDao.querySupervisePass(params,(error,rows)=>{
             if (error) {
-                logger.error(' querySupervisePass ' + error.message);
+                logger.error('changeSupervisePassword querySupervisePass ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' querySupervisePass ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn('changeSupervisePassword querySupervisePass ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     return next();
-                }else if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
-                    logger.warn(' querySupervise ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
-                    resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
-                    return next();
                 }else{
-                    resolve();
+                    if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
+                        logger.warn('changeSupervisePassword password ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                        resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                        return next();
+                    }else{
+                        logger.warn('changeSupervisePassword password ' + 'success');
+                        resolve();
+                    }
                 }
             }
         })
@@ -173,10 +176,10 @@ const changeSupervisePassword = (req,res,next) => {
         params.password = encrypt.encryptByMd5(params.newPassword);
         superviseDao.updatePassword(params,(error,result)=>{
             if (error) {
-                logger.error(' updatePassword ' + error.message);
+                logger.error('changeSupervisePassword updatePassword ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
-                logger.info(' updatePassword ' + 'success');
+                logger.info('changeSupervisePassword updatePassword ' + 'success');
                 resUtil.resetUpdateRes(res,result,null);
                 return next();
             }
@@ -187,23 +190,23 @@ const changeSupervisePhone = (req,res,next) => {
     let params = req.params;
     oAuthUtil.getSupervisePhoneCode({phone:params.phone},(error,result)=>{
         if(error){
-            logger.error(' sendPswdSms ' + error.message);
+            logger.error('changeSupervisePhone getSupervisePhoneCode ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             return next();
         }else{
             if(result.result.code==params.signCode){
                 superviseDao.updatePhone(params,(error,result)=>{
                     if(error){
-                        logger.error('updatePhone' + error.message);
+                        logger.error('changeSupervisePhone updatePhone ' + error.message);
                         throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
                     }else{
-                        logger.info('updatePhone' + 'success');
+                        logger.info('changeSupervisePhone updatePhone ' + 'success');
                         resUtil.resetUpdateRes(res,result,null);
                         return next();
                     }
                 })
             }else{
-                logger.warn('getSignCode' + '验证失败');
+                logger.warn('changeSupervisePhone getSupervisePhoneCode ' + 'Validation fails.');
                 resUtil.resetFailedRes(res,'验证失败',null);
                 return next();
             }
@@ -214,7 +217,7 @@ const changeSupervisePasswordByPhone = (req,res,next) => {
     let params = req.params;
     oAuthUtil.getSupervisePswdCode({phone:params.phone},(error,result)=>{
         if(error){
-            logger.error(' sendPswdSms ' + error.message);
+            logger.error('changeSupervisePasswordByPhone getSupervisePswdCode ' + error.message);
             resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG);
             return next();
         }else{
@@ -222,16 +225,16 @@ const changeSupervisePasswordByPhone = (req,res,next) => {
                 params.password = encrypt.encryptByMd5(params.password);
                 superviseDao.updatePasswordByPhone(params,(error,result)=>{
                     if(error){
-                        logger.error('updatePassword' + error.message);
+                        logger.error('changeSupervisePasswordByPhone updatePasswordByPhone ' + error.message);
                         throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
                     }else{
-                        logger.info('updatePassword' + 'success');
+                        logger.info('changeSupervisePasswordByPhone updatePasswordByPhone ' + 'success');
                         resUtil.resetUpdateRes(res,result,null);
                         return next();
                     }
                 })
             }else{
-                logger.warn('getSignCode' + '验证失败');
+                logger.warn('changeSupervisePasswordByPhone getSupervisePswdCode ' + 'Validation fails.');
                 resUtil.resetFailedRes(res,'验证失败',null);
                 return next();
             }
@@ -248,17 +251,17 @@ const superviseLogin=(req,res,next)=>{
         //查询登陆手机是否存在
         superviseDao.querySupervisePass({phone:params.phone},(error,rows)=>{
             if (error) {
-                logger.error(' querySupervisePass ' + error.message);
+                logger.error('superviseLogin querySupervisePass ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' querySupervisePass ' + params.phone+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn('superviseLogin querySupervisePass ' + params.phone+ ' ' +sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                     return next();
                 }else{
                     let passwordMd5 = encrypt.encryptByMd5(params.password);
                     if(passwordMd5 != rows[0].password){
-                        logger.warn(' phoneSuperviseLogin ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
+                        logger.warn('superviseLogin password ' +params.phone+ ' ' +sysMsg.CUST_LOGIN_PSWD_ERROR);
                         resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
                         return next();
                     }else{
@@ -271,17 +274,17 @@ const superviseLogin=(req,res,next)=>{
                         }
                         //手机是否被停用
                         if(rows[0].status == listOfValue.USER_STATUS_NOT_ACTIVE){
-                            logger.info('phoneSuperviseLogin' +params.phone+ " not actived");
+                            logger.info('superviseLogin status ' +params.phone+ " not actived");
                             resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR);
                             return next();
                         }else{
                             supervise.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.supervise,supervise.superviseId,supervise.superviseStatus);
                             oAuthUtil.saveToken(supervise,(error,result)=>{
                                 if(error){
-                                    logger.error(' phoneSuperviseLogin ' + error.stack);
+                                    logger.error('superviseLogin createAccessToken ' + error.stack);
                                     return next(sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG))
                                 }else{
-                                    logger.info(' phoneSuperviseLogin' + " success");
+                                    logger.info('superviseLogin createAccessToken ' + " success");
                                     resolve();
                                 }
                             })
@@ -295,7 +298,7 @@ const superviseLogin=(req,res,next)=>{
         params.superviseId= supervise.superviseId;
         superviseDao.getSuperviseDevice(params,(error, rows)=>{
             if (error) {
-                logger.error(' getSuperviseDevice ' + error.message);
+                logger.error('superviseLogin getSuperviseDevice ' + error.message);
                 resUtil.resetFailedRes(res, sysMsg.SYS_INTERNAL_ERROR_MSG);
                 return next();
             } else {
@@ -314,13 +317,13 @@ const superviseLogin=(req,res,next)=>{
             params.superviseId= supervise.superviseId;
             superviseDao.addSuperviseDevice(params,(error,result)=>{
                 if (error) {
-                    logger.error(' addSuperviseDevice ' + error.message);
+                    logger.error('superviseLogin addSuperviseDevice ' + error.message);
                     throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 } else {
                     if(result&&result.insertId>0){
-                        logger.info(' addSuperviseDevice ' + 'success');
+                        logger.info('superviseLogin addSuperviseDevice ' + 'success');
                     }else{
-                        logger.warn(' addSuperviseDevice ' + 'failed');
+                        logger.warn('superviseLogin addSuperviseDevice ' + 'failed');
                     }
                     that();
                 }
@@ -331,20 +334,20 @@ const superviseLogin=(req,res,next)=>{
             params.superviseId= supervise.superviseId;
             superviseDao.updateSuperviseDevice(params,(error,result)=>{
                 if (error) {
-                    logger.error(' updateSuperviseDevice ' + error.message);
+                    logger.error('superviseLogin updateSuperviseDevice ' + error.message);
                     throw sysError.InternalError(error.message, sysMsg.SYS_INTERNAL_ERROR_MSG);
                 } else {
                     if (result && result.affectedRows > 0) {
-                        logger.info(' updateSuperviseDevice ' + 'success');
+                        logger.info('superviseLogin updateSuperviseDevice ' + 'success');
                     } else {
-                        logger.warn(' updateSuperviseDevice ' + 'failed');
+                        logger.warn('superviseLogin updateSuperviseDevice ' + 'failed');
                     }
                     that();
                 }
             })
         }
     }).then(()=>{
-        logger.info(' phoneSuperviseLogin' +params.phone+ " success");
+        logger.info('superviseLogin ' +params.phone+ " success");
         resUtil.resetQueryRes(res,supervise,null);
         return next();
     })
@@ -356,11 +359,11 @@ const changeSuperviseToken=(req,res,next)=>{
         if(params.superviseId==tokenObj.superviseId){
             superviseDao.querySupervise({superviseId:params.superviseId},(error,rows)=>{
                 if (error) {
-                    logger.error(' querySupervise ' + error.message);
+                    logger.error('changeSuperviseToken querySupervise ' + error.message);
                     throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
                 } else {
                     if(rows && rows.length<1){
-                        logger.warn(' querySupervise ' + params.superviseId+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                        logger.warn('changeSuperviseToken querySupervise ' + params.superviseId+ ' ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                         resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_USER_UNREGISTERED) ;
                         return next();
                     }else{
@@ -374,15 +377,15 @@ const changeSuperviseToken=(req,res,next)=>{
                         supervise.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.supervise,supervise.superviseId,supervise.superviseStatus);
                         oAuthUtil.removeToken({accessToken:params.token},(error,result)=>{
                             if(error) {
-                                logger.error(' removeToken ' + error.stack);
+                                logger.error('changeSuperviseToken removeToken ' + error.stack);
                             }
                         })
                         oAuthUtil.saveToken(supervise,(error,result)=>{
                             if(error){
-                                logger.error(' saveToken ' + error.stack);
+                                logger.error('changeSuperviseToken saveToken ' + error.stack);
                                 return next(sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG))
                             }else{
-                                logger.info(' saveToken' +params.superviseId+ " success");
+                                logger.info('changeSuperviseToken saveToken ' +params.superviseId+ " success");
                                 resUtil.resetQueryRes(res,supervise,null);
                                 return next();
                             }
@@ -391,12 +394,12 @@ const changeSuperviseToken=(req,res,next)=>{
                 }
             })
         }else{
-            logger.warn(' changeSuperviseToken' +params.superviseId+ " failed");
+            logger.warn(' changeSuperviseToken superviseId ' +params.superviseId+ " failed");
             resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR) ;
             return next();
         }
     }else{
-        logger.warn(' changeSuperviseToken' +params.superviseId+ " failed");
+        logger.warn(' changeSuperviseToken tokenObj ' +params.superviseId+ " failed");
         resUtil.resetFailedRes(res,sysMsg.SYS_AUTH_TOKEN_ERROR) ;
         return next();
     }
