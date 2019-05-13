@@ -19,10 +19,10 @@ const sendSupervisePswdSms=(req,res,next)=>{
     new Promise((resolve,reject)=>{
         superviseDAO.querySupervise(params,(error,rows)=>{
             if(error){
-                logger.error(' querySupervise ' + error.message);
+                logger.error('sendSupervisePswdSms querySupervise ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else if(rows.length<1){
-                logger.warn(' querySupervise ' + '查无此人');
+                logger.warn('sendSupervisePswdSms querySupervise ' + 'No such person.');
                 resUtil.resetFailedRes(res,'查无此人',null);
             }else{
                 params.userId = rows[0].id;
@@ -32,11 +32,11 @@ const sendSupervisePswdSms=(req,res,next)=>{
     }).then(()=>{
         oauthUtil.saveSupervisePswdCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
-                logger.error(' saveSupervisePswdCode ' + error.message);
+                logger.error('sendSupervisePswdSms saveSupervisePswdCode ' + error.message);
                 resUtil.resInternalError(error, res, next);
                 return next();
             }else{
-                logger.info('saveSupervisePswdCode' + 'success');
+                logger.info('sendSupervisePswdSms saveSupervisePswdCode ' + 'success');
             }
         })
     }).then(()=>{
@@ -44,10 +44,11 @@ const sendSupervisePswdSms=(req,res,next)=>{
         params.userType = 2;
         oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
-                logger.error(' sendCaptcha ' + error.message);
+                logger.error('sendSupervisePswdSms sendCaptcha ' + error.message);
                 resUtil.resInternalError(error, res, next);
                 return next();
             }else{
+                logger.error('sendSupervisePswdSms sendCaptcha ' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
             }
         })
@@ -60,11 +61,11 @@ const sendSupervisePhoneSms=(req,res,next)=>{
     new Promise((resolve,reject)=>{
         oauthUtil.saveSupervisePhoneCode({phone:params.phone,code:captcha},(error,result)=>{
             if(error){
-                logger.error(' saveSupervisePhoneCode ' + error.message);
+                logger.error('sendSupervisePhoneSms saveSupervisePhoneCode ' + error.message);
                 resUtil.resInternalError(error, res, next);
                 return next();
             }else{
-                logger.info('saveSupervisePhoneCode' + 'success');
+                logger.info('sendSupervisePhoneSms saveSupervisePhoneCode ' + 'success');
                 resolve();
             }
         })
@@ -74,11 +75,11 @@ const sendSupervisePhoneSms=(req,res,next)=>{
         params.userType = 2;
         oauthUtil.sendCaptcha(params,(error,result)=>{
             if(error){
-                logger.error(' sendCaptcha ' + error.message);
+                logger.error('sendSupervisePhoneSms sendCaptcha ' + error.message);
                 resUtil.resInternalError(error, res, next);
                 return next();
             }else{
-                logger.info('sendCaptcha' + 'success');
+                logger.info('sendSupervisePhoneSms sendCaptcha ' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
             }
         })
@@ -90,19 +91,19 @@ const sendUserSms=(req,res,next)=>{
     captcha = encrypt.getSmsRandomKey();
     userDAO.queryUser({phone:params.phone},(error,rows)=>{
         if(error){
-            logger.error(' queryUser ' + error.message);
+            logger.error('sendUserSms queryUser ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else if(rows && rows.length > 0){
-            logger.warn('queryUser'+'手机已经被绑定');
+            logger.warn('sendUserSms queryUser '+'The phone is already tied.');
             resUtil.resetFailedRes(res,'手机已经被绑定',null);
         }else{
             new Promise((resolve,reject)=>{
                 oauthUtil.saveUserPhoneCode({phone:params.phone,code:captcha},(error,result)=>{
                     if(error){
-                        logger.error(' saveUserPhoneCode ' + error.message);
+                        logger.error('sendUserSms saveUserPhoneCode ' + error.message);
                         resUtil.resInternalError(error, res, next);
                     }else{
-                        logger.info('saveUserPhoneCode' + 'success');
+                        logger.info('sendUserSms saveUserPhoneCode ' + 'success');
                         resolve();
                     }
                 })
@@ -111,10 +112,10 @@ const sendUserSms=(req,res,next)=>{
                 params.userType = 1;
                 oauthUtil.sendCaptcha(params,(error,result)=>{
                     if(error){
-                        logger.error(' sendCaptcha ' + error.message);
+                        logger.error('sendUserSms sendCaptcha ' + error.message);
                         resUtil.resInternalError(error, res, next);
                     }else{
-                        logger.info('sendCaptcha' + 'success');
+                        logger.info('sendUserSms sendCaptcha ' + 'success');
                         resUtil.resetQueryRes(res,{success:true},null);
                         return next();
                     }
@@ -132,10 +133,10 @@ const sendMessage=(req,res,next)=>{
     new Promise((resolve,reject)=>{
         userDAO.queryUser({userId:params.userId},(error,rows)=>{
             if(error){
-                logger.error(' queryUser ' + error.message);
+                logger.error('sendMessage queryUser ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info('queryUserToUserMessage' + 'success');
+                logger.info('sendMessage queryUser ' + 'success');
                 let phone = rows[0].phone;
                 let openid = rows[0].wechat_id;
                 params.openid = openid;
@@ -146,10 +147,10 @@ const sendMessage=(req,res,next)=>{
     }).then(()=>{
         oauthUtil.sendMessage(params,(error,result)=>{
             if(error){
-                logger.error(' sendMessage ' + error.message);
+                logger.error(' sendMessage oauth_sendMessage ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info('sendMessage' + 'success');
+                logger.info('sendMessage oauth_sendMessage ' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
                 return next();
             }
