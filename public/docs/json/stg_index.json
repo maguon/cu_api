@@ -1395,7 +1395,7 @@
           {
             "name": "changeSupervisePasswordByPhone",
             "in": "body",
-            "description": "changeSupervisePasswordByPhone",
+            "description": "changePassword",
             "required": true,
             "schema": {
               "$ref": "#/definitions/changeSupervisePasswordByPhone"
