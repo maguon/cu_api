@@ -13,10 +13,10 @@ const addOrderFeedback = (req,res,next)=>{
     params.dateId = moment(myDate).format('YYYYMMDD');
     orderFeedbackDAO.addOrderFeedback(params,(error,result)=>{
         if(error){
-            logger.error('addOrderFeedback' + error.message);
+            logger.error('addOrderFeedback ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('addOrderFeedback' + 'success');
+            logger.info('addOrderFeedback ' + 'success');
             resUtil.resetCreateRes(res,result,null);
             return next();
         }
@@ -26,10 +26,10 @@ const getOrderFeedback = (req,res,next)=>{
     let params = req.params;
     orderFeedbackDAO.getOrderFeedback(params,(error,result)=>{
         if(error){
-            logger.error('getOrderFeedback' + error.message);
+            logger.error('getOrderFeedback ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('getOrderFeedback' + 'success');
+            logger.info('getOrderFeedback ' + 'success');
             resUtil.resetQueryRes(res,result,null);
             return next();
         }
@@ -39,10 +39,10 @@ const updateOrderFeedbackPayment = (req,res,next)=>{
     let params = req.params;
     orderFeedbackDAO.updateOrderFeedbackPayment(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderFeedbackPayment' + error.message);
+            logger.error('updateOrderFeedbackPayment ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderFeedbackPayment' + 'success');
+            logger.info('updateOrderFeedbackPayment ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -52,10 +52,10 @@ const updateOrderFeedbackCount = (req,res,next)=>{
     let params = req.params;
     orderFeedbackDAO.updateOrderFeedbackCount(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderFeedbackCount' + error.message);
+            logger.error('updateOrderFeedbackCount ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderFeedbackCount' + 'success');
+            logger.info('updateOrderFeedbackCount ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -65,10 +65,10 @@ const updateOrderFeedbackRemark = (req,res,next)=>{
     let params = req.params;
     orderFeedbackDAO.updateOrderFeedbackRemark(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderFeedbackRemark' + error.message);
+            logger.error('updateOrderFeedbackRemark ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderFeedbackRemark' + 'success');
+            logger.info('updateOrderFeedbackRemark ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -78,10 +78,10 @@ const updateOrderFeedbackStatus = (req,res,next)=>{
     let params = req.params;
     orderFeedbackDAO.updateOrderFeedbackStatus(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderFeedbackStatus' + error.message);
+            logger.error('updateOrderFeedbackStatus ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderFeedbackStatus' + 'success');
+            logger.info('updateOrderFeedbackStatus ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
