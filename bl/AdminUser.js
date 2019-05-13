@@ -61,7 +61,7 @@ const adminUserLogin = (req,res,next) =>{
             resUtil.resInternalError(error, res, next);
         } else {
             if(rows && rows.length<1){
-                logger.warn(' adminUserLogin queryAdminUser ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                logger.warn(' adminUserLogin queryAdminUser ' +params.userName+ ' ' +sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                 resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                 return next();
             }else{
