@@ -44,23 +44,23 @@ const addCheckCar = (req,res,next) => {
     params.createdDateId = parseInt(strDate);
     userCarDao.queryUserCar({userCarId:params.userCarId},(error,rows)=>{
         if (error) {
-            logger.error(' queryUserCar ' + error.message);
+            logger.error('addCheckCar queryUserCar ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else if(rows && rows.length < 1){
-            logger.warn('queryUserCar'+'查无此车辆信息');
+            logger.warn('addCheckCar queryUserCar '+'No vehicle information available！');
             resUtil.resetFailedRes(res,'查无此车辆信息',null);
         }else{
             params.plateNumber = rows[0].license_plate;
             checkCarDAO.addCheckCar(params,(error,result)=>{
                 if (error) {
-                    logger.error(' addCheckCar ' + error.message);
+                    logger.error(' addCheckCar checkCarDAO_Add ' + error.message);
                     resUtil.resInternalError(error, res, next);
                 }else if(result && result.insertId < 1){
-                    logger.warn('addCheckCar'+'添加违章车辆失败');
+                    logger.warn('addCheckCar checkCarDAO_Add '+'Failed to add illegal vehicle!');
                     resUtil.resetFailedRes(res,'添加违章车辆失败',null);
                     return next();
                 }else{
-                    logger.info(' addCheckCar ' + "success");
+                    logger.info(' addCheckCar checkCarDAO_Add ' + "success");
                     params.checkCarId = result.insertId;
                     params.checkContent =" 扫码成功 ";
                     params.checkId = params.checkCarId;
@@ -71,10 +71,10 @@ const addCheckCar = (req,res,next) => {
                     new Promise((resolve,reject)=>{
                         userDAO.queryUser({userId:params.userId},(error,rows)=>{
                             if(error){
-                                logger.error(' queryUser ' + error.message);
+                                logger.error('addCheckCar queryUser ' + error.message);
                                 resUtil.resInternalError(error, res, next);
                             }else{
-                                logger.info('queryUserToUserMessage' + 'success');
+                                logger.info('addCheckCar queryUser ' + 'success');
                                 let phone = rows[0].phone;
                                 let openid = rows[0].wechat_id;
                                 params.openid = openid;
@@ -85,10 +85,10 @@ const addCheckCar = (req,res,next) => {
                     }).then(()=>{
                         oauthUtil.sendMessage(params,(error,result)=>{
                             if(error){
-                                logger.error(' sendMessage ' + error.message);
+                                logger.error('addCheckCar sendMessage ' + error.message);
                                 resUtil.resInternalError(error, res, next);
                             }else{
-                                logger.info('sendMessage' + 'success');
+                                logger.info('addCheckCar sendMessage ' + 'success');
                                 resUtil.resetQueryRes(res,{success:true},null);
                                 return next();
                             }
