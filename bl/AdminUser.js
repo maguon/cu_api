@@ -16,12 +16,12 @@ const createAdminUser = (req,res,next) => {
     new Promise((resolve,reject)=>{
         adminUserDao.queryAdminUser({phone:params.phone},(error,rows)=>{
             if (error) {
-                logger.error(' queryAdminUser ' + error.message);
+                logger.error('createAdminUser queryAdminUser ' + error.message);
                 resUtil.resetFailedRes(res,sysMsg.SYS_INTERNAL_ERROR_MSG) ;
                 return next();
             } else {
                 if(rows && rows.length>0){
-                    logger.warn(' queryAdminUser ' +params.phone+ sysMsg.CUST_SIGNUP_REGISTERED);
+                    logger.warn('createAdminUser queryAdminUser ' +params.phone+' '+ sysMsg.CUST_SIGNUP_REGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.CUST_SIGNUP_REGISTERED) ;
                     return next();
                 }else{
@@ -57,17 +57,17 @@ const adminUserLogin = (req,res,next) =>{
     let params = req.params;
     adminUserDao.queryAdminUser({userName:params.userName},(error,rows)=>{
         if (error) {
-            logger.error(' adminUserLogin ' + error.message);
+            logger.error(' adminUserLogin queryAdminUser ' + error.message);
             resUtil.resInternalError(error, res, next);
         } else {
             if(rows && rows.length<1){
-                logger.warn(' adminUserLogin ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                logger.warn(' adminUserLogin queryAdminUser ' +params.userName+ sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                 resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                 return next();
             }else{
                 let passwordMd5 = encrypt.encryptByMd5(params.password);
                 if(passwordMd5 != rows[0].password){
-                    logger.warn(' adminUserLogin ' +params.phone+ sysMsg.CUST_LOGIN_PSWD_ERROR);
+                    logger.warn(' adminUserLogin password ' +params.phone+ ' '+sysMsg.CUST_LOGIN_PSWD_ERROR);
                     resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
                     return next();
                 }else{
@@ -76,7 +76,7 @@ const adminUserLogin = (req,res,next) =>{
                             userId : rows[0].id,
                             userStatus : rows[0].status
                         }
-                        logger.info('adminUserLogin' +params.userName+ " not verified");
+                        logger.info('adminUserLogin status ' +params.userName+ " not verified");
                         resUtil.resetQueryRes(res,user,null);
                         return next();
                     }else{
@@ -86,7 +86,7 @@ const adminUserLogin = (req,res,next) =>{
                             type: rows[0].type
                         }
                         user.accessToken = oAuthUtil.createAccessToken(oAuthUtil.clientType.admin,user.userId,user.userStatus);
-                        logger.info('adminUserLogin' +params.userName+ " success");
+                        logger.info('adminUserLogin ' +params.userName+ " success");
                         resUtil.resetQueryRes(res,user,null);
                         return next();
                     }
@@ -126,15 +126,15 @@ const changeAdminPassword = (req,res,next) => {
     new Promise((resolve,reject) => {
         adminUserDao.queryAdminUser(params,(error,rows)=>{
             if (error) {
-                logger.error(' changeAdminPassword ' + error.message);
+                logger.error(' changeAdminPassword queryAdminUser ' + error.message);
                 resUtil.resInternalError(error, res, next);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' changeAdminPassword ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     return next();
                 }else if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
-                    logger.warn(' changeAdminPassword ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                    logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
                     resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
                     return next();
                 }else{
@@ -146,10 +146,10 @@ const changeAdminPassword = (req,res,next) => {
         params.password = encrypt.encryptByMd5(params.newPassword);
         adminUserDao.updatePassword(params,(error,result)=>{
             if (error) {
-                logger.error(' changeAdminPassword ' + error.message);
+                logger.error(' changeAdminPassword updatePassword ' + error.message);
                 resUtil.resInternalError(error, res, next);
             } else {
-                logger.info(' changeAdminPassword ' + 'success');
+                logger.info(' changeAdminPassword updatePassword ' + 'success');
                 resUtil.resetUpdateRes(res,result,null);
                 return next();
             }
@@ -281,10 +281,10 @@ const getCheckCarByDay = (req,res,next)=>{
     params.dateIdStart = moment(myDateSize).format('YYYYMMDD');
     adminUserDao.getCheckCarByDay(params,(error,result)=>{
         if(error){
-            logger.error('getCheckCarByDay' + error.message);
+            logger.error('getCheckCarByDay ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('getCheckCarByDay' + 'success');
+            logger.info('getCheckCarByDay ' + 'success');
             resUtil.resetQueryRes(res,result,null);
             return next();
         }
