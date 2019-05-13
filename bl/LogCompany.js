@@ -10,7 +10,7 @@ const addLogCompany = (req,res,next)=>{
     let params = req.params;
     logCompanyDAO.addLogCompany(params,(error,result)=>{
         if(error){
-            logger.error('addLogCompany' + error.message);
+            logger.error('addLogCompany ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
             logger.info('addLogCompany '+'success');
@@ -23,7 +23,7 @@ const getLogCompany = (req,res,next)=>{
     let params = req.params;
     logCompanyDAO.getLogCompany(params,(error,result)=>{
         if(error){
-            logger.error('getLogCompany' + error.message);
+            logger.error('getLogCompany ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
             logger.info('getLogCompany '+'success');
@@ -36,7 +36,7 @@ const updateLogCompany = (req,res,next)=>{
     let params = req.params;
     logCompanyDAO.updateLogCompany(params,(error,result)=>{
         if(error){
-            logger.error('updateLogCompany' + error.message);
+            logger.error('updateLogCompany ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
             logger.info('updateLogCompany '+'success');
