@@ -15,10 +15,10 @@ const getQrCode = (req,res,next)=>{
     if(userType==0){
         userCarDAO.queryUserCar({userCarId:result[1]},(error,result)=>{
             if(error){
-                logger.error('queryCheckCar' + error.message);
+                logger.error('getQrCode queryCheckCar ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else{
-                logger.info('queryCheckCar' + 'success');
+                logger.info('getQrCode queryCheckCar ' + 'success');
                 resUtil.resetQueryRes(res,result,null);
                 return next();
             }
