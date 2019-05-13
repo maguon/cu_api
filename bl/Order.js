@@ -25,95 +25,95 @@ const addOrder = (req,res,next)=>{
     let resultOrderId =[{}];
     let myDate = new Date();
     params.dateId = moment(myDate).format('YYYYMMDD');
-new Promise((resolve,reject)=>{
-    orderDAO.addOrder(params,(error,result)=> {
-        if(error){
-            logger.error('addOrder' + error.message);
-            reject(error)
-        }else{
-            resultOrderId = [{orderId: result.insertId}];
-            logger.info('addOrder' + 'success');
-             orderId = result.insertId;
-             params.orderId = orderId;
-            resolve();
-        }
-    });
-}).then(()=>{
     new Promise((resolve,reject)=>{
-        let productIds = params.productId;
-        let prodCounts = params.prodCount;
-        let remark = params.remark;
-        let carId = params.carId;
-        for(let i=0;i<productIds.length;i++){
-            params.productId = productIds[i];
-            params.count = prodCounts[i];
-            params.remark = remark[i];
-            params.carId = carId[i];
-            orderDAO.addOrderItemByProduct(params,(error,result)=>{
-                if(error){
-                    logger.error('addOrderItemByProduct' + error.message);
-                    resUtil.resInternalError(error, res, next);
-                }else if(result && result.insertId < 1){
-                    logger.warn('addOrderItemByProduct' +'选择商品失败');
-                    resUtil.resetFailedRes(res,'选择商品失败',null);
-                    return next();
-                }else{
-                    logger.info('addOrderItemByProduct' + 'success');
-                    resolve();
-                }
-            })
-        }
-        setTimeout( ()=>{
-            console.log('This will still run1.');
-        }, 100);
+        orderDAO.addOrder(params,(error,result)=> {
+            if(error){
+                logger.error('addOrder order_addOrder ' + error.message);
+                reject(error)
+            }else{
+                resultOrderId = [{orderId: result.insertId}];
+                logger.info('addOrder order_addOrder ' + 'success');
+                 orderId = result.insertId;
+                 params.orderId = orderId;
+                resolve();
+            }
+        });
     }).then(()=>{
         new Promise((resolve,reject)=>{
-            setTimeout( ()=>{
-                console.log('This will still run2.');
-            }, 400);
-            orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=> {
-                if (error) {
-                    logger.error('getOrderItem' + error.message);
-                    resUtil.resInternalError(error, res, next);
-                } else if (rows && rows.length < 1) {
-                    logger.warn('getOrderItem' + '没有选择商品');
-                    resUtil.resetQueryRes(res, '没有选择商品', null);
-                    return next();
-                } else {
-                    logger.info('getOrderItem' + 'success');
-                    rowsLength = rows.length;
-                    for (let i = 0; i < rowsLength; i++) {
-                        totalPrice = rows[i].total_price + totalPrice;
-                        prodCount = rows[i].prod_count + prodCount;
-                        totalFreight = rows[i].freight + totalFreight;
-                        params.totalPrice = totalPrice;
-                        params.prodCount = prodCount;
-                        params.totalFreight = totalFreight;
+            let productIds = params.productId;
+            let prodCounts = params.prodCount;
+            let remark = params.remark;
+            let carId = params.carId;
+            for(let i=0;i<productIds.length;i++){
+                params.productId = productIds[i];
+                params.count = prodCounts[i];
+                params.remark = remark[i];
+                params.carId = carId[i];
+                orderDAO.addOrderItemByProduct(params,(error,result)=>{
+                    if(error){
+                        logger.error('addOrder addOrderItemByProduct ' + error.message);
+                        resUtil.resInternalError(error, res, next);
+                    }else if(result && result.insertId < 1){
+                        logger.warn('addOrder addOrderItemByProduct ' +'Selection failure!');
+                        resUtil.resetFailedRes(res,'选择商品失败',null);
+                        return next();
+                    }else{
+                        logger.info('addOrder addOrderItemByProduct ' + 'success');
+                        resolve();
                     }
-                    resolve(params);
-                }
-            });
+                })
+            }
+            setTimeout( ()=>{
+                console.log('This will still run1.');
+            }, 100);
         }).then(()=>{
             new Promise((resolve,reject)=>{
                 setTimeout( ()=>{
-                    console.log('This will still run3.');
-                }, 500);
-                orderDAO.updateOrderPrice(params,(error,result)=>{
-                    if(error){
-                        logger.error('updateOrderPrice' + error.message);
+                    console.log('This will still run2.');
+                }, 400);
+                orderDAO.getOrderItem({orderId:params.orderId},(error,rows)=> {
+                    if (error) {
+                        logger.error('addOrder getOrderItem ' + error.message);
                         resUtil.resInternalError(error, res, next);
-                    }else{
-                        logger.info('updateOrderPrice' + 'success');
-                        resUtil.resetQueryRes(res,resultOrderId,null);
+                    } else if (rows && rows.length < 1) {
+                        logger.warn('addOrder getOrderItem ' + 'No choice of goods.');
+                        resUtil.resetQueryRes(res, '没有选择商品', null);
                         return next();
+                    } else {
+                        logger.info('addOrder getOrderItem ' + 'success');
+                        rowsLength = rows.length;
+                        for (let i = 0; i < rowsLength; i++) {
+                            totalPrice = rows[i].total_price + totalPrice;
+                            prodCount = rows[i].prod_count + prodCount;
+                            totalFreight = rows[i].freight + totalFreight;
+                            params.totalPrice = totalPrice;
+                            params.prodCount = prodCount;
+                            params.totalFreight = totalFreight;
+                        }
+                        resolve(params);
                     }
                 });
+            }).then(()=>{
+                new Promise((resolve,reject)=>{
+                    setTimeout( ()=>{
+                        console.log('This will still run3.');
+                    }, 500);
+                    orderDAO.updateOrderPrice(params,(error,result)=>{
+                        if(error){
+                            logger.error('addOrder updateOrderPrice ' + error.message);
+                            resUtil.resInternalError(error, res, next);
+                        }else{
+                            logger.info('addOrder updateOrderPrice ' + 'success');
+                            resUtil.resetQueryRes(res,resultOrderId,null);
+                            return next();
+                        }
+                    });
+                })
             })
         })
+    }).catch((error)=>{
+        resUtil.resInternalError(error, res, next);
     })
-}).catch((error)=>{
-    resUtil.resInternalError(error, res, next);
-})
 }
 const addOrderItem = (req,res,next)=>{
     let params = req.params;
@@ -121,10 +121,10 @@ const addOrderItem = (req,res,next)=>{
     new Promise((resolve,reject)=>{
         productDAO.getProduct({productId:params.productId},(error,rows)=>{
             if(error){
-                logger.error('getProduct' + error.message);
+                logger.error('addOrderItem getProduct ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else if(rows && rows.length<1){
-                logger.warn('getProduct' + '没有此商品');
+                logger.warn('addOrderItem getProduct ' + 'Without this commodity.');
                 resUtil.resetQueryRes(res,'没有此商品',null);
             }else{
                  product = {
@@ -146,10 +146,10 @@ const addOrderItem = (req,res,next)=>{
     }).then(()=>{
         orderDAO.addOrderItem(product,(error,result)=>{
             if(error){
-                logger.error('addOrderItem' + error.message);
+                logger.error('addOrderItem order_add ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info('addOrderItem' + 'success');
+                logger.info('addOrderItem order_add ' + 'success');
                 resUtil.resetCreateRes(res,result,null);
                 return next();
             }
@@ -160,10 +160,10 @@ const getOrderItem = (req,res,next)=>{
     let params = req.params;
     orderDAO.getOrderItem(params,(error,result)=>{
         if(error){
-            logger.error('getOrderItem' + error.message);
+            logger.error('getOrderItem ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('getOrderItem' + 'success');
+            logger.info('getOrderItem ' + 'success');
             resUtil.resetQueryRes(res,result,null);
             return next();
         }
@@ -178,10 +178,10 @@ const updateOrderPrice = (req,res,next)=>{
     new Promise((resolve,reject)=>{
         orderDAO.getOrderItem(params,(error,rows)=>{
             if(error){
-                logger.error('getOrderItem' + error.message);
+                logger.error('updateOrderPrice getOrderItem ' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else if(rows && rows.length<1){
-                logger.warn('getOrderItem' + '没有选择商品');
+                logger.warn('updateOrderPrice getOrderItem ' + 'No choice of goods.');
                 resUtil.resetQueryRes(res,'没有选择商品',null);
             }else{
                 rowsLength = rows.length;
@@ -199,10 +199,10 @@ const updateOrderPrice = (req,res,next)=>{
         params.totalFreight = totalFreight;
         orderDAO.updateOrderPrice(params,(error,result)=>{
             if(error){
-                logger.error('updateOrderPrice' + error.message);
+                logger.error('updateOrderPrice order_update' + error.message);
                 resUtil.resInternalError(error, res, next);
             }else{
-                logger.info('updateOrderPrice' + 'success');
+                logger.info('updateOrderPrice order_update ' + 'success');
                 resUtil.resetUpdateRes(res,result,null);
                 return next();
             }
@@ -213,10 +213,10 @@ const getOrder = (req,res,next)=>{
     let params = req.params;
     orderDAO.getOrder(params,(error,result)=>{
         if(error){
-            logger.error('getOrder' + error.message);
+            logger.error('getOrder ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('getOrder' + 'success');
+            logger.info('getOrder ' + 'success');
             resUtil.resetQueryRes(res,result,null);
             return next();
         }
@@ -226,10 +226,10 @@ const delOrderItem = (req,res,next)=>{
     let params = req.params;
     orderDAO.delOrderItem(params,(error,result)=>{
         if(error){
-            logger.error('delOrderItem' + error.message);
+            logger.error('delOrderItem ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('delOrderItem' + 'success');
+            logger.info('delOrderItem ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -239,10 +239,10 @@ const updateOrderStatus = (req,res,next)=>{
     let params = req.params;
     orderDAO.updateOrderStatus(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderStatus' + error.message);
+            logger.error('updateOrderStatus ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderStatus' + 'success');
+            logger.info('updateOrderStatus ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -252,10 +252,10 @@ const updateOrderLogStatus = (req,res,next)=>{
     let params = req.params;
     orderDAO.updateOrderLogStatus(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderLogStatus' + error.message);
+            logger.error('updateOrderLogStatus ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderLogStatus' + 'success');
+            logger.info('updateOrderLogStatus ' + 'success');
             resUtil.resetUpdateRes(res,result,null);
             return next();
         }
@@ -267,16 +267,16 @@ const updateOrderPaymengStatus = (req,res,next)=>{
     params.dateId = moment(myDate).format('YYYYMMDD');
     orderDAO.updateOrderPaymengStatus(params,(error,result)=>{
         if(error){
-            logger.error('updateOrderPaymengStatus' + error.message);
+            logger.error('updateOrderPaymengStatus order_update ' + error.message);
             resUtil.resInternalError(error, res, next);
         }else{
-            logger.info('updateOrderPaymengStatus' + 'success');
+            logger.info('updateOrderPaymengStatus order_update ' + 'success');
             orderDAO.getOrder({orderId:params.orderId},(error,rows)=>{
                 if(error){
-                    logger.error('getOrder' + error.message);
+                    logger.error('updateOrderPaymengStatus getOrder ' + error.message);
                     resUtil.resInternalError(error, res, next);
                 }else if(rows && rows.length < 1){
-                    logger.warn('getOrder' + '未查到此订单');
+                    logger.warn('updateOrderPaymengStatus getOrder ' + 'This order was not found.');
                     resUtil.resetFailedRes(res,'未查到此订单',null);
                 }else{
                     params.recvName = rows[0].recv_name;
@@ -286,10 +286,10 @@ const updateOrderPaymengStatus = (req,res,next)=>{
                     params.freight = rows[0].total_freight;
                     logDAO.addLogFeedback(params,(error,result)=>{
                         if(error){
-                            logger.error('addLogFeedback' + error.message);
+                            logger.error('updateOrderPaymengStatus addLogFeedback ' + error.message);
                             resUtil.resInternalError(error, res, next);
                         }else{
-                            logger.info('addLogFeedback'+'success');
+                            logger.info('updateOrderPaymengStatus addLogFeedback '+'success');
                             resUtil.resetCreateRes(res,result,null);
                             return next();
                         }
