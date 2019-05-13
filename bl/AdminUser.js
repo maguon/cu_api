@@ -133,12 +133,15 @@ const changeAdminPassword = (req,res,next) => {
                     logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     return next();
-                }else if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
-                    logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
-                    resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
-                    return next();
                 }else{
-                    resolve();
+                    if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
+                        logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                        resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                        return next();
+                    }else{
+                        logger.info(' changeAdminPassword queryAdminUser ' + 'success');
+                        resolve();
+                    }
                 }
             }
         })
