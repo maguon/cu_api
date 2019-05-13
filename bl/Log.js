@@ -14,13 +14,13 @@ const addLog = (req,res,next)=>{
     new Promise((resolve,reject)=>{
         orderDAO.getOrder({orderId:params.orderId},(error,rows)=>{
             if(error){
-                logger.error('getOrder' + error.message);
+                logger.error('addLog getOrder ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else if(rows && rows.length < 1){
-                logger.warn('getOrder '+'没有此订单');
+                logger.warn('addLog getOrder '+'There is no such order.');
                 resUtil.resetFailedRes(res,'没有此订单',null);
             }else{
-                logger.info('getOrder '+ 'success');
+                logger.info('addLog getOrder '+ 'success');
                 params.userId = rows[0].user_id;
                 params.freight = rows[0].total_freight;
                 params.remark = rows[0].remark;
@@ -32,10 +32,10 @@ const addLog = (req,res,next)=>{
         params.dateId = moment(myDate).format('YYYYMMDD');
         logDAO.addLog(params,(error,result)=>{
             if(error){
-                logger.error('addLog' + error.message);
+                logger.error('addLog logDao_add ' + error.message);
                 throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
             }else{
-                logger.info('addLog' + 'success');
+                logger.info('addLog logDao_add ' + 'success');
                 resUtil.resetCreateRes(res,result,null);
                 return next();
             }
@@ -46,10 +46,10 @@ const getLog = (req,res,next)=>{
     let params = req.params;
     logDAO.getLog(params,(error,result)=>{
         if(error){
-            logger.error('getLog' + error.message);
+            logger.error('getLog ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info('getLog' + 'success');
+            logger.info('getLog ' + 'success');
             resUtil.resetQueryRes(res,result,null);
             return next();
         }
@@ -59,10 +59,10 @@ const updateLog = (req,res,next)=>{
     let params = req.params;
     logDAO.updateLog(params,(error,result)=>{
         if(error){
-            logger.error('updateLog' + error.message);
+            logger.error('updateLog ' + error.message);
             throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
         }else{
-            logger.info('updateLog' + 'success');
+            logger.info('updateLog ' + 'success');
             orderDAO.updateOrderLogStatusByAdmin({orderId:params.orderId},(error,result)=>{});
             resUtil.resetUpdateRes(res,result,null);
             return next();
