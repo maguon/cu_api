@@ -58,7 +58,7 @@ const addUserCar = (req,res,next)=>{
                     logger.warn('addUserCar userCar_queryUserCar ' + 'The vehicle identification number has been bound.');
                     resUtil.resetFailedRes(res,'该车辆识别码已经被绑定',null);
                 }else{
-                    logger.info('addUserCar userCar_queryUserCar'+'success');
+                    logger.info('addUserCar userCar_queryUserCar '+'success');
                     userCarDao.queryUserCar({licensePlate:params.licensePlate,status:1},(error,rows)=>{
                         if(error){
                             logger.error('addUserCar userCar_queryUserCar_license ' + error.message);
