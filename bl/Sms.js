@@ -21,12 +21,15 @@ const sendSupervisePswdSms=(req,res,next)=>{
             if(error){
                 logger.error('sendSupervisePswdSms querySupervise ' + error.message);
                 resUtil.resInternalError(error, res, next);
-            }else if(rows.length<1){
-                logger.warn('sendSupervisePswdSms querySupervise ' + 'No such person.');
-                resUtil.resetFailedRes(res,'查无此人',null);
             }else{
-                params.userId = rows[0].id;
-                resolve();
+                if(rows.length<1){
+                    logger.warn('sendSupervisePswdSms querySupervise ' + 'No such person.');
+                    resUtil.resetFailedRes(res,'查无此人',null);
+                }else{
+                    logger.info('sendSupervisePswdSms querySupervise ' + 'success');
+                    params.userId = rows[0].id;
+                    resolve();
+                }
             }
         })
     }).then(()=>{
@@ -48,7 +51,7 @@ const sendSupervisePswdSms=(req,res,next)=>{
                 resUtil.resInternalError(error, res, next);
                 return next();
             }else{
-                logger.error('sendSupervisePswdSms sendCaptcha ' + 'success');
+                logger.info('sendSupervisePswdSms sendCaptcha ' + 'success');
                 resUtil.resetQueryRes(res,{success:true},null);
             }
         })
