@@ -166,7 +166,7 @@ const changeSupervisePassword = (req,res,next) => {
                         resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
                         return next();
                     }else{
-                        logger.warn('changeSupervisePassword password ' + 'success');
+                        logger.info('changeSupervisePassword password ' + 'success');
                         resolve();
                     }
                 }
