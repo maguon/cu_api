@@ -146,13 +146,13 @@ const wechatPayment = (req,res,next)=>{
                             timeStamp: parseIntDate,
                             paySign: paySignMD5
                         }];
-                        logger.info("paymentResult"+resString);
+                        logger.info("paymentResult "+resString);
                         resUtil.resetQueryRes(res,paymentJson,null);
                     });
                     res.send(200,data);
                     return next();
                 }).on('error', (e)=>{
-                    logger.info('wechatPayment result '+ e.message);
+                    logger.error('wechatPayment result '+ e.message);
                     res.send(500,e);
                     return next();
                 });
@@ -160,7 +160,7 @@ const wechatPayment = (req,res,next)=>{
             httpsReq.write(reqBody,"utf-8");
             httpsReq.end();
             httpsReq.on('error',(e)=>{
-                logger.info('wechatPayment httpsReq '+ e.message);
+                logger.error('wechatPayment httpsReq '+ e.message);
                 res.send(500,e);
                 return next();
             });
@@ -263,7 +263,7 @@ const wechatRefund = (req,res,next)=>{
                             res.send(200,data);
                             return next();
                         }).on('error', (e)=>{
-                            logger.info('wechatPayment result '+ e.message);
+                            logger.error('wechatPayment result '+ e.message);
                             res.send(500,e);
                             return next();
                         });
@@ -271,7 +271,7 @@ const wechatRefund = (req,res,next)=>{
                     httpsReq.write(reqBody,"utf-8");
                     httpsReq.end();
                     httpsReq.on('error',(e)=>{
-                        logger.info('wechatPayment httpsReq '+ e.message);
+                        logger.error('wechatPayment httpsReq '+ e.message);
                         res.send(500,e);
                         return next();
                     });
