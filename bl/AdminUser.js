@@ -76,7 +76,7 @@ const adminUserLogin = (req,res,next) =>{
                             userId : rows[0].id,
                             userStatus : rows[0].status
                         }
-                        logger.info('adminUserLogin status ' +params.userName+ " not verified");
+                        logger.warn('adminUserLogin status ' +params.userName+ " not verified");
                         resUtil.resetQueryRes(res,user,null);
                         return next();
                     }else{
