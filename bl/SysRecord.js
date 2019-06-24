@@ -19,7 +19,7 @@ const saveCheckRecord=(req,res,next)=>{
         recordParams.carNo = params.carNo;
         sysRecordDAO.addCheckRecord(req,recordParams,(error,result)=>{
             if(error){
-                logger.error('saveCheckRecord addCheckRecord' + error.stack);
+                logger.error('saveCheckRecord addCheckRecord ' + error.stack);
             }else{
                 logger.info('saveCheckRecord addCheckRecord success')
             }
