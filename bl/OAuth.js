@@ -18,7 +18,7 @@ const transferToken=()=>{
                 if(error){
                     logger.error('transferToken parseAccessToken ' + error.stack);
                 }else{
-                    logger.error('transferToken parseAccessToken ' + 'success');
+                    logger.info('transferToken parseAccessToken ' + 'success');
                     if(rows && rows.result &&rows.result.id){
                         req.params._uid = rows.result.id;
                         req.params._uname = rows.result.name;
@@ -46,7 +46,7 @@ const checkToken=()=>{
                     logger.error("checkToken checkAccessToken " + error.stack);
                     return next(sysError.NotAuthorizedError());
                 }else{
-                    logger.error('checkToken checkAccessToken ' + 'success');
+                    logger.info('checkToken checkAccessToken ' + 'success');
                     if(result && result.id){
                         req.params._uid = result.id;
                         req.params._uname = result.name;
