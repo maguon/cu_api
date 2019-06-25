@@ -14,7 +14,7 @@ const getQrCode = (req,res,next)=>{
     let result;
     try{
         result = serializer.parse(params.qrCode);
-        if(userType==0){
+        //if(userType==0){
             userCarDAO.queryUserCar({userCarId:result[1]},(error,result)=>{
                 if(error){
                     logger.error('getQrCode queryCheckCar ' + error.message);
@@ -25,10 +25,10 @@ const getQrCode = (req,res,next)=>{
                     return next();
                 }
             })
-        }else{
-            logger.warn('getQrCode userType is not Supervise!');
-            resUtil.resetFailedRes(res,'No query permissions!',null);
-        }
+        // }else{
+        //     logger.warn('getQrCode userType is not Supervise!');
+        //     resUtil.resetFailedRes(res,'No query permissions!',null);
+        // }
     }catch (e) {
         logger.error('getQrCode serializer error!');
         resUtil.resetQueryRes(res,qrCode,null);
