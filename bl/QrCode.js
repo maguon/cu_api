@@ -10,27 +10,32 @@ const userCarDAO = require('../dao/UserCarDAO.js');
 
 const getQrCode = (req,res,next)=>{
     let params = req.params;
-    logger.info('req: '+ req);
     let userType = req.headers['user-type'] ;
-    let result = serializer.parse(params.qrCode);
-    if(userType==0){
-        userCarDAO.queryUserCar({userCarId:result[1]},(error,result)=>{
-            if(error){
-                logger.error('getQrCode queryCheckCar ' + error.message);
-                throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
-            }else{
-                logger.info('getQrCode queryCheckCar ' + 'success');
-                resUtil.resetQueryRes(res,result,null);
-                return next();
-            }
-        })
-    }else{
-        //resUtil.resetQueryRes(res,{success:true},null);
-
-        logger.warn('getQrCode userType is not Supervise!');
-        resUtil.resetFailedRes(res,'No query permissions!',null);
-
+    let result;
+    try{
+        result = serializer.parse(params.qrCode);
+        if(userType==0){
+            userCarDAO.queryUserCar({userCarId:result[1]},(error,result)=>{
+                if(error){
+                    logger.error('getQrCode queryCheckCar ' + error.message);
+                    throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+                }else{
+                    logger.info('getQrCode queryCheckCar ' + 'success');
+                    resUtil.resetQueryRes(res,result,null);
+                    return next();
+                }
+            })
+        }else{
+            logger.warn('getQrCode userType is not Supervise!');
+            resUtil.resetFailedRes(res,'No query permissions!',null);
+        }
+    }catch (e) {
+        logger.error('getQrCode serializer error!');
+        resUtil.resetQueryRes(res,qrCode,null);
+        return next();
     }
+
+
     /*oauthUtil.getQrCode({qrCodeId:params.qrCodeId},(error,result)=>{
         if(error){
             logger.error('getQrCode' + error.message);
