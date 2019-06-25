@@ -27,7 +27,7 @@ const getQrCode = (req,res,next)=>{
         //resUtil.resetQueryRes(res,{success:true},null);
 
         logger.warn('getQrCode userType is not Supervise!');
-        resUtil.resetFailedRes(res,'No query permissions！',null);
+        resUtil.resetFailedRes(res,'No query permissions!',null);
 
     }
     /*oauthUtil.getQrCode({qrCodeId:params.qrCodeId},(error,result)=>{
