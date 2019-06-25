@@ -61,13 +61,13 @@ const adminUserLogin = (req,res,next) =>{
             resUtil.resInternalError(error, res, next);
         } else {
             if(rows && rows.length<1){
-                logger.warn(' adminUserLogin queryAdminUser ' +params.userName+ ' ' +sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                logger.warn(' adminUserLogin queryAdminUser ' +params.userName+ ' No such user!');
                 resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED) ;
                 return next();
             }else{
                 let passwordMd5 = encrypt.encryptByMd5(params.password);
                 if(passwordMd5 != rows[0].password){
-                    logger.warn(' adminUserLogin password ' +params.phone+ ' '+sysMsg.CUST_LOGIN_PSWD_ERROR);
+                    logger.warn(' adminUserLogin password ' +params.phone+ ' Login password error!');
                     resUtil.resetFailedRes(res,sysMsg.CUST_LOGIN_PSWD_ERROR) ;
                     return next();
                 }else{
@@ -76,7 +76,7 @@ const adminUserLogin = (req,res,next) =>{
                             userId : rows[0].id,
                             userStatus : rows[0].status
                         }
-                        logger.warn('adminUserLogin status ' +params.userName+ " not verified");
+                        logger.warn('adminUserLogin status ' +params.userName+ " not verified!");
                         resUtil.resetQueryRes(res,user,null);
                         return next();
                     }else{
@@ -130,12 +130,12 @@ const changeAdminPassword = (req,res,next) => {
                 resUtil.resInternalError(error, res, next);
             } else {
                 if(rows && rows.length<1){
-                    logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
+                    logger.warn(' changeAdminPassword queryAdminUser No such user!');
                     resUtil.resetFailedRes(res,sysMsg.ADMIN_LOGIN_USER_UNREGISTERED);
                     return next();
                 }else{
                     if(encrypt.encryptByMd5(params.originPassword) != rows[0].password){
-                        logger.warn(' changeAdminPassword queryAdminUser ' + sysMsg.CUST_ORIGIN_PSWD_ERROR);
+                        logger.warn(' changeAdminPassword queryAdminUser Original password error!');
                         resUtil.resetFailedRes(res,sysMsg.CUST_ORIGIN_PSWD_ERROR);
                         return next();
                     }else{
