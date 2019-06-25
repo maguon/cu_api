@@ -24,7 +24,11 @@ const getQrCode = (req,res,next)=>{
             }
         })
     }else{
-        resUtil.resetQueryRes(res,{success:true},null);
+        //resUtil.resetQueryRes(res,{success:true},null);
+
+        logger.warn('getQrCode userType is not Supervise!');
+        resUtil.resetFailedRes(res,'不是交警，无权查询！',null);
+
     }
     /*oauthUtil.getQrCode({qrCodeId:params.qrCodeId},(error,result)=>{
         if(error){
@@ -40,8 +44,15 @@ const getQrCode = (req,res,next)=>{
 const createQrCode = (req,res,next) =>{
     let params = req.params;
     let qrCodeString = serializer.stringify([params.userId,params.userCarId]);
-    resUtil.resetQueryRes(res,{code:qrCodeString},null);
-    return next();
+    if(qrCodeString){
+        logger.info('createQrCode ' + 'success');
+        resUtil.resetQueryRes(res,{code:qrCodeString},null);
+        return next();
+    }else{
+        logger.error('createQrCode error! ');
+        throw sysError.InternalError(error.message,sysMsg.SYS_INTERNAL_ERROR_MSG);
+    }
+
 }
 module.exports = {
     getQrCode,createQrCode
