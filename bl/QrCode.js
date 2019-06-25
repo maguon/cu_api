@@ -10,6 +10,7 @@ const userCarDAO = require('../dao/UserCarDAO.js');
 
 const getQrCode = (req,res,next)=>{
     let params = req.params;
+    logger.info('req: '+ req);
     let userType = req.headers['user-type'] ;
     let result = serializer.parse(params.qrCode);
     if(userType==0){
